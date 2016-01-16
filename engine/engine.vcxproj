@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|Win32">
+      <Configuration>debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|Win32">
+      <Configuration>release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="debug|x64">
+      <Configuration>debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|x64">
+      <Configuration>release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\decimal32.h" />
+    <ClInclude Include="source\defaultrenderengine.h" />
+    <ClInclude Include="source\disabledinputengine.h" />
+    <ClInclude Include="source\disabledlogicengine.h" />
+    <ClInclude Include="source\disablednetworkengine.h" />
+    <ClInclude Include="source\disabledphysicsengine.h" />
+    <ClInclude Include="source\disabledrenderengine.h" />
+    <ClInclude Include="source\engine.h" />
+    <ClInclude Include="source\engineconfiguration.h" />
+    <ClInclude Include="source\engineexception.h" />
+    <ClInclude Include="source\gamestate.h" />
+    <ClInclude Include="source\glwindow.h" />
+    <ClInclude Include="source\iinputengine.h" />
+    <ClInclude Include="source\ilogicengine.h" />
+    <ClInclude Include="source\inetworkengine.h" />
+    <ClInclude Include="source\iphysicsengine.h" />
+    <ClInclude Include="source\irenderengine.h" />
+    <ClInclude Include="source\material.h" />
+    <ClInclude Include="source\resourcemanager.h" />
+    <ClInclude Include="source\primitivetype.h" />
+    <ClInclude Include="source\shader.h" />
+    <ClInclude Include="source\shaderbuilder.h" />
+    <ClInclude Include="source\staticmesh.h" />
+    <ClInclude Include="source\texture.h" />
+    <ClInclude Include="source\vector2f.h" />
+    <ClInclude Include="source\vector3.h" />
+    <ClInclude Include="source\vector3f.h" />
+    <ClInclude Include="source\vector4f.h" />
+    <ClInclude Include="source\vertex.h" />
+    <ClInclude Include="source\_global.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\decimal32.cpp" />
+    <ClCompile Include="source\defaultrenderengine.cpp" />
+    <ClCompile Include="source\disabledinputengine.cpp" />
+    <ClCompile Include="source\disabledlogicengine.cpp" />
+    <ClCompile Include="source\disablednetworkengine.cpp" />
+    <ClCompile Include="source\disabledphysicsengine.cpp" />
+    <ClCompile Include="source\disabledrenderengine.cpp" />
+    <ClCompile Include="source\engine.cpp" />
+    <ClCompile Include="source\engineconfiguration.cpp" />
+    <ClCompile Include="source\engineexception.cpp" />
+    <ClCompile Include="source\gamestate.cpp" />
+    <ClCompile Include="source\glwindow.cpp" />
+    <ClCompile Include="source\material.cpp" />
+    <ClCompile Include="source\resourcemanager.cpp" />
+    <ClCompile Include="source\shader.cpp" />
+    <ClCompile Include="source\shaderbuilder.cpp" />
+    <ClCompile Include="source\texture.cpp" />
+    <ClCompile Include="source\vector2f.cpp" />
+    <ClCompile Include="source\vector3.cpp" />
+    <ClCompile Include="source\vector3f.cpp" />
+    <ClCompile Include="source\vector4f.cpp" />
+    <ClCompile Include="source\vertex.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>
+    <RootNamespace>KeroseneEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <OutDir>$(ProjectDir)build\windows$(PlatformArchitecture)_$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\tmp\windows$(PlatformArchitecture)_$(Configuration)_tmp\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <OutDir>$(ProjectDir)build\windows$(PlatformArchitecture)_$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\tmp\windows$(PlatformArchitecture)_$(Configuration)_tmp\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <OutDir>$(ProjectDir)build\windows$(PlatformArchitecture)_$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\tmp\windows$(PlatformArchitecture)_$(Configuration)_tmp\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <OutDir>$(ProjectDir)build\windows$(PlatformArchitecture)_$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\tmp\windows$(PlatformArchitecture)_$(Configuration)_tmp\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.dll" "$(OutDir)"
+xcopy /sy "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.h" "$(OutDir)include\"
+xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.dll" "$(OutDir)"
+xcopy /sy "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.h" "$(OutDir)include\"
+xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.dll" "$(OutDir)"
+xcopy /sy "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.h" "$(OutDir)include\"
+xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENGINE_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.dll" "$(OutDir)"
+xcopy /sy "$(ProjectDir)libs\windows$(PlatformArchitecture)\*.h" "$(OutDir)include\"
+xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
