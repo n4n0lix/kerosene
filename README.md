@@ -4,13 +4,12 @@
 - cross-platform (linux/windows)(x86/x64)
 - opengl 3.3
 
-## Compiling
-#### Windows
+## Windows
 ##### Requirements
 * Microsoft Visual Studio 2015
 
 Use the provided solution `engine.sln` that includes the projects`engine`, `engine_test` and `engine_sandbox`.
-#### Linux
+## Linux
 ##### Requirements
 * cmake
 * glew-1.13
