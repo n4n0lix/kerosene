@@ -4,7 +4,7 @@
 - cross-platform (linux/windows)(x86/x64)
 - opengl 3.3
 
-Based on OrangeStar-Engine and what we learned from the mistakes building OrangeStar-Engine ;)
+Based on OrangeStar-Engine and what we've learned from the mistakes we've made building it ;)
 
 ## Windows
 ##### Requirements
