@@ -21,6 +21,12 @@ ENGINE_NAMESPACE_BEGIN
 #define VECTOR3F_COMPONENTS 3
 #define VECTOR3F_BYTES      VECTOR3F_COMPONENTS * FLOAT_BYTES
 
+struct DLL_PUBLIC vec3 {
+    float x;
+    float y;
+    float z;
+};
+
 class DLL_PUBLIC Vector3f
 {
 public:
@@ -78,6 +84,8 @@ public:
     float    length() const;
     float    dot(Vector3f o) const;
     Vector3f cross(Vector3f o) const;
+
+    vec3     toVec3() const;
 
     float x;
     float y;

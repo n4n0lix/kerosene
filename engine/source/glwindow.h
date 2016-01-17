@@ -25,7 +25,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit GLWindow(string title="Kerosine Engine", int32_t width=800, int32_t height=600);
+            explicit GLWindow(const string title="Kerosine Engine", const int32_t width=800, const int32_t height=600);
             ~GLWindow();
 
      void    show();

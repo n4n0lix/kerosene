@@ -16,6 +16,16 @@ Material::Material(shared_ptr<Shader> shader, shared_ptr<Texture> tex)
     _texture = tex;
 }
 
+shared_ptr<Shader> Material::getShader() const
+{
+    return _shader;
+}
+
+shared_ptr<Texture> Material::getTexture() const
+{
+    return _texture;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -25,5 +35,4 @@ Material::Material(shared_ptr<Shader> shader, shared_ptr<Texture> tex)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 ENGINE_NAMESPACE_END
-
 

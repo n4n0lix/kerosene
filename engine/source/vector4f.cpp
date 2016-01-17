@@ -211,6 +211,11 @@ Vector4f& Vector4f::operator/=(const float o)
     return *this;
 }
 
+vec4 Vector4f::toVec4() const
+{
+    return { x, y, z, w };
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

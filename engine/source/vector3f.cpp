@@ -252,6 +252,11 @@ Vector3f Vector3f::cross(Vector3f o) const
     return result;
 }
 
+vec3 Vector3f::toVec3() const
+{
+    return{ x, y, z };
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -18,6 +18,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "vertex.h"
 #include "shader.h"
 #include "engineexception.h"
 
@@ -34,8 +35,10 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit ShaderBuilder();
 
-    ShaderBuilder& uni(ShaderUniform uniform);
-    ShaderBuilder& in(ShaderLocation location);
+    ShaderBuilder& vertexlayout(VertexLayout layout);
+    ShaderBuilder& uniform(Uniform uniform);
+
+    // TODO: PerInstance Layout
 
     ShaderBuilder& vertex(string vscode);
     ShaderBuilder& fragment(string fscode);
@@ -51,8 +54,8 @@ private:
     string gen_fs() const;
 
     // TODO: Find a way to store ptr/refs here
-    vector<ShaderUniform>  _uniforms;
-    vector<ShaderLocation> _locations;
+    VertexLayout          _vertexLayout;
+    vector<Uniform> _uniforms;
 
     string _vsSource;
     string _fsSource;
@@ -61,8 +64,8 @@ private:
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static string LOCATION_IN(ShaderLocation location);
-    static string UNIFORM(ShaderUniform uniform);
+    static string VERTEX_COMPONENT(VertexComponent vComp);
+    static string UNIFORM(Uniform uniform);
 };
 
 ENGINE_NAMESPACE_END

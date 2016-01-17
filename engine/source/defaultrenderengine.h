@@ -19,6 +19,8 @@
 #include "glwindow.h"
 #include "shader.h"
 #include "shaderbuilder.h"
+#include "batch.h"
+#include "vertex_pc.h"
 
 
 
@@ -58,7 +60,8 @@ private:
     unique_ptr<GLWindow>    _mainWindow;
 
     // Test
-    unique_ptr<Shader> _shader;
+    shared_ptr<Shader> _shader;
+    unique_ptr<Batch> _batch;
 };
 
 ENGINE_NAMESPACE_END

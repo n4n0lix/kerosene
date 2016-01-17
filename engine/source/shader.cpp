@@ -7,15 +7,7 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Uniform
-ShaderUniform Shader::Uni_WVP                  = { "mat4", "uni_wvp" };
-
-// General                                         Type     Name                   Location  Size
-ShaderLocation Shader::VAttr_Position          = { "vec3", "vs_pos",               0 };
-ShaderLocation Shader::VAttr_Color             = { "vec4", "vs_color",             1 };
-ShaderLocation Shader::VAttr_InstancePosition  = { "mat4", "vs_instance_position", 6 };
-
-// Texture 1
-ShaderLocation Shader::VAttr_Tex1Coords        = { "vec2", "vs_tex1_coords",       10 };
+Uniform Shader::Uni_WVP                  = { "mat4", "uni_wvp" };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
@@ -42,6 +34,11 @@ void Shader::bind() const
         glUseProgram(_id);
         CURRENT_SHADER = _id;
     }
+}
+
+VertexLayout Shader::getVertexLayout() const
+{
+    return _vertexLayout;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

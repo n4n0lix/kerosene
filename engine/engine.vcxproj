@@ -22,6 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\batch.h" />
     <ClInclude Include="source\decimal32.h" />
     <ClInclude Include="source\defaultrenderengine.h" />
     <ClInclude Include="source\disabledinputengine.h" />
@@ -51,9 +52,12 @@
     <ClInclude Include="source\vector3f.h" />
     <ClInclude Include="source\vector4f.h" />
     <ClInclude Include="source\vertex.h" />
+    <ClInclude Include="source\vertex_pc.h" />
     <ClInclude Include="source\_global.h" />
+    <ClInclude Include="source\_renderdefs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\batch.cpp" />
     <ClCompile Include="source\decimal32.cpp" />
     <ClCompile Include="source\defaultrenderengine.cpp" />
     <ClCompile Include="source\disabledinputengine.cpp" />
@@ -75,7 +79,7 @@
     <ClCompile Include="source\vector3.cpp" />
     <ClCompile Include="source\vector3f.cpp" />
     <ClCompile Include="source\vector4f.cpp" />
-    <ClCompile Include="source\vertex.cpp" />
+    <ClCompile Include="source\vertex_pc.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>

@@ -169,6 +169,11 @@ Vector2f& Vector2f::operator/=(const float o)
     return *this;
 }
 
+vec2 Vector2f::toVec2() const
+{
+    return{ x, y };
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

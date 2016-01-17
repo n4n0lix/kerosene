@@ -14,28 +14,16 @@
 
 // Internal Includes
 #include "_global.h"
+#include "_renderdefs.h"
+#include "vertex.h"
+#include "vector2f.h"
+#include "vector3f.h"
+#include "vector4f.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
-
-struct DLL_PUBLIC ShaderUniform {
-    string  type;
-    string  name;
-
-    bool operator==(const ShaderUniform& o) { return type == o.type && name == o.name; }
-    bool operator!=(const ShaderUniform& o) { return !(*this == o); }
-};
-
-struct DLL_PUBLIC ShaderLocation {
-    string  type;
-    string  name;
-    int32_t position;
-
-    bool operator==(const ShaderLocation& o) { return type == o.type && name == o.name && position == o.position; }
-    bool operator!=(const ShaderLocation& o) { return !(*this == o); }
-};
 
 class DLL_PUBLIC Shader
 {
@@ -46,15 +34,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     // Uniform
-    static ShaderUniform  Uni_WVP;
-
-    // General
-    static ShaderLocation VAttr_Position;
-    static ShaderLocation VAttr_Color;
-    static ShaderLocation VAttr_InstancePosition;
-
-    // Texture 1
-    static ShaderLocation VAttr_Tex1Coords;
+    static Uniform  Uni_WVP;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
@@ -66,7 +46,8 @@ public:
     // TODO: Find a better way, this doesn't say that this shader is "smaller"
     bool operator<(const Shader& o1) const; // To be able to use in map
 
-    void bind() const;
+    void         bind() const;
+    VertexLayout getVertexLayout() const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -74,10 +55,8 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit Shader();
 
-    GLuint  _id;
-
-    vector<ShaderUniform>  _uniforms;
-    vector<ShaderLocation> _locations;
+    GLuint        _id;
+    VertexLayout  _vertexLayout;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

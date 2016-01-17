@@ -61,6 +61,12 @@
     <Filter Include="Quelldateien\util">
       <UniqueIdentifier>{2271b6c8-a5ad-4028-98ba-03ddc90b6f83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\render\vertices">
+      <UniqueIdentifier>{d50d7d18-79a7-4ca3-8609-bbec3b4c8de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\render\vertices">
+      <UniqueIdentifier>{3c861c06-f4d1-4bf3-8ed3-c04472781406}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\_global.h">
@@ -138,9 +144,6 @@
     <ClInclude Include="source\shaderbuilder.h">
       <Filter>Headerdateien\render</Filter>
     </ClInclude>
-    <ClInclude Include="source\vertex.h">
-      <Filter>Headerdateien\math</Filter>
-    </ClInclude>
     <ClInclude Include="source\vector4f.h">
       <Filter>Headerdateien\math</Filter>
     </ClInclude>
@@ -152,6 +155,18 @@
     </ClInclude>
     <ClInclude Include="source\vector2f.h">
       <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\batch.h">
+      <Filter>Headerdateien\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vertex_pc.h">
+      <Filter>Headerdateien\render\vertices</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vertex.h">
+      <Filter>Headerdateien\render\vertices</Filter>
+    </ClInclude>
+    <ClInclude Include="source\_renderdefs.h">
+      <Filter>Headerdateien\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +221,6 @@
     <ClCompile Include="source\shaderbuilder.cpp">
       <Filter>Quelldateien\render</Filter>
     </ClCompile>
-    <ClCompile Include="source\vertex.cpp">
-      <Filter>Quelldateien\math</Filter>
-    </ClCompile>
     <ClCompile Include="source\vector4f.cpp">
       <Filter>Quelldateien\math</Filter>
     </ClCompile>
@@ -220,6 +232,12 @@
     </ClCompile>
     <ClCompile Include="source\vector2f.cpp">
       <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\batch.cpp">
+      <Filter>Quelldateien\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\vertex_pc.cpp">
+      <Filter>Quelldateien\render\vertices</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

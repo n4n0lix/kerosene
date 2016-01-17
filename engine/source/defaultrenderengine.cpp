@@ -25,12 +25,14 @@ void DefaultRenderEngine::onStart()
         throw new EngineException("Couldn't initialize GLEW!");
     }
 
+    // SHADER
+    ///////////
     ostringstream vertexShader;
     vertexShader
         << "out vec4 fs_color;\n"
         << "\n"
         << "void main() {\n"
-        << "    fs_color = vs_color;\n"
+        << "    fs_color = color;\n"
         << "}\n";
 
     ostringstream fragmentShader;
@@ -44,11 +46,23 @@ void DefaultRenderEngine::onStart()
         << "}\n";
 
     _shader = ShaderBuilder()
-                        .in(Shader::VAttr_Position)
-                        .in(Shader::VAttr_Color)
+                        .uniform(Shader::Uni_WVP)
+                        .vertexlayout(Vertex_pc().layout())
                         .vertex(vertexShader.str())
                         .fragment(fragmentShader.str())
                         .build();
+
+    shared_ptr<Material> material = make_shared<Material>(_shader);
+
+    // BATCH
+    //////////
+    vector<Vertex_pc> vertices;
+    vertices.push_back(Vertex_pc(Vector3f(100, 100, 0)));
+    vertices.push_back(Vertex_pc(Vector3f(200, 100, 0)));
+    vertices.push_back(Vertex_pc(Vector3f(200, 200, 0)));
+
+    _batch = make_unique<Batch>(material);
+    _batch->addVertices(vertices);
 }
 
 void DefaultRenderEngine::onUpdate()
@@ -59,6 +73,9 @@ void DefaultRenderEngine::onUpdate()
     // #2 GL code
     glClearColor(0.2f, 0.8f, 0.5f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // Test code
+    _shader->bind();
 
     // #3 Render
     _mainWindow->swapBuffers();
