@@ -25,7 +25,8 @@ VertexLayout Vertex_pc::layout() const
 
 vector<float> Vertex_pc::data() const
 {
-    vector<float> data(9);
+    vector<float> data;
+    data.reserve(7);
     data.push_back(position.x);
     data.push_back(position.y);
     data.push_back(position.z);

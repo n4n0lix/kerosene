@@ -37,48 +37,16 @@ ShaderBuilder& ShaderBuilder::fragment(string fscode)
 
 unique_ptr<Shader> ShaderBuilder::build() const
 {
-    int status;
-
     // VERTEX SHADER
-    const char* vsSource = gen_vs().c_str();
-    std::cout << "Vertex-Shader:\n" << vsSource << "\n\n";
-
-    GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShaderId, 1, &vsSource, nullptr);
-    glCompileShader(vertexShaderId);
-
-    glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE) {
-        throw EngineException("Vertex-Shader compiling failed!");
-    }
+    GLuint vertexShaderId = createShader(GL_VERTEX_SHADER);
 
     // FRAGMENT SHADER
-    const char* fsSource = gen_fs().c_str();
-    std::cout << "Fragment-Shader:\n" << fsSource << "\n\n";
-
-    GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShaderId, 1, &fsSource, nullptr);
-    glCompileShader(fragmentShaderId);
-
-    glGetShaderiv(fragmentShaderId, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE) {
-        throw EngineException("Fragment-Shader compiling failed!");
-    }
+    GLuint fragmentShaderId = createShader(GL_FRAGMENT_SHADER);
 
     // SHADER PROGRAM
     unique_ptr<Shader> shader(new Shader());
-    shader->_id = glCreateProgram();
+    shader->_id = linkProgram(vertexShaderId, fragmentShaderId);
     shader->_vertexLayout = _vertexLayout;
-
-    glAttachShader(shader->_id, vertexShaderId);
-    glAttachShader(shader->_id, fragmentShaderId);
-    glLinkProgram(shader->_id);
-
-    glGetProgramiv(shader->_id, GL_LINK_STATUS, &status);
-    if (status == GL_FALSE) {
-        throw EngineException("Shader-Program linking failed!");
-    }
-    glValidateProgram(shader->_id);
 
     // CLEAN UP
     glDeleteShader(vertexShaderId);
@@ -87,7 +55,11 @@ unique_ptr<Shader> ShaderBuilder::build() const
     return std::move(shader);
 }
 
-string ShaderBuilder::gen_vs() const
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                         Private                        */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+string ShaderBuilder::genVertexSource() const
 {
     ostringstream result;
 
@@ -110,11 +82,12 @@ string ShaderBuilder::gen_vs() const
 
     // Source Code
     result << _vsSource;
-    
+
+    result.flush();
     return result.str();
 }
 
-string ShaderBuilder::gen_fs() const
+string ShaderBuilder::genFragmentSource() const
 {
     ostringstream result;
 
@@ -126,12 +99,61 @@ string ShaderBuilder::gen_fs() const
         // Source Code
         << _fsSource;
 
+    result.flush();
     return result.str();
 }
 
+GLuint ShaderBuilder::createShader(GLenum shaderType) const
+{
+    int status;
+    string fsSourceStr;
+
+    // Generate the shader source
+    if (shaderType == GL_FRAGMENT_SHADER) {
+        fsSourceStr = genFragmentSource();
+    }
+    else if (shaderType == GL_VERTEX_SHADER) {
+        fsSourceStr = genVertexSource();
+    }
+    else {
+        return 0;
+    }
+
+    const char* src = fsSourceStr.c_str();
+    std::cout << "Shader:\n" << src << "\n\n";
+
+    GLuint shaderId = glCreateShader(shaderType);
+    glShaderSource(shaderId, 1, &src, nullptr);
+    glCompileShader(shaderId);
+
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &status);
+    if (status == GL_FALSE) {
+        throw EngineException("Shader compiling failed!");
+    }
+
+    return shaderId;
+}
+
+GLuint ShaderBuilder::linkProgram(GLuint vertexShaderId, GLuint fragmentShaderId) const
+{
+    int status;
+    GLuint shaderId = glCreateProgram();
+
+    glAttachShader(shaderId, vertexShaderId);
+    glAttachShader(shaderId, fragmentShaderId);
+    glLinkProgram(shaderId);
+
+    glGetProgramiv(shaderId, GL_LINK_STATUS, &status);
+    if (status == GL_FALSE) {
+        throw EngineException("Shader-Program linking failed!");
+    }
+    glValidateProgram(shaderId);
+
+    return shaderId;
+}
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Private                        */
+/*                      Private Static                    */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 string ShaderBuilder::VERTEX_COMPONENT(VertexComponent vComp)

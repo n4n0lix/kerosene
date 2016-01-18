@@ -101,6 +101,11 @@
         using std::int64_t;
         using std::uint64_t;
 
+// Using cout
+#include <iostream>
+        using std::cout;
+        using std::endl;
+
 // Using std string
 #include <string>
         using std::string;

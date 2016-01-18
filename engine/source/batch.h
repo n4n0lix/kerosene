@@ -64,6 +64,7 @@ public:
         // Send data to gpu
         glBindBuffer(GL_ARRAY_BUFFER, _vboId);
         glBufferData(GL_ARRAY_BUFFER, _vboByteSize, &data[0], GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     void render(PrimitiveType type) const;

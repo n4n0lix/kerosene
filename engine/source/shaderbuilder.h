@@ -50,11 +50,13 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/   
 
-    string gen_vs() const;
-    string gen_fs() const;
+    string  genVertexSource() const;
+    string  genFragmentSource() const;
+    GLuint  createShader(GLenum shaderType) const;
+    GLuint  linkProgram(GLuint vertexShader, GLuint fragmentShader) const;
 
     // TODO: Find a way to store ptr/refs here
-    VertexLayout          _vertexLayout;
+    VertexLayout    _vertexLayout;
     vector<Uniform> _uniforms;
 
     string _vsSource;

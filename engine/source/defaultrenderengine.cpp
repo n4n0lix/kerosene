@@ -32,6 +32,7 @@ void DefaultRenderEngine::onStart()
         << "out vec4 fs_color;\n"
         << "\n"
         << "void main() {\n"
+        << "    gl_Position = vec4(position, 1.0);\n"
         << "    fs_color = color;\n"
         << "}\n";
 
@@ -57,9 +58,9 @@ void DefaultRenderEngine::onStart()
     // BATCH
     //////////
     vector<Vertex_pc> vertices;
-    vertices.push_back(Vertex_pc(Vector3f(100, 100, 0)));
-    vertices.push_back(Vertex_pc(Vector3f(200, 100, 0)));
-    vertices.push_back(Vertex_pc(Vector3f(200, 200, 0)));
+    vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices.push_back(Vertex_pc(Vector3f( 1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices.push_back(Vertex_pc(Vector3f( 0,  1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
 
     _batch = make_unique<Batch>(material);
     _batch->addVertices(vertices);
@@ -71,11 +72,12 @@ void DefaultRenderEngine::onUpdate()
     _mainWindow->makeCurrent();
 
     // #2 GL code
-    glClearColor(0.2f, 0.8f, 0.5f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    glViewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
 
     // Test code
-    _shader->bind();
+    _batch->render(PrimitiveType::TRIANGLES);
 
     // #3 Render
     _mainWindow->swapBuffers();

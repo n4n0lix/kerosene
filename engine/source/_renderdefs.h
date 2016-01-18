@@ -47,16 +47,16 @@ struct DLL_PUBLIC VertexComponent {
 
     GLuint bytesize() const {
         if (type == string("float")) {
-            return 1;
+            return 1 * FLOAT_BYTES;
         }
         else if (type == string("vec2")) {
-            return 2;
+            return 2 * FLOAT_BYTES;
         }
         else if (type == string("vec3")) {
-            return 3;
+            return 3 * FLOAT_BYTES;
         }
         else if (type == string("vec4")) {
-            return 4;
+            return 4 * FLOAT_BYTES;
         }
 
         return 0;

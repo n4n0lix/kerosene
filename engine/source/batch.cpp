@@ -19,6 +19,7 @@ Batch::Batch(shared_ptr<Material> material) {
 
     // VAO
     glGenVertexArrays(1, &_vaoId);
+    glBindVertexArray(_vaoId);
 
         // VBO
         glGenBuffers(1, &_vboId);
@@ -31,8 +32,12 @@ Batch::Batch(shared_ptr<Material> material) {
         for (VertexComponent component : layout.comps) {
             glEnableVertexAttribArray(component.position);
             glVertexAttribPointer(component.position, component.components(), component.gltype(), false, layout.bytesize(), BUFFER_OFFSET(offset));
+            cout << "glVertexAttribPointer( " << component.position << ", " << component.components() << ", " << component.gltype() << ", " << false << ", " << layout.bytesize() << ", " << offset << " )" << endl;
             offset += component.bytesize();
         }
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
 }
 
 void Batch::render(PrimitiveType type) const
@@ -41,6 +46,7 @@ void Batch::render(PrimitiveType type) const
 
     glBindVertexArray(_vaoId);
     glDrawArrays(type, 0, _vboNumVertices);
+    glBindVertexArray(0);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
