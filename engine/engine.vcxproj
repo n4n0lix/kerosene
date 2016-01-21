@@ -84,6 +84,9 @@
     <ClCompile Include="source\vector4f.cpp" />
     <ClCompile Include="source\vertex_pc.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>
     <RootNamespace>KeroseneEngine</RootNamespace>

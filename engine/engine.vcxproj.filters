@@ -249,4 +249,7 @@
       <Filter>Quelldateien\math</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
 </Project>
