@@ -168,6 +168,12 @@
     <ClInclude Include="source\_renderdefs.h">
       <Filter>Headerdateien\render</Filter>
     </ClInclude>
+    <ClInclude Include="source\matrix4f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\_mathdefs.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\decimal32.cpp">
@@ -238,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="source\vertex_pc.cpp">
       <Filter>Quelldateien\render\vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="source\matrix4f.cpp">
+      <Filter>Quelldateien\math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

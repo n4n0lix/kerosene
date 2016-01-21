@@ -41,6 +41,7 @@
     <ClInclude Include="source\iphysicsengine.h" />
     <ClInclude Include="source\irenderengine.h" />
     <ClInclude Include="source\material.h" />
+    <ClInclude Include="source\matrix4f.h" />
     <ClInclude Include="source\resourcemanager.h" />
     <ClInclude Include="source\primitivetype.h" />
     <ClInclude Include="source\shader.h" />
@@ -54,6 +55,7 @@
     <ClInclude Include="source\vertex.h" />
     <ClInclude Include="source\vertex_pc.h" />
     <ClInclude Include="source\_global.h" />
+    <ClInclude Include="source\_mathdefs.h" />
     <ClInclude Include="source\_renderdefs.h" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +73,7 @@
     <ClCompile Include="source\gamestate.cpp" />
     <ClCompile Include="source\glwindow.cpp" />
     <ClCompile Include="source\material.cpp" />
+    <ClCompile Include="source\matrix4f.cpp" />
     <ClCompile Include="source\resourcemanager.cpp" />
     <ClCompile Include="source\shader.cpp" />
     <ClCompile Include="source\shaderbuilder.cpp" />

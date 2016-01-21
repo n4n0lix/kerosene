@@ -32,7 +32,6 @@ Batch::Batch(shared_ptr<Material> material) {
         for (VertexComponent component : layout.comps) {
             glEnableVertexAttribArray(component.position);
             glVertexAttribPointer(component.position, component.components(), component.gltype(), false, layout.bytesize(), BUFFER_OFFSET(offset));
-            cout << "glVertexAttribPointer( " << component.position << ", " << component.components() << ", " << component.gltype() << ", " << false << ", " << layout.bytesize() << ", " << offset << " )" << endl;
             offset += component.bytesize();
         }
         glBindBuffer(GL_ARRAY_BUFFER, 0);

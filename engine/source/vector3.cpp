@@ -74,9 +74,7 @@ bool Vector3::operator==(Vector3& vector) const
 
 bool Vector3::operator!=(Vector3& vector) const
 {
-    return x != vector.x
-        || y != vector.y
-        || z != vector.z;
+    return !(*this == vector);
 }
 
 Vector3 Vector3::operator-() const

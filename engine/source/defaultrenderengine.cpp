@@ -59,8 +59,8 @@ void DefaultRenderEngine::onStart()
     //////////
     vector<Vertex_pc> vertices;
     vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f( 1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f( 0,  1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices.push_back(Vertex_pc(Vector3f( 1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices.push_back(Vertex_pc(Vector3f( 0,  1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
 
     _batch = make_unique<Batch>(material);
     _batch->addVertices(vertices);
