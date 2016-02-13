@@ -123,7 +123,7 @@ public:
     }
 
     static Matrix4f ortho2D(float left, float right, float bottom, float top) {
-        ortho2D(left, right, bottom, top, -1.0f, 1.0f);
+        return ortho2D(left, right, bottom, top, -1.0f, 1.0f);
     }
 
     static Matrix4f ortho2D(float left, float right, float bottom, float top, float znear, float zfar) {
@@ -143,8 +143,8 @@ public:
 
     static Matrix4f lookAtLH(Vector3f eye, Vector3f target, Vector3f up) {
 
-        Vector3f zaxis = (target-eye).normalized;
-        Vector3f xaxis = up.cross(zaxis).normalized;
+        Vector3f zaxis = (target-eye).normalized();
+        Vector3f xaxis = up.cross(zaxis).normalized();
         Vector3f yaxis = zaxis.cross(xaxis);
 
         return Matrix4f(xaxis.x, xaxis.y, xaxis.z, -xaxis.dot(eye),

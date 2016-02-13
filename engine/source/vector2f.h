@@ -18,14 +18,6 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-#define VECTOR2F_COMPONENTS 2
-#define VECTOR2F_BYTES      VECTOR2F_COMPONENTS * FLOAT_BYTES
-
-struct DLL_PUBLIC vec2 {
-    float x;
-    float y;
-};
-
 class DLL_PUBLIC Vector2f
 {
 public:
@@ -72,8 +64,6 @@ public:
 
     Vector2f normalized() const;
     float    length() const;
-
-    vec2     toVec2() const;
 
     float x;
     float y;

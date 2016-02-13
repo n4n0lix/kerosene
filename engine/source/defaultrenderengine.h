@@ -62,7 +62,7 @@ private:
 
     // Test
     shared_ptr<Shader> _shader;
-    unique_ptr<Batch> _batch;
+    unique_ptr<Batch<Vertex_pc>> _batch;
 };
 
 ENGINE_NAMESPACE_END

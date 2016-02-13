@@ -43,26 +43,10 @@ float Vector3f::distanceBetween(const Vector3f vector1, const Vector3f vector2)
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Vector3f::Vector3f()
-{
-    x = 0.0f;
-    y = 0.0f;
-    z = 0.0f;
-}
+Vector3f::Vector3f()                                                : x(0), y(0), z(0) { }
+Vector3f::Vector3f(const float x, const float y)                    : x(x), y(y), z(0) { }
+Vector3f::Vector3f(const float x, const float y, const float z)     : x(x), y(y), z(z) { }
 
-Vector3f::Vector3f(const float x, const float y)
-{
-    this->x = x;
-    this->y = y;
-    this->z = 0.0f;
-}
-
-Vector3f::Vector3f(const float x, const float y, const float z)
-{
-    this->x = x;
-    this->y = y;
-    this->z = z;
-}
 
 bool Vector3f::isUnit()
 {

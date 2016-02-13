@@ -13,17 +13,8 @@ Vector2f Vector2f::Y_AXIS = Vector2f(0.0f, 1.0f);
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Vector2f::Vector2f()
-{
-    this->x = 0.0f;
-    this->y = 0.0f;
-}
-
-Vector2f::Vector2f(const float x, const float y)
-{
-    this->x = x;
-    this->y = y;
-}
+Vector2f::Vector2f() : x(0), y(0) {}
+Vector2f::Vector2f(const float x, const float y) : x(x), y(y) {}
 
 bool Vector2f::isUnit()
 {
@@ -167,11 +158,6 @@ Vector2f& Vector2f::operator/=(const float o)
     x /= o;
     y /= o;
     return *this;
-}
-
-vec2 Vector2f::toVec2() const
-{
-    return{ x, y };
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

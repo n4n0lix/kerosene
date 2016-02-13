@@ -25,37 +25,11 @@ bool Vector4f::isZero()
     return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
 }
 
-Vector4f::Vector4f()
-{
-    this->x = 0.0f;
-    this->y = 0.0f;
-    this->z = 0.0f;
-    this->w = 0.0f;
-}
+Vector4f::Vector4f()                                                            : x(0), y(0), z(0), w(0) { }
+Vector4f::Vector4f(const float x, const float y)                                : x(x), y(y), z(0), w(0) { }
+Vector4f::Vector4f(const float x, const float y, const float z)                 : x(x), y(y), z(z), w(0) { }
+Vector4f::Vector4f(const float x, const float y, const float z, const float w)  : x(x), y(y), z(z), w(w) { }
 
-Vector4f::Vector4f(const float x, const float y)
-{
-    this->x = x;
-    this->y = y;
-    this->z = 0.0f;
-    this->w = 0.0f;
-}
-
-Vector4f::Vector4f(const float x, const float y, const float z)
-{
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->w = 0.0f;
-}
-
-Vector4f::Vector4f(const float x, const float y, const float z, const float w)
-{
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->w = w;
-}
 
 bool Vector4f::operator==(const Vector4f& o) const
 {

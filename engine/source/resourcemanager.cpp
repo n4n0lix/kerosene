@@ -38,7 +38,7 @@ shared_ptr<Material> ResourceManager::getMaterial(const shared_ptr<Shader> shade
 
 void ResourceManager::garbageCollectMaterials()
 {
-    cout << "Manager: Start garbage collecting (" << _materials.size() << " active materials)" << std::endl;
+    cout << "ResourceManager: Start garbage collecting (" << _materials.size() << " active materials)" << std::endl;
 
     for (auto it = _materials.begin(); it != _materials.end(); it++)
     {
@@ -50,7 +50,7 @@ void ResourceManager::garbageCollectMaterials()
         }
     }
 
-    cout << "Manager: Finished garbage collecting (" << _materials.size() << " active materials)" << std::endl;
+    cout << "ResourceManager: Finished garbage collecting (" << _materials.size() << " active materials)" << std::endl;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -43,27 +43,9 @@ Vector3 Vector3::lerp(Vector3 source, Vector3 target, decimal32 amount)
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Vector3::Vector3()
-{
-    x = decimal32::fromInt(0);
-    y = decimal32::fromInt(0);
-    z = decimal32::fromInt(0);
-}
-
-Vector3::Vector3(decimal32 x, decimal32 y)
-{
-    x = x;
-    y = y;
-    z = decimal32::fromInt(0);
-}
-
-Vector3::Vector3(decimal32 x, decimal32 y, decimal32 z)
-{
-    x = x;
-    y = y;
-    z = z;
-}
-
+Vector3::Vector3() : x(decimal32::fromInt(0)), y(decimal32::fromInt(0)), z(decimal32::fromInt(0)) { }
+Vector3::Vector3(decimal32 x, decimal32 y)              : x(x), y(y), z(decimal32::fromInt(0)) { }
+Vector3::Vector3(decimal32 x, decimal32 y, decimal32 z) : x(x), y(y), z(z) { }
 
 bool Vector3::operator==(Vector3& vector) const 
 {
