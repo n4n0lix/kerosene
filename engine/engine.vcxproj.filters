@@ -156,9 +156,6 @@
     <ClInclude Include="source\vector2f.h">
       <Filter>Headerdateien\math</Filter>
     </ClInclude>
-    <ClInclude Include="source\batch.h">
-      <Filter>Headerdateien\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\vertex_pc.h">
       <Filter>Headerdateien\render\vertices</Filter>
     </ClInclude>
@@ -176,6 +173,21 @@
     </ClInclude>
     <ClInclude Include="source\quaterion4f.h">
       <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\dynamicbuffer.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vertexbuffer.h">
+      <Filter>Headerdateien\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vectorutils.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\batch.h">
+      <Filter>Headerdateien\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\logger.h">
+      <Filter>Headerdateien\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,9 +233,6 @@
     <ClCompile Include="source\vector3f.cpp">
       <Filter>Quelldateien\math</Filter>
     </ClCompile>
-    <ClCompile Include="source\vector3.cpp">
-      <Filter>Quelldateien\math</Filter>
-    </ClCompile>
     <ClCompile Include="source\glwindow.cpp">
       <Filter>Quelldateien\render</Filter>
     </ClCompile>
@@ -242,9 +251,6 @@
     <ClCompile Include="source\vector2f.cpp">
       <Filter>Quelldateien\math</Filter>
     </ClCompile>
-    <ClCompile Include="source\batch.cpp">
-      <Filter>Quelldateien\render</Filter>
-    </ClCompile>
     <ClCompile Include="source\vertex_pc.cpp">
       <Filter>Quelldateien\render\vertices</Filter>
     </ClCompile>
@@ -253,6 +259,15 @@
     </ClCompile>
     <ClCompile Include="source\quaterion4f.cpp">
       <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\vertexbuffer.cpp">
+      <Filter>Quelldateien\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dynamicbuffer.cpp">
+      <Filter>Quelldateien\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\logger.cpp">
+      <Filter>Quelldateien\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

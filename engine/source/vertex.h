@@ -38,6 +38,7 @@ public:
 
     virtual VertexLayout  layout()      const = 0;
     virtual vector<float> data()        const = 0;
+    virtual int32_t       bytesize()    const = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

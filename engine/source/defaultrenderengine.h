@@ -1,5 +1,4 @@
-#ifndef RENDERENGINE_H
-#define RENDERENGINE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -66,4 +65,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // RENDERENGINE_H

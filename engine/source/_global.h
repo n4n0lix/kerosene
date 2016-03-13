@@ -80,6 +80,13 @@
 #   endif
 #endif
 
+// COMPILER DEPENDENT STUFF
+#       ifdef COMPILER_MSVC
+#           define INLINE   __forceinline
+#       elif defined COMPILER_GCC
+#           define INLINE   __attribute__((always_inline))
+#       endif
+
 // Namespace
 #define ENGINE_NAMESPACE kerosene
 #define ENGINE_NAMESPACE_BEGIN namespace kerosene {
@@ -92,6 +99,7 @@
         using std::shared_ptr;
         using std::make_shared;
         using std::weak_ptr;
+        using std::move;
 
 
 // Using std primitives
@@ -109,7 +117,6 @@
 // Using std string
 #include <string>
         using std::string;
-
 
 // Define type sizes
 #define FLOAT_BYTES 4

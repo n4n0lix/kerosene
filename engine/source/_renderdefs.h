@@ -23,6 +23,8 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
+#define BUFFER_OFFSET(i) ((char *)NULL + (i)) // Creates an (void*) offset-pointer
+
 struct DLL_PUBLIC VertexComponent {
     string type;
     string name;

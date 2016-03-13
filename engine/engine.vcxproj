@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\batch.h" />
+    <ClInclude Include="source\dynamicbuffer.h" />
     <ClInclude Include="source\decimal32.h" />
     <ClInclude Include="source\defaultrenderengine.h" />
     <ClInclude Include="source\disabledinputengine.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="source\inetworkengine.h" />
     <ClInclude Include="source\iphysicsengine.h" />
     <ClInclude Include="source\irenderengine.h" />
+    <ClInclude Include="source\logger.h" />
     <ClInclude Include="source\material.h" />
     <ClInclude Include="source\matrix4f.h" />
     <ClInclude Include="source\quaterion4f.h" />
@@ -53,14 +55,15 @@
     <ClInclude Include="source\vector3.h" />
     <ClInclude Include="source\vector3f.h" />
     <ClInclude Include="source\vector4f.h" />
+    <ClInclude Include="source\vectorutils.h" />
     <ClInclude Include="source\vertex.h" />
+    <ClInclude Include="source\vertexbuffer.h" />
     <ClInclude Include="source\vertex_pc.h" />
     <ClInclude Include="source\_global.h" />
     <ClInclude Include="source\_mathdefs.h" />
     <ClInclude Include="source\_renderdefs.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\batch.cpp" />
     <ClCompile Include="source\decimal32.cpp" />
     <ClCompile Include="source\defaultrenderengine.cpp" />
     <ClCompile Include="source\disabledinputengine.cpp" />
@@ -68,11 +71,13 @@
     <ClCompile Include="source\disablednetworkengine.cpp" />
     <ClCompile Include="source\disabledphysicsengine.cpp" />
     <ClCompile Include="source\disabledrenderengine.cpp" />
+    <ClCompile Include="source\dynamicbuffer.cpp" />
     <ClCompile Include="source\engine.cpp" />
     <ClCompile Include="source\engineconfiguration.cpp" />
     <ClCompile Include="source\engineexception.cpp" />
     <ClCompile Include="source\gamestate.cpp" />
     <ClCompile Include="source\glwindow.cpp" />
+    <ClCompile Include="source\logger.cpp" />
     <ClCompile Include="source\material.cpp" />
     <ClCompile Include="source\matrix4f.cpp" />
     <ClCompile Include="source\quaterion4f.cpp" />
@@ -81,9 +86,9 @@
     <ClCompile Include="source\shaderbuilder.cpp" />
     <ClCompile Include="source\texture.cpp" />
     <ClCompile Include="source\vector2f.cpp" />
-    <ClCompile Include="source\vector3.cpp" />
     <ClCompile Include="source\vector3f.cpp" />
     <ClCompile Include="source\vector4f.cpp" />
+    <ClCompile Include="source\vertexbuffer.cpp" />
     <ClCompile Include="source\vertex_pc.cpp" />
   </ItemGroup>
   <ItemGroup>
