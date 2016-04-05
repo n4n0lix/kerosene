@@ -13,6 +13,7 @@
 #include "_global.h"
 #include "_renderdefs.h"
 #include "dynamicbuffer.h"
+#include "vertexarray.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -20,102 +21,141 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class VERTEX>
-class DLL_PUBLIC VertexBuffer : public DynamicBuffer<VERTEX>
+class DLL_PUBLIC VertexBuffer : public DynamicBuffer<VERTEX> 
 {
 public:
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit VertexBuffer(VertexLayout layout) : DynamicBuffer(layout.bytesize()) {
-                _layout = layout;
+                INLINE VertexBuffer(shared_ptr<VertexLayout> layout, uint32_t initCapacity);
 
-                // VBO
-                glGenBuffers(1, &_vboId);
-                glBindBuffer(GL_ARRAY_BUFFER, _vboId);
-                glBufferData(GL_ARRAY_BUFFER, capacity(), NULL, GL_STATIC_DRAW);
+    INLINE GLuint                           getId();
 
-                GLuint offset = 0;
-                for (VertexComponent component : _layout.comps) {
-                    glEnableVertexAttribArray(component.position);
-                    glVertexAttribPointer(component.position, component.components(), component.gltype(), false, _layout.bytesize(), BUFFER_OFFSET(offset));
-                    offset += component.bytesize();
-                }
-                glBindBuffer(GL_ARRAY_BUFFER, 0);
-            }
-
-    INLINE void bind() {
-        glBindBuffer(GL_ARRAY_BUFFER, _vboId);
-    }
-
-    INLINE void unbind() {
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    }
-
-    using DynamicBuffer::write;
+    INLINE unique_ptr<DynamicBufferToken>   addVertices(vector<VERTEX> vertices);
+    INLINE void                             removeVertices(unique_ptr<DynamicBufferToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    
-    virtual void write(int32_t offset, vector<VERTEX> vertices) {
-        // Convert vertices into float vector
-        vector<float> data;
-        for (vector<VERTEX>::iterator vertex = vertices.begin(); vertex != vertices.end(); ++vertex) {
-            vector<float> vertexData = vertex->data();
-            data.insert(data.end(), vertexData.begin(), vertexData.end());
-        }
-
-        // Write the data to the gpu buffer
-        bind();
-        glBufferSubData(GL_ARRAY_BUFFER, offset, vertices.size() * _layout.bytesize(), &data[0]);
-        unbind();
-    }
-    
-
-    virtual void free(int32_t offset, int32_t length) {
-        // Do nothing
-    }
-
-    virtual void resize(int32_t newCapacity) {
-        // Allocate new buffer
-        GLuint newVBOId;
-        glGenBuffers(1, &newVBOId);
-        glBindBuffer(GL_ARRAY_BUFFER, newVBOId);
-        glBufferData(GL_ARRAY_BUFFER, newCapacity, NULL, GL_STATIC_DRAW);
-
-        GLuint offset = 0;
-        for (VertexComponent component : _layout.comps) {
-            glEnableVertexAttribArray(component.position);
-            glVertexAttribPointer(component.position, component.components(), component.gltype(), false, _layout.bytesize(), BUFFER_OFFSET(offset));
-            offset += component.bytesize();
-        }
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        // Copy old data, if exists
-        bool oldBufferExists = _vboId != -1;
-
-        if (oldBufferExists) {
-            GLuint oldVBOId = _vboId;
-
-            glBindBuffer(GL_COPY_READ_BUFFER, oldVBOId);
-            glBindBuffer(GL_COPY_WRITE_BUFFER, newVBOId);
-            glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, capacity());
-
-            glBindBuffer(GL_COPY_READ_BUFFER, 0);
-            glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
-        }
-
-        _vboId = newVBOId;
-    }
+    INLINE virtual void        write(uint32_t index, vector<VERTEX> vertices);
+    INLINE virtual void        remove(uint32_t index, uint32_t length);
+    INLINE virtual void        resize(uint32_t oldCapacity, uint32_t newCapacity);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    GLuint       _vboId;
-    VertexLayout _layout;
+    GLuint         _vboId;
+
+    shared_ptr<VertexLayout> _layout;
+
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                     Private Static                     */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+    INLINE static GLuint createVBOWithLayout(uint32_t capacityBytes);
+
 };
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                        Public                          */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class VERTEX>
+VertexBuffer<VERTEX>::VertexBuffer(shared_ptr<VertexLayout> layout, uint32_t initCapacity) : DynamicBuffer<VERTEX>((uint32_t)layout->bytesize(), initCapacity) {
+    _layout = layout;
+}
+
+template<class VERTEX>
+inline GLuint VertexBuffer<VERTEX>::getId()
+{
+    return _vboId;
+}
+
+template<class VERTEX>
+unique_ptr<DynamicBufferToken> VertexBuffer<VERTEX>::addVertices(vector<VERTEX> vertices)
+{
+    return swap(DynamicBuffer<VERTEX>::write(vertices));
+}
+
+template<class VERTEX>
+void VertexBuffer<VERTEX>::removeVertices(unique_ptr<DynamicBufferToken> token)
+{
+    DynamicBuffer<VERTEX>::remove(swap(token));
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                       Protected                        */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class VERTEX>
+void VertexBuffer<VERTEX>::write(uint32_t index, vector<VERTEX> vertices) {
+    // vertices -> vector<float>
+    vector<float> data;
+    for (vector<VERTEX>::iterator vertex = vertices.begin(); vertex != vertices.end(); ++vertex) {
+        vector<float> vertexData = vertex->data();
+        data.insert(data.end(), vertexData.begin(), vertexData.end());
+    }
+
+    // vector<float> -> gpu-buffer
+    glBindBuffer(GL_ARRAY_BUFFER, _vboId);
+    glBufferSubData(GL_ARRAY_BUFFER, index, data.size() * FLOAT_BYTES, &data[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+template<class VERTEX>
+void VertexBuffer<VERTEX>::remove(uint32_t index, uint32_t length) {
+    // Do nothing
+}
+
+template<class VERTEX>
+void VertexBuffer<VERTEX>::resize(uint32_t oldCapacity, uint32_t newCapacity)
+{
+    // 1# Create temporary copy of VBO
+    GLuint tempVboId = createVBOWithLayout(oldCapacity);
+
+    // 2# Copy content into temporary VBO
+    glBindBuffer(GL_COPY_READ_BUFFER, _vboId);
+    glBindBuffer(GL_COPY_WRITE_BUFFER, tempVboId);
+    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, oldCapacity);
+
+    // 3# Resize VBO
+    glBindBuffer(GL_ARRAY_BUFFER, _vboId);
+    glBufferData(GL_ARRAY_BUFFER, newCapacity, NULL, GL_STATIC_DRAW);
+
+    // 4# Copy content back into original VBO
+    glBindBuffer(GL_COPY_READ_BUFFER, tempVboId);
+    glBindBuffer(GL_COPY_WRITE_BUFFER, _vboId);
+    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, oldCapacity);
+
+    // 5# Cleanup
+    glDeleteBuffers(1, &tempVboId);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_COPY_READ_BUFFER, 0);
+    glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                        Private                         */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Private Static                     */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class VERTEX>
+GLuint VertexBuffer<VERTEX>::createVBOWithLayout(uint32_t capacityBytes) {
+    GLuint vboId;
+
+    glGenBuffers(1, &vboId);
+    glBindBuffer(GL_ARRAY_BUFFER, vboId);
+    glBufferData(GL_ARRAY_BUFFER, capacityBytes, NULL, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    return vboId;
+}
 
 ENGINE_NAMESPACE_END

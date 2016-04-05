@@ -67,6 +67,12 @@
     <Filter Include="Headerdateien\render\vertices">
       <UniqueIdentifier>{3c861c06-f4d1-4bf3-8ed3-c04472781406}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\render\NewFilter1">
+      <UniqueIdentifier>{1462d835-b32f-4d15-850a-44f6e5346f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\render\opengl">
+      <UniqueIdentifier>{c8df3779-cce2-4e1a-87cc-e7aed47ec202}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\_global.h">
@@ -177,9 +183,6 @@
     <ClInclude Include="source\dynamicbuffer.h">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\vertexbuffer.h">
-      <Filter>Headerdateien\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\vectorutils.h">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
@@ -188,6 +191,12 @@
     </ClInclude>
     <ClInclude Include="source\logger.h">
       <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vertexbuffer.h">
+      <Filter>Headerdateien\render\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vertexarray.h">
+      <Filter>Headerdateien\render\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,14 +269,14 @@
     <ClCompile Include="source\quaterion4f.cpp">
       <Filter>Quelldateien\math</Filter>
     </ClCompile>
-    <ClCompile Include="source\vertexbuffer.cpp">
-      <Filter>Quelldateien\render</Filter>
-    </ClCompile>
     <ClCompile Include="source\dynamicbuffer.cpp">
       <Filter>Quelldateien\util</Filter>
     </ClCompile>
     <ClCompile Include="source\logger.cpp">
       <Filter>Quelldateien\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\_renderutils.cpp">
+      <Filter>Quelldateien\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

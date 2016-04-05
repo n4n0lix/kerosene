@@ -21,6 +21,7 @@
 #include "batch.h"
 #include "vertex_pc.h"
 #include "primitivetype.h"
+#include "vertexarray.h"
 
 
 

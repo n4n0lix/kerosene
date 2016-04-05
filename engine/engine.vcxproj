@@ -57,6 +57,7 @@
     <ClInclude Include="source\vector4f.h" />
     <ClInclude Include="source\vectorutils.h" />
     <ClInclude Include="source\vertex.h" />
+    <ClInclude Include="source\vertexarray.h" />
     <ClInclude Include="source\vertexbuffer.h" />
     <ClInclude Include="source\vertex_pc.h" />
     <ClInclude Include="source\_global.h" />
@@ -88,8 +89,8 @@
     <ClCompile Include="source\vector2f.cpp" />
     <ClCompile Include="source\vector3f.cpp" />
     <ClCompile Include="source\vector4f.cpp" />
-    <ClCompile Include="source\vertexbuffer.cpp" />
     <ClCompile Include="source\vertex_pc.cpp" />
+    <ClCompile Include="source\_renderutils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

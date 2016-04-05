@@ -89,8 +89,8 @@ protected:
     virtual void        resize(uint32_t oldCapacity, uint32_t newCapacity) = 0;
 
 
-    INLINE uint32_t                       capacityObjects();
-    INLINE uint32_t                       capacity();
+    INLINE uint32_t                       capacityObjects() const;
+    INLINE uint32_t                       capacity() const;
 
     INLINE unique_ptr<DynamicBufferToken> write(vector<T> objects);
     INLINE void                           remove(unique_ptr<DynamicBufferToken> token);
@@ -123,7 +123,7 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-DynamicBuffer<T>::DynamicBuffer(uint32_t objectSize, uint32_t initialCapcity) {
+DynamicBuffer<T>::DynamicBuffer(uint32_t objectSize, uint32_t initialCapcity) : _freeRanges(vector<BufferRange>()), _usedRanges(vector<BufferRange>()) {
     _objectSize = objectSize;
     _capacity = _objectSize * initialCapcity;
 
@@ -135,12 +135,12 @@ DynamicBuffer<T>::DynamicBuffer(uint32_t objectSize, uint32_t initialCapcity) {
 }
 
 template<class T>
-uint32_t DynamicBuffer<T>::capacityObjects() {
+uint32_t DynamicBuffer<T>::capacityObjects() const {
     return _capacity / _objectSize;
 }
 
 template<class T>
-uint32_t DynamicBuffer<T>::capacity() {
+uint32_t DynamicBuffer<T>::capacity() const {
     return _capacity;
 }
 
@@ -231,16 +231,18 @@ void DynamicBuffer<T>::_resize(uint32_t oldCapacity, uint32_t newCapacity) {
 
     _capacity = newCapacity;
     VectorUtils<BufferRange>::add(_freeRanges, BufferRange(this, oldCapacity, newCapacity - oldCapacity));
+
+    optimize();
 }
 
 template<class T>
 void DynamicBuffer<T>::mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2) {
     // 1# Guards
-    if (!VectorUtils<T>::contains(_freeRanges, range1)) {
+    if (!VectorUtils<BufferRange>::contains(_freeRanges, range1)) {
         return;
     }
 
-    if (!VectorUtils<T>::contains(_freeRanges, range2)) {
+    if (!VectorUtils<BufferRange>::contains(_freeRanges, range2)) {
         return;
     }
 
@@ -252,9 +254,9 @@ void DynamicBuffer<T>::mergeAdjacentFreeRanges(BufferRange range1, BufferRange r
     BufferRange mergedRange = BufferRange(this, range1.index, range1.length + range2.length);
 
     // 3# Swap out ranges
-    VectorUtils<T>::remove(_freeRanges, range1);
-    VectorUtils<T>::remove(_freeRanges, range2);
-    VectorUtils<T>::add(_freeRanges, mergedRange);
+    VectorUtils<BufferRange>::remove(_freeRanges, range1);
+    VectorUtils<BufferRange>::remove(_freeRanges, range2);
+    VectorUtils<BufferRange>::add(_freeRanges, mergedRange);
 }
 
 template<class T>

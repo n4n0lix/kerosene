@@ -62,10 +62,7 @@ private:
 
     shared_ptr<Material> _material;
     shared_ptr<Shader>   _shader;
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ 
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -80,20 +77,7 @@ Batch<VERTEX>::Batch(shared_ptr<Material> material) : DynamicBuffer<VERTEX>((uin
     glGenVertexArrays(1, &_vaoId);
     glBindVertexArray(_vaoId);
 
-        // VBO
-        glGenBuffers(1, &_vboId);
-        glBindBuffer(GL_ARRAY_BUFFER, _vboId);
-        glBufferData(GL_ARRAY_BUFFER, capacity(), NULL, GL_STATIC_DRAW);
-
-        VertexLayout layout = _shader->getVertexLayout();
-
-        GLuint offset = 0;
-        for (VertexComponent component : layout.comps) {
-            glEnableVertexAttribArray(component.position);
-            glVertexAttribPointer(component.position, component.components(), component.gltype(), false, layout.bytesize(), BUFFER_OFFSET(offset));
-            offset += component.bytesize();
-        }
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    _vboId = glCreateVBO(capacity(), _shader->getVertexLayout());
 
     glBindVertexArray(0);
 }
@@ -104,7 +88,7 @@ void Batch<VERTEX>::render(PrimitiveType type) const
     _material->getShader()->bind();
 
     glBindVertexArray(_vaoId);
-    glDrawArrays(type, 0, _vboNumVertices);
+    glDrawArrays(type, 0, 3);
     glBindVertexArray(0);
 }
 
@@ -158,17 +142,23 @@ void Batch<VERTEX>::resize(uint32_t oldCapacity, uint32_t newCapacity)
 
     GLuint oldVboId = _vboId;
 
-    glGenBuffers(1, &newVboId);
-    glBindBuffer(GL_ARRAY_BUFFER, newVboId);
-    glBufferData(GL_ARRAY_BUFFER, newCapacity, NULL, GL_STATIC_DRAW);
+    glBindVertexArray(_vaoId);
+        
+        // 2# Copy old vertexbuffer in new vertexbuffer
+        // 2.1# Create new vbo
+        newVboId = glCreateVBO(newCapacity, _shader->getVertexLayout());
 
-    // 2# Copy old vertexbuffer in new vertexbuffer
-    glBindBuffer(GL_COPY_READ_BUFFER, oldVboId);
-    glBindBuffer(GL_COPY_WRITE_BUFFER, newVboId);
+        // 2.2# Copy content from old to new
+        glBindBuffer(GL_COPY_READ_BUFFER, oldVboId);
+        glBindBuffer(GL_COPY_WRITE_BUFFER, newVboId);
+        glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, oldCapacity);
 
-    glBufferData(GL_COPY_WRITE_BUFFER, newCapacity, nullptr, GL_STATIC_DRAW);
+        // 2.3# Delete old buffer
+        glDeleteBuffers(1, &oldVboId);
 
-    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, oldCapacity);
+    glBindVertexArray(0);
+
+    _vboId = newVboId;
 }
 
 ENGINE_NAMESPACE_END

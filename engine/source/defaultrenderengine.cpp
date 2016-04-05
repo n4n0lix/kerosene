@@ -61,6 +61,7 @@ void DefaultRenderEngine::onStart()
     vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
     vertices.push_back(Vertex_pc(Vector3f( 1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
     vertices.push_back(Vertex_pc(Vector3f( 0,  1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+
     vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
     vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
     vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
@@ -74,6 +75,13 @@ void DefaultRenderEngine::onStart()
     _batch = make_unique<Batch<Vertex_pc>>(material);
     _batch->addVertices(vertices);
 
+    // VertexArray
+    ////////////////
+    shared_ptr<VertexLayout> pcLayout = make_shared<VertexLayout>(Vertex_pc().layout());
+    auto vao = make_shared<VertexArray<Vertex_pc>>(pcLayout);
+    auto vbo = make_shared<VertexBuffer<Vertex_pc>>(pcLayout, 32);
+
+    vao->setVertexBuffer(vbo);
 }
 
 void DefaultRenderEngine::onUpdate()

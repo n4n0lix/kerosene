@@ -1,5 +1,4 @@
-#ifndef _RENDERDEFS_H
-#define _RENDERDEFS_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -112,5 +111,6 @@ struct DLL_PUBLIC TextureSlot {
     // TODO
 };
 
+GLuint glCreateVBO(const GLuint capacity, const VertexLayout layout);
+
 ENGINE_NAMESPACE_END
-#endif // _RENDERDEFS_H
