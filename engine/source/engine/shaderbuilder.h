@@ -35,7 +35,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit ShaderBuilder();
 
-    ShaderBuilder& vertexlayout(VertexLayout layout);
+    ShaderBuilder& vertexlayout(shared_ptr<VertexLayout> layout);
     ShaderBuilder& uniform(Uniform uniform);
 
     // TODO: PerInstance Layout
@@ -56,8 +56,8 @@ private:
     GLuint  linkProgram(GLuint vertexShader, GLuint fragmentShader) const;
 
     // TODO: Find a way to store ptr/refs here
-    VertexLayout    _vertexLayout;
-    vector<Uniform> _uniforms;
+    shared_ptr<VertexLayout>    _vertexLayout;
+    vector<Uniform>             _uniforms;
 
     string _vsSource;
     string _fsSource;

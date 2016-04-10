@@ -58,6 +58,7 @@ private:
 
     INLINE static GLuint createVBOWithLayout(uint32_t capacityBytes);
 
+    static Logger LOGGER;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -67,6 +68,9 @@ private:
 template<class VERTEX>
 VertexBuffer<VERTEX>::VertexBuffer(shared_ptr<VertexLayout> layout, uint32_t initCapacity) : DynamicBuffer<VERTEX>((uint32_t)layout->bytesize(), initCapacity) {
     _layout = layout;
+
+    _vboId = createVBOWithLayout(capacity());
+    LOGGER.log(DEBUG_RENDERING, _vboId) << "CREATE" << endl;
 }
 
 template<class VERTEX>
@@ -78,7 +82,8 @@ inline GLuint VertexBuffer<VERTEX>::getId()
 template<class VERTEX>
 unique_ptr<DynamicBufferToken> VertexBuffer<VERTEX>::addVertices(vector<VERTEX> vertices)
 {
-    return swap(DynamicBuffer<VERTEX>::write(vertices));
+    LOGGER.log(DEBUG_RENDERING, _vboId) << "WRITE " << vertices.size() << " vertices" << endl;
+    return move(DynamicBuffer<VERTEX>::write(vertices));
 }
 
 template<class VERTEX>
@@ -98,11 +103,21 @@ void VertexBuffer<VERTEX>::write(uint32_t index, vector<VERTEX> vertices) {
     for (vector<VERTEX>::iterator vertex = vertices.begin(); vertex != vertices.end(); ++vertex) {
         vector<float> vertexData = vertex->data();
         data.insert(data.end(), vertexData.begin(), vertexData.end());
+
+        LOGGER.log(DEBUG_RENDERING, _vboId) << "WRITE [";
+        for (float flt : vertexData) {
+            LOGGER.log_(DEBUG_RENDERING) << flt << " ";
+        }
+        LOGGER.log_(DEBUG_RENDERING) << "]" << endl;
     }
 
     // vector<float> -> gpu-buffer
     glBindBuffer(GL_ARRAY_BUFFER, _vboId);
-    glBufferSubData(GL_ARRAY_BUFFER, index, data.size() * FLOAT_BYTES, &data[0]);
+    GLint size;
+    glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+    LOGGER.log(DEBUG_RENDERING) << "size: " << size << endl;
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 84, &data[0]);
+    //glBufferSubData(GL_ARRAY_BUFFER, index, data.size() * FLOAT_BYTES, &data[0]);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -157,5 +172,8 @@ GLuint VertexBuffer<VERTEX>::createVBOWithLayout(uint32_t capacityBytes) {
 
     return vboId;
 }
+
+template<class VERTEX>
+Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>");
 
 ENGINE_NAMESPACE_END

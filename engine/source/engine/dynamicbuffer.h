@@ -80,6 +80,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     INLINE          DynamicBuffer<T>(uint32_t objectSize = 1, uint32_t initialCapcity = 10);
 
+    INLINE uint32_t                       capacityObjects() const;
+    INLINE uint32_t                       capacity() const;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -87,10 +89,6 @@ protected:
     virtual void        write(uint32_t index, vector<T> objects) = 0;
     virtual void        remove(uint32_t index, uint32_t length) = 0;
     virtual void        resize(uint32_t oldCapacity, uint32_t newCapacity) = 0;
-
-
-    INLINE uint32_t                       capacityObjects() const;
-    INLINE uint32_t                       capacity() const;
 
     INLINE unique_ptr<DynamicBufferToken> write(vector<T> objects);
     INLINE void                           remove(unique_ptr<DynamicBufferToken> token);
@@ -105,6 +103,8 @@ private:
     INLINE void            mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2);
     INLINE BufferRange     getFreeRange(uint32_t length);
 
+    uint32_t    _uid;
+
     uint32_t    _objectSize;
     uint32_t    _capacity;
 
@@ -116,6 +116,7 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     static Logger LOGGER;
+    static atomic<uint32_t> NEXT_UID;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -123,15 +124,17 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-DynamicBuffer<T>::DynamicBuffer(uint32_t objectSize, uint32_t initialCapcity) : _freeRanges(vector<BufferRange>()), _usedRanges(vector<BufferRange>()) {
-    _objectSize = objectSize;
-    _capacity = _objectSize * initialCapcity;
-
+DynamicBuffer<T>::DynamicBuffer(uint32_t objectSize, uint32_t initialCapcity)
+    : _freeRanges(vector<BufferRange>()),
+      _usedRanges(vector<BufferRange>()),
+      _objectSize(objectSize),
+      _capacity(objectSize * initialCapcity),
+      _uid(NEXT_UID++)
+{
     BufferRange initialRange = BufferRange(this, 0, capacity());
     _freeRanges.push_back(initialRange);
 
-    std::cout << "output" << std::endl;
-    LOGGER.log(DEBUG_RENDERING, std::ostringstream() << "Initial range [" << initialRange.index << "," << initialRange.length << ")");
+    LOGGER.log(DEBUG_RENDERING, _uid) << "CREATE [" << initialRange.index << "," << initialRange.length-1 << "], OBJ SIZE: " << _objectSize  << endl;
 }
 
 template<class T>
@@ -145,13 +148,14 @@ uint32_t DynamicBuffer<T>::capacity() const {
 }
 
 template<class T>
-unique_ptr<DynamicBufferToken> DynamicBuffer<T>::write(vector<T> objects) {     
+unique_ptr<DynamicBufferToken> DynamicBuffer<T>::write(vector<T> objects) {   
     // 1# Get free range
     uint32_t size = (uint32_t) objects.size() * _objectSize;
     BufferRange freeRange = getFreeRange(size);
 
     // 2# call write() for free range
     write(freeRange.index, objects);
+    LOGGER.log(DEBUG_RENDERING, _uid) << "WRITE " << objects.size() << " AT [" << freeRange.index << ", " << freeRange.index + size-1 << "]" << endl;
 
     VectorUtils<BufferRange>::remove(_freeRanges, freeRange);
     VectorUtils<BufferRange>::add(_usedRanges, freeRange);
@@ -314,5 +318,8 @@ BufferRange DynamicBuffer<T>::getFreeRange(uint32_t length) {
 
 template<class T>
 Logger DynamicBuffer<T>::LOGGER = Logger("DynamicBuffer<>");
+
+template<class T>
+atomic<uint32_t> DynamicBuffer<T>::NEXT_UID = 0;
 
 ENGINE_NAMESPACE_END

@@ -36,7 +36,7 @@ void Shader::bind() const
     }
 }
 
-VertexLayout Shader::getVertexLayout() const
+shared_ptr<VertexLayout> Shader::getVertexLayout() const
 {
     return _vertexLayout;
 }
@@ -55,5 +55,6 @@ Shader::Shader()
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 GLuint Shader::CURRENT_SHADER = 0;
+Logger Shader::LOGGER = Logger("Shader");
 
 ENGINE_NAMESPACE_END

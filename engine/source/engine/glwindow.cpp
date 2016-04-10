@@ -60,8 +60,8 @@ void GLWindow::setWidth(int32_t width)
 
 int32_t GLWindow::getWidth()
 {
-    int32_t width, height;
-    glfwGetWindowSize(_handle, &width, &height);
+    int32_t width;
+    glfwGetWindowSize(_handle, &width, nullptr);
     return width;
 }
 
@@ -73,9 +73,31 @@ void GLWindow::setHeight(int32_t height)
 
 int32_t GLWindow::getHeight()
 {
-    int32_t width, height;
-    glfwGetWindowSize(_handle, &width, &height);
+    int32_t height;
+    glfwGetWindowSize(_handle, nullptr, &height);
     return height;
+}
+
+void GLWindow::setX(int32_t x) {
+    int32_t y = getY();
+    glfwSetWindowPos(_handle, x, y);
+}
+
+int32_t GLWindow::getX() {
+    int32_t x;
+    glfwGetWindowPos(_handle, &x, nullptr);
+    return x;
+}
+
+void GLWindow::setY(int32_t y) {
+    int32_t x = getX();
+    glfwSetWindowPos(_handle, x, y);
+}
+
+int32_t GLWindow::getY() {
+    int32_t y;
+    glfwGetWindowPos(_handle, nullptr, &y);
+    return y;
 }
 
 int32_t GLWindow::getRenderWidth()

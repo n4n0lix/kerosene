@@ -40,6 +40,12 @@ public:
      void    setHeight(int32_t height);
      int32_t getHeight();
 
+     void    setX(int32_t x);
+     int32_t getX();
+
+     void    setY(int32_t y);
+     int32_t getY();
+
      int32_t getRenderWidth();
      int32_t getRenderHeight();
 

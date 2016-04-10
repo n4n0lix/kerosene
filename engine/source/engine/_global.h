@@ -5,6 +5,12 @@
 #pragma warning(disable: 4275)
 
 ////////////////////////////////////////////////////////////////////////////
+//                                 Engine                                 //
+////////////////////////////////////////////////////////////////////////////
+
+#define ENGINE_DEBUG
+
+////////////////////////////////////////////////////////////////////////////
 //                            Operating System                            //
 ////////////////////////////////////////////////////////////////////////////
 
@@ -55,6 +61,14 @@
 #           define DLL_PRIVATE
 #       elif defined COMPILER_GCC
 #           define DLL_PUBLIC   __attribute__((dllexport))
+#           define DLL_PRIVATE
+#       endif
+#   elif ENGINE_EXEC
+#       ifdef COMPILER_MSVC
+#           define DLL_PUBLIC
+#           define DLL_PRIVATE
+#       elif defined COMPILER_GCC
+#           define DLL_PUBLIC
 #           define DLL_PRIVATE
 #       endif
 #   else
@@ -117,6 +131,10 @@
 // Using std string
 #include <string>
         using std::string;
+
+// Using atomic
+#include <atomic>
+        using std::atomic;
 
 // Define type sizes
 #define FLOAT_BYTES 4

@@ -25,6 +25,11 @@ void DefaultRenderEngine::onStart()
         throw new EngineException("Couldn't initialize GLEW!");
     }
 
+    // VERTEX LAYOUT
+    //////////////////
+
+    shared_ptr<VertexLayout> pcLayout = make_shared<VertexLayout>(Vertex_pc().layout());
+
     // SHADER
     ///////////
     ostringstream vertexShader;
@@ -48,7 +53,7 @@ void DefaultRenderEngine::onStart()
 
     _shader = ShaderBuilder()
                         .uniform(Shader::Uni_WVP)
-                        .vertexlayout(Vertex_pc().layout())
+                        .vertexlayout(pcLayout)
                         .vertex(vertexShader.str())
                         .fragment(fragmentShader.str())
                         .build();
@@ -62,26 +67,23 @@ void DefaultRenderEngine::onStart()
     vertices.push_back(Vertex_pc(Vector3f( 1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
     vertices.push_back(Vertex_pc(Vector3f( 0,  1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
 
-    vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
 
-    _batch = make_unique<Batch<Vertex_pc>>(material);
-    _batch->addVertices(vertices);
+    //_batch = make_unique<Batch<Vertex_pc>>(material);
+    //_batch->addVertices(vertices);
 
     // VertexArray
     ////////////////
-    shared_ptr<VertexLayout> pcLayout = make_shared<VertexLayout>(Vertex_pc().layout());
-    auto vao = make_shared<VertexArray<Vertex_pc>>(pcLayout);
-    auto vbo = make_shared<VertexBuffer<Vertex_pc>>(pcLayout, 32);
-
-    vao->setVertexBuffer(vbo);
+    _vao = make_unique<VertexArray<Vertex_pc>>(pcLayout);
+    _vao->getVertexBuffer()->addVertices(vertices);
 }
 
 void DefaultRenderEngine::onUpdate()
@@ -95,7 +97,9 @@ void DefaultRenderEngine::onUpdate()
     glViewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
 
     // Test code
-    _batch->render(PrimitiveType::TRIANGLES);
+    //_batch->render(PrimitiveType::TRIANGLES);
+    _shader->bind();
+    _vao->render();
 
     // #3 Render
     _mainWindow->swapBuffers();
@@ -126,6 +130,8 @@ bool DefaultRenderEngine::isExitRequested()
 void DefaultRenderEngine::initContextAndWindow()
 {
     _mainWindow = std::make_unique<GLWindow>("Test", 800, 600);
+    _mainWindow->setX(800);
+    _mainWindow->setY(300);
     _mainWindow->makeCurrent();
     std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << std::endl;
 }

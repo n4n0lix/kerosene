@@ -1,5 +1,5 @@
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef VERTEX_PC_H
+#define VERTEX_PC_H
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -7,15 +7,14 @@
 
 // Std-Includes
 #include <vector>
-    using std::vector;
+        using std::vector;
 
 // Other Includes
-#include "glew.h"
 
 // Internal Includes
 #include "_global.h"
-#include "_renderdefs.h"
 #include "vertex.h"
+#include "shader.h"
 #include "vector2f.h"
 #include "vector3f.h"
 #include "vector4f.h"
@@ -25,45 +24,38 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC Shader
+/**
+ * layout:
+ *     vec3 position;
+ *     vec4 color;
+ */
+class DLL_PUBLIC Vertex_pc : Vertex
 {
-    friend class ShaderBuilder;
 public:
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    // Uniform
-    static Uniform  Uni_WVP;
-
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            explicit Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
 
-    bool operator==(const Shader& o) const;
-    bool operator!=(const Shader& o) const;
+    virtual VertexLayout   layout()   const;
+    virtual vector<float>  data()     const;
+    INLINE virtual int32_t bytesize() const { return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; }
 
-    // TODO: Find a better way, this doesn't say that this shader is "smaller"
-    bool operator<(const Shader& o1) const; // To be able to use in map
-
-    void         bind() const;
-    VertexLayout getVertexLayout() const;
-
+    Vector3f position;
+    Vector4f color;
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Shader();
 
-    GLuint        _id;
-    VertexLayout  _vertexLayout;
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static GLuint CURRENT_SHADER;
 };
-ENGINE_NAMESPACE_END
 
-#endif // SHADER_H
+ENGINE_NAMESPACE_END
+#endif // VERTEX_PC_H

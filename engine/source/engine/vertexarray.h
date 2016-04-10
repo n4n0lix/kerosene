@@ -13,6 +13,7 @@
 #include "_global.h"
 #include "_renderdefs.h"
 #include "vertexbuffer.h"
+#include "primitivetype.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -27,12 +28,12 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            INLINE VertexArray(shared_ptr<VertexLayout> layout);
-            INLINE ~VertexArray();
+            INLINE explicit VertexArray(shared_ptr<VertexLayout> layout);
 
     INLINE void                                setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
     INLINE shared_ptr<VertexBuffer<VERTEX>>    getVertexBuffer();
 
+    INLINE void                                render();
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -52,6 +53,7 @@ private:
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+    static Logger LOGGER;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -65,17 +67,17 @@ VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
     
     // #1 Create VAO
     glGenVertexArrays(1, &_vaoId);
-}
+    LOGGER.log(DEBUG_RENDERING, _vaoId) << "CREATE" << endl;
 
-template<class VERTEX>
-VertexArray<VERTEX>::~VertexArray()
-{
-    glDeleteVertexArrays(1, &_vaoId);
+    // #2 Create VBO
+    setVertexBuffer(make_shared<VertexBuffer<VERTEX>>(_layout, 32));
 }
 
 template<class VERTEX>
 void VertexArray<VERTEX>::setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer)
 {
+    LOGGER.log(DEBUG_RENDERING, _vaoId) << "BIND VBO (id:" << vertexBuffer->getId() << ")" << endl;
+
     // #1 Set vertexbuffer
     _vertexBuffer = vertexBuffer;
 
@@ -85,7 +87,8 @@ void VertexArray<VERTEX>::setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> verte
 
     // #3 Declare VBO Layout
     GLuint offset = 0;
-    for (VertexComponent component : _layout->comps) {
+    for (VertexComponent component : _layout->components) {
+        LOGGER.log(DEBUG_RENDERING, _vaoId) << "ATTR (pos:" << component.position << ", num:" << component.components() << ", glt:" << component.gltype() << ", off:" << offset << ")" << endl;
         glEnableVertexAttribArray(component.position);
         glVertexAttribPointer(component.position, component.components(), component.gltype(), false, _layout->bytesize(), BUFFER_OFFSET(offset));
         offset += component.bytesize();
@@ -98,13 +101,27 @@ void VertexArray<VERTEX>::setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> verte
 template<class VERTEX>
 shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::getVertexBuffer()
 {
-    return vertexBuffer;
+    return _vertexBuffer;
 }
 
+template<class VERTEX>
+void VertexArray<VERTEX>::render()
+{
+    glBindVertexArray(_vaoId);
+    glDrawArrays(PrimitiveType::TRIANGLES, 0, 12);
+    glBindVertexArray(0);
+}
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                       Protected                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Private Static                     */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class VERTEX>
+Logger VertexArray<VERTEX>::LOGGER = Logger("VertexArray<>");
 
 ENGINE_NAMESPACE_END
 

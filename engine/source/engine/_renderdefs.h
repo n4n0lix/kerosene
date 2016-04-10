@@ -77,11 +77,11 @@ struct DLL_PUBLIC VertexComponent {
 };
 
 struct DLL_PUBLIC VertexLayout {
-    vector<VertexComponent> comps;
+    vector<VertexComponent> components;
 
-    GLuint components() const {
+    GLuint numComponents() const {
         GLuint totalComps = 0;
-        for (VertexComponent component : comps) {
+        for (VertexComponent component : components) {
             totalComps += component.components();
         }
         return totalComps;
@@ -89,13 +89,13 @@ struct DLL_PUBLIC VertexLayout {
 
     GLuint bytesize() const {
         GLuint bytesize = 0;
-        for (VertexComponent component : comps) {
+        for (VertexComponent component : components) {
             bytesize += component.bytesize();
         }
         return bytesize;
     }
 
-    bool operator==(const VertexLayout& o) const { return comps == o.comps; }
+    bool operator==(const VertexLayout& o) const { return components == o.components; }
     bool operator!=(const VertexLayout& o) const { return !(*this == o); }
 };
 
