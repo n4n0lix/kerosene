@@ -38,7 +38,7 @@ shared_ptr<Material> ResourceManager::getMaterial(const shared_ptr<Shader> shade
 
 void ResourceManager::garbageCollectMaterials()
 {
-    cout << "ResourceManager: Start garbage collecting (" << _materials.size() << " active materials)" << std::endl;
+    LOGGER.log(Level::DEBUG) << " Start garbage collecting (" << _materials.size() << " active materials)" << std::endl;
 
     for (auto it = _materials.begin(); it != _materials.end(); it++)
     {
@@ -50,7 +50,7 @@ void ResourceManager::garbageCollectMaterials()
         }
     }
 
-    cout << "ResourceManager: Finished garbage collecting (" << _materials.size() << " active materials)" << std::endl;
+    LOGGER.log(Level::DEBUG) << "ResourceManager: Finished garbage collecting (" << _materials.size() << " active materials)" << std::endl;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -60,5 +60,7 @@ void ResourceManager::garbageCollectMaterials()
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                      Private Static                    */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+Logger ResourceManager::LOGGER = Logger("ResourceManager", Level::DEBUG);
 
 ENGINE_NAMESPACE_END

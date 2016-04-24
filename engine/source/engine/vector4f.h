@@ -1,5 +1,4 @@
-#ifndef VECTOR4F_H
-#define VECTOR4F_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -95,4 +94,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // VECTOR3F_H

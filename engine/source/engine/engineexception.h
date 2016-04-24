@@ -29,8 +29,8 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             EngineException();
-            EngineException(const char* msg);
-            EngineException(const std::exception& e);
+            explicit EngineException(const char* msg);
+            explicit EngineException(const std::exception& e);
 
 };
 

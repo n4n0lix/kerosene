@@ -62,28 +62,31 @@ void DefaultRenderEngine::onStart()
 
     // BATCH
     //////////
-    vector<Vertex_pc> vertices;
-    vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f( 1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices.push_back(Vertex_pc(Vector3f( 0,  1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _batch = make_unique<Batch<Vertex_pc>>(material);
 
-    //vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(-1, -1, 0), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(1, -1, 0), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices.push_back(Vertex_pc(Vector3f(0, 1, 0), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    shared_ptr<vector<Vertex_pc>> vertices1 = make_shared<vector<Vertex_pc>>();
+    vertices1->push_back(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices1->push_back(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices1->push_back(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle1 = _batch->addVertices(vertices1);
 
-    //_batch = make_unique<Batch<Vertex_pc>>(material);
-    //_batch->addVertices(vertices);
+    shared_ptr<vector<Vertex_pc>> vertices2 = make_shared<vector<Vertex_pc>>();
+    vertices2->push_back(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices2->push_back(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices2->push_back(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle2 = _batch->addVertices(vertices2);
 
-    // VertexArray
-    ////////////////
-    _vao = make_unique<VertexArray<Vertex_pc>>(pcLayout);
-    _vao->getVertexBuffer()->addVertices(vertices);
+    shared_ptr<vector<Vertex_pc>> vertices3 = make_shared<vector<Vertex_pc>>();
+    vertices3->push_back(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices3->push_back(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices3->push_back(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle3 = _batch->addVertices(vertices3);
+
+    shared_ptr<vector<Vertex_pc>> vertices4 = make_shared<vector<Vertex_pc>>();
+    vertices4->push_back(Vertex_pc(Vector3f(0,  0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices4->push_back(Vertex_pc(Vector3f(1,  0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices4->push_back(Vertex_pc(Vector3f(.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle4 = _batch->addVertices(vertices4);
 }
 
 void DefaultRenderEngine::onUpdate()
@@ -97,9 +100,11 @@ void DefaultRenderEngine::onUpdate()
     glViewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
 
     // Test code
-    //_batch->render(PrimitiveType::TRIANGLES);
-    _shader->bind();
-    _vao->render();
+    _batch->render(_tokenTriangle1);
+    _batch->render(_tokenTriangle2);
+    _batch->render(_tokenTriangle3);
+    _batch->render(_tokenTriangle4);
+    _batch->render();
 
     // #3 Render
     _mainWindow->swapBuffers();

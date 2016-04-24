@@ -1,5 +1,4 @@
-#ifndef DISABLEDPHYSICSENGINE_H
-#define DISABLEDPHYSICSENGINE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -29,4 +28,3 @@ public:
 };
 
 ENGINE_NAMESPACE_END
-#endif // DISABLEDPHYSICSENGINE_H

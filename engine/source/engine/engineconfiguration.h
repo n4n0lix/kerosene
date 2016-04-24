@@ -1,6 +1,4 @@
-#ifndef ENGINECONFIGURATION_H
-#define ENGINECONFIGURATION_H
-
+#pragma once
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -42,8 +40,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit EngineConfiguration();
 
-    EngineConfiguration&            tickrate(uint32_t tickRate);
-    uint32_t                        getTickRate() const;
+    EngineConfiguration&            tickrate(uint32 tickRate);
+    uint32                          getTickRate() const;
 
     EngineConfiguration&            gamestate(unique_ptr<GameState> gameState);
     unique_ptr<GameState>           claimGameState();
@@ -67,7 +65,7 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    uint32_t _tickRate = 100;
+    uint32 _tickRate = 100;
 
     unique_ptr<GameState>  _gamestate = nullptr;
 
@@ -79,4 +77,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // ENGINECONFIGURATION_H

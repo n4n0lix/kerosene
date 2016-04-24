@@ -1,23 +1,17 @@
-#ifndef MATERIALMANAGER_H
-#define MATERIALMANAGER_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <map>
-        using std::map;
-        using std::pair;
-        using std::make_pair;
-#include <iostream>
-        using std::cout;
-        using std::endl;
 
 // Other Includes
 
 // Internal Includes
 #include "_global.h"
+#include "logger.h"
+
 #include "material.h"
 #include "shader.h"
 #include "texture.h"
@@ -59,7 +53,7 @@ private:
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+    static Logger LOGGER;
 };
 
 ENGINE_NAMESPACE_END
-#endif // MANAGER_H

@@ -1,5 +1,4 @@
-#ifndef SHADERBUILDER_H
-#define SHADERBUILDER_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -9,15 +8,14 @@
 #include <iostream>
 #include <sstream> 
     using std::ostringstream;
-#include <vector>
-    using std::vector;
 #include <algorithm>
 
 // Other Includes
-#include "glew.h"
 
 // Internal Includes
 #include "_global.h"
+#include "_gl.h"
+
 #include "vertex.h"
 #include "shader.h"
 #include "engineexception.h"
@@ -71,4 +69,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // SHADERBUILDER_H

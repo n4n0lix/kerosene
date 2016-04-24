@@ -7,7 +7,7 @@
 // Std-Includes
 
 // Other Includes
-#include "glew.h"
+#include "_gl.h"
 
 // Internal Includes
 #include "_global.h"
@@ -28,12 +28,13 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            INLINE explicit VertexArray(shared_ptr<VertexLayout> layout);
+                explicit VertexArray(std::shared_ptr<VertexLayout> layout);
 
-    INLINE void                                setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
-    INLINE shared_ptr<VertexBuffer<VERTEX>>    getVertexBuffer();
+    void                                setVertexBuffer(std::shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
+    shared_ptr<VertexBuffer<VERTEX>>    getVertexBuffer();
 
-    INLINE void                                render();
+    void                                render(shared_ptr<WOB_Token> token);
+    void                                render();
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -46,8 +47,9 @@ private:
 
     GLuint _vaoId;
 
-    shared_ptr<VertexLayout> _layout;
-    shared_ptr<VertexBuffer<VERTEX>> _vertexBuffer;
+    vector<shared_ptr<WOB_Token>>       _renderTokens;
+    shared_ptr<VertexLayout>            _layout;
+    shared_ptr<VertexBuffer<VERTEX>>    _vertexBuffer;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -67,7 +69,7 @@ VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
     
     // #1 Create VAO
     glGenVertexArrays(1, &_vaoId);
-    LOGGER.log(DEBUG_RENDERING, _vaoId) << "CREATE" << endl;
+    LOGGER.log(Level::DEBUG, _vaoId) << "CREATE" << endl;
 
     // #2 Create VBO
     setVertexBuffer(make_shared<VertexBuffer<VERTEX>>(_layout, 32));
@@ -76,7 +78,7 @@ VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
 template<class VERTEX>
 void VertexArray<VERTEX>::setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer)
 {
-    LOGGER.log(DEBUG_RENDERING, _vaoId) << "BIND VBO (id:" << vertexBuffer->getId() << ")" << endl;
+    LOGGER.log(Level::DEBUG, _vaoId) << "BIND VBO (id:" << vertexBuffer->getId() << ")" << endl;
 
     // #1 Set vertexbuffer
     _vertexBuffer = vertexBuffer;
@@ -88,7 +90,7 @@ void VertexArray<VERTEX>::setVertexBuffer(shared_ptr<VertexBuffer<VERTEX>> verte
     // #3 Declare VBO Layout
     GLuint offset = 0;
     for (VertexComponent component : _layout->components) {
-        LOGGER.log(DEBUG_RENDERING, _vaoId) << "ATTR (pos:" << component.position << ", num:" << component.components() << ", glt:" << component.gltype() << ", off:" << offset << ")" << endl;
+        LOGGER.log(Level::DEBUG, _vaoId) << "ATTR (pos:" << component.position << ", num:" << component.components() << ", glt:" << component.gltype() << ", off:" << offset << ")" << endl;
         glEnableVertexAttribArray(component.position);
         glVertexAttribPointer(component.position, component.components(), component.gltype(), false, _layout->bytesize(), BUFFER_OFFSET(offset));
         offset += component.bytesize();
@@ -105,10 +107,34 @@ shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::getVertexBuffer()
 }
 
 template<class VERTEX>
+void VertexArray<VERTEX>::render(shared_ptr<WOB_Token> token)
+{
+    _renderTokens.push_back(token);
+}
+
+template<class VERTEX>
 void VertexArray<VERTEX>::render()
 {
+    // 1# Commit changes
+    _vertexBuffer->commit();
+
+    // 2# Get indices to display
+    vector<uint32> indices;
+
+    for (shared_ptr<WOB_Token> token : _renderTokens) {
+        if (token->valid()) {
+            vector<uint32>& tokenIndices = *(token->object_indices().get());
+            indices.insert(indices.end(), tokenIndices.begin(), tokenIndices.end());
+        }
+    }
+
+    _renderTokens.clear();
+
+    // 3# Render
+    if (indices.empty()) { return; }
+
     glBindVertexArray(_vaoId);
-    glDrawArrays(PrimitiveType::TRIANGLES, 0, 12);
+    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei) indices.size(), GL_UNSIGNED_INT, &indices[0]);
     glBindVertexArray(0);
 }
 
@@ -121,7 +147,7 @@ void VertexArray<VERTEX>::render()
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-Logger VertexArray<VERTEX>::LOGGER = Logger("VertexArray<>");
+Logger VertexArray<VERTEX>::LOGGER = Logger("VertexArray<>", Level::DEBUG);
 
 ENGINE_NAMESPACE_END
 

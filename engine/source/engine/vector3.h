@@ -1,5 +1,4 @@
-#ifndef VECTOR3_H
-#define VECTOR3_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -141,4 +140,3 @@ Vector3 Vector3::Y_AXIS = Vector3(decimal32::ZERO, decimal32::ONE, decimal32::ZE
 Vector3 Vector3::Z_AXIS = Vector3(decimal32::ZERO, decimal32::ZERO, decimal32::ONE);
 
 ENGINE_NAMESPACE_END
-#endif // VECTOR3_H

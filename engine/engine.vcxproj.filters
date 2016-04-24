@@ -85,6 +85,12 @@
     <Filter Include="Quelldateien\engine\render\opengl">
       <UniqueIdentifier>{0c53617e-9d48-44a0-b0dc-f330566a4396}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\engine\utils\buffer">
+      <UniqueIdentifier>{b091b1fa-d3d6-42bf-b1d2-5dfe37805b0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\utils\buffer">
+      <UniqueIdentifier>{ad01befc-a0e2-456e-a3d5-6ff45fd0202e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -204,9 +210,6 @@
     <ClInclude Include="source\engine\gamestate.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\dynamicbuffer.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="source\sandbox\testgamestate.h">
       <Filter>Headerdateien\sandbox</Filter>
     </ClInclude>
@@ -219,11 +222,35 @@
     <ClInclude Include="source\engine\_gl.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\dynamicbuffer.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\dynamicbufferrange.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\writeonlybuffer.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\transactionalbuffer.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tb_removeop.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tb_token.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tb_writeop.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\wob_token.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tb_range.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\engine\_renderutils.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\defaultrenderengine.cpp">
       <Filter>Quelldateien\engine\render</Filter>
     </ClCompile>
@@ -275,12 +302,6 @@
     <ClCompile Include="source\engine\decimal32.cpp">
       <Filter>Quelldateien\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\dynamicbuffer.cpp">
-      <Filter>Quelldateien\engine\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\logger.cpp">
-      <Filter>Quelldateien\engine\utils</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\material.cpp">
       <Filter>Quelldateien\engine\render</Filter>
     </ClCompile>
@@ -305,8 +326,23 @@
     <ClCompile Include="source\sandbox\testgamestate.cpp">
       <Filter>Quelldateien\sandbox</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\vertexarray.cpp">
+    <ClCompile Include="source\engine\_gl.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\dynamicbufferrange.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tb_token.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\wob_token.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tb_range.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tb_removeop.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

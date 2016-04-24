@@ -1,5 +1,4 @@
-#ifndef DISABLEDRENDERENGINE_H
-#define DISABLEDRENDERENGINE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -32,4 +31,3 @@ public:
 };
 
 ENGINE_NAMESPACE_END
-#endif // DISABLEDRENDERENGINE_H

@@ -1,5 +1,4 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -8,7 +7,7 @@
 // Std-Includes
 
 // Other Includes
-#include "glew.h"
+#include "_gl.h"
 
 // Internal Includes
 #include "_global.h"
@@ -40,4 +39,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // TEXTURE_H

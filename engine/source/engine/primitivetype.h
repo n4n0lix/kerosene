@@ -1,13 +1,11 @@
-#ifndef RENDERPRIMITIVETYPE
-#define RENDERPRIMITIVETYPE
-
+#pragma once
 // Std-Includes
 
 // Other Includes
-#include "glew.h"
 
 // Internal Includes
 #include "_global.h"
+#include "_gl.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                          Enum                          */
@@ -23,5 +21,4 @@ enum DLL_PUBLIC PrimitiveType {
 };
 
 ENGINE_NAMESPACE_END
-#endif // RENDERPRIMITIVETYPE
 

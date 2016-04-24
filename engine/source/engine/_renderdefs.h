@@ -5,16 +5,11 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <string>
-        using std::string;
-
-#include <vector>
-        using std::vector;
 
 // Other Includes
-#include "glew.h"
 
 // Internal Includes
+#include "_gl.h"
 #include "_global.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -110,7 +105,5 @@ struct DLL_PUBLIC Uniform {
 struct DLL_PUBLIC TextureSlot {
     // TODO
 };
-
-GLuint glCreateVBO(const GLuint capacity, const VertexLayout layout);
 
 ENGINE_NAMESPACE_END

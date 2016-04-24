@@ -10,6 +10,8 @@
 #include "inetworkengine.h"
 
 #include "disabledinputengine.h"
+#define ENGINE_DEBUG
+
 #include "defaultrenderengine.h"
 #include "disabledlogicengine.h"
 #include "disabledphysicsengine.h"
@@ -22,10 +24,10 @@
 
 using namespace ENGINE_NAMESPACE;
 
+
+
 int main(int argc, char *argv[])
 {
-    //Logger::enable(DEBUG_RENDERING);
-
     decimal32 dec1 = decimal32::fromDouble(3.141);
 
     EngineConfiguration& config = EngineConfiguration();

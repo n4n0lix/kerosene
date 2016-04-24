@@ -1,19 +1,13 @@
-#ifndef VERTEX_H
-#define VERTEX_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <string>
-        using std::string;
-
-#include <vector>
-        using std::vector;
 
 // Other Includes
-#include "glew.h"
+#include "_gl.h"
 
 // Internal Includes
 #include "_global.h"
@@ -24,7 +18,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC Vertex
+class Vertex
 {
 public:
 
@@ -48,4 +42,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // VERTEX_H

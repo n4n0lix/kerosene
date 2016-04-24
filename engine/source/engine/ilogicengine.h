@@ -1,5 +1,4 @@
-#ifndef ILOGICENGINE
-#define ILOGICENGINE
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -29,5 +28,4 @@ public:
 };
 
 ENGINE_NAMESPACE_END
-#endif // ILOGICENGINE
 

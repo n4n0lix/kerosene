@@ -1,6 +1,3 @@
-#ifndef DISABLEDLOGICENGINE_H
-#define DISABLEDLOGICENGINE_H
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -30,4 +27,4 @@ public:
 };
 
 ENGINE_NAMESPACE_END
-#endif // DISABLEDLOGICENGINE_H
+#pragma once

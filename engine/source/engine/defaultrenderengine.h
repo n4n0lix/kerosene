@@ -8,10 +8,9 @@
 #include <iostream>
 
 // Other Includes
-#include "glew.h"
-#include "glfw3.h"
 
 // Internal Includes
+#include "_gl.h"
 #include "_global.h"
 #include "engineexception.h"
 #include "irenderengine.h"
@@ -30,7 +29,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC DefaultRenderEngine : public IRenderEngine
+class DefaultRenderEngine : public IRenderEngine
 {
 public:
 
@@ -65,6 +64,10 @@ private:
     unique_ptr<Batch<Vertex_pc>> _batch;
     unique_ptr<VertexArray<Vertex_pc>> _vao;
 
+    shared_ptr<BatchToken> _tokenTriangle1;
+    shared_ptr<BatchToken> _tokenTriangle2;
+    shared_ptr<BatchToken> _tokenTriangle3;
+    shared_ptr<BatchToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END

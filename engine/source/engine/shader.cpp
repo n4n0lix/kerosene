@@ -55,6 +55,6 @@ Shader::Shader()
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 GLuint Shader::CURRENT_SHADER = 0;
-Logger Shader::LOGGER = Logger("Shader");
+Logger Shader::LOGGER = Logger("Shader", Level::OFF);
 
 ENGINE_NAMESPACE_END

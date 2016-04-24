@@ -5,65 +5,43 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <vector>
-    using std::vector;
-
-// Other Includes
-#include "logger.h"
 
 // Internal Includes
 #include "_global.h"
-#include "_gl.h"
-#include "_renderdefs.h"
-
-#include "vertex.h"
-#include "vector2f.h"
-#include "vector3f.h"
-#include "vector4f.h"
+#include "tb_token.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC Shader
-{
-    friend class ShaderBuilder;
+class TB_RemoveOp {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    // Uniform
-    static Uniform  Uni_WVP;
+    static const uint32 NULL_UID = 0;
+    static const uint32 FIRST_UID = 1;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            TB_RemoveOp(uint32 id, shared_ptr<TB_Token> token);
 
-    bool operator==(const Shader& o) const;
-    bool operator!=(const Shader& o) const;
-
-    // TODO: Find a better way, this doesn't say that this shader is "smaller"
-    bool operator<(const Shader& o1) const; // To be able to use in map
-
-    void                     bind() const;
-    shared_ptr<VertexLayout> getVertexLayout() const;
+    uint32                      id();
+    shared_ptr<TB_Token>        token();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Shader();
 
-    GLuint                    _id;
-    shared_ptr<VertexLayout>  _vertexLayout;
+    uint32                      _id;
+    shared_ptr<TB_Token>        _token;
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    static GLuint CURRENT_SHADER;
-    static Logger LOGGER;
 };
+
 ENGINE_NAMESPACE_END
+
+

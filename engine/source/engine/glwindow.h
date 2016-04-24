@@ -1,5 +1,4 @@
-#ifndef GLWINDOW_H
-#define GLWINDOW_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -90,4 +89,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // GLWINDOW_H

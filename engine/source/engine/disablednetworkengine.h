@@ -1,5 +1,4 @@
-#ifndef DISABLEDNETWORKENGINE_H
-#define DISABLEDNETWORKENGINE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -29,4 +28,3 @@ public:
 };
 
 ENGINE_NAMESPACE_END
-#endif // DISABLEDNETWORKENGINE_H

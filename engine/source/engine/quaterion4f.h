@@ -1,5 +1,4 @@
-#ifndef QUATERNION4F_H
-#define QUATERNION4F_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -80,4 +79,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // QUATERNION4F_H

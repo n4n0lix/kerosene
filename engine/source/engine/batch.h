@@ -5,17 +5,16 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <vector>
-        using std::vector;
 #include <algorithm>
         using std::transform;
 
 // Other Includes
-#include "glew.h"
 
 // Internal Includes
+#include "_gl.h"
 #include "_global.h"
 #include "_renderdefs.h"
+#include "logger.h"
 #include "engineexception.h"
 #include "vertex.h"
 #include "shader.h"
@@ -24,22 +23,43 @@
 #include "dynamicbuffer.h"
 #include "vertexarray.h"
 
+ENGINE_NAMESPACE_BEGIN
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Inner Classes                      */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class T> class Batch;
+
+class BatchToken {
+    template<class T> friend class Batch;
+
+private:
+    BatchToken(void* batch, shared_ptr<WOB_Token> token) : _batch(batch), _wobToken(token) { }
+
+    void*                   get_batch()     { return _batch; }
+    shared_ptr<WOB_Token>   get_wob_token() { return _wobToken; }
+
+    void*                       _batch;
+    shared_ptr<WOB_Token>       _wobToken;
+};
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-ENGINE_NAMESPACE_BEGIN
-
 template<class VERTEX>
-class DLL_PUBLIC Batch
+class Batch
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    INLINE          explicit Batch(shared_ptr<Material> material);
+              explicit Batch(shared_ptr<Material> material);
 
-    INLINE void render(PrimitiveType type) const;
-    INLINE void addVertices(vector<VERTEX> vertices);
+    void                     render(shared_ptr<BatchToken> token);
+    void                     render();
+
+    shared_ptr<BatchToken>   addVertices(shared_ptr<vector<VERTEX>> vertices);
+    void                     removeVertices(shared_ptr<BatchToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -55,7 +75,12 @@ private:
 
     shared_ptr<Material> _material;
     shared_ptr<Shader>   _shader;
+
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                     Private Static                     */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
  
+    static Logger LOGGER;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -69,20 +94,55 @@ Batch<VERTEX>::Batch(shared_ptr<Material> material) {
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::render(PrimitiveType type) const
+void Batch<VERTEX>::render(shared_ptr<BatchToken> token)
+{
+    if (token->get_batch() == this) {
+        _vao->render(token->get_wob_token());
+    }
+}
+
+
+template<class VERTEX>
+void Batch<VERTEX>::render()
 {
     _material->getShader()->bind();
     _vao->render();
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::addVertices(vector<VERTEX> vertices)
+shared_ptr<BatchToken> Batch<VERTEX>::addVertices(shared_ptr<vector<VERTEX>> vertices)
 {
-    if (vertices.empty()) {
+    if (vertices->empty()) {
+        return nullptr;
+    }
+
+    shared_ptr<WOB_Token> token = _vao->getVertexBuffer()->addVertices(vertices);
+
+    // 2# Retrieve indices
+    shared_ptr<vector<uint32>> indices = make_shared<vector<uint32>>();
+    for (uint32 i = token->object_index(); i < token->object_index() + token->object_length(); i++) {
+        indices->push_back(i);
+    }
+
+    return shared_ptr<BatchToken>(new BatchToken(this, token));
+}
+
+template<class VERTEX>
+void Batch<VERTEX>::removeVertices(shared_ptr<BatchToken> token)
+{
+    if (token->_batch != this) {
+        LOGGER.log(Level::WARN) << "Invalid token given, token doesn't belong to this batch!" << endl;
         return;
     }
 
-    _vao->getVertexBuffer()->addVertices(vertices);
+    _vao->getVertexBuffer()->removeVertices(token->_wobToken);
 }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Private Static                     */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class T>
+Logger Batch<T>::LOGGER = Logger("Batch<>", Level::DEBUG);
 
 ENGINE_NAMESPACE_END

@@ -1,14 +1,7 @@
-#ifndef KEROSINEENGINE_GLOBAL_H
-#define KEROSINEENGINE_GLOBAL_H
+#pragma once
 
 #pragma warning(disable: 4251)
 #pragma warning(disable: 4275)
-
-////////////////////////////////////////////////////////////////////////////
-//                                 Engine                                 //
-////////////////////////////////////////////////////////////////////////////
-
-#define ENGINE_DEBUG
 
 ////////////////////////////////////////////////////////////////////////////
 //                            Operating System                            //
@@ -65,18 +58,18 @@
 #       endif
 #   elif ENGINE_EXEC
 #       ifdef COMPILER_MSVC
-#           define DLL_PUBLIC
-#           define DLL_PRIVATE
-#       elif defined COMPILER_GCC
-#           define DLL_PUBLIC
-#           define DLL_PRIVATE
-#       endif
-#   else
-#       ifdef COMPILER_MSVC
 #           define DLL_PUBLIC   __declspec(dllimport)
 #           define DLL_PRIVATE
 #       elif defined COMPILER_GCC
 #           define DLL_PUBLIC   __attribute__((dllimport))
+#           define DLL_PRIVATE
+#       endif
+#   else
+#       ifdef COMPILER_MSVC
+#           define DLL_PUBLIC
+#           define DLL_PRIVATE
+#       elif defined COMPILER_GCC
+#           define DLL_PUBLIC
 #           define DLL_PRIVATE
 #       endif
 #   endif
@@ -114,14 +107,19 @@
         using std::make_shared;
         using std::weak_ptr;
         using std::move;
+        using std::dynamic_pointer_cast;
+        using std::static_pointer_cast;
 
 
 // Using std primitives
 #include <cstdint>
-        using std::int32_t;
-        using std::uint32_t;
-        using std::int64_t;
-        using std::uint64_t;
+        using std::int32_t;  typedef int32_t  int32;
+        using std::uint32_t; typedef uint32_t uint32;
+        using std::int64_t;  typedef int64_t  int64;
+        using std::uint64_t; typedef uint64_t uint64;
+
+
+
 
 // Using cout
 #include <iostream>
@@ -136,10 +134,23 @@
 #include <atomic>
         using std::atomic;
 
+// Using collections
+#include <vector>
+        using std::vector;
+
+#include <map>
+        using std::map;
+        using std::pair;
+        using std::make_pair;
+
+#include <tuple>
+        using std::tuple;
+        using std::make_tuple;
+
 // Define type sizes
 #define FLOAT_BYTES 4
 #define DOUBLE_BYTES 8
 #define INT32_BYTES 4
 #define INT64_BYTES 8
-
-#endif // KEROSINEENGINE_GLOBAL_H
+#define UINT32_BYTES 4
+#define UINT64_BYTES 8

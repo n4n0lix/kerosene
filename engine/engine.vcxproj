@@ -26,6 +26,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\engine\batch.h" />
+    <ClInclude Include="source\engine\tb_range.h" />
+    <ClInclude Include="source\engine\tb_removeop.h" />
+    <ClInclude Include="source\engine\tb_token.h" />
+    <ClInclude Include="source\engine\tb_writeop.h" />
+    <ClInclude Include="source\engine\transactionalbuffer.h" />
+    <ClInclude Include="source\engine\wob_token.h" />
+    <ClInclude Include="source\engine\writeonlybuffer.h" />
     <ClInclude Include="source\engine\decimal32.h" />
     <ClInclude Include="source\engine\defaultrenderengine.h" />
     <ClInclude Include="source\engine\disabledinputengine.h" />
@@ -34,6 +41,7 @@
     <ClInclude Include="source\engine\disabledphysicsengine.h" />
     <ClInclude Include="source\engine\disabledrenderengine.h" />
     <ClInclude Include="source\engine\dynamicbuffer.h" />
+    <ClInclude Include="source\engine\dynamicbufferrange.h" />
     <ClInclude Include="source\engine\engine.h" />
     <ClInclude Include="source\engine\engineconfiguration.h" />
     <ClInclude Include="source\engine\engineexception.h" />
@@ -77,26 +85,28 @@
     <ClCompile Include="source\engine\disablednetworkengine.cpp" />
     <ClCompile Include="source\engine\disabledphysicsengine.cpp" />
     <ClCompile Include="source\engine\disabledrenderengine.cpp" />
-    <ClCompile Include="source\engine\dynamicbuffer.cpp" />
+    <ClCompile Include="source\engine\dynamicbufferrange.cpp" />
     <ClCompile Include="source\engine\engine.cpp" />
     <ClCompile Include="source\engine\engineconfiguration.cpp" />
     <ClCompile Include="source\engine\engineexception.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
-    <ClCompile Include="source\engine\logger.cpp" />
     <ClCompile Include="source\engine\material.cpp" />
     <ClCompile Include="source\engine\matrix4f.cpp" />
     <ClCompile Include="source\engine\quaterion4f.cpp" />
     <ClCompile Include="source\engine\resourcemanager.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
     <ClCompile Include="source\engine\shaderbuilder.cpp" />
+    <ClCompile Include="source\engine\tb_range.cpp" />
+    <ClCompile Include="source\engine\tb_removeop.cpp" />
+    <ClCompile Include="source\engine\tb_token.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
     <ClCompile Include="source\engine\vector2f.cpp" />
     <ClCompile Include="source\engine\vector3f.cpp" />
     <ClCompile Include="source\engine\vector4f.cpp" />
-    <ClCompile Include="source\engine\vertexarray.cpp" />
     <ClCompile Include="source\engine\vertex_pc.cpp" />
-    <ClCompile Include="source\engine\_renderutils.cpp" />
+    <ClCompile Include="source\engine\wob_token.cpp" />
+    <ClCompile Include="source\engine\_gl.cpp" />
     <ClCompile Include="source\sandbox\main.cpp" />
     <ClCompile Include="source\sandbox\testgamestate.cpp" />
   </ItemGroup>
@@ -173,7 +183,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENGINE_EXEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -192,7 +203,8 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENGINE_EXEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -213,8 +225,9 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENGINE_EXEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -237,8 +250,9 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENGINE_EXEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -1,5 +1,4 @@
-#ifndef DECIMAL32_H
-#define DECIMAL32_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -8,9 +7,6 @@
 // Std-Includes
 #include <cmath>
 #include <ostream>
-        using std::ostream;
-#include <sstream>
-        using std::ostringstream;
 
 // Other Includes
 
@@ -29,7 +25,7 @@ ENGINE_NAMESPACE_BEGIN
 class DLL_PUBLIC decimal32
 {
 public:
-    friend ostream & operator<<(ostream &os, const decimal32& dec) { os << dec.to_string(); return os; }
+    friend std::ostream & operator<<(std::ostream &os, const decimal32& dec) { os << dec.to_string(); return os; }
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
@@ -39,9 +35,9 @@ public:
     //     0|010 1010 1101 0101 0101 01|01 0111 0101
     // 1-bit| 21-bit                   |10-bit
 
-    static const uint32_t SIGN_BITS     = 1;
-    static const uint32_t INTEGRAL_BITS = 21;
-    static const uint32_t FRACTION_BITS = 10;
+    static const uint32 SIGN_BITS     = 1;
+    static const uint32 INTEGRAL_BITS = 21;
+    static const uint32 FRACTION_BITS = 10;
     
     static decimal32 INCREMENT;
     static decimal32 ZERO;
@@ -60,7 +56,7 @@ public:
     static float     toFloat(decimal32 d)   { return (float)d.value / (float)_ONE; }
 
     static decimal32 fromInt(int32_t d)     { return decimal32(d); }
-    static int32_t   toInt(decimal32 d)     { 
+    static int32     toInt(decimal32 d)     { 
         if (d.value >= 0) {
             return d.value >> FRACTION_BITS;
         }
@@ -68,7 +64,7 @@ public:
             return -(abs(d.value) >> FRACTION_BITS);
         }
     }
-    static decimal32 fromRaw(int32_t value) { decimal32 result; result.value = value; return result; }
+    static decimal32 fromRaw(int32 value) { decimal32 result; result.value = value; return result; }
 
     static decimal32 sqrt(const decimal32& d);
     static decimal32 sqrt_fast(const decimal32& d);
@@ -87,10 +83,10 @@ public:
             decimal32()                     { value = 0; }
             decimal32(const decimal32& d)   { value = d.value; }
             ~decimal32()                    { }
-            decimal32(double o)             { value = (int32_t)(o * (double)_ONE); }
-            decimal32(float o)              { value = (int32_t)(o * (float)_ONE); }
+            decimal32(double o)             { value = (int32)(o * (double)_ONE); }
+            decimal32(float o)              { value = (int32)(o * (float)_ONE); }
             decimal32(int o)                { value = o << FRACTION_BITS; }
-            decimal32(int i, double f)      { value = (i << FRACTION_BITS) + (int32_t)(f * (float)_ONE); }
+            decimal32(int i, double f)      { value = (i << FRACTION_BITS) + (int32)(f * (float)_ONE); }
 
     bool operator!=(const decimal32& o) const { return value != o.value; };
     bool operator==(const decimal32& o) const { return value == o.value; };
@@ -108,8 +104,8 @@ public:
 
     decimal32& operator+=(const decimal32& o) { value += o.value; return *this; };
     decimal32& operator-=(const decimal32& o) { value -= o.value; return *this; };
-    decimal32& operator*=(const decimal32& o) { value = (int32_t)(((int64_t)value * (int64_t)o.value) >> FRACTION_BITS); return *this; };
-    decimal32& operator/=(const decimal32& o) { value = (int32_t)(((int64_t)value << FRACTION_BITS) / o.value); return *this; };
+    decimal32& operator*=(const decimal32& o) { value = (int32)(((int64)value * (int64)o.value) >> FRACTION_BITS); return *this; };
+    decimal32& operator/=(const decimal32& o) { value = (int32)(((int64)value << FRACTION_BITS) / o.value); return *this; };
 
     string to_string() const {
         string integralPart = std::to_string(decimal32::toInt(*this));
@@ -122,9 +118,8 @@ public:
 private:
     
 
-    static const int32_t    _ONE                    = (1 << FRACTION_BITS);
+    static const int32      _ONE = (1 << FRACTION_BITS);
     static decimal32        ONE_PLUS_INCREMENT;
 };
 
 ENGINE_NAMESPACE_END
-#endif // DECIMAL32_H

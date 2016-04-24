@@ -74,10 +74,10 @@ private:
     /*  METHODS */
     void mainloop();
     void updateGameState();
-    uint64_t getCurrentMS();
+    uint64 getCurrentMS();
 
     /*  VARIABLES */
-    uint64_t _tickTime;
+    uint64 _tickTime;
     
     shared_ptr<IRenderEngine>  _render;
     shared_ptr<ILogicEngine>   _logic;

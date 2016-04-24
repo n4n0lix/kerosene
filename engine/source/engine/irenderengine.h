@@ -1,5 +1,4 @@
-#ifndef IRENDERENGINE
-#define IRENDERENGINE
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -31,5 +30,4 @@ public:
 };
 
 ENGINE_NAMESPACE_END
-#endif // IRENDERENGINE
 

@@ -1,5 +1,4 @@
-#ifndef MATRIX4F_H
-#define MATRIX4F_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -230,4 +229,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif  // MATRIX4F_H

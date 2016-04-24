@@ -1,5 +1,4 @@
-#ifndef VERTEX_PC_H
-#define VERTEX_PC_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -29,7 +28,7 @@ ENGINE_NAMESPACE_BEGIN
  *     vec3 position;
  *     vec4 color;
  */
-class DLL_PUBLIC Vertex_pc : Vertex
+class Vertex_pc : Vertex
 {
 public:
 
@@ -44,7 +43,7 @@ public:
 
     virtual VertexLayout   layout()   const;
     virtual vector<float>  data()     const;
-    INLINE virtual int32_t bytesize() const { return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; }
+    virtual int32          bytesize() const { return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; }
 
     Vector3f position;
     Vector4f color;
@@ -58,4 +57,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // VERTEX_PC_H
