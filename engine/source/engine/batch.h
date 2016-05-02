@@ -34,13 +34,13 @@ class BatchToken {
     template<class T> friend class Batch;
 
 private:
-    BatchToken(void* batch, shared_ptr<WOB_Token> token) : _batch(batch), _wobToken(token) { }
+    BatchToken(void* batch, shared_ptr<BufferToken> token) : _batch(batch), _wobToken(token) { }
 
-    void*                   get_batch()     { return _batch; }
-    shared_ptr<WOB_Token>   get_wob_token() { return _wobToken; }
+    void*                       get_batch()     { return _batch; }
+    shared_ptr<BufferToken>     get_wob_token() { return _wobToken; }
 
     void*                       _batch;
-    shared_ptr<WOB_Token>       _wobToken;
+    shared_ptr<BufferToken>     _wobToken;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -61,6 +61,7 @@ public:
     shared_ptr<BatchToken>   addVertices(shared_ptr<vector<VERTEX>> vertices);
     void                     removeVertices(shared_ptr<BatchToken> token);
 
+    void                     addIndices(shared_ptr<vector<uint16>> indices);
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -116,7 +117,7 @@ shared_ptr<BatchToken> Batch<VERTEX>::addVertices(shared_ptr<vector<VERTEX>> ver
         return nullptr;
     }
 
-    shared_ptr<WOB_Token> token = _vao->getVertexBuffer()->addVertices(vertices);
+    shared_ptr<BufferToken> token = _vao->getVertexBuffer()->addVertices(vertices);
 
     // 2# Retrieve indices
     shared_ptr<vector<uint32>> indices = make_shared<vector<uint32>>();
@@ -136,6 +137,12 @@ void Batch<VERTEX>::removeVertices(shared_ptr<BatchToken> token)
     }
 
     _vao->getVertexBuffer()->removeVertices(token->_wobToken);
+}
+
+template<class VERTEX>
+void Batch<VERTEX>::addIndices(shared_ptr<vector<uint16>> indices)
+{
+    _vao->get_index_buffer()->add_indices(indices);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -11,7 +11,7 @@
 
 // Internal Includes
 #include "_global.h"
-#include "_renderdefs.h"
+#include "vertexlayout.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -32,7 +32,7 @@ public:
 
     virtual VertexLayout  layout()      const = 0;
     virtual vector<float> data()        const = 0;
-    virtual int32_t       bytesize()    const = 0;
+    virtual uint32        bytesize()    const = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

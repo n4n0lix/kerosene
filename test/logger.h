@@ -5,23 +5,36 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
+#include <iostream>
+        using std::cout;
+
+#include <vector>
+        using std::vector;
+
+#include <algorithm>
+        using std::transform;
+
+#include <string>
+        using std::string;
+
 #include <sstream>
+        using std::stringstream;
+        using std::ostream;
+        using std::ostringstream;
 
 // Other Includes
 
 // Internal Includes
-#include "_global.h"
+#include "vectorutils.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-ENGINE_NAMESPACE_BEGIN
 
 enum class Level {
     OFF,
     DEBUG,
     INFO,
-    WARN,
     ERROR
 };
 
@@ -32,14 +45,18 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    Logger(string className, Level level) : _className(className), _level(level), _silentOutput(std::ostringstream()) { }
+    Logger(string className, Level level) : _className(className), _level(level) {  }
 
-    std::ostream& log(Level level) {
-        return get_stream(level) << get_log_level_name(level) << " - " << _className << " - ";
+    ostream& log(Level level) {
+        return get_stream(level, _className) << get_log_level_name(level) << " - " << _className << " - ";
     }
 
-    std::ostream& log(Level level, uint32_t instanceId) {
+    ostream& log(Level level, uint32_t instanceId) {
         return log(level) << "[" << instanceId << "] - ";
+    }
+
+    ostream& log_(Level level) {
+        return get_stream(level, _className);
     }
 
 protected:
@@ -52,10 +69,8 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    string          _className;
-    Level           _level;
-
-    std::ostringstream   _silentOutput;
+    string _className;
+    Level  _level;
     
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -71,15 +86,14 @@ private:
         return "--";
     }
 
-    std::ostream& get_stream(Level level) {
-        if (_level == Level::OFF) {
-            _silentOutput.clear();
-            return _silentOutput;
+    ostream& get_stream(Level level, string className) {
+        if (level >= _level) {
+            return cout;
         }
 
-        return cout;
+        SILENT_STREAM.clear();
+        return SILENT_STREAM;
     }
 
+    static ostringstream  SILENT_STREAM;
 };
-
-ENGINE_NAMESPACE_END

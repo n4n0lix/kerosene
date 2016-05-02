@@ -6,7 +6,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                          Public                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-TB_Token::TB_Token(uint32 uid, void * buffer) : WOB_Token(uid, buffer)
+TB_Token::TB_Token(uint32 uid, void * buffer) : BufferToken(uid, buffer)
 {
 
 }

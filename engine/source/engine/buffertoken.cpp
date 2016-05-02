@@ -1,67 +1,72 @@
 // Header
-#include "wob_token.h"
+#include "buffertoken.h"
 
 ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                          Public                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-WOB_Token::WOB_Token(uint32 id, void* buffer)
+BufferToken::BufferToken(uint32 id, void* buffer)
 { 
     _buffer = buffer;
     _id = id;
     _valid = false;
 }
 
-void* WOB_Token::get_buffer() 
+void* BufferToken::get_buffer() 
 { 
     return _buffer; 
 }
 
-uint32 WOB_Token::get_id()
+uint32 BufferToken::get_id()
 {
     return _id;
 }
 
-bool WOB_Token::valid()
+bool BufferToken::valid()
 {
     return _valid;
 }
 
-void WOB_Token::invalidate() {
+void BufferToken::invalidate() {
     _valid = false;
 }
 
-void WOB_Token::validate() {
+void BufferToken::validate() {
     _valid = true;
 }
 
-uint32 WOB_Token::atom_index()
+uint32 BufferToken::atom_index()
 { 
     return _atomIndex; 
 }
 
-uint32 WOB_Token::atom_length() 
+uint32 BufferToken::atom_length() 
 { 
     return _atomLength; 
 }
 
-uint32 WOB_Token::object_index()
+uint32 BufferToken::object_index()
 { 
     return _objIndex;
 }
 
-uint32 WOB_Token::object_length() 
+uint32 BufferToken::object_length() 
 { 
     return _objLength; 
 }
 
-shared_ptr<vector<uint32>> WOB_Token::object_indices()
+uint32 BufferToken::object_size()
+{
+    return _atomLength / _objLength;
+}
+
+shared_ptr<vector<uint32>> BufferToken::object_indices()
 {
     return _objIndices;
 }
 
-void WOB_Token::set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize)
+void BufferToken::set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize)
 {
     _atomIndex = atomIndex;
     _atomLength = atomLength;
@@ -74,12 +79,12 @@ void WOB_Token::set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize)
     }
 }
 
-bool WOB_Token::operator!=(const WOB_Token& o) const
+bool BufferToken::operator!=(const BufferToken& o) const
 {
     return _id != o._id || _buffer != o._buffer;
 }
 
-bool WOB_Token::operator==(const WOB_Token& o) const
+bool BufferToken::operator==(const BufferToken& o) const
 {
     return !(*this != o);
 }

@@ -113,6 +113,9 @@
 
 // Using std primitives
 #include <cstdint>
+        using std::size_t;
+        using std::int16_t;  typedef int16_t  int16;
+        using std::uint16_t; typedef uint16_t uint16;
         using std::int32_t;  typedef int32_t  int32;
         using std::uint32_t; typedef uint32_t uint32;
         using std::int64_t;  typedef int64_t  int64;
@@ -150,7 +153,9 @@
 // Define type sizes
 #define FLOAT_BYTES 4
 #define DOUBLE_BYTES 8
+#define INT16_BYTES 2
 #define INT32_BYTES 4
 #define INT64_BYTES 8
+#define UINT16_BYTES 2
 #define UINT32_BYTES 4
 #define UINT64_BYTES 8

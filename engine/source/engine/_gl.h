@@ -49,8 +49,8 @@
     };
 #endif
 
-// B
-// glBindBuffer
+    // B
+    // glBindBuffer
 #ifdef GL_DEBUG
     #undef glBindBuffer
     #define glBindBuffer(...) \
@@ -122,7 +122,7 @@
 #ifdef GL_DEBUG
 #define glDrawElements(...) \
     glDrawElements(__VA_ARGS__); \
-    printGLErrors(glDeleteBuffers)
+    printGLErrors(glDrawElements)
 #elif GL_MOCK
     #define glDrawElements(...) GLMock::invoking("glDrawElements")
 #endif

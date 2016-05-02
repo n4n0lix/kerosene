@@ -1,5 +1,6 @@
 #pragma once
 
+#include "test.h"
 #include <math.h>
 
 #include "decimal32.h"
@@ -9,26 +10,19 @@
 // BEHAVIOUR
 //
 
-BEHAVIOUR(from_int_0_must_convert_back_to_int_0)
-{
+BEHAVIOUR(Decimal32, from_int_0_must_convert_back_to_int_0)
     IS_TRUE(decimal32::toInt(decimal32(0)) == 0)
-    PASS
-}
+END
 
-BEHAVIOUR(from_float_0_must_convert_back_to_float_0)
-{
+BEHAVIOUR(Decimal32, from_float_0_must_convert_back_to_float_0)
     IS_TRUE(decimal32::toFloat(decimal32(0.0f)) == 0.0)
-    PASS
-}
+END
 
-BEHAVIOUR(from_double_0_must_convert_back_to_double_0)
-{
+BEHAVIOUR(Decimal32, from_double_0_must_convert_back_to_double_0)
     IS_TRUE(decimal32::toDouble(decimal32(0.0)) == 0.0)
-    PASS
-}
+END
 
-BEHAVIOUR(operator_unequeal)
-{
+BEHAVIOUR(Decimal32, operator_unequeal)
     IS_TRUE(decimal32( 0.0) != decimal32( 1.0))
     IS_TRUE(decimal32( 1.0) != decimal32( 0.0))
     IS_TRUE(decimal32(-1.0) != decimal32( 0.0))
@@ -37,11 +31,9 @@ BEHAVIOUR(operator_unequeal)
     IS_FALSE(decimal32( 1.0) != decimal32( 1.0))
     IS_FALSE(decimal32( 0.0) != decimal32( 0.0))
     IS_FALSE(decimal32(-1.0) != decimal32(-1.0))
-    PASS
-}
+END
 
-BEHAVIOUR(operator_equeal)
-{
+BEHAVIOUR(Decimal32, operator_equeal)
     IS_FALSE(decimal32( 0.0) == decimal32( 1.0))
     IS_FALSE(decimal32( 1.0) == decimal32( 0.0))
     IS_FALSE(decimal32(-1.0) == decimal32( 0.0))
@@ -51,10 +43,9 @@ BEHAVIOUR(operator_equeal)
     IS_TRUE(decimal32( 0.0) == decimal32( 0.0))
     IS_TRUE(decimal32(-1.0) == decimal32(-1.0))
     PASS
-}
+END
 
-BEHAVIOUR(operator_less_equeal)
-{
+BEHAVIOUR(Decimal32, operator_less_equeal)
     IS_TRUE(decimal32(-1.0) <= decimal32(0.0))
     IS_TRUE(decimal32(-1.0) <= decimal32(1.0))
     IS_TRUE(decimal32( 0.0) <= decimal32(1.0))
@@ -63,11 +54,9 @@ BEHAVIOUR(operator_less_equeal)
 
     IS_FALSE(decimal32(1.0) <= decimal32( 0.0))
     IS_FALSE(decimal32(0.0) <= decimal32(-1.0))
-    PASS
-}
+END
 
-BEHAVIOUR(operator_plus)
-{
+BEHAVIOUR(Decimal32, operator_plus)
 
     // (+, +) -> +
     //                  Expected                Result                                     Delta
@@ -84,8 +73,7 @@ BEHAVIOUR(operator_plus)
     // (-, -) -> -
     IS_EQUALS(decimal32(-3) + decimal32(-2), decimal32(-5))
 
-    PASS
-}
+END
 
 //
 // PERFORMANCE

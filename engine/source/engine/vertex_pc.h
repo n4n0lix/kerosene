@@ -39,11 +39,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
+    explicit                Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
 
-    virtual VertexLayout   layout()   const;
-    virtual vector<float>  data()     const;
-    virtual int32          bytesize() const { return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; }
+    virtual VertexLayout    layout()   const;
+    virtual vector<float>   data()     const;
+    virtual uint32          bytesize() const;
 
     Vector3f position;
     Vector4f color;
@@ -51,8 +51,6 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-
 
 };
 

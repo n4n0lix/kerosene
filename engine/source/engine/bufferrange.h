@@ -14,7 +14,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class TB_Range {
+class BufferRange {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
@@ -26,8 +26,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    TB_Range();
-    TB_Range(uint32 uid, void* buffer, uint32 index, uint32 length);
+    BufferRange();
+    BufferRange(uint32 uid, void* buffer, uint32 index, uint32 length);
 
     uint32  id();
     void*   buffer();
@@ -35,8 +35,10 @@ public:
     uint32  index();
     uint32  length();
 
-    bool    operator!=(const TB_Range& o) const;
-    bool    operator==(const TB_Range& o) const;
+    uint32  last_index();
+
+    bool    operator!=(const BufferRange& o) const;
+    bool    operator==(const BufferRange& o) const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

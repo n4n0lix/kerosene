@@ -5,66 +5,58 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <vector>
-    using std::vector;
+#include <ostream>
 
 // Other Includes
-#include "logger.h"
 
 // Internal Includes
-#include "_global.h"
-
 #include "_gl.h"
-#include "uniform.h"
 
-#include "vertex.h"
-#include "vector2f.h"
-#include "vector3f.h"
-#include "vector4f.h"
+#include "_global.h"
+#include "stackbuffer.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC Shader
+class IndexBuffer : public StackBuffer<uint16> 
 {
-    friend class ShaderBuilder;
 public:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    // Uniform
-    static Uniform  Uni_WVP;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+                                        IndexBuffer(uint32 initCapacity);
 
-    bool operator==(const Shader& o) const;
-    bool operator!=(const Shader& o) const;
+            GLuint                      get_id();
 
-    // TODO: Find a better way, this doesn't say that this shader is "smaller"
-    bool operator<(const Shader& o1) const; // To be able to use in map
+            shared_ptr<BufferToken>     add_indices(shared_ptr<vector<uint16>> vertices);
+            void                        remove_indices(shared_ptr<BufferToken> token);
 
-    void                     bind() const;
-    shared_ptr<VertexLayout> getVertexLayout() const;
+protected:
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                       Protected                        */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    virtual void                        write(uint32 index, shared_ptr<vector<uint16>> vertices);
+    virtual void                        resize(uint32 oldCapacity, uint32 newCapacity);
+    virtual void                        copy(uint32 srcIndex, uint32 destIndex, uint32 length);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Shader();
 
-    GLuint                    _id;
-    shared_ptr<VertexLayout>  _vertexLayout;
+    GLuint                          _iboId;
+    Vector<shared_ptr<BufferToken>> _activeTokens;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static GLuint CURRENT_SHADER;
+            GLuint                      createIBO(uint32 capacityBytes);
+
     static Logger LOGGER;
 };
+
 ENGINE_NAMESPACE_END

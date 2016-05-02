@@ -37,6 +37,11 @@ vector<float> Vertex_pc::data() const
     return data;
 }
 
+inline uint32 Vertex_pc::bytesize() const 
+{ 
+    return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; 
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

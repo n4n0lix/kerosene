@@ -5,66 +5,82 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <vector>
-    using std::vector;
+#include <functional>
+#include <algorithm>
 
 // Other Includes
-#include "logger.h"
 
 // Internal Includes
 #include "_global.h"
-
-#include "_gl.h"
-#include "uniform.h"
-
-#include "vertex.h"
-#include "vector2f.h"
-#include "vector3f.h"
-#include "vector4f.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC Shader
+template<class T>
+class Vector : public vector<T>
 {
-    friend class ShaderBuilder;
 public:
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    // Uniform
-    static Uniform  Uni_WVP;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    bool operator==(const Shader& o) const;
-    bool operator!=(const Shader& o) const;
+    void    add(T& object);
 
-    // TODO: Find a better way, this doesn't say that this shader is "smaller"
-    bool operator<(const Shader& o1) const; // To be able to use in map
+    size_t  remove(T& object);
+    size_t  remove(std::function<bool(T&)> func);
 
-    void                     bind() const;
-    shared_ptr<VertexLayout> getVertexLayout() const;
+    bool    contains(T& object);
+
+    void    forAll(std::function<void(T&)> func);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Shader();
 
-    GLuint                    _id;
-    shared_ptr<VertexLayout>  _vertexLayout;
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    static GLuint CURRENT_SHADER;
-    static Logger LOGGER;
 };
+
+template<class T>
+void Vector<T>::add(T& object)
+{
+    this->push_back(object);
+}
+
+template<class T>
+size_t Vector<T>::remove(T & object)
+{
+    size_t oldSize = size();
+    erase(std::remove(begin(), end(), object), end());
+    return oldSize - size();
+}
+
+template<class T>
+size_t Vector<T>::remove(std::function<bool(T&)> func)
+{
+    size_t oldSize = size();
+    erase(std::remove_if(begin(), end(), func), end());
+    return oldSize - size();
+}
+
+template<class T>
+bool Vector<T>::contains(T & object)
+{
+    return std::find(begin(), end(), object) != end();
+}
+
+template<class T>
+void Vector<T>::forAll(std::function<void(T&)> func)
+{
+    std::for_each(begin(), end(), func);
+}
+
+
 ENGINE_NAMESPACE_END
+

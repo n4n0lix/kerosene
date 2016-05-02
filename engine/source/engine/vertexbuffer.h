@@ -13,7 +13,7 @@
 #include "_gl.h"
 #include "_global.h"
 #include "_renderdefs.h"
-#include "transactionalbuffer.h"
+#include "arraybuffer.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -21,27 +21,27 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class VERTEX>
-class VertexBuffer : public TransactionalBuffer<VERTEX> 
+class VertexBuffer : public ArrayBuffer<VERTEX> 
 {
 public:
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                VertexBuffer(shared_ptr<VertexLayout> layout, uint32_t initCapacity);
+                                        VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initCapacity);
 
-    GLuint                   getId();
+            GLuint                      getId();
 
-    shared_ptr<WOB_Token>    addVertices(shared_ptr<vector<VERTEX>> vertices);
-    void                     removeVertices(shared_ptr<WOB_Token> token);
+            shared_ptr<BufferToken>     addVertices(shared_ptr<vector<VERTEX>> vertices);
+            void                        removeVertices(shared_ptr<BufferToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void             write(uint32 index, shared_ptr<vector<VERTEX>> vertices);
-    virtual void             remove(uint32 index, uint32 length);
-    virtual void             resize(uint32 oldCapacity, uint32 newCapacity);
+    virtual void                        write(uint32 index, shared_ptr<vector<VERTEX>> vertices);
+    virtual void                        remove(uint32 index, uint32 length);
+    virtual void                        resize(uint32 oldCapacity, uint32 newCapacity);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -56,7 +56,7 @@ private:
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    GLuint createVBOWithLayout(uint32 capacityBytes);
+            GLuint                      createVBO(uint32 capacityBytes);
 
     static Logger LOGGER;
 };
@@ -66,10 +66,10 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-VertexBuffer<VERTEX>::VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initCapacity) : TransactionalBuffer<VERTEX>((uint32)layout->bytesize(), initCapacity) {
+VertexBuffer<VERTEX>::VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initCapacity) : ArrayBuffer<VERTEX>((uint32)layout->bytesize(), initCapacity) {
     _layout = layout;
 
-    _vboId = createVBOWithLayout(atom_capacity());
+    _vboId = createVBO(atom_capacity());
     LOGGER.log(Level::DEBUG, _vboId) << "CREATE" << endl;
 }
 
@@ -80,16 +80,16 @@ GLuint VertexBuffer<VERTEX>::getId()
 }
 
 template<class VERTEX>
-shared_ptr<WOB_Token> VertexBuffer<VERTEX>::addVertices(shared_ptr<vector<VERTEX>> vertices)
+shared_ptr<BufferToken> VertexBuffer<VERTEX>::addVertices(shared_ptr<vector<VERTEX>> vertices)
 {
-    LOGGER.log(Level::DEBUG, _vboId) << "WRITE " << vertices->size() << " vertices" << endl;
-    return TransactionalBuffer<VERTEX>::write(vertices);
+    LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices->size() << " vertices" << endl;
+    return ArrayBuffer<VERTEX>::write(vertices);
 }
 
 template<class VERTEX>
-void VertexBuffer<VERTEX>::removeVertices(shared_ptr<WOB_Token> token)
+void VertexBuffer<VERTEX>::removeVertices(shared_ptr<BufferToken> token)
 {
-    TransactionalBuffer<VERTEX>::remove(token);
+    ArrayBuffer<VERTEX>::remove(token);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -124,7 +124,7 @@ template<class VERTEX>
 void VertexBuffer<VERTEX>::resize(uint32 oldCapacity, uint32 newCapacity)
 {
     // 1# Create temporary copy of VBO
-    GLuint tempVboId = createVBOWithLayout(oldCapacity);
+    GLuint tempVboId = createVBO(oldCapacity);
 
     // 2# Copy content into temporary VBO
     glBindBuffer(GL_COPY_READ_BUFFER, _vboId);
@@ -156,7 +156,7 @@ void VertexBuffer<VERTEX>::resize(uint32 oldCapacity, uint32 newCapacity)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-GLuint VertexBuffer<VERTEX>::createVBOWithLayout(uint32 capacityBytes) {
+GLuint VertexBuffer<VERTEX>::createVBO(uint32 capacityBytes) {
     GLuint vboId;
     glGenBuffers(1, &vboId);
     glBindBuffer(GL_ARRAY_BUFFER, vboId);
@@ -167,6 +167,6 @@ GLuint VertexBuffer<VERTEX>::createVBOWithLayout(uint32 capacityBytes) {
 }
 
 template<class VERTEX>
-Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>", Level::DEBUG);
+Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>", Level::OFF);
 
 ENGINE_NAMESPACE_END

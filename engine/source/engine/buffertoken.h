@@ -14,12 +14,12 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class WOB_Token {
+class BufferToken {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                WOB_Token(uint32 id, void* buffer);
+                                BufferToken(uint32 id, void* buffer);
 
     void*                       get_buffer();
     uint32                      get_id();
@@ -29,14 +29,15 @@ public:
     uint32                      atom_length();
     uint32                      object_index();
     uint32                      object_length();
+    uint32                      object_size();
     shared_ptr<vector<uint32>>  object_indices();
 
-    void   invalidate();
-    void   validate();
-    void   set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize);
+    void                        invalidate();
+    void                        validate();
+    void                        set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize);
 
-    bool operator!=(const WOB_Token& o) const;
-    bool operator==(const WOB_Token& o) const;
+    bool                        operator!=(const BufferToken& o) const;
+    bool                        operator==(const BufferToken& o) const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -1,39 +1,43 @@
 // Header
-#include "tb_range.h"
+#include "bufferrange.h"
 
 ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                          Public                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-TB_Range::TB_Range()
+BufferRange::BufferRange()
     : _buffer(nullptr), _id(0), _index(0), _length(0)
 {
 }
 
-TB_Range::TB_Range(uint32 id, void* buffer, uint32 index, uint32 length)
+BufferRange::BufferRange(uint32 id, void* buffer, uint32 index, uint32 length)
     : _buffer(buffer), _id(id), _index(index), _length(length)
 {
 }
 
-uint32 TB_Range::id() {
+uint32 BufferRange::id() {
     return _id;
 }
 
-uint32 TB_Range::index() {
+uint32 BufferRange::index() {
     return _index;
 }
 
-uint32 TB_Range::length() {
+uint32 BufferRange::length() {
     return _length;
 }
 
-bool TB_Range::operator!=(const TB_Range& o) const
+uint32 BufferRange::last_index() {
+    return _index + _length - 1;
+}
+
+bool BufferRange::operator!=(const BufferRange& o) const
 {
     return _id != o._id || _buffer != o._buffer;
 }
 
-bool TB_Range::operator==(const TB_Range& o) const
+bool BufferRange::operator==(const BufferRange& o) const
 {
     return !(*this != o);
 }

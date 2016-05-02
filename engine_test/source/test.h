@@ -1,5 +1,7 @@
 #pragma once
 
+#include "_gl.h"
+
 #include "testclass.h"
 #include "perfclass.h"
 #include "testregistry.h"

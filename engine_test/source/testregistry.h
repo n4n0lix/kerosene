@@ -28,12 +28,20 @@ public:
         cout << "START BEHAVIOUR TESTS ..." << endl;
         cout << "-------------------------" << endl << endl;
 
-        int numTests     = _tests.size();
+        int numTests     = (int)_tests.size();
         int passedTests  = 0;
         int skippedTests = 0;
         int failedTests  = 0;
+        string className = "";
 
         for (auto instance : _tests) {
+            // 1# Prepare test
+            if (className != instance->className()) {
+                className = instance->className();
+                cout << className << endl;
+            }
+
+            // 2# Execute test
             int result = instance->exec();
             switch (result) {
                 case 0:
@@ -49,6 +57,8 @@ public:
                     cout << "\tSKIPPED: " << instance->name() << endl;
                     break;
             }
+
+            GLMock::reset();
         }
 
         cout << endl << "----------------------------------------------------------------------------" << endl;

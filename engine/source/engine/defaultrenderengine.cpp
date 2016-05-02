@@ -87,6 +87,12 @@ void DefaultRenderEngine::onStart()
     vertices4->push_back(Vertex_pc(Vector3f(1,  0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
     vertices4->push_back(Vertex_pc(Vector3f(.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
     _tokenTriangle4 = _batch->addVertices(vertices4);
+
+    shared_ptr<vector<uint16>> indices1 = make_shared<vector<uint16>>();
+    indices1->push_back(0);
+    indices1->push_back(1);
+    indices1->push_back(2);
+    _batch->addIndices(indices1);
 }
 
 void DefaultRenderEngine::onUpdate()

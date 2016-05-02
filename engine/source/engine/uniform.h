@@ -9,7 +9,6 @@
 // Other Includes
 
 // Internal Includes
-#include "_gl.h"
 #include "_global.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -17,10 +16,12 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i)) // Creates an (void*) offset-pointer
+struct Uniform {
+    string  type;
+    string  name;
 
-struct DLL_PUBLIC TextureSlot {
-    // TODO
+    bool operator==(const Uniform& o) const { return type == o.type && name == o.name; }
+    bool operator!=(const Uniform& o) const { return !(*this == o); }
 };
 
 ENGINE_NAMESPACE_END

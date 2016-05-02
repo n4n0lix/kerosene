@@ -13,36 +13,321 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\tests">
-      <UniqueIdentifier>{0a60d4e6-9d87-449a-8311-398e829cb332}</UniqueIdentifier>
+    <Filter Include="Headerdateien\framework">
+      <UniqueIdentifier>{b27ae4c7-83e3-47e2-8a49-7a56569273fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\test">
+      <UniqueIdentifier>{a40f74fc-df4c-48b1-ab5c-c7dfe711775b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\framework">
+      <UniqueIdentifier>{a4df8af0-5c82-4cf1-8812-fc7b7e5c1f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine">
+      <UniqueIdentifier>{696aa890-0b1b-4777-b08b-9ac4dcc4d901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\core">
+      <UniqueIdentifier>{8ac0829e-7e6e-49ed-8e0e-84db59dc07bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\input">
+      <UniqueIdentifier>{d91308fd-f794-47fe-8922-a44d8e5e4c15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\logic">
+      <UniqueIdentifier>{e81cc424-6c94-48f0-8ecf-573457cbd017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\math">
+      <UniqueIdentifier>{863b53e4-ad65-485b-9902-134eb771bcd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\network">
+      <UniqueIdentifier>{1ecdf540-2ab8-4307-a246-43419ff61a0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\physics">
+      <UniqueIdentifier>{4bb0dfa1-d175-4870-b597-a0eca4a183b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\render">
+      <UniqueIdentifier>{a3dbbfde-8688-45a3-86e4-e7fdadc94c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\render\vertices">
+      <UniqueIdentifier>{1bd5b6db-8abf-42cc-9570-3320513053a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\render\opengl">
+      <UniqueIdentifier>{6f9ce296-faa3-4355-899d-b7785bf9a3a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\engine\utils">
+      <UniqueIdentifier>{efc56d19-2d61-47d1-aee5-c8693a8cfb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine">
+      <UniqueIdentifier>{d89e1230-4c04-4729-bff2-4a467b9e2969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\core">
+      <UniqueIdentifier>{fa9d228f-6794-416f-804e-f01ae61fcacb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\input">
+      <UniqueIdentifier>{c68a1f9a-b93f-4cfa-a50a-a909eeb7f481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\logic">
+      <UniqueIdentifier>{293541fa-1d88-41bf-8cd7-719a6f293a85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\math">
+      <UniqueIdentifier>{212fafbd-27fe-4d64-ae43-3b79c0c11baa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\network">
+      <UniqueIdentifier>{d1b6f2c5-6210-4a0e-997a-15e910cf1fe4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\physics">
+      <UniqueIdentifier>{03a0c34d-bd6f-4120-9df1-3af33dfed2a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\render">
+      <UniqueIdentifier>{527a3b11-ba4c-495d-9778-46f27a873984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\render\vertices">
+      <UniqueIdentifier>{0fdabd0c-8dda-49df-a2ef-1af15fd0f08b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\render\opengl">
+      <UniqueIdentifier>{ee72d9a0-9041-4177-ad4d-33b5781dcf33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\engine\utils">
+      <UniqueIdentifier>{6128fca2-0b44-4ffb-909e-3fd0900c2dec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\test.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\testdefs.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\test_vector3f.h">
-      <Filter>Headerdateien\tests</Filter>
-    </ClInclude>
-    <ClInclude Include="source\testregistry.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\testclass.h">
-      <Filter>Headerdateien</Filter>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\generator.h">
+      <Filter>Headerdateien\framework</Filter>
     </ClInclude>
     <ClInclude Include="source\perfclass.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="source\test.h">
+      <Filter>Headerdateien\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="source\testclass.h">
+      <Filter>Headerdateien\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="source\testdefs.h">
+      <Filter>Headerdateien\framework</Filter>
+    </ClInclude>
+    <ClInclude Include="source\testregistry.h">
+      <Filter>Headerdateien\framework</Filter>
     </ClInclude>
     <ClInclude Include="source\test_decimal32.h">
-      <Filter>Headerdateien\tests</Filter>
+      <Filter>Headerdateien\test</Filter>
+    </ClInclude>
+    <ClInclude Include="source\test_vector3f.h">
+      <Filter>Headerdateien\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\_global.h">
+      <Filter>Headerdateien\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\engine.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\engineconfiguration.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\engineexception.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\gamestate.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\disabledinputengine.h">
+      <Filter>Headerdateien\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\iinputengine.h">
+      <Filter>Headerdateien\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\disabledlogicengine.h">
+      <Filter>Headerdateien\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\ilogicengine.h">
+      <Filter>Headerdateien\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\decimal32.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\matrix4f.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\quaterion4f.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vector2f.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vector3.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vector3f.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vector4f.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\_mathdefs.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\disablednetworkengine.h">
+      <Filter>Headerdateien\engine\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\inetworkengine.h">
+      <Filter>Headerdateien\engine\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\disabledphysicsengine.h">
+      <Filter>Headerdateien\engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\iphysicsengine.h">
+      <Filter>Headerdateien\engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\batch.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\defaultrenderengine.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\disabledrenderengine.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\glwindow.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\irenderengine.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\material.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\primitivetype.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\resourcemanager.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\shader.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\shaderbuilder.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\staticmesh.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\texture.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\_renderdefs.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vertex.h">
+      <Filter>Headerdateien\engine\render\vertices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vertex_pc.h">
+      <Filter>Headerdateien\engine\render\vertices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vertexarray.h">
+      <Filter>Headerdateien\engine\render\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vertexbuffer.h">
+      <Filter>Headerdateien\engine\render\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\dynamicbuffer.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\logger.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\vectorutils.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\test_vertexbuffer.h">
+      <Filter>Headerdateien\test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\source\engine\_gl.h">
+      <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\framework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\engine.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\engineconfiguration.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\engineexception.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\gamestate.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\disabledinputengine.cpp">
+      <Filter>Quelldateien\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\disabledlogicengine.cpp">
+      <Filter>Quelldateien\engine\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\decimal32.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\matrix4f.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\quaterion4f.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\vector2f.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\vector3f.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\vector4f.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\disablednetworkengine.cpp">
+      <Filter>Quelldateien\engine\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\disabledphysicsengine.cpp">
+      <Filter>Quelldateien\engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\defaultrenderengine.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\disabledrenderengine.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\glwindow.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\material.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\resourcemanager.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\shader.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\shaderbuilder.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\texture.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\vertex_pc.cpp">
+      <Filter>Quelldateien\engine\render\vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\dynamicbuffer.cpp">
+      <Filter>Quelldateien\engine\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\logger.cpp">
+      <Filter>Quelldateien\engine\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\source\engine\_gl.cpp">
+      <Filter>Quelldateien\engine\render\opengl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

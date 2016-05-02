@@ -8,7 +8,7 @@
 
 // Internal Includes
 #include "_global.h"
-#include "wob_token.h"
+#include "buffertoken.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -16,21 +16,20 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class OBJECT>
-class WriteOnlyBuffer
+class Buffer
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                WriteOnlyBuffer(uint32 objSize, uint32 objCapacity);
-
+                                     Buffer(uint32 objSize, uint32 objCapacity);
 
             uint32                   object_size() const;
             uint32                   object_capacity() const;
             uint32                   atom_capacity() const;
 
-    virtual shared_ptr<WOB_Token>    write(shared_ptr<vector<OBJECT>> objects) = 0;
-    virtual void                     remove(shared_ptr<WOB_Token> token) = 0;
+    virtual shared_ptr<BufferToken>  write(shared_ptr<vector<OBJECT>> objects) = 0;
+    virtual void                     remove(shared_ptr<BufferToken> token) = 0;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -55,32 +54,32 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template <class OBJECT>
-WriteOnlyBuffer<OBJECT>::WriteOnlyBuffer(uint32 objSize, uint32 objCapacity)
+Buffer<OBJECT>::Buffer(uint32 objSize, uint32 objCapacity)
 { 
     _atomCapacity = objSize * objCapacity;
     _objectSize = objSize;
 }
 
 template <class OBJECT>
-void WriteOnlyBuffer<OBJECT>::set_atom_capacity(uint32 newAtomCapacity) 
+void Buffer<OBJECT>::set_atom_capacity(uint32 newAtomCapacity) 
 {
     _atomCapacity = newAtomCapacity; 
 }
 
 template<class OBJECT>
-uint32 WriteOnlyBuffer<OBJECT>::object_size() const 
+uint32 Buffer<OBJECT>::object_size() const 
 { 
     return _objectSize; 
 }
 
 template<class OBJECT>
-inline uint32 WriteOnlyBuffer<OBJECT>::object_capacity() const 
+inline uint32 Buffer<OBJECT>::object_capacity() const 
 { 
     return _atomCapacity / _objectSize; 
 }
 
 template<class OBJECT>
-inline uint32 WriteOnlyBuffer<OBJECT>::atom_capacity() const
+inline uint32 Buffer<OBJECT>::atom_capacity() const
 {
     return _atomCapacity; 
 }

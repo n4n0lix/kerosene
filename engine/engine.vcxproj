@@ -26,13 +26,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\engine\batch.h" />
-    <ClInclude Include="source\engine\tb_range.h" />
+    <ClInclude Include="source\engine\indexbuffer.h" />
+    <ClInclude Include="source\engine\stackbuffer.h" />
+    <ClInclude Include="source\engine\vector.h" />
+    <ClInclude Include="source\engine\bufferrange.h" />
     <ClInclude Include="source\engine\tb_removeop.h" />
     <ClInclude Include="source\engine\tb_token.h" />
     <ClInclude Include="source\engine\tb_writeop.h" />
-    <ClInclude Include="source\engine\transactionalbuffer.h" />
-    <ClInclude Include="source\engine\wob_token.h" />
-    <ClInclude Include="source\engine\writeonlybuffer.h" />
+    <ClInclude Include="source\engine\arraybuffer.h" />
+    <ClInclude Include="source\engine\buffertoken.h" />
+    <ClInclude Include="source\engine\buffer.h" />
     <ClInclude Include="source\engine\decimal32.h" />
     <ClInclude Include="source\engine\defaultrenderengine.h" />
     <ClInclude Include="source\engine\disabledinputengine.h" />
@@ -62,14 +65,16 @@
     <ClInclude Include="source\engine\shaderbuilder.h" />
     <ClInclude Include="source\engine\staticmesh.h" />
     <ClInclude Include="source\engine\texture.h" />
+    <ClInclude Include="source\engine\uniform.h" />
     <ClInclude Include="source\engine\vector2f.h" />
     <ClInclude Include="source\engine\vector3.h" />
     <ClInclude Include="source\engine\vector3f.h" />
     <ClInclude Include="source\engine\vector4f.h" />
-    <ClInclude Include="source\engine\vectorutils.h" />
     <ClInclude Include="source\engine\vertex.h" />
     <ClInclude Include="source\engine\vertexarray.h" />
     <ClInclude Include="source\engine\vertexbuffer.h" />
+    <ClInclude Include="source\engine\vertexcomponent.h" />
+    <ClInclude Include="source\engine\vertexlayout.h" />
     <ClInclude Include="source\engine\vertex_pc.h" />
     <ClInclude Include="source\engine\_gl.h" />
     <ClInclude Include="source\engine\_global.h" />
@@ -91,13 +96,14 @@
     <ClCompile Include="source\engine\engineexception.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
+    <ClCompile Include="source\engine\indexbuffer.cpp" />
     <ClCompile Include="source\engine\material.cpp" />
     <ClCompile Include="source\engine\matrix4f.cpp" />
     <ClCompile Include="source\engine\quaterion4f.cpp" />
     <ClCompile Include="source\engine\resourcemanager.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
     <ClCompile Include="source\engine\shaderbuilder.cpp" />
-    <ClCompile Include="source\engine\tb_range.cpp" />
+    <ClCompile Include="source\engine\bufferrange.cpp" />
     <ClCompile Include="source\engine\tb_removeop.cpp" />
     <ClCompile Include="source\engine\tb_token.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
@@ -105,7 +111,7 @@
     <ClCompile Include="source\engine\vector3f.cpp" />
     <ClCompile Include="source\engine\vector4f.cpp" />
     <ClCompile Include="source\engine\vertex_pc.cpp" />
-    <ClCompile Include="source\engine\wob_token.cpp" />
+    <ClCompile Include="source\engine\buffertoken.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />
     <ClCompile Include="source\sandbox\main.cpp" />
     <ClCompile Include="source\sandbox\testgamestate.cpp" />
