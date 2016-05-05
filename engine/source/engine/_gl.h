@@ -15,9 +15,9 @@
         { GLenum err;                                                                           \
           err = glGetError();                                                                   \
           if (err != GL_NO_ERROR) {                                                             \
-            std::cerr << __FUNCTION__ << ":" << __LINE__ << "@" << "#glFunc##" << ":" << endl;  \
+            std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << "#glFunc##" << ":" << endl;  \
             while (err != GL_NO_ERROR) {                                                        \
-                            std::cerr << "    GL ERROR: " << gl_err_to_string(err) << endl;     \
+                            std::cout << "    GL ERROR: " << gl_err_to_string(err) << endl;     \
                             err = glGetError();                                                 \
                     }                                                                           \
             }                                                                                   \

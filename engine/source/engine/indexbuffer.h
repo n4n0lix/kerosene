@@ -20,7 +20,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class IndexBuffer : public StackBuffer<uint16> 
+class IndexBuffer : public StackBuffer<uint32> 
 {
 public:
 
@@ -31,14 +31,14 @@ public:
 
             GLuint                      get_id();
 
-            shared_ptr<BufferToken>     add_indices(shared_ptr<vector<uint16>> vertices);
+            shared_ptr<BufferToken>     add_indices(shared_ptr<vector<uint32>> vertices);
             void                        remove_indices(shared_ptr<BufferToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        write(uint32 index, shared_ptr<vector<uint16>> vertices);
+    virtual void                        write(uint32 index, shared_ptr<vector<uint32>> vertices);
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity);
     virtual void                        copy(uint32 srcIndex, uint32 destIndex, uint32 length);
 

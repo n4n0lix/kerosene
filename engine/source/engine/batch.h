@@ -61,7 +61,7 @@ public:
     shared_ptr<BatchToken>   addVertices(shared_ptr<vector<VERTEX>> vertices);
     void                     removeVertices(shared_ptr<BatchToken> token);
 
-    void                     addIndices(shared_ptr<vector<uint16>> indices);
+    void                     addIndices(shared_ptr<vector<uint32>> indices);
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -140,7 +140,7 @@ void Batch<VERTEX>::removeVertices(shared_ptr<BatchToken> token)
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::addIndices(shared_ptr<vector<uint16>> indices)
+void Batch<VERTEX>::addIndices(shared_ptr<vector<uint32>> indices)
 {
     _vao->get_index_buffer()->add_indices(indices);
 }

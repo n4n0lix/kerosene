@@ -51,6 +51,9 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+    void                                renderByVBOTokens();
+    void                                renderByIndexBuffer();
+
     GLuint _vaoId;
 
     vector<shared_ptr<BufferToken>>     _renderTokens;
@@ -78,11 +81,12 @@ VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
     glGenVertexArrays(1, &_vaoId);
     LOGGER.log(Level::DEBUG, _vaoId) << "CREATE" << endl;
 
-    // #2 Create VBO
+    // #2 Create VBO and IxBO
     set_vertex_buffer(make_shared<VertexBuffer<VERTEX>>(_layout, 32));
     set_index_buffer(make_shared<IndexBuffer>(32));
 }
 
+// TODO: Add nullptr handling -> unbind old vbo
 template<class VERTEX>
 void VertexArray<VERTEX>::set_vertex_buffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer)
 {
@@ -106,6 +110,7 @@ void VertexArray<VERTEX>::set_vertex_buffer(shared_ptr<VertexBuffer<VERTEX>> ver
 
     // #3 Cleanup
     glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 template<class VERTEX>
@@ -124,8 +129,16 @@ void VertexArray<VERTEX>::set_index_buffer(shared_ptr<IndexBuffer> indexBuffer)
 
     // #2 Bind indexbuffer
     glBindVertexArray(_vaoId);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer->get_id());
+    if (_indexBuffer != nullptr) {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer->get_id());
+    } 
+    else {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
+    // 3# Cleanup
     glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 template<class VERTEX>
@@ -147,7 +160,19 @@ void VertexArray<VERTEX>::render()
     _vertexBuffer->commit();
     _indexBuffer->commit();
 
-    // 2# Get indices to display
+    // 2# Render
+    if (_indexBuffer == nullptr) {
+        renderByVBOTokens();
+    }
+    else {
+        renderByIndexBuffer();
+    }
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::renderByVBOTokens()
+{    
+    // 1# Construct 'cpu index buffer' from tokens
     vector<uint32> indices;
 
     for (shared_ptr<BufferToken> token : _renderTokens) {
@@ -159,17 +184,27 @@ void VertexArray<VERTEX>::render()
 
     _renderTokens.clear();
 
-    // 3# Render
-    //if (indices.empty()) { return; }
-
+    // 2# Render
     glBindVertexArray(_vaoId);
-    //glDrawElements(PrimitiveType::TRIANGLES, (GLsizei) indices.size(), GL_UNSIGNED_INT, &indices[0]);
-    glDrawElements(PrimitiveType::TRIANGLES, 3, GL_UNSIGNED_SHORT, NULL);
+    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, &indices[0]);
+    glBindVertexArray(0);
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::renderByIndexBuffer()
+{
+    // 1# Render
+    glBindVertexArray(_vaoId);
+    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->object_size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
     glBindVertexArray(0);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                       Protected                        */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                        Private                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
