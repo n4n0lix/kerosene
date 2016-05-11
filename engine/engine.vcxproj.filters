@@ -264,6 +264,9 @@
     <ClInclude Include="source\engine\stackbuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\transactionalbuffer.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\defaultrenderengine.cpp">

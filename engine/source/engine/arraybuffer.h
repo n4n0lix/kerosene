@@ -12,7 +12,7 @@
 #include "_global.h"
 #include "vector.h"
 
-#include "buffer.h"
+#include "transactionalbuffer.h"
 #include "bufferrange.h"
 
 #include "tb_token.h"
@@ -26,8 +26,8 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-template<class OBJECT>
-class ArrayBuffer : public Buffer<OBJECT>
+template<class T>
+class ArrayBuffer : public TransactionalBuffer<T>
 {
 
 public:
@@ -36,47 +36,41 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                         ArrayBuffer(uint32 objCapacity, uint32 objSize);
 
-
-            void                        commit();
-
-    virtual shared_ptr<BufferToken>     write(shared_ptr<vector<OBJECT>> objects);
-    virtual void                        remove(shared_ptr<BufferToken> token);
+    using                               TransactionalBuffer<T>::commit;
+    using                               TransactionalBuffer<T>::write;
+    using                               TransactionalBuffer<T>::remove;
+    using                               TransactionalBuffer<T>::num_objects;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        write(uint32 index, shared_ptr<vector<OBJECT>> objects) = 0;
-    virtual void                        remove(uint32 index, uint32 length) = 0;
+    virtual void                        commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_Token> token);
+    virtual void                        commit_remove(shared_ptr<TB_Token> token);
+
+    // Final-Implementation
+    virtual void                        write(uint32 index, shared_ptr<vector<T>> objects) = 0;
+    virtual void                        remove(uint32 index, uint32 length) { };
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity) = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            void                     optimize();
-            bool                     optimizeNext();
-            void                     mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2);
-            BufferRange              getFreeRange(uint32 length);
-            
-            void                     _write(shared_ptr<TB_WriteOp<OBJECT>> writeOp);
-            void                     _remove(shared_ptr<TB_RemoveOp> writeOp);
-            void                     _resize(uint32 oldCapacity, uint32 newCapacity);
+            void                        optimize();
+            bool                        optimizeNext();
+            void                        mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2);
+            BufferRange                 getFreeRange(uint32 length);
 
-            uint32                   generateRangeId();
-            uint32                   generateTokenId();
-            uint32                   generateWriteOpId();
-            uint32                   generateRemoveOpId();
+            void                        _resize(uint32 oldCapacity, uint32 newCapacity);
 
-    Vector<BufferRange>        _freeRanges;
-    Vector<BufferRange>        _usedRanges;
+            uint32                      generateRangeId();
+            uint32                      generateTokenId();
 
-    Vector<shared_ptr<TB_WriteOp<OBJECT>>>  _writeBucket;
-    Vector<shared_ptr<TB_RemoveOp>>         _removeBucket;
+    Vector<BufferRange>         _freeRanges;
+    Vector<BufferRange>         _usedRanges;
 
-    uint32                  _nextUidRange;
-    uint32                  _nextUidToken;
-    uint32                  _nextUidWriteOp;
-    uint32                  _nextUidRemoveOp;
+    uint32                      _nextUidRange;
+    uint32                      _nextUidToken;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -89,13 +83,10 @@ private:
 /*                        Public                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-template<class OBJECT>
-ArrayBuffer<OBJECT>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : Buffer(objSize, objCapacity)
+template<class T>
+ArrayBuffer<T>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : TransactionalBuffer(objSize, objCapacity)
 {
     _nextUidRange    = BufferRange::FIRST_ID;
-    _nextUidToken    = TB_Token::FIRST_UID;
-    _nextUidWriteOp  = TB_WriteOp<OBJECT>::FIRST_UID;
-    _nextUidRemoveOp = TB_RemoveOp::FIRST_UID;
 
     // 1# Create initial range
     auto initialRange = BufferRange(generateRangeId(), this, 0, atom_capacity());
@@ -104,64 +95,60 @@ ArrayBuffer<OBJECT>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : Buffer(ob
     LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.length()-1 << "], OBJ SIZE: " << object_size()  << endl;
 }
 
-template<class OBJECT>
-shared_ptr<BufferToken> ArrayBuffer<OBJECT>::write(shared_ptr<vector<OBJECT>> objects)
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                       Protected                        */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+template<class T>
+void ArrayBuffer<T>::commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_Token> token)
 {
-    // 1# Create token
-    shared_ptr<TB_Token> token = make_shared<TB_Token>(generateTokenId(), this);
+    // 1# Get free range
+    uint32_t size = (uint32_t)objects->size() * object_size();
+    BufferRange freeRange = getFreeRange(size);
 
-    // 2# Store in write bucket
-    _writeBucket.add(make_shared<TB_WriteOp<OBJECT>>(generateWriteOpId(), token, objects));
+    _freeRanges.remove(freeRange);
+    _usedRanges.add(freeRange);
 
-    // 3# Return token
-    return dynamic_pointer_cast<BufferToken>(token);
+    // 2#  Write
+    write(freeRange.index(), objects);
+    LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << freeRange.index() << ", " << freeRange.index() + size - 1 << "]" << endl;
+
+    // 3# Update and validate the token
+    token->set_range_id(freeRange.id());
+    token->set_data(freeRange.index(), freeRange.length(), object_size());
+    token->validate();
 }
 
-template<class OBJECT>
-void ArrayBuffer<OBJECT>::remove(shared_ptr<BufferToken> bufferToken)
+template<class T>
+void ArrayBuffer<T>::commit_remove(shared_ptr<TB_Token> token)
 {
-    // 1# Only accept TB_Token
-    shared_ptr<TB_Token> token;
+    // 1# Get used range
+    uint32 rangeId = token->range_id();
+    Vector<BufferRange> ranges;
 
-    if (!(token = static_pointer_cast<TB_Token>(bufferToken))) {
-        LOGGER.log(Level::WARN) << "Invalid token received, not of class TB_Token!" << endl;
-        return;
+    _usedRanges.forAll([&](BufferRange& range) -> void {
+        if (range.id() == rangeId) {
+            ranges.add(range);
+        }
+    });
+
+    // 2# Remove range
+    for (BufferRange range : ranges) {
+        remove(range.index(), range.length());
+        _usedRanges.remove(range);
+        _freeRanges.add(range);
     }
 
-    // 2# Check if token has been assigned a range ...
-    if (token->range_id() == BufferRange::NULL_ID) {
-        // ... and if not, remove possible WriteOps with this token
-        _writeBucket.remove([&](shared_ptr<TB_WriteOp<OBJECT>> op) -> bool { return op->token() == token; });
-        return;
-    }
-
-    // 3# Create RemoveOp for token
-    _removeBucket.add(make_shared<TB_RemoveOp>(generateRemoveOpId(), token));
-}
-
-template<class OBJECT>
-void ArrayBuffer<OBJECT>::commit() {
-    // 1# Do RemoveOps
-    // TODO: Merge removeops, to reduce amount of buffer actions
-    for (auto removeOp : _removeBucket) {
-        _remove(removeOp);
-    }
-    _removeBucket.clear();
-
-    // 2# Do WriteOps
-    // TODO: Merge writeops, to reduce amount of buffer actions
-    for (auto writeOp : _writeBucket) {
-        _write(writeOp);
-    }
-    _writeBucket.clear();
+    // 3# Invalidate token
+    token->invalidate();
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Private                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-template<class OBJECT>
-void ArrayBuffer<OBJECT>::optimize() {
+template<class T>
+void ArrayBuffer<T>::optimize() {
     bool hasChanged = false;
 
     do {
@@ -169,8 +156,8 @@ void ArrayBuffer<OBJECT>::optimize() {
     } while (hasChanged);
 }
 
-template<class OBJECT>
-bool ArrayBuffer<OBJECT>::optimizeNext() {
+template<class T>
+bool ArrayBuffer<T>::optimizeNext() {
     for (size_t i = 0; i < _freeRanges.size(); i++) {
         for (size_t p = i + 1; p < _freeRanges.size(); p++) {
             auto range1 = _freeRanges.at(i);
@@ -190,8 +177,8 @@ bool ArrayBuffer<OBJECT>::optimizeNext() {
     return false;
 }
 
-template<class OBJECT>
-void ArrayBuffer<OBJECT>::mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2) {
+template<class T>
+void ArrayBuffer<T>::mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2) {
     // 1# Guards
     if (!_freeRanges.contains(range1)) {
         return;
@@ -214,8 +201,8 @@ void ArrayBuffer<OBJECT>::mergeAdjacentFreeRanges(BufferRange range1, BufferRang
     _freeRanges.add(mergedRange);
 }
 
-template<class OBJECT>
-BufferRange ArrayBuffer<OBJECT>::getFreeRange(uint32 length) {
+template<class T>
+BufferRange ArrayBuffer<T>::getFreeRange(uint32 length) {
     // 1# Find a range with range.length >= length
     BufferRange freeRange;
     bool foundRange = false;
@@ -265,53 +252,6 @@ BufferRange ArrayBuffer<OBJECT>::getFreeRange(uint32 length) {
     return freeRange;
 }
 
-template<class OBJECT>
-void ArrayBuffer<OBJECT>::_write(shared_ptr<TB_WriteOp<OBJECT>> writeOp)
-{
-    shared_ptr<vector<OBJECT>> objects = writeOp->objects();
-
-    // 1# Get free range
-    uint32_t size = (uint32_t)objects->size() * object_size();
-    BufferRange freeRange = getFreeRange(size);
-
-    _freeRanges.remove(freeRange);
-    _usedRanges.add(freeRange);
-
-    // 2#  Write
-    write(freeRange.index(), objects);
-    LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << freeRange.index() << ", " << freeRange.index() + size - 1 << "]" << endl;
-
-    // 3# Update and validate the token
-    auto token = writeOp->token();
-    token->set_range_id(freeRange.id());
-    token->set_data(freeRange.index(), freeRange.length(), object_size());
-    token->validate();
-}
-
-template<class OBJECT>
-void ArrayBuffer<OBJECT>::_remove(shared_ptr<TB_RemoveOp> removeOp)
-{
-    // 1# Get used range
-    uint32 rangeId = removeOp->token()->range_id();
-    Vector<BufferRange> ranges;
-
-    _usedRanges.forAll([&](BufferRange& range) -> void {
-                                                        if (range.id() == rangeId) {
-                                                            ranges.add(range);
-                                                        }
-                                                    });
-
-    // 2# Remove range
-    for (BufferRange range : ranges) {
-        remove(range.index(), range.length());
-        _usedRanges.remove(range);
-        _freeRanges.add(range);
-    }
-
-    // 3# Invalidate token
-    removeOp->token()->invalidate();
-}
-
 template<class T>
 void ArrayBuffer<T>::_resize(uint32 oldAtomCapacity, uint32 newAtomCapacity) {
     resize(oldAtomCapacity, newAtomCapacity);
@@ -325,21 +265,6 @@ void ArrayBuffer<T>::_resize(uint32 oldAtomCapacity, uint32 newAtomCapacity) {
 template<class T>
 uint32 ArrayBuffer<T>::generateRangeId() {
     return _nextUidRange++;
-}
-
-template<class T>
-uint32 ArrayBuffer<T>::generateTokenId() {
-    return _nextUidToken++;
-}
-
-template<class T>
-uint32 ArrayBuffer<T>::generateWriteOpId() {
-    return _nextUidWriteOp++;
-}
-
-template<class T>
-uint32 ArrayBuffer<T>::generateRemoveOpId() {
-    return _nextUidRemoveOp++;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

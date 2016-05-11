@@ -195,7 +195,7 @@ void VertexArray<VERTEX>::renderByIndexBuffer()
 {
     // 1# Render
     glBindVertexArray(_vaoId);
-    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->object_size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
     glBindVertexArray(0);
 }
 

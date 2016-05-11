@@ -31,15 +31,17 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    void    add(T& object);
+    void                    add(T& object);
 
-    size_t  remove(T& object);
-    size_t  remove(std::function<bool(T&)> func);
+    size_t                  remove(T& object);
+    size_t                  remove(std::function<bool(T&)> func);
 
-    bool    contains(T& object);
+    bool                    contains(T& object);
 
-    void    forAll(std::function<void(T&)> func);
+    void                    forAll(std::function<void(T&)> func);
 
+    void                    collect(Vector<T>& dest, std::function<bool(T&)> func);
+    shared_ptr<Vector<T>>   collect(std::function<bool(T&)> func);
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
@@ -79,6 +81,24 @@ template<class T>
 void Vector<T>::forAll(std::function<void(T&)> func)
 {
     std::for_each(begin(), end(), func);
+}
+
+template<class T>
+void Vector<T>::collect(Vector<T>& dest, std::function<bool(T&)> func)
+{
+    std::for_each(begin(), end(), [&](T& obj) -> void {
+        if (func(obj)) {
+            dest.add(obj);
+        }
+    });
+}
+
+template<class T>
+shared_ptr<Vector<T>> Vector<T>::collect(std::function<bool(T&)> func)
+{
+    shared_ptr<Vector<T>> objects = make_shared<Vector<T>>();
+    collect(*(objects->get()), func);
+    return objects;
 }
 
 

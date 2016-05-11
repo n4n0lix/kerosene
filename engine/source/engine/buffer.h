@@ -28,6 +28,8 @@ public:
             uint32                   object_capacity() const;
             uint32                   atom_capacity() const;
 
+    virtual uint32                   num_objects() = 0;
+
     virtual shared_ptr<BufferToken>  write(shared_ptr<vector<OBJECT>> objects) = 0;
     virtual void                     remove(shared_ptr<BufferToken> token) = 0;
 protected:

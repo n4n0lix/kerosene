@@ -76,17 +76,17 @@ void DefaultRenderEngine::onStart()
     vertices2->push_back(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
     _tokenTriangle2 = _batch->addVertices(vertices2);
 
-    //shared_ptr<vector<Vertex_pc>> vertices3 = make_shared<vector<Vertex_pc>>();
-    //vertices3->push_back(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices3->push_back(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices3->push_back(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //_tokenTriangle3 = _batch->addVertices(vertices3);
+    shared_ptr<vector<Vertex_pc>> vertices3 = make_shared<vector<Vertex_pc>>();
+    vertices3->push_back(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices3->push_back(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices3->push_back(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle3 = _batch->addVertices(vertices3);
 
-    //shared_ptr<vector<Vertex_pc>> vertices4 = make_shared<vector<Vertex_pc>>();
-    //vertices4->push_back(Vertex_pc(Vector3f(0,  0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices4->push_back(Vertex_pc(Vector3f(1,  0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices4->push_back(Vertex_pc(Vector3f(.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //_tokenTriangle4 = _batch->addVertices(vertices4);
+    shared_ptr<vector<Vertex_pc>> vertices4 = make_shared<vector<Vertex_pc>>();
+    vertices4->push_back(Vertex_pc(Vector3f(0,  0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices4->push_back(Vertex_pc(Vector3f(1,  0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices4->push_back(Vertex_pc(Vector3f(.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle4 = _batch->addVertices(vertices4);
 
     shared_ptr<vector<uint32>> indices = make_shared<vector<uint32>>();
     indices->push_back(0);
@@ -95,6 +95,12 @@ void DefaultRenderEngine::onStart()
     indices->push_back(3);
     indices->push_back(4);
     indices->push_back(5);
+    indices->push_back(6);
+    indices->push_back(7);
+    indices->push_back(8);
+    indices->push_back(9);
+    indices->push_back(10);
+    indices->push_back(11);
     _batch->addIndices(indices);
 }
 
@@ -110,9 +116,9 @@ void DefaultRenderEngine::onUpdate()
 
     // Test code
     _batch->render(_tokenTriangle1);
-    //_batch->render(_tokenTriangle2);
-    //_batch->render(_tokenTriangle3);
-    //_batch->render(_tokenTriangle4);
+    _batch->render(_tokenTriangle2);
+    _batch->render(_tokenTriangle3);
+    _batch->render(_tokenTriangle4);
     _batch->render();
 
     // #3 Render

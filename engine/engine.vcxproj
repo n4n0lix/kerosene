@@ -28,6 +28,7 @@
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
     <ClInclude Include="source\engine\stackbuffer.h" />
+    <ClInclude Include="source\engine\transactionalbuffer.h" />
     <ClInclude Include="source\engine\vector.h" />
     <ClInclude Include="source\engine\bufferrange.h" />
     <ClInclude Include="source\engine\tb_removeop.h" />
