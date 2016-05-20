@@ -6,6 +6,8 @@
 
 // Std-Includes
 
+// Other Includes
+
 // Internal Includes
 #include "_global.h"
 
@@ -14,43 +16,60 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class BufferRange {
+template<class T>
+class Nullable
+{
 public:
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static const uint32 NULL_ID = 0;
-    static const uint32 FIRST_ID = 1;
-
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    BufferRange();
-    BufferRange(uint32 uid, void* buffer, uint32 index, uint32 length);
+    Nullable()          : _isNull(true)     { };
+    Nullable(T value)   : _isNull(false)    { _value = value; };
 
-    uint32  id();
-    void*   buffer();
+    Nullable<T>& operator=(T value);
+    Nullable<T>& make_null();
 
-    uint32  index();
-    uint32  length();
-
-    uint32  last_index();
-
-    bool    operator!=(const BufferRange& o) const;
-    bool    operator==(const BufferRange& o) const;
-
+    bool         is_null();
+    T            get();
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                       Private                          */
+    /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    uint32 _id; 
-    void*  _buffer;
-
-    uint32 _index;
-    uint32 _length;
-
+    bool    _isNull;
+    T       _value;
 };
 
+template<class T>
+Nullable<T>& Nullable<T>::operator=(T value)
+{
+    _value = value;
+    _isNull = false;
+    return *this;
+}
+
+template<class T>
+Nullable<T>& Nullable<T>::make_null()
+{
+    _isNull = true;
+    return *this;
+}
+
+template<class T>
+bool Nullable<T>::is_null()
+{
+    return _isNull;
+}
+
+template<class T>
+T Nullable<T>::get()
+{
+    return _value;
+}
+
 ENGINE_NAMESPACE_END
+

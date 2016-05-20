@@ -36,47 +36,24 @@ void BufferToken::validate() {
     _valid = true;
 }
 
-uint32 BufferToken::atom_index()
+Range BufferToken::atom_range()
 { 
-    return _atomIndex; 
+    return _atomRange; 
 }
 
-uint32 BufferToken::atom_length() 
+Range BufferToken::object_range()
 { 
-    return _atomLength; 
-}
-
-uint32 BufferToken::object_index()
-{ 
-    return _objIndex;
-}
-
-uint32 BufferToken::object_length() 
-{ 
-    return _objLength; 
+    return _objRange;
 }
 
 uint32 BufferToken::object_size()
 {
-    return _atomLength / _objLength;
+    return _objSize;
 }
 
 shared_ptr<vector<uint32>> BufferToken::object_indices()
 {
     return _objIndices;
-}
-
-void BufferToken::set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize)
-{
-    _atomIndex = atomIndex;
-    _atomLength = atomLength;
-    _objIndex = _atomIndex / objSize;
-    _objLength = _atomLength / objSize;
-
-    _objIndices = make_shared<vector<uint32>>();
-    for (uint32 i = _objIndex; i < _objIndex + _objLength; i++) {
-        _objIndices->push_back(i);
-    }
 }
 
 bool BufferToken::operator!=(const BufferToken& o) const
@@ -88,5 +65,40 @@ bool BufferToken::operator==(const BufferToken& o) const
 {
     return !(*this != o);
 }
+
+
+void BufferToken::set_object_size(uint32 objSize)
+{
+    _objSize = objSize;
+    update();
+}
+
+void BufferToken::move(uint32 distance)
+{
+    _atomRange.move(distance);
+    update();
+}
+
+void BufferToken::set_atom_range(Range range)
+{
+    _atomRange = range;
+    update();
+}
+
+void BufferToken::update()
+{
+    _objRange = Range(_atomRange.index() / _objSize, 
+                      _atomRange.length() / _objSize);
+
+    _objIndices = make_shared<vector<uint32>>();
+
+    if (_objRange.length() > 0) {
+        for (uint32 i = _objRange.index(); i <= _objRange.last_index(); i++) {
+            _objIndices->push_back(i);
+        }
+    }
+
+}
+
 ENGINE_NAMESPACE_END
 

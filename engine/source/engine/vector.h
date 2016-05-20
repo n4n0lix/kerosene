@@ -12,6 +12,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "nullable.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -42,6 +43,8 @@ public:
 
     void                    collect(Vector<T>& dest, std::function<bool(T&)> func);
     shared_ptr<Vector<T>>   collect(std::function<bool(T&)> func);
+
+    Nullable<T>             first(std::function<bool(T&)> func);
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
@@ -99,6 +102,18 @@ shared_ptr<Vector<T>> Vector<T>::collect(std::function<bool(T&)> func)
     shared_ptr<Vector<T>> objects = make_shared<Vector<T>>();
     collect(*(objects->get()), func);
     return objects;
+}
+
+template<class T>
+Nullable<T> Vector<T>::first(std::function<bool(T&)> func)
+{
+    for (T t : *this) {
+        if (func(t)) {
+            return Nullable<T>(t);
+        }
+    }
+
+    return Nullable<T>();
 }
 
 

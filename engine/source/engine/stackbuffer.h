@@ -13,11 +13,12 @@
 #include "vector.h"
 
 #include "buffer.h"
-#include "bufferrange.h"
+#include "range.h"
 
 #include "transactionalbuffer.h"
 
-#include "tb_token.h"
+#include "stackbuffertoken.h"
+
 #include "tb_writeop.h"
 #include "tb_removeop.h"
 
@@ -36,38 +37,40 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                                        StackBuffer(uint32 objSize, uint32 objCapacity);
+                                            StackBuffer(uint32 objSize, uint32 objCapacity);
 
-    using                               TransactionalBuffer<T>::commit;
-    using                               TransactionalBuffer<T>::write;
-    using                               TransactionalBuffer<T>::remove;
-    using                               TransactionalBuffer<T>::num_objects;
+    using                                   TransactionalBuffer<T>::commit;
+    using                                   TransactionalBuffer<T>::write;
+    using                                   TransactionalBuffer<T>::remove;
+    using                                   TransactionalBuffer<T>::num_objects;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_Token> commit_token);
-    virtual void                        commit_remove(shared_ptr<TB_Token> token);
-
-    using                               TransactionalBuffer::create_token;
+    virtual void                            commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> commit_token);
+    virtual void                            commit_remove(shared_ptr<BufferToken> token);
+        
+    virtual shared_ptr<BufferToken>         create_token(uint32 id);
+    using                                   TransactionalBuffer::get_active_tokens;
 
     // Final-Implementation
-    virtual void                        write(uint32 index, shared_ptr<vector<T>> objects) = 0;
-    virtual void                        remove(uint32 index, uint32 length) { };
-    virtual void                        resize(uint32 oldCapacity, uint32 newCapacity) = 0;
-    virtual void                        copy(uint32 srcIndex, uint32 destIndex, uint32 length) = 0;
+    virtual void                            write(uint32 index, shared_ptr<Vector<T>> objects) = 0;
+    virtual void                            resize(uint32 oldCapacity, uint32 newCapacity) = 0;
+    virtual void                            copy(uint32 srcIndex, uint32 destIndex, uint32 length) = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            void                     _write(shared_ptr<TB_WriteOp<T>> writeOp);
-            void                     _remove(shared_ptr<TB_RemoveOp> writeOp);
+            void                            _write(shared_ptr<TB_WriteOp<T>> writeOp);
+            void                            _remove(shared_ptr<TB_RemoveOp> writeOp);
 
-            uint32                   generateRangeId();
+            shared_ptr<StackBufferToken>    get_token_by_range_id(uint32 rangeId);
 
-    BufferRange                     _freeRange;
-    Vector<BufferRange>             _usedRanges;
+            uint32                          generateRangeId();
+
+    Range                     _freeRange;
+    Map<uint32, Range>        _usedRanges; // TODO: Continue here, goal is to remove uid from within BufferRange
 
     uint32                  _nextUidRange;
 
@@ -85,10 +88,10 @@ private:
 template<class T>
 StackBuffer<T>::StackBuffer(uint32 objSize, uint32 objCapacity) : TransactionalBuffer(objSize, objCapacity)
 {
-    _nextUidRange = BufferRange::FIRST_ID;
+    _nextUidRange = 0;
 
     // 1# Create initial range
-    _freeRange = BufferRange(generateRangeId(), this, 0, atom_capacity());
+    _freeRange = Range(0, atom_capacity());
     LOGGER.log(Level::DEBUG) << "CREATE [" << _freeRange.index() << "," << _freeRange.length()-1 << "], OBJ SIZE: " << object_size()  << endl;
 }
 
@@ -97,8 +100,10 @@ StackBuffer<T>::StackBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void StackBuffer<T>::commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_Token> token)
+void StackBuffer<T>::commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> aToken)
 {
+    auto token = static_pointer_cast<StackBufferToken>(aToken);
+
     // 1# Check if freerange is large enough
     uint32_t neededSize = (uint32_t)objects->size() * object_size();
     
@@ -106,84 +111,132 @@ void StackBuffer<T>::commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_T
         // ... we need to grow the buffer
         uint32 oldAtomCapacity = atom_capacity();
         uint32 newAtomCapacity = oldAtomCapacity + neededSize;
+        uint32 diffAtomCapacity = newAtomCapacity - oldAtomCapacity;
 
         resize(oldAtomCapacity, newAtomCapacity);
         LOGGER.log(Level::DEBUG) << "RESIZE FROM [" << oldAtomCapacity << "] TO [" << newAtomCapacity << "]" << endl;
         set_atom_capacity(newAtomCapacity);
         
-        _freeRange = BufferRange(_freeRange.id(), 
-                                 this, 
-                                 _freeRange.index(), 
-                                 _freeRange.index() + (newAtomCapacity - oldAtomCapacity));
+        _freeRange = Range(_freeRange.index(), 
+                           _freeRange.index() + diffAtomCapacity);
         LOGGER.log(Level::DEBUG) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
     }
 
     // 2# Split of range of 'free range'
-    BufferRange usedRange = BufferRange(generateRangeId(), this, _freeRange.index(), neededSize);
-    _freeRange = BufferRange(_freeRange.id(), this, usedRange.index() + usedRange.length(), _freeRange.length() - usedRange.length());
+    uint32 usedRangeId = generateRangeId();
+    Range usedRange = Range(_freeRange.index(), neededSize);
+    _freeRange = Range(usedRange.index() + usedRange.length(), _freeRange.length() - usedRange.length());
 
     // 2#  Write
     write(usedRange.index(), objects);
     LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]" << endl;
     LOGGER.log(Level::DEBUG) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
 
-    _usedRanges.add(usedRange);
+    _usedRanges.put(usedRangeId, usedRange);
 
     // 3# Update and validate the token
-    token->set_range_id(usedRange.id());
-    token->set_data(usedRange.index(), usedRange.length(), object_size());
+    token->set_range_id(usedRangeId);
+    token->set_atom_range(usedRange);
+    token->set_object_size(object_size());
     token->validate();
 }
 
 template<class OBJECT>
-void StackBuffer<OBJECT>::commit_remove(shared_ptr<TB_Token> token)
+void StackBuffer<OBJECT>::commit_remove(shared_ptr<BufferToken> aToken)
 {
+    auto token = static_pointer_cast<StackBufferToken>(aToken);
+
     // 1# Get used range
     uint32 rangeId = token->range_id();
-    Vector<BufferRange> ranges;
 
-    _usedRanges.collect(ranges, [&](BufferRange& range) -> bool { return range.id() == rangeId; });
+    if (!_usedRanges.contains(rangeId)) {
+        LOGGER.log(Level::DEBUG) << "Attempting to remove unkown range with id: " << rangeId << endl;
+        return;
+    }
+    
+    Range range = _usedRanges.get(rangeId);
 
     // 2# Remove range
-    for (BufferRange range : ranges) {
-        uint32 delRangeFirst = range.index();
-        uint32 delRangeLast = range.index() + range.length();
-        uint32 delRangeLength = range.length();
+    // 2.1# Calculate 'delete' 'copySource' and 'copyDest' ranges
+    uint32 delRangeFirst = range.index();
+    uint32 delRangeLast = range.last_index();
+    uint32 delRangeLength = range.length();
 
-        uint32 srcCopyRangeFirst = delRangeLast + 1;
-        uint32 srcCopyRangeLast = _freeRange.index()-1;
-        uint32 copyRangeLength = (srcCopyRangeLast - srcCopyRangeFirst) + 1;
+    uint32 copySourceFirst = delRangeLast + 1;
+    uint32 copySourceLast = _freeRange.index() - 1;
+    uint32 copySourceLength = (copySourceLast - copySourceFirst) + 1;
 
-        uint32 destCopyRangeFirst = delRangeFirst;
-        uint32 destCopyRangeLast = delRangeFirst + copyRangeLength;
+    uint32 copyDestFirst = delRangeFirst;
+    uint32 copyDestLast = delRangeFirst + copySourceLength - 1;
+    uint32 copyDestLength = (copyDestLast - copyDestFirst) + 1;
 
-        uint32 freeRangeFirst = destCopyRangeLast + 1;
-        uint32 freeRangeLast = atom_capacity();
-        uint32 freeRangeLength = (freeRangeLast - freeRangeFirst) + 1;
+    uint32 freeRangeFirst = copyDestLast + 1;
+    uint32 freeRangeLast = atom_capacity()-1;
+    uint32 freeRangeLength = (freeRangeLast - freeRangeFirst) + 1;
 
-        uint32 moveDistance = srcCopyRangeFirst - destCopyRangeFirst;
+    uint32 moveDistance = copyDestFirst - copySourceFirst;
 
-        copy(srcCopyRangeFirst, destCopyRangeFirst, copyRangeLength);
-        LOGGER.log(Level::DEBUG) << "COPY [" << srcCopyRangeFirst << ", " << srcCopyRangeLast << "] TO [" << destCopyRangeFirst << ", " << destCopyRangeLast << "]" << endl;
+    assert(copyDestFirst <= copySourceFirst);
+    assert(copySourceLength == copyDestLength);
 
-        remove(freeRangeFirst, freeRangeLength);
-        LOGGER.log(Level::DEBUG) << "REMOVE [" << freeRangeFirst << ", " << (freeRangeFirst + freeRangeLength)-1 << "]" << endl;
+    // 2.2# Copy data
+    copy(copySourceFirst, copyDestFirst, copySourceLength);
+    LOGGER.log(Level::DEBUG) << "COPY [" << copySourceFirst << ", " << copySourceLast << "] TO [" << copyDestFirst << ", " << copyDestLast << "]" << endl;
 
-        _usedRanges.remove(range);
-        _freeRange = BufferRange(_freeRange.id(), this, freeRangeFirst, freeRangeLength);
+    _usedRanges.remove(rangeId);
+    _freeRange = Range(freeRangeFirst, freeRangeLength);
 
-        // 2.2# Update all tokens
-        for (auto aToken : get_active_tokens()) {
-            if (aToken->atom_index() > delRangeLast) {
-                uint32 oldTokenIndex = aToken->atom_index();
-                aToken->set_data(aToken->atom_index() - moveDistance, aToken->atom_length(), aToken->object_size());
-                LOGGER.log(Level::DEBUG) << "UPDATE TOKEN [" << oldTokenIndex << ", " << (oldTokenIndex + aToken->atom_length()) - 1 << "] TO [" << aToken->atom_index() << ", " << (aToken->atom_index() + aToken->atom_length()) - 1 << "]" << endl;
-            }
+    // 2.3# Update all tokens
+    //for (auto aToken : get_active_tokens()) {
+    //    if (aToken->atom_index() > delRangeLast) {
+    //        uint32 oldTokenIndex = aToken->atom_index();
+    //        aToken->move( moveDistance );
+    //        LOGGER.log(Level::DEBUG) << "UPDATE TOKEN [" << oldTokenIndex << ", " << (oldTokenIndex + aToken->atom_length()) - 1 << "] TO [" << aToken->atom_index() << ", " << (aToken->atom_index() + aToken->atom_length()) - 1 << "]" << endl;
+    //    }
+    //}
+
+    // 2.4# Update all ranges
+    for (auto pair : _usedRanges.as_vector()) {
+        uint32 id    = pair.first;
+        Range  range = pair.second;
+
+        // Determine if range is affected by deletion
+        if (range.index() > delRangeLast) {
+            // Update Range
+            range.move( moveDistance );
+
+            _usedRanges.remove( id );
+            _usedRanges.put( id, range );
+
+            // Update Token
+            auto token = get_token_by_range_id( id );
+            token->set_atom_range( range );
+
+            LOGGER.log(Level::DEBUG) << "UPDATE TOKEN" << endl;
         }
     }
 
     // 3# Invalidate token
     token->invalidate();
+}
+
+template<class T>
+shared_ptr<BufferToken> StackBuffer<T>::create_token(uint32 id)
+{
+    return make_shared<StackBufferToken>(id, this);
+}
+
+template<class T>
+shared_ptr<StackBufferToken> StackBuffer<T>::get_token_by_range_id(uint32 rangeId)
+{
+    for (auto aToken : get_active_tokens()) {
+        auto token = static_pointer_cast<StackBufferToken>(aToken);
+        if (token->range_id() == rangeId) {
+            return token;
+        }
+    }
+
+    return nullptr;
 }
 
 template<class T>

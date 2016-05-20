@@ -8,6 +8,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "range.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -25,16 +26,17 @@ public:
     uint32                      get_id();
 
     bool                        valid();
-    uint32                      atom_index();
-    uint32                      atom_length();
-    uint32                      object_index();
-    uint32                      object_length();
+    Range                       atom_range();
+    Range                       object_range();
     uint32                      object_size();
     shared_ptr<vector<uint32>>  object_indices();
 
+    void                        move(uint32 distance);
+
     void                        invalidate();
     void                        validate();
-    void                        set_data(uint32 atomIndex, uint32 atomLength, uint32 objSize);
+    void                        set_object_size(uint32 objSize);
+    void                        set_atom_range(Range range);
 
     bool                        operator!=(const BufferToken& o) const;
     bool                        operator==(const BufferToken& o) const;
@@ -43,15 +45,17 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+    void                        update();
+
     void*  _buffer;
     uint32 _id;
 
     bool   _valid;
 
-    uint32                      _atomIndex;
-    uint32                      _atomLength;
-    uint32                      _objIndex;
-    uint32                      _objLength;
+    uint32                      _objSize;
+    Range                       _atomRange;
+    Range                       _objRange;
     shared_ptr<vector<uint32>>  _objIndices;
 };
 

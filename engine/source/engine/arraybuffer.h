@@ -13,9 +13,10 @@
 #include "vector.h"
 
 #include "transactionalbuffer.h"
-#include "bufferrange.h"
+#include "range.h"
 
-#include "tb_token.h"
+#include "arraybuffertoken.h"
+
 #include "tb_writeop.h"
 #include "tb_removeop.h"
 
@@ -44,11 +45,13 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_Token> token);
-    virtual void                        commit_remove(shared_ptr<TB_Token> token);
+    virtual void                        commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> token);
+    virtual void                        commit_remove(shared_ptr<BufferToken> token);
+
+    virtual shared_ptr<BufferToken>     create_token(uint32 id);
 
     // Final-Implementation
-    virtual void                        write(uint32 index, shared_ptr<vector<T>> objects) = 0;
+    virtual void                        write(uint32 index, shared_ptr<Vector<T>> objects) = 0;
     virtual void                        remove(uint32 index, uint32 length) { };
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity) = 0;
 
@@ -56,18 +59,17 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            void                        optimize();
-            bool                        optimizeNext();
-            void                        mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2);
-            BufferRange                 getFreeRange(uint32 length);
+            void                        optimize_free_ranges();
+            bool                        _optimize_free_ranges();
+            void                        merge_free_ranges(uint32 range1Id, uint32 range2Id);
+            uint32                      get_free_range(uint32 length);
 
             void                        _resize(uint32 oldCapacity, uint32 newCapacity);
 
-            uint32                      generateRangeId();
-            uint32                      generateTokenId();
+            uint32                      generate_range_id();
 
-    Vector<BufferRange>         _freeRanges;
-    Vector<BufferRange>         _usedRanges;
+    Map<uint32, Range>    _freeRanges;
+    Map<uint32, Range>    _usedRanges;
 
     uint32                      _nextUidRange;
     uint32                      _nextUidToken;
@@ -86,13 +88,13 @@ private:
 template<class T>
 ArrayBuffer<T>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : TransactionalBuffer(objSize, objCapacity)
 {
-    _nextUidRange    = BufferRange::FIRST_ID;
+    _nextUidRange = 0;
 
     // 1# Create initial range
-    auto initialRange = BufferRange(generateRangeId(), this, 0, atom_capacity());
-    _freeRanges.add(initialRange);
+    auto initialRange = Range(0, atom_capacity());
+    _freeRanges.put(generate_range_id(), initialRange);
     
-    LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.length()-1 << "], OBJ SIZE: " << object_size()  << endl;
+    LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size()  << endl;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -100,47 +102,59 @@ ArrayBuffer<T>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void ArrayBuffer<T>::commit_write(shared_ptr<vector<T>> objects, shared_ptr<TB_Token> token)
+void ArrayBuffer<T>::commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> aToken)
 {
+    auto token = static_pointer_cast<ArrayBufferToken>(aToken);
+
     // 1# Get free range
     uint32_t size = (uint32_t)objects->size() * object_size();
-    BufferRange freeRange = getFreeRange(size);
+    
+    uint32      freeRangeId = get_free_range(size);
+    Range freeRange   = _freeRanges.get(freeRangeId);
 
-    _freeRanges.remove(freeRange);
-    _usedRanges.add(freeRange);
+    _freeRanges.remove(freeRangeId);
+    _usedRanges.put(freeRangeId, freeRange);
 
-    // 2#  Write
+    // 2# Write
     write(freeRange.index(), objects);
-    LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << freeRange.index() << ", " << freeRange.index() + size - 1 << "]" << endl;
+    LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << freeRange.index() << ", " << freeRange.last_index() << "]" << endl;
 
     // 3# Update and validate the token
-    token->set_range_id(freeRange.id());
-    token->set_data(freeRange.index(), freeRange.length(), object_size());
+    token->set_range_id(freeRangeId);
+    token->set_atom_range(freeRange);
+    token->set_object_size(object_size());
     token->validate();
 }
 
 template<class T>
-void ArrayBuffer<T>::commit_remove(shared_ptr<TB_Token> token)
+void ArrayBuffer<T>::commit_remove(shared_ptr<BufferToken> aToken)
 {
+    auto token = static_pointer_cast<ArrayBufferToken>(aToken);
+
     // 1# Get used range
     uint32 rangeId = token->range_id();
-    Vector<BufferRange> ranges;
 
-    _usedRanges.forAll([&](BufferRange& range) -> void {
-        if (range.id() == rangeId) {
-            ranges.add(range);
-        }
-    });
+    if (!_usedRanges.contains(rangeId)) {
+        LOGGER.log(Level::WARN) << "Attempting to remove unkown range with id: " << rangeId << endl;
+        return;
+    }
+
+    Range range = _usedRanges.get(rangeId);
 
     // 2# Remove range
-    for (BufferRange range : ranges) {
-        remove(range.index(), range.length());
-        _usedRanges.remove(range);
-        _freeRanges.add(range);
-    }
+    remove(range.index(), range.length());
+
+    _usedRanges.remove(rangeId);
+    _freeRanges.put(rangeId, range);
 
     // 3# Invalidate token
     token->invalidate();
+}
+
+template<class T>
+inline shared_ptr<BufferToken> ArrayBuffer<T>::create_token(uint32 id)
+{
+    return make_shared<ArrayBufferToken>(id, this);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -148,27 +162,32 @@ void ArrayBuffer<T>::commit_remove(shared_ptr<TB_Token> token)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void ArrayBuffer<T>::optimize() {
+void ArrayBuffer<T>::optimize_free_ranges() {
     bool hasChanged = false;
 
     do {
-        hasChanged = optimizeNext();
+        hasChanged = _optimize_free_ranges();
     } while (hasChanged);
 }
 
 template<class T>
-bool ArrayBuffer<T>::optimizeNext() {
-    for (size_t i = 0; i < _freeRanges.size(); i++) {
-        for (size_t p = i + 1; p < _freeRanges.size(); p++) {
-            auto range1 = _freeRanges.at(i);
-            auto range2 = _freeRanges.at(p);
+bool ArrayBuffer<T>::_optimize_free_ranges() {
+    auto freeRanges = _freeRanges.as_vector();
+
+    for (size_t i = 0; i < freeRanges.size(); i++) {
+        for (size_t p = i + 1; p < freeRanges.size(); p++) {
+            auto range1Id = freeRanges.at(i).first;
+            auto range1 = freeRanges.at(i).second;
+
+            auto range2Id = freeRanges.at(p).first;
+            auto range2 = freeRanges.at(p).second;
 
             if (range1.index() + range1.length() == range2.index()) {
-                mergeAdjacentFreeRanges(range1, range2);
+                merge_free_ranges(range1Id, range2Id);
                 return true;
             }
             else if (range2.index() + range2.length() == range1.index()) {
-                mergeAdjacentFreeRanges(range2, range1);
+                merge_free_ranges(range2Id, range1Id);
                 return true;
             }
         }
@@ -178,78 +197,81 @@ bool ArrayBuffer<T>::optimizeNext() {
 }
 
 template<class T>
-void ArrayBuffer<T>::mergeAdjacentFreeRanges(BufferRange range1, BufferRange range2) {
+void ArrayBuffer<T>::merge_free_ranges(uint32 range1Id, uint32 range2Id) {
     // 1# Guards
-    if (!_freeRanges.contains(range1)) {
+    if (!_freeRanges.contains(range1Id)) {
         return;
     }
 
-    if (!_freeRanges.contains(range2)) {
+    if (!_freeRanges.contains(range2Id)) {
         return;
     }
+
+    Range range1 = _freeRanges.get(range1Id);
+    Range range2 = _freeRanges.get(range2Id);
 
     if (range1.index() + range1.length() != range2.index()) {
+        LOGGER.log(Level::WARN) << "Attempting to merge non-adjacent ranges with id: " << range1Id << ", " << range2Id << endl;
         return;
     }
 
     // 2# Create new range
-    auto mergedRange = BufferRange(generateRangeId(), this, range1.index(), range1.length() + range2.length());
+    uint32 mergedRangeId = generate_range_id();
+    auto mergedRange = Range(range1.index(), range1.length() + range2.length());
 
     // 3# Swap out ranges
-    _freeRanges.remove(range1);
-    _freeRanges.remove(range2);
-    _freeRanges.add(mergedRange);
+    _freeRanges.remove(range1Id);
+    _freeRanges.remove(range2Id);
+    _freeRanges.put(mergedRangeId, mergedRange);
 }
 
 template<class T>
-BufferRange ArrayBuffer<T>::getFreeRange(uint32 length) {
+uint32 ArrayBuffer<T>::get_free_range(uint32 length) {
     // 1# Find a range with range.length >= length
-    BufferRange freeRange;
-    bool foundRange = false;
+    Nullable<uint32> optionalRangeId;
 
-    for (auto aRange : _freeRanges) {
-        if (aRange.length() >= length) {
-            freeRange = aRange;
-            foundRange = true;
-            break;
+    for (auto pair : _freeRanges.as_vector()) {
+        if (pair.second.length() >= length) {
+            optionalRangeId = pair.first;
         }
     }
 
     // 2.1# If no range found: resize, search again
-    if (!foundRange) {
+    if (optionalRangeId.is_null()) {
         _resize(atom_capacity(), atom_capacity() + length);
 
-        for (auto aRange : _freeRanges) {
-            if (aRange.length() >= length) {
-                freeRange = aRange;
-                foundRange = true;
-                break;
+        for (auto pair : _freeRanges.as_vector()) {
+            if (pair.second.length() >= length) {
+                optionalRangeId = pair.first;
             }
         }
 
-        if (!foundRange) {
+        if (optionalRangeId.is_null()) {
             throw std::logic_error("No free range found after resizing! Make sure resizing is implemented properly!");
         }
     }
 
+    Range range = _freeRanges.get(optionalRangeId.get());
+
     // 2.2# If range is larger than needed, split
-    if (freeRange.length() > length) {
-        auto oldRange = freeRange;
-        auto newRange1 = BufferRange(generateRangeId(), this, oldRange.index(), length);
+    if (range.length() > length) {
+        uint32 newRange1Id = generate_range_id();
+        auto newRange1 = Range(range.index(), length);
 
-        uint32_t newRange2Index = newRange1.index() + newRange1.length();
-        uint32_t newRange2Length = oldRange.length() - length;
-        auto newRange2 = BufferRange(generateRangeId(), this, newRange2Index, newRange2Length);
+        uint32 newRange2Index = newRange1.index() + newRange1.length();
+        uint32 newRange2Length = range.length() - length;
+        auto newRange2 = Range(newRange2Index, newRange2Length);
 
-        _freeRanges.remove(oldRange);
-        _freeRanges.add(newRange1);
-        _freeRanges.add(newRange2);
+        _freeRanges.remove(optionalRangeId.get());
+        _freeRanges.put(newRange1Id, newRange1);
+        _freeRanges.put(generate_range_id(), newRange2);
 
-        freeRange = newRange1;
+        return newRange1Id;
     }
-
-    // 2.2# Return range
-    return freeRange;
+    // 2.3# else return found range id
+    else {
+        return optionalRangeId.get();
+    }
 }
 
 template<class T>
@@ -257,13 +279,15 @@ void ArrayBuffer<T>::_resize(uint32 oldAtomCapacity, uint32 newAtomCapacity) {
     resize(oldAtomCapacity, newAtomCapacity);
 
     set_atom_capacity(newAtomCapacity);
-    _freeRanges.add(BufferRange(generateRangeId(), this, oldAtomCapacity, newAtomCapacity - oldAtomCapacity));
 
-    optimize();
+    auto additionalFreeRange = Range(oldAtomCapacity, newAtomCapacity - oldAtomCapacity);
+    _freeRanges.put(generate_range_id(), additionalFreeRange);
+
+    optimize_free_ranges();
 }
 
 template<class T>
-uint32 ArrayBuffer<T>::generateRangeId() {
+uint32 ArrayBuffer<T>::generate_range_id() {
     return _nextUidRange++;
 }
 

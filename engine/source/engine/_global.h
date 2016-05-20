@@ -150,6 +150,14 @@
         using std::tuple;
         using std::make_tuple;
 
+// Using functional programming
+#include <functional>
+        using std::function;
+
+// Using assertions
+#include <cassert>
+
+
 // Define type sizes
 #define FLOAT_BYTES 4
 #define DOUBLE_BYTES 8
@@ -159,3 +167,8 @@
 #define UINT16_BYTES 2
 #define UINT32_BYTES 4
 #define UINT64_BYTES 8
+
+// Import engine std extensions
+#include "vector.h"
+#include "map.h"
+#include "nullable.h"

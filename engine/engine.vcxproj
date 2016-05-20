@@ -25,14 +25,18 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\engine\arraybuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
+    <ClInclude Include="source\engine\map.h" />
+    <ClInclude Include="source\engine\nullable.h" />
     <ClInclude Include="source\engine\stackbuffer.h" />
+    <ClInclude Include="source\engine\stackbuffertoken.h" />
     <ClInclude Include="source\engine\transactionalbuffer.h" />
+    <ClInclude Include="source\engine\transactionbucket.h" />
     <ClInclude Include="source\engine\vector.h" />
-    <ClInclude Include="source\engine\bufferrange.h" />
+    <ClInclude Include="source\engine\range.h" />
     <ClInclude Include="source\engine\tb_removeop.h" />
-    <ClInclude Include="source\engine\tb_token.h" />
     <ClInclude Include="source\engine\tb_writeop.h" />
     <ClInclude Include="source\engine\arraybuffer.h" />
     <ClInclude Include="source\engine\buffertoken.h" />
@@ -44,8 +48,6 @@
     <ClInclude Include="source\engine\disablednetworkengine.h" />
     <ClInclude Include="source\engine\disabledphysicsengine.h" />
     <ClInclude Include="source\engine\disabledrenderengine.h" />
-    <ClInclude Include="source\engine\dynamicbuffer.h" />
-    <ClInclude Include="source\engine\dynamicbufferrange.h" />
     <ClInclude Include="source\engine\engine.h" />
     <ClInclude Include="source\engine\engineconfiguration.h" />
     <ClInclude Include="source\engine\engineexception.h" />
@@ -84,6 +86,7 @@
     <ClInclude Include="source\sandbox\testgamestate.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\engine\arraybuffertoken.cpp" />
     <ClCompile Include="source\engine\decimal32.cpp" />
     <ClCompile Include="source\engine\defaultrenderengine.cpp" />
     <ClCompile Include="source\engine\disabledinputengine.cpp" />
@@ -91,7 +94,6 @@
     <ClCompile Include="source\engine\disablednetworkengine.cpp" />
     <ClCompile Include="source\engine\disabledphysicsengine.cpp" />
     <ClCompile Include="source\engine\disabledrenderengine.cpp" />
-    <ClCompile Include="source\engine\dynamicbufferrange.cpp" />
     <ClCompile Include="source\engine\engine.cpp" />
     <ClCompile Include="source\engine\engineconfiguration.cpp" />
     <ClCompile Include="source\engine\engineexception.cpp" />
@@ -104,9 +106,9 @@
     <ClCompile Include="source\engine\resourcemanager.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
     <ClCompile Include="source\engine\shaderbuilder.cpp" />
-    <ClCompile Include="source\engine\bufferrange.cpp" />
+    <ClCompile Include="source\engine\range.cpp" />
+    <ClCompile Include="source\engine\stackbuffertoken.cpp" />
     <ClCompile Include="source\engine\tb_removeop.cpp" />
-    <ClCompile Include="source\engine\tb_token.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
     <ClCompile Include="source\engine\vector2f.cpp" />
     <ClCompile Include="source\engine\vector3f.cpp" />

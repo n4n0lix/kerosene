@@ -20,7 +20,6 @@
 #include "shader.h"
 #include "primitivetype.h"
 #include "material.h"
-#include "dynamicbuffer.h"
 #include "vertexarray.h"
 
 ENGINE_NAMESPACE_BEGIN
@@ -58,10 +57,11 @@ public:
     void                     render(shared_ptr<BatchToken> token);
     void                     render();
 
-    shared_ptr<BatchToken>   addVertices(shared_ptr<vector<VERTEX>> vertices);
-    void                     removeVertices(shared_ptr<BatchToken> token);
+    shared_ptr<BatchToken>   add_vertices(shared_ptr<Vector<VERTEX>> vertices); // TODO: return VertexBufferToken
+    void                     remove_vertices(shared_ptr<BatchToken> token);
 
-    void                     addIndices(shared_ptr<vector<uint32>> indices);
+    void                     add_indices(shared_ptr<Vector<uint32>> indices); // TODO: return IndexBufferToken
+    // TODO:                 remove_Indices(vector<uint32>)
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -111,38 +111,32 @@ void Batch<VERTEX>::render()
 }
 
 template<class VERTEX>
-shared_ptr<BatchToken> Batch<VERTEX>::addVertices(shared_ptr<vector<VERTEX>> vertices)
+shared_ptr<BatchToken> Batch<VERTEX>::add_vertices(shared_ptr<Vector<VERTEX>> vertices)
 {
     if (vertices->empty()) {
         return nullptr;
     }
 
-    shared_ptr<BufferToken> token = _vao->getVertexBuffer()->addVertices(vertices);
-
-    // 2# Retrieve indices
-    shared_ptr<vector<uint32>> indices = make_shared<vector<uint32>>();
-    for (uint32 i = token->object_index(); i < token->object_index() + token->object_length(); i++) {
-        indices->push_back(i);
-    }
+    shared_ptr<BufferToken> token = _vao->get_vertexbuffer()->addVertices(vertices);
 
     return shared_ptr<BatchToken>(new BatchToken(this, token));
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::removeVertices(shared_ptr<BatchToken> token)
+void Batch<VERTEX>::remove_vertices(shared_ptr<BatchToken> token)
 {
     if (token->_batch != this) {
         LOGGER.log(Level::WARN) << "Invalid token given, token doesn't belong to this batch!" << endl;
         return;
     }
 
-    _vao->getVertexBuffer()->removeVertices(token->_wobToken);
+    _vao->get_vertexbuffer()->removeVertices(token->_wobToken);
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::addIndices(shared_ptr<vector<uint32>> indices)
+void Batch<VERTEX>::add_indices(shared_ptr<Vector<uint32>> indices)
 {
-    _vao->get_index_buffer()->add_indices(indices);
+    _vao->get_indexbuffer()->add_indices(indices);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

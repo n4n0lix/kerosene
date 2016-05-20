@@ -33,11 +33,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     explicit                            VertexArray(shared_ptr<VertexLayout> layout);
 
-    void                                set_vertex_buffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
-    shared_ptr<VertexBuffer<VERTEX>>    getVertexBuffer();
+    void                                set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
+    shared_ptr<VertexBuffer<VERTEX>>    get_vertexbuffer();
 
-    void                                set_index_buffer(shared_ptr<IndexBuffer> indexBuffer);
-    shared_ptr<IndexBuffer>             get_index_buffer();
+    void                                set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer);
+    shared_ptr<IndexBuffer>             get_indexbuffer();
 
     void                                render(shared_ptr<BufferToken> token);
     void                                render();
@@ -51,8 +51,10 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    void                                renderByVBOTokens();
-    void                                renderByIndexBuffer();
+    void                                clean_up_rendering();
+
+    void                                render_by_vbotokens();
+    void                                render_by_indexbuffer();
 
     GLuint _vaoId;
 
@@ -82,13 +84,13 @@ VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
     LOGGER.log(Level::DEBUG, _vaoId) << "CREATE" << endl;
 
     // #2 Create VBO and IxBO
-    set_vertex_buffer(make_shared<VertexBuffer<VERTEX>>(_layout, 32));
-    set_index_buffer(make_shared<IndexBuffer>(32));
+    set_vertexbuffer(make_shared<VertexBuffer<VERTEX>>(_layout, 32));
+    set_indexbuffer(make_shared<IndexBuffer>(32));
 }
 
 // TODO: Add nullptr handling -> unbind old vbo
 template<class VERTEX>
-void VertexArray<VERTEX>::set_vertex_buffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer)
+void VertexArray<VERTEX>::set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer)
 {
     LOGGER.log(Level::DEBUG, _vaoId) << "BIND VBO (id:" << vertexBuffer->getId() << ")" << endl;
 
@@ -114,13 +116,13 @@ void VertexArray<VERTEX>::set_vertex_buffer(shared_ptr<VertexBuffer<VERTEX>> ver
 }
 
 template<class VERTEX>
-shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::getVertexBuffer()
+shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::get_vertexbuffer()
 {
     return _vertexBuffer;
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::set_index_buffer(shared_ptr<IndexBuffer> indexBuffer)
+void VertexArray<VERTEX>::set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer)
 {
     LOGGER.log(Level::DEBUG, _vaoId) << "BIND IxBO (id:" << indexBuffer->get_id() << ")" << endl;
 
@@ -142,7 +144,7 @@ void VertexArray<VERTEX>::set_index_buffer(shared_ptr<IndexBuffer> indexBuffer)
 }
 
 template<class VERTEX>
-inline shared_ptr<IndexBuffer> VertexArray<VERTEX>::get_index_buffer()
+inline shared_ptr<IndexBuffer> VertexArray<VERTEX>::get_indexbuffer()
 {
     return _indexBuffer;
 }
@@ -162,15 +164,23 @@ void VertexArray<VERTEX>::render()
 
     // 2# Render
     if (_indexBuffer == nullptr) {
-        renderByVBOTokens();
+        render_by_vbotokens();
     }
     else {
-        renderByIndexBuffer();
+        render_by_indexbuffer();
     }
+
+    clean_up_rendering();
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::renderByVBOTokens()
+void VertexArray<VERTEX>::clean_up_rendering()
+{
+    _renderTokens.clear();
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::render_by_vbotokens()
 {    
     // 1# Construct 'cpu index buffer' from tokens
     vector<uint32> indices;
@@ -182,8 +192,6 @@ void VertexArray<VERTEX>::renderByVBOTokens()
         }
     }
 
-    _renderTokens.clear();
-
     // 2# Render
     glBindVertexArray(_vaoId);
     glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, &indices[0]);
@@ -191,7 +199,7 @@ void VertexArray<VERTEX>::renderByVBOTokens()
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::renderByIndexBuffer()
+void VertexArray<VERTEX>::render_by_indexbuffer()
 {
     // 1# Render
     glBindVertexArray(_vaoId);

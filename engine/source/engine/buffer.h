@@ -30,17 +30,13 @@ public:
 
     virtual uint32                   num_objects() = 0;
 
-    virtual shared_ptr<BufferToken>  write(shared_ptr<vector<OBJECT>> objects) = 0;
+    virtual shared_ptr<BufferToken>  write(shared_ptr<Vector<OBJECT>> objects) = 0;
     virtual void                     remove(shared_ptr<BufferToken> token) = 0;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             void                     set_atom_capacity(uint32 newAtomCapacity);
-
-    virtual void                     write(uint32 index, shared_ptr<vector<OBJECT>> objects) = 0;
-    virtual void                     remove(uint32 index, uint32 length) = 0;
-    virtual void                     resize(uint32 oldCapacity, uint32 newCapacity) = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -8,40 +8,43 @@
 
 // Internal Includes
 #include "_global.h"
-#include "buffertoken.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class TB_RemoveOp {
+class Range {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static const uint32 NULL_UID = 0;
-    static const uint32 FIRST_UID = 1;
-
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            TB_RemoveOp(uint32 id, shared_ptr<BufferToken> token);
+    Range();
+    Range(uint32 start, uint32 length);
 
-    uint32                      id();
-    shared_ptr<BufferToken>        token();
+    uint32  start();
+    uint32  length();
+
+    uint32  index();
+    uint32  last_index();
+
+    void    move(uint32 distance);
+
+    bool    operator!=(const Range& o) const;
+    bool    operator==(const Range& o) const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
+    /*                       Private                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    uint32                      _id;
-    shared_ptr<BufferToken>     _token;
+    uint32 _start;
+    uint32 _length;
 
 };
 
 ENGINE_NAMESPACE_END
-
-

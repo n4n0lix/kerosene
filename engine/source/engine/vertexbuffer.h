@@ -32,14 +32,14 @@ public:
 
             GLuint                      getId();
 
-            shared_ptr<BufferToken>     addVertices(shared_ptr<vector<VERTEX>> vertices);
+            shared_ptr<BufferToken>     addVertices(shared_ptr<Vector<VERTEX>> vertices);
             void                        removeVertices(shared_ptr<BufferToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        write(uint32 index, shared_ptr<vector<VERTEX>> vertices);
+    virtual void                        write(uint32 index, shared_ptr<Vector<VERTEX>> vertices);
     virtual void                        remove(uint32 index, uint32 length);
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity);
 
@@ -80,7 +80,7 @@ GLuint VertexBuffer<VERTEX>::getId()
 }
 
 template<class VERTEX>
-shared_ptr<BufferToken> VertexBuffer<VERTEX>::addVertices(shared_ptr<vector<VERTEX>> vertices)
+shared_ptr<BufferToken> VertexBuffer<VERTEX>::addVertices(shared_ptr<Vector<VERTEX>> vertices)
 {
     LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices->size() << " vertices" << endl;
     return ArrayBuffer<VERTEX>::write(vertices);
@@ -97,7 +97,7 @@ void VertexBuffer<VERTEX>::removeVertices(shared_ptr<BufferToken> token)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-void VertexBuffer<VERTEX>::write(uint32 index, shared_ptr<vector<VERTEX>> vertices) {
+void VertexBuffer<VERTEX>::write(uint32 index, shared_ptr<Vector<VERTEX>> vertices) {
     // vertices -> vector<float>
     vector<float> data;
     for (VERTEX vertex : *vertices.get()) {

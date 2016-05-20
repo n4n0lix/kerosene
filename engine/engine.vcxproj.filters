@@ -219,16 +219,7 @@
     <ClInclude Include="source\engine\_gl.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\dynamicbuffer.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\dynamicbufferrange.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\tb_removeop.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\tb_token.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\tb_writeop.h">
@@ -255,9 +246,6 @@
     <ClInclude Include="source\engine\vector.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\bufferrange.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\arraybuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
@@ -265,6 +253,24 @@
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\stackbuffer.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\transactionbucket.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\map.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\nullable.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\range.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stackbuffertoken.h">
+      <Filter>Headerdateien\engine\utils\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\arraybuffertoken.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -347,12 +353,6 @@
     <ClCompile Include="source\engine\_gl.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\dynamicbufferrange.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\tb_token.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\tb_removeop.cpp">
       <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
@@ -362,7 +362,13 @@
     <ClCompile Include="source\engine\indexbuffer.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\bufferrange.cpp">
+    <ClCompile Include="source\engine\range.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stackbuffertoken.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\arraybuffertoken.cpp">
       <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
   </ItemGroup>
