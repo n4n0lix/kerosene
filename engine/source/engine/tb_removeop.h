@@ -30,7 +30,7 @@ public:
             TB_RemoveOp(uint32 id, shared_ptr<BufferToken> token);
 
     uint32                      id();
-    shared_ptr<BufferToken>        token();
+    shared_ptr<BufferToken>     token();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

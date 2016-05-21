@@ -34,7 +34,7 @@ vector<float> Vertex_pc::data() const
     data.push_back(color.y);
     data.push_back(color.z);
     data.push_back(color.w);
-    return data;
+    return std::move(data);
 }
 
 inline uint32 Vertex_pc::bytesize() const 

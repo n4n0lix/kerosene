@@ -30,10 +30,10 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                         VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initCapacity);
 
-            GLuint                      getId();
+            GLuint                      get_id();
 
-            shared_ptr<BufferToken>     addVertices(shared_ptr<Vector<VERTEX>> vertices);
-            void                        removeVertices(shared_ptr<BufferToken> token);
+            shared_ptr<BufferToken>     add_vertices(shared_ptr<Vector<VERTEX>> vertices);
+            void                        remove_vertices(shared_ptr<BufferToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -74,20 +74,20 @@ VertexBuffer<VERTEX>::VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initC
 }
 
 template<class VERTEX>
-GLuint VertexBuffer<VERTEX>::getId()
+GLuint VertexBuffer<VERTEX>::get_id()
 {
     return _vboId;
 }
 
 template<class VERTEX>
-shared_ptr<BufferToken> VertexBuffer<VERTEX>::addVertices(shared_ptr<Vector<VERTEX>> vertices)
+shared_ptr<BufferToken> VertexBuffer<VERTEX>::add_vertices(shared_ptr<Vector<VERTEX>> vertices)
 {
     LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices->size() << " vertices" << endl;
     return ArrayBuffer<VERTEX>::write(vertices);
 }
 
 template<class VERTEX>
-void VertexBuffer<VERTEX>::removeVertices(shared_ptr<BufferToken> token)
+void VertexBuffer<VERTEX>::remove_vertices(shared_ptr<BufferToken> token)
 {
     ArrayBuffer<VERTEX>::remove(token);
 }

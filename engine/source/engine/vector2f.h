@@ -36,8 +36,8 @@ public:
             
     bool     isUnit();
     bool     isZero();
-    bool operator==(const Vector2f& o) const;
-    bool operator!=(const Vector2f& o) const;
+    bool     operator==(const Vector2f& o) const;
+    bool     operator!=(const Vector2f& o) const;
 
     Vector2f operator-() const;
 

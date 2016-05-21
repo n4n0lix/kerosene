@@ -51,9 +51,17 @@ uint32 BufferToken::object_size()
     return _objSize;
 }
 
-shared_ptr<vector<uint32>> BufferToken::object_indices()
+vector<uint32> BufferToken::object_indices()
 {
-    return _objIndices;
+    vector<uint32> objIndices;
+
+    if (_objRange.length() > 0) {
+        for (uint32 i = _objRange.index(); i <= _objRange.last_index(); i++) {
+            _objIndices->push_back(i);
+        }
+    }
+
+    return std::move(objIndices);
 }
 
 bool BufferToken::operator!=(const BufferToken& o) const
@@ -89,15 +97,6 @@ void BufferToken::update()
 {
     _objRange = Range(_atomRange.index() / _objSize, 
                       _atomRange.length() / _objSize);
-
-    _objIndices = make_shared<vector<uint32>>();
-
-    if (_objRange.length() > 0) {
-        for (uint32 i = _objRange.index(); i <= _objRange.last_index(); i++) {
-            _objIndices->push_back(i);
-        }
-    }
-
 }
 
 ENGINE_NAMESPACE_END

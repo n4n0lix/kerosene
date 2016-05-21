@@ -29,7 +29,7 @@ public:
     Range                       atom_range();
     Range                       object_range();
     uint32                      object_size();
-    shared_ptr<vector<uint32>>  object_indices();
+    vector<uint32>              object_indices();
 
     void                        move(uint32 distance);
 

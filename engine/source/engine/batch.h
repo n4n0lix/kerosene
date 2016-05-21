@@ -117,7 +117,7 @@ shared_ptr<BatchToken> Batch<VERTEX>::add_vertices(shared_ptr<Vector<VERTEX>> ve
         return nullptr;
     }
 
-    shared_ptr<BufferToken> token = _vao->get_vertexbuffer()->addVertices(vertices);
+    shared_ptr<BufferToken> token = _vao->vertexbuffer()->add_vertices(vertices);
 
     return shared_ptr<BatchToken>(new BatchToken(this, token));
 }
@@ -130,13 +130,13 @@ void Batch<VERTEX>::remove_vertices(shared_ptr<BatchToken> token)
         return;
     }
 
-    _vao->get_vertexbuffer()->removeVertices(token->_wobToken);
+    _vao->vertexbuffer()->remove_vertices(token->_wobToken);
 }
 
 template<class VERTEX>
 void Batch<VERTEX>::add_indices(shared_ptr<Vector<uint32>> indices)
 {
-    _vao->get_indexbuffer()->add_indices(indices);
+    _vao->indexbuffer()->add_indices(indices);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

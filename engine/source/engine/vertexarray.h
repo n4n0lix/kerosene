@@ -34,10 +34,10 @@ public:
     explicit                            VertexArray(shared_ptr<VertexLayout> layout);
 
     void                                set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
-    shared_ptr<VertexBuffer<VERTEX>>    get_vertexbuffer();
+    shared_ptr<VertexBuffer<VERTEX>>    vertexbuffer();
 
     void                                set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer);
-    shared_ptr<IndexBuffer>             get_indexbuffer();
+    shared_ptr<IndexBuffer>             indexbuffer();
 
     void                                render(shared_ptr<BufferToken> token);
     void                                render();
@@ -92,14 +92,14 @@ VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
 template<class VERTEX>
 void VertexArray<VERTEX>::set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer)
 {
-    LOGGER.log(Level::DEBUG, _vaoId) << "BIND VBO (id:" << vertexBuffer->getId() << ")" << endl;
+    LOGGER.log(Level::DEBUG, _vaoId) << "BIND VBO (id:" << vertexBuffer->get_id() << ")" << endl;
 
     // #1 Set vertexbuffer
     _vertexBuffer = vertexBuffer;
 
     // #2 Bind vertexbuffer
     glBindVertexArray(_vaoId);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer->getId());
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer->get_id());
 
     // #3 Declare VBO Layout
     GLuint offset = 0;
@@ -116,7 +116,7 @@ void VertexArray<VERTEX>::set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vert
 }
 
 template<class VERTEX>
-shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::get_vertexbuffer()
+shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::vertexbuffer()
 {
     return _vertexBuffer;
 }
@@ -144,7 +144,7 @@ void VertexArray<VERTEX>::set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer)
 }
 
 template<class VERTEX>
-inline shared_ptr<IndexBuffer> VertexArray<VERTEX>::get_indexbuffer()
+inline shared_ptr<IndexBuffer> VertexArray<VERTEX>::indexbuffer()
 {
     return _indexBuffer;
 }
@@ -187,7 +187,7 @@ void VertexArray<VERTEX>::render_by_vbotokens()
 
     for (shared_ptr<BufferToken> token : _renderTokens) {
         if (token->valid()) {
-            vector<uint32>& tokenIndices = *(token->object_indices().get());
+            vector<uint32> tokenIndices = token->object_indices();
             indices.insert(indices.end(), tokenIndices.begin(), tokenIndices.end());
         }
     }
