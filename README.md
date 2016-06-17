@@ -14,7 +14,7 @@ use the provided solution `engine.sln`.
 
 ## 2. coding conventions
 ### 2.1 contract
-make visible what the function requires and can ensure after its execution.
+make visible what the function requires and ensures after its execution.
 
     Requires( <bool> ); // Required by the function to work properly
     Assert( <bool> );   // Some in-function check of sanity 
