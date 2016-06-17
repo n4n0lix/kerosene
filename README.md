@@ -20,7 +20,7 @@ make visible what the function requires and ensures after its execution.
     Assert( <bool> );   // Some in-function check of sanity 
     Ensures( <bool> );  // What the function can ensure after its execution
 
-### 2.2 guards
+### 2.2 guard
 make guard-checks visible.
 
     Guard( <bool> ) return;
