@@ -16,7 +16,7 @@ use the provided solution `engine.sln`.
 ### 2.1 Design by contract
 Make visible what the function requires and can ensure after its execution.
 
-    Requires( objects.empty() );    // Required by the function to work properly
-    Assert( objects.size() == 1);   // Some in-function check of sanity 
-    Ensures( objects.size() > 0 );  // What the function can ensure after its execution
+    Requires( *bool* ); // Required by the function to work properly
+    Assert( *bool* );   // Some in-function check of sanity 
+    Ensures( *bool* );  // What the function can ensure after its execution
 
