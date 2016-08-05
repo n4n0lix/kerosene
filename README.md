@@ -39,7 +39,7 @@ first we declare the layout of the vertex in the shader. this enables us to acce
                   {"vec4", "color",    2} } };
     }
 
-here we write the vertexs data into a vector so that the renderengine can submit it to the gpu. it is important that the order of attributes are corresponding to the vertex layout we defined above.
+next we write the vertexs data into a vector so that the renderengine can submit it to the gpu. it is important that the order of attributes are corresponding to the vertex layout we defined above.
 
     vector<float> Vertex_pc::data() const
     {
