@@ -255,6 +255,6 @@ uint32 StackBuffer<T>::generateRangeId() {
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class OBJECT>
-Logger StackBuffer<OBJECT>::LOGGER = Logger("StackBuffer<>", Level::DEBUG);
+Logger StackBuffer<OBJECT>::LOGGER = Logger("StackBuffer<>", Level::WARN);
 
 ENGINE_NAMESPACE_END

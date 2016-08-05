@@ -255,9 +255,6 @@
     <ClInclude Include="source\engine\stackbuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\transactionbucket.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\map.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
@@ -278,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="source\engine\vertextoken.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\imageutils.h">
+      <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="source\engine\vertextoken.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\imageutils.cpp">
+      <Filter>Quelldateien\engine\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

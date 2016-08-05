@@ -23,8 +23,7 @@ ENGINE_NAMESPACE_BEGIN
 
 /**
  * Ensures that for every possible tuple of (Texture,Shader) there
- * exists a maximum of one instance of Material, that contains the
- * texture and the shader.
+ * exists maximal one instance of Material.
  */
 class ResourceManager
 {

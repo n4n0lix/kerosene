@@ -209,6 +209,6 @@ uint32 TransactionalBuffer<T>::generate_removeop_id() {
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class OBJECT>
-Logger TransactionalBuffer<OBJECT>::LOGGER = Logger("TransactionalBuffer<>", Level::DEBUG);
+Logger TransactionalBuffer<OBJECT>::LOGGER = Logger("TransactionalBuffer<>", Level::WARN);
 
 ENGINE_NAMESPACE_END

@@ -25,6 +25,10 @@ void DefaultRenderEngine::onStart()
         throw new EngineException("Couldn't initialize GLEW!");
     }
 
+    // IMAGE UTILS
+    //////////////
+    ImageUtils::load_png("res/textures/dev/128.png");
+
     // VERTEX LAYOUT
     //////////////////
 
@@ -92,6 +96,7 @@ void DefaultRenderEngine::onStart()
     _batch->add_render_static(_tokenTriangle2);
     _batch->add_render_static(_tokenTriangle3);
     _batch->add_render_static(_tokenTriangle4);
+
 }
 
 void DefaultRenderEngine::onUpdate()

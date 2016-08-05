@@ -167,6 +167,6 @@ GLuint VertexBuffer<VERTEX>::createVBO(uint32 capacityBytes) {
 }
 
 template<class VERTEX>
-Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>", Level::OFF);
+Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>", Level::WARN);
 
 ENGINE_NAMESPACE_END

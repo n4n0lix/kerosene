@@ -265,7 +265,7 @@ void VertexArray<VERTEX>::set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-Logger VertexArray<VERTEX>::LOGGER = Logger("VertexArray<>", Level::DEBUG);
+Logger VertexArray<VERTEX>::LOGGER = Logger("VertexArray<>", Level::WARN);
 
 template<class VERTEX>
 uint32 VertexArray<VERTEX>::DEFAULT_VERTEXBUFFER_SIZE = 32;

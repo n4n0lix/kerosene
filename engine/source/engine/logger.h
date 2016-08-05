@@ -72,12 +72,24 @@ private:
     }
 
     std::ostream& get_stream(Level level) {
-        if (_level == Level::OFF) {
-            _silentOutput.clear();
-            return _silentOutput;
+        if (_level == Level::ERROR && (level == Level::ERROR)) {
+            return cout;
         }
 
-        return cout;
+        if (_level == Level::WARN && (level == Level::ERROR || level == Level::WARN)) {
+            return cout;
+        }
+
+        if (_level == Level::INFO && (level == Level::ERROR || level == Level::WARN || level == Level::INFO)) {
+            return cout;
+        }
+
+        if (_level == Level::DEBUG) {
+            return cout;
+        }
+
+        _silentOutput.clear();
+        return _silentOutput;
     }
 
 };

@@ -118,7 +118,7 @@ GLuint IndexBuffer::createIBO(uint32 capacityBytes) {
     return iboId;
 }
 
-Logger IndexBuffer::LOGGER = Logger("IndexBuffer", Level::DEBUG);
+Logger IndexBuffer::LOGGER = Logger("IndexBuffer", Level::WARN);
 
 
 ENGINE_NAMESPACE_END
