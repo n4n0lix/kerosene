@@ -4,21 +4,24 @@
 - cross-platform (linux/windows)(x86/x64)
 - opengl 3.3
 
-Based on [OrangeStar-Engine](https://github.com/n4n0lix/OrangeStar-Engine).
+## 1. introduction
+#### building
+##### windows
+* microsoft visual studio 2015
+use the provided solution `engine.sln`.
 
-## Windows
-##### Requirements
-* Microsoft Visual Studio 2015
+##### linux
+* TODO
 
-Use the provided solution `engine.sln` that includes the projects`engine`, `engine_test` and `engine_sandbox`.
-## Linux
-##### Requirements
-* cmake
-* glew-1.13
-* gcc
+## 2. code
+### 2.1 contract
+make visible what the function requires and ensures after its execution.
 
-Use one of the provided compile scripts
- * `compile-linux-gcc-linux32-debug.sh`
- * `compile-linux-gcc-linux32-release.sh`
- * `compile-linux-gcc-linux64-debug.sh`
- * `compile-linux-gcc-linux64-release.sh`
+    Requires( <bool> ); // Required by the function to work properly
+    Assert( <bool> );   // Some in-function check of sanity 
+    Ensures( <bool> );  // What the function can ensure after its execution
+
+### 2.2 guard
+make guard-checks visible.
+
+    Guard( <bool> ) return;
