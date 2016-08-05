@@ -36,7 +36,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                         ArrayBuffer(uint32 objCapacity, uint32 objSize);
 
-    using                               TransactionalBuffer<T>::commit;
+    using                               TransactionalBuffer<T>::commit_write;
+    using                               TransactionalBuffer<T>::commit_remove;
     using                               TransactionalBuffer<T>::write;
     using                               TransactionalBuffer<T>::remove;
     using                               TransactionalBuffer<T>::num_objects;

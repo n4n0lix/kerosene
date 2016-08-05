@@ -51,6 +51,8 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+    void                                write_new_indices_into_indexbuffer();
+
     void                                set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexbuffer);
     void                                set_indexbuffer(shared_ptr<IndexBuffer> indexbuffer);
 
@@ -126,6 +128,7 @@ void VertexArray<VERTEX>::remove_vertices(shared_ptr<VertexToken> token) {
 
     // X# Contract Post
     // TODO:
+    Ensure( vertexBuffer)
     // Ensure token not in vertexbuffer
     // Ensure token not in indexbuffer
 }
@@ -145,10 +148,18 @@ void VertexArray<VERTEX>::remove_render_static(shared_ptr<VertexToken> token)
 {
     // 0# Contract Pre
     Requires(token != nullptr);
-    Requires(token->indexbuffer_token() != nullptr);
     // TODO: Requires indexBufferToken is in indexbuffer
 
-    // 1# Remove indices from indexbuffer
+    // 1# Guards
+    Guard( !token->indexbuffer_token() ) return;
+
+    // 2# If indices aren't in indexbuffer yet but in queue for it, just remove them from the queue.
+    if (_toAddToIndexBuffer.contains( token )) {
+        _toAddToIndexBuffer.remove( token );
+        return;
+    }
+
+    // 3# Remove indices from indexbuffer
     _indexBuffer->remove_indices( token->indexbuffer_token() );
 
     // X# Contract Post
@@ -159,20 +170,37 @@ void VertexArray<VERTEX>::remove_render_static(shared_ptr<VertexToken> token)
 template<class VERTEX>
 void VertexArray<VERTEX>::render()
 {
-    // 1# Commit changes
-    _vertexBuffer->commit();
+    // 1# Remove old indices
+    _indexBuffer->commit_remove();
 
-    for (auto token : _toAddToIndexBuffer) {
-        auto indexToken = _indexBuffer->add_indices( token->vertexbuffer_token()->object_indices() );
-        token->set_indexbuffer_token( indexToken );
-    }
-    _indexBuffer->commit();
-    _toAddToIndexBuffer.clear();
+    // 2# Remove old vertices
+    _vertexBuffer->commit_remove();
 
-    // 2# Render
+    // 3# Write new vertices into vertexbuffer
+    _vertexBuffer->commit_write();
+
+    // 4# Write new indices into indexbuffer (dependency on 3#, because of indices from new vertices written in 3#)
+    write_new_indices_into_indexbuffer();
+    _indexBuffer->commit_write();
+
+    // 6# Render
     glBindVertexArray(_vaoId);
     glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
     glBindVertexArray(0);
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::write_new_indices_into_indexbuffer() {
+    // 1# Add indices to indexbuffer
+    for (auto token : _toAddToIndexBuffer) {
+        if (!token->vertexbuffer_token()->valid()) {
+            LOGGER.log(Level::WARN, _vaoId) << " trying to add indices of invalid vertextoken (vertices not written to vertexbuffer yet -> no indices)!" << endl; continue;
+        }
+
+        auto indexToken = _indexBuffer->add_indices(token->vertexbuffer_token()->object_indices());
+        token->set_indexbuffer_token(indexToken);
+    }
+    _toAddToIndexBuffer.clear();
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

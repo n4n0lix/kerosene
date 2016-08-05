@@ -29,8 +29,9 @@ public:
             uint32                   atom_capacity() const;
 
     virtual uint32                   num_objects() = 0;
+    virtual bool                     contains(shared_ptr<BufferToken> token) = 0;
 
-    virtual shared_ptr<BufferToken>  write(Vector<OBJECT> objects) = 0; // TODO: use move-semantics instead of pointers here
+    virtual shared_ptr<BufferToken>  write(Vector<OBJECT> objects) = 0;
     virtual void                     remove(shared_ptr<BufferToken> token) = 0;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -23,24 +23,6 @@
 #include "vertexarray.h"
 
 ENGINE_NAMESPACE_BEGIN
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                     Inner Classes                      */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-template<class T> class Batch;
-
-class BatchToken {
-    template<class T> friend class Batch;
-
-private:
-    BatchToken(void* batch, shared_ptr<BufferToken> token) : _batch(batch), _token(token) { }
-
-    void*                       get_batch() { return _batch; }
-    shared_ptr<BufferToken>     get_token() { return _token; }
-
-    void*                       _batch;
-    shared_ptr<BufferToken>     _token;
-};
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

@@ -35,7 +35,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                             StackBuffer(uint32 objSize, uint32 objCapacity);
 
-    using                                   TransactionalBuffer<T>::commit;
+    using                                   TransactionalBuffer<T>::commit_write;
+    using                                   TransactionalBuffer<T>::commit_remove;
     using                                   TransactionalBuffer<T>::write;
     using                                   TransactionalBuffer<T>::remove;
     using                                   TransactionalBuffer<T>::num_objects;
@@ -47,7 +48,8 @@ protected:
     virtual void                            commit_remove(shared_ptr<BufferToken> token);
         
     virtual shared_ptr<BufferToken>         create_token(uint32 id);
-    using                                   TransactionalBuffer::get_active_tokens;
+    using                                   TransactionalBuffer::get_tokens;
+    using                                   TransactionalBuffer::get_future_tokens;
 
     // Final-Implementation
     virtual void                            write(uint32 index, Vector<T> objects) = 0;
@@ -224,7 +226,16 @@ shared_ptr<BufferToken> StackBuffer<T>::create_token(uint32 id)
 template<class T>
 shared_ptr<StackBufferToken> StackBuffer<T>::get_token_by_range_id(uint32 rangeId)
 {
-    for (auto aToken : get_active_tokens()) {
+    // 1# Search in tokens
+    for (auto aToken : get_tokens()) {
+        auto token = static_pointer_cast<StackBufferToken>(aToken);
+        if (token->range_id() == rangeId) {
+            return token;
+        }
+    }
+
+    // 2# Search in future tokens
+    for (auto aToken : get_future_tokens()) {
         auto token = static_pointer_cast<StackBufferToken>(aToken);
         if (token->range_id() == rangeId) {
             return token;

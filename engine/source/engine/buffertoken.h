@@ -28,7 +28,7 @@ public:
     void*                       get_buffer();
     uint32                      get_id();
 
-    bool                        valid();
+    bool                        valid();            // Returns true as soon as the objects are written in the buffer
     Range                       atom_range();
     Range                       object_range();
     uint32                      object_size();
