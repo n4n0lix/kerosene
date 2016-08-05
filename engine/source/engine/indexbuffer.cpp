@@ -22,36 +22,33 @@ GLuint IndexBuffer::get_id()
     return _iboId;
 }
 
-shared_ptr<BufferToken> IndexBuffer::add_indices(shared_ptr<Vector<uint32>> indices)
+shared_ptr<BufferToken> IndexBuffer::add_indices(Vector<uint32> indices)
 {
-    LOGGER.log(Level::DEBUG, _iboId) << "ADD " << indices->size() << " indices" << endl;
-    shared_ptr<BufferToken> token = StackBuffer<uint32>::write(indices);
-    _activeTokens.add(token);
-    return token;
+    LOGGER.log( Level::DEBUG, _iboId ) << "ADD " << indices.size() << " indices" << endl;
+    return StackBuffer<uint32>::write( std::move(indices) );
 }
 
 void IndexBuffer::remove_indices(shared_ptr<BufferToken> token)
 {
     StackBuffer<uint32>::remove(token);
-    _activeTokens.remove(token);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                       Protected                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void IndexBuffer::write(uint32 index, shared_ptr<Vector<uint32>> ptrIndices) {
+void IndexBuffer::write(uint32 index, Vector<uint32> indices) {
     // debug only
     std::ostringstream debugMsg;
     debugMsg << "WRITE INDICES [";
-    for (uint16 aIndex : *ptrIndices.get()) {
+    for (uint32 aIndex : indices) {
         debugMsg << aIndex << " ";
     }
-    LOGGER.log(Level::DEBUG) << debugMsg.str() << "] @ [" << index << "," << ptrIndices->size() * UINT32_BYTES << "]" << endl;
+    LOGGER.log(Level::DEBUG) << debugMsg.str() << "] @ [" << index << "," << indices.size() * UINT32_BYTES << "]" << endl;
 
     // vector<float> -> gpu-buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboId);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, index, ptrIndices->size() * UINT32_BYTES, ptrIndices->data());
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, index, indices.size() * UINT32_BYTES, indices.data());
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 

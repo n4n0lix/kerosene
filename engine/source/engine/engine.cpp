@@ -35,13 +35,13 @@ Engine::Engine(EngineConfiguration& config)
     _network =  shared_ptr<INetworkEngine>{ config.claimNetworkEngine().release() }; // Hand over the ownership
 
     // Post-Conditions
-    assert(_tickTime > 0);
-    assert(_gameState != nullptr);
-    assert(_render != nullptr);
-    assert(_input != nullptr);
-    assert(_logic != nullptr);
-    assert(_physics != nullptr);
-    assert(_network != nullptr);
+    Ensures( _tickTime > 0 );
+    Ensures( _gameState != nullptr );
+    Ensures( _render != nullptr );
+    Ensures( _input != nullptr );
+    Ensures( _logic != nullptr );
+    Ensures( _physics != nullptr );
+    Ensures( _network != nullptr );
 }
 
 int Engine::run() {

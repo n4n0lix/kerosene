@@ -6,6 +6,9 @@
 
 // Std-Includes
 
+// Std-Extensions
+#include "vector.h"
+
 // Internal Includes
 #include "_global.h"
 #include "range.h"
@@ -29,7 +32,7 @@ public:
     Range                       atom_range();
     Range                       object_range();
     uint32                      object_size();
-    vector<uint32>              object_indices();
+    Vector<uint32>              object_indices();
 
     void                        move(uint32 distance);
 

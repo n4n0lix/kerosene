@@ -33,13 +33,13 @@ class BatchToken {
     template<class T> friend class Batch;
 
 private:
-    BatchToken(void* batch, shared_ptr<BufferToken> token) : _batch(batch), _wobToken(token) { }
+    BatchToken(void* batch, shared_ptr<BufferToken> token) : _batch(batch), _token(token) { }
 
-    void*                       get_batch()     { return _batch; }
-    shared_ptr<BufferToken>     get_wob_token() { return _wobToken; }
+    void*                       get_batch() { return _batch; }
+    shared_ptr<BufferToken>     get_token() { return _token; }
 
     void*                       _batch;
-    shared_ptr<BufferToken>     _wobToken;
+    shared_ptr<BufferToken>     _token;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -53,15 +53,15 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
               explicit Batch(shared_ptr<Material> material);
+    
+    shared_ptr<VertexToken>             add_vertices(Vector<VERTEX> vertices);
+    void                                remove_vertices(shared_ptr<VertexToken> token);
+    
+    void                                add_render_static(shared_ptr<VertexToken> token);
+    void                                remove_render_static(shared_ptr<VertexToken> token);
+    
+    void                                render();
 
-    void                     render(shared_ptr<BatchToken> token);
-    void                     render();
-
-    shared_ptr<BatchToken>   add_vertices(shared_ptr<Vector<VERTEX>> vertices); // TODO: return VertexBufferToken
-    void                     remove_vertices(shared_ptr<BatchToken> token);
-
-    void                     add_indices(shared_ptr<Vector<uint32>> indices); // TODO: return IndexBufferToken
-    // TODO:                 remove_Indices(vector<uint32>)
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -95,11 +95,27 @@ Batch<VERTEX>::Batch(shared_ptr<Material> material) {
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::render(shared_ptr<BatchToken> token)
+shared_ptr<VertexToken> Batch<VERTEX>::add_vertices(Vector<VERTEX> vertices)
 {
-    if (token->get_batch() == this) {
-        _vao->render(token->get_wob_token());
-    }
+    return _vao->add_vertices( vertices );
+}
+
+template<class VERTEX>
+void Batch<VERTEX>::remove_vertices(shared_ptr<VertexToken> token)
+{
+    _vao->remove_vertices( token );
+}
+
+template<class VERTEX>
+void Batch<VERTEX>::add_render_static(shared_ptr<VertexToken> token)
+{
+    _vao->add_render_static( token );
+}
+
+template<class VERTEX>
+void Batch<VERTEX>::remove_render_static(shared_ptr<VertexToken> token)
+{
+    _vao->remove_render_static(token);
 }
 
 
@@ -108,35 +124,6 @@ void Batch<VERTEX>::render()
 {
     _material->getShader()->bind();
     _vao->render();
-}
-
-template<class VERTEX>
-shared_ptr<BatchToken> Batch<VERTEX>::add_vertices(shared_ptr<Vector<VERTEX>> vertices)
-{
-    if (vertices->empty()) {
-        return nullptr;
-    }
-
-    shared_ptr<BufferToken> token = _vao->vertexbuffer()->add_vertices(vertices);
-
-    return shared_ptr<BatchToken>(new BatchToken(this, token));
-}
-
-template<class VERTEX>
-void Batch<VERTEX>::remove_vertices(shared_ptr<BatchToken> token)
-{
-    if (token->_batch != this) {
-        LOGGER.log(Level::WARN) << "Invalid token given, token doesn't belong to this batch!" << endl;
-        return;
-    }
-
-    _vao->vertexbuffer()->remove_vertices(token->_wobToken);
-}
-
-template<class VERTEX>
-void Batch<VERTEX>::add_indices(shared_ptr<Vector<uint32>> indices)
-{
-    _vao->indexbuffer()->add_indices(indices);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

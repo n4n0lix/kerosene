@@ -273,6 +273,12 @@
     <ClInclude Include="source\engine\arraybuffertoken.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\non_null.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertextoken.h">
+      <Filter>Headerdateien\engine\render\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\defaultrenderengine.cpp">
@@ -370,6 +376,9 @@
     </ClCompile>
     <ClCompile Include="source\engine\arraybuffertoken.cpp">
       <Filter>Quelldateien\engine\utils\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertextoken.cpp">
+      <Filter>Quelldateien\engine\render\opengl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

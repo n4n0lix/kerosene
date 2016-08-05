@@ -29,6 +29,7 @@
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
     <ClInclude Include="source\engine\map.h" />
+    <ClInclude Include="source\engine\non_null.h" />
     <ClInclude Include="source\engine\nullable.h" />
     <ClInclude Include="source\engine\stackbuffer.h" />
     <ClInclude Include="source\engine\stackbuffertoken.h" />
@@ -78,6 +79,7 @@
     <ClInclude Include="source\engine\vertexbuffer.h" />
     <ClInclude Include="source\engine\vertexcomponent.h" />
     <ClInclude Include="source\engine\vertexlayout.h" />
+    <ClInclude Include="source\engine\vertextoken.h" />
     <ClInclude Include="source\engine\vertex_pc.h" />
     <ClInclude Include="source\engine\_gl.h" />
     <ClInclude Include="source\engine\_global.h" />
@@ -113,6 +115,7 @@
     <ClCompile Include="source\engine\vector2f.cpp" />
     <ClCompile Include="source\engine\vector3f.cpp" />
     <ClCompile Include="source\engine\vector4f.cpp" />
+    <ClCompile Include="source\engine\vertextoken.cpp" />
     <ClCompile Include="source\engine\vertex_pc.cpp" />
     <ClCompile Include="source\engine\buffertoken.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />
@@ -212,7 +215,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>

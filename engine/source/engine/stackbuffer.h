@@ -8,19 +8,15 @@
 #include <stdexcept>
 #include <functional>
 
+// Std-Extensions
+#include "vector.h"
+#include "map.h"
+
 // Internal Includes
 #include "_global.h"
-#include "vector.h"
-
-#include "buffer.h"
 #include "range.h"
-
 #include "transactionalbuffer.h"
-
 #include "stackbuffertoken.h"
-
-#include "tb_writeop.h"
-#include "tb_removeop.h"
 
 // TODO: Optimize the methods 'optimizeNext' and 'optimize'
 // TODO: Merge RemoveOps and WriteOps to decrease the num of operations
@@ -47,14 +43,14 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                            commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> commit_token);
+    virtual void                            commit_write(Vector<T> objects, shared_ptr<BufferToken> commit_token);
     virtual void                            commit_remove(shared_ptr<BufferToken> token);
         
     virtual shared_ptr<BufferToken>         create_token(uint32 id);
     using                                   TransactionalBuffer::get_active_tokens;
 
     // Final-Implementation
-    virtual void                            write(uint32 index, shared_ptr<Vector<T>> objects) = 0;
+    virtual void                            write(uint32 index, Vector<T> objects) = 0;
     virtual void                            resize(uint32 oldCapacity, uint32 newCapacity) = 0;
     virtual void                            copy(uint32 srcIndex, uint32 destIndex, uint32 length) = 0;
 
@@ -62,9 +58,6 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            void                            _write(shared_ptr<TB_WriteOp<T>> writeOp);
-            void                            _remove(shared_ptr<TB_RemoveOp> writeOp);
-
             shared_ptr<StackBufferToken>    get_token_by_range_id(uint32 rangeId);
 
             uint32                          generateRangeId();
@@ -72,7 +65,7 @@ private:
     Range                     _freeRange;
     Map<uint32, Range>        _usedRanges; // TODO: Continue here, goal is to remove uid from within BufferRange
 
-    uint32                  _nextUidRange;
+    uint32                    _nextUidRange;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -93,6 +86,9 @@ StackBuffer<T>::StackBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
     // 1# Create initial range
     _freeRange = Range(0, atom_capacity());
     LOGGER.log(Level::DEBUG) << "CREATE [" << _freeRange.index() << "," << _freeRange.length()-1 << "], OBJ SIZE: " << object_size()  << endl;
+
+    // X# Contract Post
+    Ensures( _freeRange.length() == atom_capacity() );
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -100,12 +96,16 @@ StackBuffer<T>::StackBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void StackBuffer<T>::commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> aToken)
+void StackBuffer<T>::commit_write(Vector<T> objects, shared_ptr<BufferToken> aToken)
 {
     auto token = static_pointer_cast<StackBufferToken>(aToken);
 
+    // 0# Contract Pre
+    Requires( objects.size() > 0 );
+    Requires( aToken != nullptr );
+
     // 1# Check if freerange is large enough
-    uint32_t neededSize = (uint32_t)objects->size() * object_size();
+    uint32 neededSize = (uint32_t)objects.size() * object_size();
     
     if (_freeRange.length() < neededSize) {
         // ... we need to grow the buffer
@@ -128,9 +128,10 @@ void StackBuffer<T>::commit_write(shared_ptr<Vector<T>> objects, shared_ptr<Buff
     _freeRange = Range(usedRange.index() + usedRange.length(), _freeRange.length() - usedRange.length());
 
     // 2#  Write
-    write(usedRange.index(), objects);
-    LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]" << endl;
+    LOGGER.log(Level::DEBUG) << "WRITE " << objects.size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]" << endl;
     LOGGER.log(Level::DEBUG) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
+
+    write(usedRange.index(), std::move(objects));
 
     _usedRanges.put(usedRangeId, usedRange);
 
@@ -139,6 +140,9 @@ void StackBuffer<T>::commit_write(shared_ptr<Vector<T>> objects, shared_ptr<Buff
     token->set_atom_range(usedRange);
     token->set_object_size(object_size());
     token->validate();
+
+    // X# Contract Post
+    Ensures( token->valid() );
 }
 
 template<class OBJECT>
@@ -176,8 +180,8 @@ void StackBuffer<OBJECT>::commit_remove(shared_ptr<BufferToken> aToken)
 
     uint32 moveDistance = copyDestFirst - copySourceFirst;
 
-    assert(copyDestFirst <= copySourceFirst);
-    assert(copySourceLength == copyDestLength);
+    Assert(copyDestFirst <= copySourceFirst);
+    Assert(copySourceLength == copyDestLength);
 
     // 2.2# Copy data
     copy(copySourceFirst, copyDestFirst, copySourceLength);
@@ -185,15 +189,6 @@ void StackBuffer<OBJECT>::commit_remove(shared_ptr<BufferToken> aToken)
 
     _usedRanges.remove(rangeId);
     _freeRange = Range(freeRangeFirst, freeRangeLength);
-
-    // 2.3# Update all tokens
-    //for (auto aToken : get_active_tokens()) {
-    //    if (aToken->atom_index() > delRangeLast) {
-    //        uint32 oldTokenIndex = aToken->atom_index();
-    //        aToken->move( moveDistance );
-    //        LOGGER.log(Level::DEBUG) << "UPDATE TOKEN [" << oldTokenIndex << ", " << (oldTokenIndex + aToken->atom_length()) - 1 << "] TO [" << aToken->atom_index() << ", " << (aToken->atom_index() + aToken->atom_length()) - 1 << "]" << endl;
-    //    }
-    //}
 
     // 2.4# Update all ranges
     for (auto pair : _usedRanges.as_vector()) {

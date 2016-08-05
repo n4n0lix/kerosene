@@ -8,17 +8,16 @@
 #include <stdexcept>
 #include <functional>
 
+// Std-Extensions
+#include "vector.h"
+#include "map.h"
+
 // Internal Includes
 #include "_global.h"
-#include "vector.h"
-
-#include "transactionalbuffer.h"
 #include "range.h"
 
+#include "transactionalbuffer.h"
 #include "arraybuffertoken.h"
-
-#include "tb_writeop.h"
-#include "tb_removeop.h"
 
 // TODO: Optimize the methods 'optimizeNext' and 'optimize'
 // TODO: Merge RemoveOps and WriteOps to decrease the num of operations
@@ -45,13 +44,13 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> token);
+    virtual void                        commit_write(Vector<T> objects, shared_ptr<BufferToken> token);
     virtual void                        commit_remove(shared_ptr<BufferToken> token);
 
     virtual shared_ptr<BufferToken>     create_token(uint32 id);
 
     // Final-Implementation
-    virtual void                        write(uint32 index, shared_ptr<Vector<T>> objects) = 0;
+    virtual void                        write(uint32 index, Vector<T> objects) = 0;
     virtual void                        remove(uint32 index, uint32 length) { };
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity) = 0;
 
@@ -88,13 +87,17 @@ private:
 template<class T>
 ArrayBuffer<T>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : TransactionalBuffer(objSize, objCapacity)
 {
-    _nextUidRange = 0;
+    // 0# Contract Pre
 
     // 1# Create initial range
+    _nextUidRange = 0;
     auto initialRange = Range(0, atom_capacity());
     _freeRanges.put(generate_range_id(), initialRange);
     
-    LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size()  << endl;
+    LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size() << endl;
+
+    // X# Contract Post
+    Ensures( !_freeRanges.empty() );
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -102,34 +105,43 @@ ArrayBuffer<T>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void ArrayBuffer<T>::commit_write(shared_ptr<Vector<T>> objects, shared_ptr<BufferToken> aToken)
+void ArrayBuffer<T>::commit_write(Vector<T> objects, shared_ptr<BufferToken> aToken)
 {
     auto token = static_pointer_cast<ArrayBufferToken>(aToken);
 
-    // 1# Get free range
-    uint32_t size = (uint32_t)objects->size() * object_size();
-    
-    uint32      freeRangeId = get_free_range(size);
-    Range freeRange   = _freeRanges.get(freeRangeId);
+    // 0# Contract Pre
+    Requires( objects.size() > 0 );
+    Requires( aToken != nullptr );
 
-    _freeRanges.remove(freeRangeId);
-    _usedRanges.put(freeRangeId, freeRange);
+    // 1# Get free range
+    uint32_t size = (uint32_t)objects.size() * object_size();
+    
+    uint32 freeRangeId = get_free_range( size );
+    Range freeRange    = _freeRanges.get( freeRangeId );
+
+    _freeRanges.remove( freeRangeId );
+    _usedRanges.put( freeRangeId, freeRange );
 
     // 2# Write
-    write(freeRange.index(), objects);
-    LOGGER.log(Level::DEBUG) << "WRITE " << objects->size() << " AT [" << freeRange.index() << ", " << freeRange.last_index() << "]" << endl;
+    LOGGER.log(Level::DEBUG) << "WRITE " << objects.size() << " AT [" << freeRange.index() << ", " << freeRange.last_index() << "]" << endl;
+    write( freeRange.index(), std::move(objects) );
 
     // 3# Update and validate the token
-    token->set_range_id(freeRangeId);
-    token->set_atom_range(freeRange);
-    token->set_object_size(object_size());
+    token->set_range_id( freeRangeId );
+    token->set_atom_range( freeRange );
+    token->set_object_size( object_size() );
     token->validate();
+
+    // 4# Contract Post
+    Ensures( token->valid() );
 }
 
 template<class T>
 void ArrayBuffer<T>::commit_remove(shared_ptr<BufferToken> aToken)
 {
     auto token = static_pointer_cast<ArrayBufferToken>(aToken);
+
+    // 0# Contract Pre
 
     // 1# Get used range
     uint32 rangeId = token->range_id();
@@ -149,6 +161,9 @@ void ArrayBuffer<T>::commit_remove(shared_ptr<BufferToken> aToken)
 
     // 3# Invalidate token
     token->invalidate();
+
+    // 4# Contract Post
+    Ensures( !token->valid() );
 }
 
 template<class T>

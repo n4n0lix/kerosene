@@ -17,7 +17,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC DisabledPhysicsEngine : public IPhysicsEngine
+class DisabledPhysicsEngine : public IPhysicsEngine
 {
 public:
             explicit DisabledPhysicsEngine();

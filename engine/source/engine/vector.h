@@ -32,7 +32,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    void                    add(T& object);
+    void                    add(const T& object);
 
     size_t                  remove(T& object);
     size_t                  remove(std::function<bool(T&)> func);
@@ -53,7 +53,7 @@ private:
 };
 
 template<class T>
-void Vector<T>::add(T& object)
+void Vector<T>::add(const T& object)
 {
     this->push_back(object);
 }

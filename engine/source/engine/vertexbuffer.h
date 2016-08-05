@@ -32,14 +32,14 @@ public:
 
             GLuint                      get_id();
 
-            shared_ptr<BufferToken>     add_vertices(shared_ptr<Vector<VERTEX>> vertices);
+            shared_ptr<BufferToken>     add_vertices(Vector<VERTEX> vertices);
             void                        remove_vertices(shared_ptr<BufferToken> token);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        write(uint32 index, shared_ptr<Vector<VERTEX>> vertices);
+    virtual void                        write(uint32 index, Vector<VERTEX> vertices);
     virtual void                        remove(uint32 index, uint32 length);
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity);
 
@@ -80,10 +80,10 @@ GLuint VertexBuffer<VERTEX>::get_id()
 }
 
 template<class VERTEX>
-shared_ptr<BufferToken> VertexBuffer<VERTEX>::add_vertices(shared_ptr<Vector<VERTEX>> vertices)
+shared_ptr<BufferToken> VertexBuffer<VERTEX>::add_vertices(Vector<VERTEX> vertices)
 {
-    LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices->size() << " vertices" << endl;
-    return ArrayBuffer<VERTEX>::write(vertices);
+    LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices.size() << " vertices" << endl;
+    return ArrayBuffer<VERTEX>::write(std::move( vertices ));
 }
 
 template<class VERTEX>
@@ -97,10 +97,10 @@ void VertexBuffer<VERTEX>::remove_vertices(shared_ptr<BufferToken> token)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-void VertexBuffer<VERTEX>::write(uint32 index, shared_ptr<Vector<VERTEX>> vertices) {
+void VertexBuffer<VERTEX>::write(uint32 index, Vector<VERTEX> vertices) {
     // vertices -> vector<float>
     vector<float> data;
-    for (VERTEX vertex : *vertices.get()) {
+    for (VERTEX vertex : vertices) {
         vector<float> vertexData = vertex.data();
         data.insert(data.end(), vertexData.begin(), vertexData.end());
 
@@ -111,7 +111,7 @@ void VertexBuffer<VERTEX>::write(uint32 index, shared_ptr<Vector<VERTEX>> vertic
 
     // vector<float> -> gpu-buffer
     glBindBuffer(GL_ARRAY_BUFFER, _vboId);
-    glBufferSubData(GL_ARRAY_BUFFER, index, data.size() * FLOAT_BYTES, &data[0]);
+    glBufferSubData(GL_ARRAY_BUFFER, index, data.size() * FLOAT_BYTES, data.data());
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

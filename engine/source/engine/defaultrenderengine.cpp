@@ -64,44 +64,34 @@ void DefaultRenderEngine::onStart()
     //////////
     _batch = make_unique<Batch<Vertex_pc>>(material);
 
-    shared_ptr<Vector<Vertex_pc>> vertices1 = make_shared<Vector<Vertex_pc>>();
-    vertices1->push_back(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices1->push_back(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices1->push_back(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    Vector<Vertex_pc> vertices1 = Vector<Vertex_pc>();
+    vertices1.add(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices1.add(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices1.add(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
     _tokenTriangle1 = _batch->add_vertices(vertices1);
 
-    shared_ptr<Vector<Vertex_pc>> vertices2 = make_shared<Vector<Vertex_pc>>();
-    vertices2->push_back(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices2->push_back(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices2->push_back(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    Vector<Vertex_pc> vertices2 = Vector<Vertex_pc>();
+    vertices2.add(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices2.add(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices2.add(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
     _tokenTriangle2 = _batch->add_vertices(vertices2);
 
-    shared_ptr<Vector<Vertex_pc>> vertices3 = make_shared<Vector<Vertex_pc>>();
-    vertices3->push_back(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices3->push_back(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices3->push_back(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    Vector<Vertex_pc> vertices3 = Vector<Vertex_pc>();
+    vertices3.add(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices3.add(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices3.add(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
     _tokenTriangle3 = _batch->add_vertices(vertices3);
 
-    shared_ptr<Vector<Vertex_pc>> vertices4 = make_shared<Vector<Vertex_pc>>();
-    vertices4->push_back(Vertex_pc(Vector3f(0,  0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices4->push_back(Vertex_pc(Vector3f(1,  0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices4->push_back(Vertex_pc(Vector3f(.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    Vector<Vertex_pc> vertices4 = Vector<Vertex_pc>();
+    vertices4.add(Vertex_pc(Vector3f(0,  0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices4.add(Vertex_pc(Vector3f(1,  0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices4.add(Vertex_pc(Vector3f(.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
     _tokenTriangle4 = _batch->add_vertices(vertices4);
 
-    shared_ptr<Vector<uint32>> indices = make_shared<Vector<uint32>>();
-    indices->push_back(0);
-    indices->push_back(1);
-    indices->push_back(2);
-    indices->push_back(3);
-    indices->push_back(4);
-    indices->push_back(5);
-    indices->push_back(6);
-    indices->push_back(7);
-    indices->push_back(8);
-    indices->push_back(9);
-    indices->push_back(10);
-    indices->push_back(11);
-    _batch->add_indices(indices);
+    _batch->add_render_static(_tokenTriangle1);
+    _batch->add_render_static(_tokenTriangle2);
+    _batch->add_render_static(_tokenTriangle3);
+    _batch->add_render_static(_tokenTriangle4);
 }
 
 void DefaultRenderEngine::onUpdate()
@@ -115,10 +105,6 @@ void DefaultRenderEngine::onUpdate()
     glViewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
 
     // Test code
-    _batch->render(_tokenTriangle1);
-    _batch->render(_tokenTriangle2);
-    _batch->render(_tokenTriangle3);
-    _batch->render(_tokenTriangle4);
     _batch->render();
 
     // #3 Render

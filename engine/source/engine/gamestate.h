@@ -17,13 +17,13 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-enum DLL_PUBLIC GameStateStatus {
+enum GameStateStatus {
     READY,      /* Not Running */
     RUNNING,    /* Running */
     FINISHED    /* Running, but finished */
 };
 
-class DLL_PUBLIC GameState
+class GameState
 {
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */

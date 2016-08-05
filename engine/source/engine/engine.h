@@ -34,7 +34,7 @@ ENGINE_NAMESPACE_BEGIN
 /**
  * The main engine object.
  */
-class DLL_PUBLIC Engine
+class Engine
 {
 
 public:

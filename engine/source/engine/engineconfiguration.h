@@ -31,7 +31,7 @@ ENGINE_NAMESPACE_BEGIN
  * Contains pointers to subengine instances, for which the configuration takes
  * no ownership.
  */
-class DLL_PUBLIC EngineConfiguration
+class EngineConfiguration
 {
 
 public:

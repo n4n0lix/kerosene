@@ -22,7 +22,7 @@ ENGINE_NAMESPACE_BEGIN
 /**
  * A fixed-point decimal implementation. (Q21.10)
  */
-class DLL_PUBLIC decimal32
+class decimal32
 {
 public:
     friend std::ostream & operator<<(std::ostream &os, const decimal32& dec) { os << dec.to_string(); return os; }

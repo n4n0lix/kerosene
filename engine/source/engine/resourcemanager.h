@@ -26,7 +26,7 @@ ENGINE_NAMESPACE_BEGIN
  * exists a maximum of one instance of Material, that contains the
  * texture and the shader.
  */
-class DLL_PUBLIC ResourceManager
+class ResourceManager
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

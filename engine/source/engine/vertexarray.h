@@ -17,6 +17,7 @@
 #include "vertexbuffer.h"
 #include "indexbuffer.h"
 #include "primitivetype.h"
+#include "vertextoken.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -33,13 +34,12 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     explicit                            VertexArray(shared_ptr<VertexLayout> layout);
 
-    void                                set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexBuffer);
-    shared_ptr<VertexBuffer<VERTEX>>    vertexbuffer();
+    shared_ptr<VertexToken>             add_vertices(Vector<VERTEX> vertices);
+    void                                remove_vertices(shared_ptr<VertexToken> token);
 
-    void                                set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer);
-    shared_ptr<IndexBuffer>             indexbuffer();
+    void                                add_render_static(shared_ptr<VertexToken> token);
+    void                                remove_render_static(shared_ptr<VertexToken> token);
 
-    void                                render(shared_ptr<BufferToken> token);
     void                                render();
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -51,23 +51,27 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    void                                clean_up_rendering();
-
-    void                                render_by_vbotokens();
-    void                                render_by_indexbuffer();
+    void                                set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vertexbuffer);
+    void                                set_indexbuffer(shared_ptr<IndexBuffer> indexbuffer);
 
     GLuint _vaoId;
 
-    vector<shared_ptr<BufferToken>>     _renderTokens;
+    vector<shared_ptr<VertexToken>>     _vertexTokens;
     shared_ptr<VertexLayout>            _layout;
     shared_ptr<VertexBuffer<VERTEX>>    _vertexBuffer;
     shared_ptr<IndexBuffer>             _indexBuffer;
+
+    Vector<shared_ptr<VertexToken>>     _toAddToIndexBuffer;
+
+    uint32 _vertexTokenNextId;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     static Logger LOGGER;
+    static uint32 DEFAULT_VERTEXBUFFER_SIZE;
+    static uint32 DEFAULT_INDEXBUFFER_SIZE;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -75,18 +79,109 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout)
+VertexArray<VERTEX>::VertexArray(shared_ptr<VertexLayout> layout) : _vertexTokenNextId(0), _layout(layout)
 {
-    _layout = layout;
+    // 0# Contract Pre
+    Requires(layout != nullptr);
     
     // #1 Create VAO
     glGenVertexArrays(1, &_vaoId);
     LOGGER.log(Level::DEBUG, _vaoId) << "CREATE" << endl;
 
     // #2 Create VBO and IxBO
-    set_vertexbuffer(make_shared<VertexBuffer<VERTEX>>(_layout, 32));
-    set_indexbuffer(make_shared<IndexBuffer>(32));
+    set_vertexbuffer(make_shared<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ));
+    set_indexbuffer(make_shared<IndexBuffer>( DEFAULT_INDEXBUFFER_SIZE ));
 }
+
+template<class VERTEX>
+shared_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(Vector<VERTEX> vertices) {
+    // 1# Add vertices
+    shared_ptr<BufferToken> vertexBufferToken = _vertexBuffer->add_vertices( vertices );
+
+    // 2# Assemble VertexToken
+    shared_ptr<VertexToken> vertexToken = make_shared<VertexToken>(_vertexTokenNextId++);
+    vertexToken->set_vertexbuffer_token( vertexBufferToken );
+
+    // X# Contract Post
+    Ensures( vertexToken != nullptr );
+    Ensures( vertexBufferToken != nullptr );
+    // TODO: Ensures vertexBufferToken is in vertexbuffer
+
+    return vertexToken;
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::remove_vertices(shared_ptr<VertexToken> token) {
+    // 0# Contract Pre
+    Requires( token != nullptr );
+    Requires( token->vertexbuffer_token() != nullptr );
+
+    // 1# Remove from indexbuffer
+    if (token->indexbuffer_token() != nullptr) {
+        _indexBuffer->remove_indices( token->indexbuffer_token() );
+    }
+
+    // 2# Remove from vertexbuffer
+    _vertexBuffer->remove_vertices( token->vertexbuffer_token() );
+
+    // X# Contract Post
+    // TODO:
+    // Ensure token not in vertexbuffer
+    // Ensure token not in indexbuffer
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::add_render_static(shared_ptr<VertexToken> token)
+{
+    // 0# Contract Pre
+    Requires(token != nullptr);
+    Requires(token->vertexbuffer_token() != nullptr);
+
+    _toAddToIndexBuffer.add( token );
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::remove_render_static(shared_ptr<VertexToken> token)
+{
+    // 0# Contract Pre
+    Requires(token != nullptr);
+    Requires(token->indexbuffer_token() != nullptr);
+    // TODO: Requires indexBufferToken is in indexbuffer
+
+    // 1# Remove indices from indexbuffer
+    _indexBuffer->remove_indices( token->indexbuffer_token() );
+
+    // X# Contract Post
+    // TODO:
+    // Ensure token is not in indexbuffer
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::render()
+{
+    // 1# Commit changes
+    _vertexBuffer->commit();
+
+    for (auto token : _toAddToIndexBuffer) {
+        auto indexToken = _indexBuffer->add_indices( token->vertexbuffer_token()->object_indices() );
+        token->set_indexbuffer_token( indexToken );
+    }
+    _indexBuffer->commit();
+    _toAddToIndexBuffer.clear();
+
+    // 2# Render
+    glBindVertexArray(_vaoId);
+    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+    glBindVertexArray(0);
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                       Protected                        */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                        Private                         */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // TODO: Add nullptr handling -> unbind old vbo
 template<class VERTEX>
@@ -116,12 +211,6 @@ void VertexArray<VERTEX>::set_vertexbuffer(shared_ptr<VertexBuffer<VERTEX>> vert
 }
 
 template<class VERTEX>
-shared_ptr<VertexBuffer<VERTEX>> VertexArray<VERTEX>::vertexbuffer()
-{
-    return _vertexBuffer;
-}
-
-template<class VERTEX>
 void VertexArray<VERTEX>::set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer)
 {
     LOGGER.log(Level::DEBUG, _vaoId) << "BIND IxBO (id:" << indexBuffer->get_id() << ")" << endl;
@@ -133,7 +222,7 @@ void VertexArray<VERTEX>::set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer)
     glBindVertexArray(_vaoId);
     if (_indexBuffer != nullptr) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer->get_id());
-    } 
+    }
     else {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
@@ -143,84 +232,18 @@ void VertexArray<VERTEX>::set_indexbuffer(shared_ptr<IndexBuffer> indexBuffer)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-template<class VERTEX>
-inline shared_ptr<IndexBuffer> VertexArray<VERTEX>::indexbuffer()
-{
-    return _indexBuffer;
-}
-
-template<class VERTEX>
-void VertexArray<VERTEX>::render(shared_ptr<BufferToken> token)
-{
-    _renderTokens.push_back(token);
-}
-
-template<class VERTEX>
-void VertexArray<VERTEX>::render()
-{
-    // 1# Commit changes
-    _vertexBuffer->commit();
-    _indexBuffer->commit();
-
-    // 2# Render
-    if (_indexBuffer == nullptr) {
-        render_by_vbotokens();
-    }
-    else {
-        render_by_indexbuffer();
-    }
-
-    clean_up_rendering();
-}
-
-template<class VERTEX>
-void VertexArray<VERTEX>::clean_up_rendering()
-{
-    _renderTokens.clear();
-}
-
-template<class VERTEX>
-void VertexArray<VERTEX>::render_by_vbotokens()
-{    
-    // 1# Construct 'cpu index buffer' from tokens
-    vector<uint32> indices;
-
-    for (shared_ptr<BufferToken> token : _renderTokens) {
-        if (token->valid()) {
-            vector<uint32> tokenIndices = token->object_indices();
-            indices.insert(indices.end(), tokenIndices.begin(), tokenIndices.end());
-        }
-    }
-
-    // 2# Render
-    glBindVertexArray(_vaoId);
-    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, &indices[0]);
-    glBindVertexArray(0);
-}
-
-template<class VERTEX>
-void VertexArray<VERTEX>::render_by_indexbuffer()
-{
-    // 1# Render
-    glBindVertexArray(_vaoId);
-    glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
-    glBindVertexArray(0);
-}
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                       Protected                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Private                         */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                     Private Static                     */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
 Logger VertexArray<VERTEX>::LOGGER = Logger("VertexArray<>", Level::DEBUG);
+
+template<class VERTEX>
+uint32 VertexArray<VERTEX>::DEFAULT_VERTEXBUFFER_SIZE = 32;
+
+template<class VERTEX>
+uint32 VertexArray<VERTEX>::DEFAULT_INDEXBUFFER_SIZE = 32;
 
 ENGINE_NAMESPACE_END
 

@@ -33,10 +33,12 @@ public:
 
     void                    put(K key, V value);
 
+    size_t                  size();
     bool                    contains(K key);
+    bool                    empty();
     V                       get(K key);
-    shared_ptr<Vector<V>>   values();
-    shared_ptr<Vector<K>>   keys();
+    Vector<V>               values();
+    Vector<K>               keys();
     Vector<pair<K, V>>      as_vector();
 
     bool                    remove(K key);
@@ -56,9 +58,21 @@ void Map<K, V>::put(K key, V value)
 }
 
 template<class K, class V>
+size_t Map<K, V>::size()
+{
+    return _map.size();
+}
+
+template<class K, class V>
 bool Map<K, V>::contains(K key)
 {
     return _map.find(key) != _map.end();
+}
+
+template<class K, class V>
+bool Map<K, V>::empty()
+{
+    return _map.empty();
 }
 
 template<class K, class V>
@@ -68,29 +82,29 @@ V Map<K, V>::get(K key)
 }
 
 template<class K, class V>
-shared_ptr<Vector<V>> Map<K, V>::values()
+Vector<V> Map<K, V>::values()
 {
-    shared_ptr<Vector<V>> values = make_shared<Vector<V>>();
+    Vector<V> values = Vector<V>();
 
     for (pair<K,V> entry: _map) {
-        if (!values->contains(entry.second)) {
-            values->add(entry.second);
+        if (!values.contains(entry.second)) {
+            values.add(entry.second);
         }
     }
 
-    return values;
+    return std::move( values );
 }
 
 template<class K, class V>
-shared_ptr<Vector<K>> Map<K, V>::keys()
+Vector<K> Map<K, V>::keys()
 {
-    shared_ptr<Vector<V>> keys = make_shared<Vector<V>>();
+    Vector<V> keys = Vector<V>();
 
     for (pair<K, V> entry : _map) {
-        keys->add(entry.first);
+        keys.add(entry.first);
     }
 
-    return keys;
+    return std::move( keys );
 }
 
 template<class K, class V>

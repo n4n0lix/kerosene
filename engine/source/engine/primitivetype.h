@@ -12,7 +12,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-enum DLL_PUBLIC PrimitiveType {
+enum PrimitiveType {
     POINTS           = GL_POINTS,
     LINE             = GL_LINE,
     LINE_STRIP       = GL_LINE_STRIP,

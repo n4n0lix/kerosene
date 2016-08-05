@@ -20,14 +20,14 @@ ENGINE_NAMESPACE_BEGIN
 #define VECTOR4F_COMPONENTS 4
 #define VECTOR4F_BYTES      VECTOR4F_COMPONENTS * FLOAT_BYTES
 
-struct DLL_PUBLIC vec4 {
+struct vec4 {
     float x;
     float y;
     float z;
     float w;
 };
 
-class DLL_PUBLIC Vector4f
+class Vector4f
 {
 public:
 

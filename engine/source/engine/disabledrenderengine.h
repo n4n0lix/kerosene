@@ -17,7 +17,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC DisabledRenderEngine : public IRenderEngine
+class DisabledRenderEngine : public IRenderEngine
 {
 public:
             explicit DisabledRenderEngine();

@@ -64,10 +64,10 @@ private:
     unique_ptr<Batch<Vertex_pc>> _batch;
     unique_ptr<VertexArray<Vertex_pc>> _vao;
 
-    shared_ptr<BatchToken> _tokenTriangle1;
-    shared_ptr<BatchToken> _tokenTriangle2;
-    shared_ptr<BatchToken> _tokenTriangle3;
-    shared_ptr<BatchToken> _tokenTriangle4;
+    shared_ptr<VertexToken> _tokenTriangle1;
+    shared_ptr<VertexToken> _tokenTriangle2;
+    shared_ptr<VertexToken> _tokenTriangle3;
+    shared_ptr<VertexToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END

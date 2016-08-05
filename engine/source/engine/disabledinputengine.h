@@ -18,7 +18,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC DisabledInputEngine : public IInputEngine
+class DisabledInputEngine : public IInputEngine
 {
 public:
             explicit DisabledInputEngine();

@@ -99,6 +99,9 @@
 #define ENGINE_NAMESPACE_BEGIN namespace kerosene {
 #define ENGINE_NAMESPACE_END }
 
+// Preprocessor
+#define STRINGIFY(x) #x
+
 // Using std smart pointers
 #include <memory>
         using std::unique_ptr;
@@ -154,9 +157,23 @@
 #include <functional>
         using std::function;
 
+// Guards
+#define Guard(x) if (!x)
+
 // Using assertions
 #include <cassert>
 
+#if defined(CONTRACTS_ENABLED)
+#   define Requires(cond)  if (!(cond)) \
+    throw std::runtime_error("Precondition failure at " __FILE__ ": " STRINGIFY(__LINE__));
+#   define Assert(cond)  if (!(cond)) \
+    throw std::runtime_error("Inline Assertion failure at " __FILE__ ": " STRINGIFY(__LINE__));
+#   define Ensures(cond)  if (!(cond)) \
+    throw std::runtime_error("Postcondition failure at " __FILE__ ": " STRINGIFY(__LINE__));
+#else
+#   define Requires(cond)           
+#   define Ensures(cond)           
+#endif 
 
 // Define type sizes
 #define FLOAT_BYTES 4
@@ -167,8 +184,3 @@
 #define UINT16_BYTES 2
 #define UINT32_BYTES 4
 #define UINT64_BYTES 8
-
-// Import engine std extensions
-#include "vector.h"
-#include "map.h"
-#include "nullable.h"

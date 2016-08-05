@@ -30,7 +30,7 @@ public:
 
     virtual uint32                   num_objects() = 0;
 
-    virtual shared_ptr<BufferToken>  write(shared_ptr<Vector<OBJECT>> objects) = 0;
+    virtual shared_ptr<BufferToken>  write(Vector<OBJECT> objects) = 0; // TODO: use move-semantics instead of pointers here
     virtual void                     remove(shared_ptr<BufferToken> token) = 0;
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

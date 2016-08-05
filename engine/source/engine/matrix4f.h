@@ -24,7 +24,7 @@ ENGINE_NAMESPACE_BEGIN
 /**
 * A fixed-point decimal implementation. (Q21.10)
 */
-class DLL_PUBLIC Matrix4f
+class Matrix4f
 {
 public:
     

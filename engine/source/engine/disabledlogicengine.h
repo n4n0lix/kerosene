@@ -16,7 +16,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC DisabledLogicEngine : public ILogicEngine
+class DisabledLogicEngine : public ILogicEngine
 {
 public:
             explicit DisabledLogicEngine();

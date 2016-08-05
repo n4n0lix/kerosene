@@ -17,7 +17,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DLL_PUBLIC DisabledNetworkEngine : public INetworkEngine
+class DisabledNetworkEngine : public INetworkEngine
 {
 public:
             explicit DisabledNetworkEngine();
