@@ -11,7 +11,7 @@
 use the provided solution `engine.sln`.
 
 ##### linux
-* TODO
+* todo
 
 ## 2. code
 ### 2.1 contract
@@ -41,23 +41,23 @@ first we declare the layout of the vertex in the shader. this enables us to acce
 
 here we write the vertexs data into a vector so that the renderengine can submit it to the gpu. it is important that the order of attributes are corresponding to the vertex layout we defined above.
 
-vector<float> Vertex_pc::data() const
-{
-    vector<float> data;
-    data.reserve(7);
-    data.push_back(position.x);
-    data.push_back(position.y);
-    data.push_back(position.z);
-    data.push_back(color.x);
-    data.push_back(color.y);
-    data.push_back(color.z);
-    data.push_back(color.w);
-    return std::move(data);
-}
+    vector<float> Vertex_pc::data() const
+    {
+        vector<float> data;
+        data.reserve(7);
+        data.push_back(position.x);
+        data.push_back(position.y);
+        data.push_back(position.z);
+        data.push_back(color.x);
+        data.push_back(color.y);
+        data.push_back(color.z);
+        data.push_back(color.w);
+        return std::move(data);
+    }
 
 this method has to simply returns the size of the vertex in bytes.
 
-uint32 Vertex_pc::bytesize() const 
-{ 
-    return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; 
-}
+    uint32 Vertex_pc::bytesize() const 
+    { 
+        return 3 * FLOAT_BYTES + 4 * FLOAT_BYTES; 
+    }
