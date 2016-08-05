@@ -122,9 +122,15 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="a.h" />
-    <ClInclude Include="logger.h" />
-    <ClInclude Include="vectorutils.h" />
+    <ClInclude Include="arraystrategy.h" />
+    <ClInclude Include="buffer.h" />
+    <ClInclude Include="bufferproperties.h" />
+    <ClInclude Include="bufferstrategy.h" />
+    <ClInclude Include="idea.h" />
+    <ClInclude Include="bufferrange.h" />
+    <ClInclude Include="liststrategy.h" />
+    <ClInclude Include="transactionbucket.h" />
+    <ClInclude Include="_global.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

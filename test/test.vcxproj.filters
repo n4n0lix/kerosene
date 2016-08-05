@@ -23,13 +23,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="a.h">
+    <ClInclude Include="idea.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="vectorutils.h">
+    <ClInclude Include="bufferrange.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="logger.h">
+    <ClInclude Include="transactionbucket.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="bufferproperties.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="bufferstrategy.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="arraystrategy.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="liststrategy.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="_global.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
