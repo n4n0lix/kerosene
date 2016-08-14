@@ -8,10 +8,10 @@
 
 // Other Includes
 #include "_gl.h"
-#include "png.h"
 
 // Internal Includes
 #include "_global.h"
+#include "imageutils.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -24,7 +24,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Texture();
+            explicit Texture(shared_ptr<Image> image, bool linear=true);
 
     bool operator==(const Texture& o) const;
     bool operator!=(const Texture& o) const;
@@ -37,6 +37,8 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     GLuint _id;
+    uint32 _width;
+    uint32 _height;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

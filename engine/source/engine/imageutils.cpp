@@ -6,9 +6,18 @@ ENGINE_NAMESPACE_BEGIN
 /*                      Public Static                     */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void ImageUtils::load_png(string filepath)
+// TODO: Too large method (150 lines)
+// http://devcry.heiho.net/html/2015/20150517-libpng.html
+shared_ptr<Image> ImageUtils::load_png(string filepath)
 {
-    LOGGER.log(Level::DEBUG) << "Load png file '" << filepath.c_str() << "'" << endl;
+    LOGGER.log(Level::DEBUG) << "Load png file '" << filepath.c_str() << "' ..." << endl;
+
+    uint32          imgWidth;
+    uint32          imgHeight;
+    uint32          imgBpp;
+    ImageFormat     imgFormat;
+    uint32          imgBytes;
+    Vector<uint8>   imgData;
 
     // 1# Open file
     FILE* ptrFile;
@@ -19,7 +28,7 @@ void ImageUtils::load_png(string filepath)
 
     if (error) {
         LOGGER.log(Level::ERROR) << "Couldn't load png file: error (errno:" << error << ") during open file '" << filepath.c_str() << "'!" << endl;
-        return;
+        return nullptr;
     }
 
     // 2# Verify png file
@@ -27,48 +36,131 @@ void ImageUtils::load_png(string filepath)
     if (fread(fileSignature, 1, sizeof(fileSignature), file.get()) < 8) {
         fclose(file.get());
         LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' couldn't be read!" << endl;
-        return;
+        return nullptr;
     }
 
     if (!png_check_sig(fileSignature, 8)) {
         fclose( file.get() );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' is no png file!" << endl;
-        return;
+        return nullptr;
     }
 
     // 3# Prepare PNG decoding
-    png_structp pngHandle = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
-    if (pngHandle == nullptr) {
+    png_structp pngDecoder = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+    if (pngDecoder == nullptr) {
         fclose( file.get() );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-handle!" << endl;
-        return;
+        return nullptr;
     }
 
-    png_infop pngMetadata = png_create_info_struct(pngHandle);
+    png_infop pngMetadata = png_create_info_struct(pngDecoder);
     if (pngMetadata == nullptr) {
-        png_destroy_read_struct(&pngHandle, nullptr, nullptr);
+        png_destroy_read_struct(&pngDecoder, nullptr, nullptr);
         fclose( file.get() );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-metadata!" << endl;
-        return;
+        return nullptr;
     }
 
     // 4# PNG Decoding
     // set libpng error handling mechanism
-    if (setjmp(png_jmpbuf(pngHandle))) {
-        png_destroy_read_struct(&pngHandle, &pngMetadata, nullptr);
+    if (setjmp(png_jmpbuf(pngDecoder))) {
+        png_destroy_read_struct(&pngDecoder, &pngMetadata, nullptr);
         fclose(file.get());
-
-        if (pixels != nullptr) {
-            delete[] pixels;
-            pixels = nullptr;
-        }
-        return false;
+        return nullptr;
     }
 
-    // TODO: continue http://devcry.heiho.net/html/2015/20150517-libpng.html
+    png_init_io( pngDecoder, file.get() );
 
-    // X# clean up
-    fclose(file.get());
+    // skip signature bytes (we already read those)
+    png_set_sig_bytes( pngDecoder, sizeof(fileSignature) );
+
+    // get image information
+    png_read_info( pngDecoder, pngMetadata );
+
+    imgWidth = png_get_image_width( pngDecoder, pngMetadata );
+    imgHeight = png_get_image_height( pngDecoder, pngMetadata );
+
+    // set least one byte per channel
+    if (png_get_bit_depth( pngDecoder, pngMetadata ) < 8) {
+        png_set_packing( pngDecoder );
+    }
+
+    // #X Convert transparency to alpha channel
+    if (png_get_valid( pngDecoder, pngMetadata, PNG_INFO_tRNS)) {
+        png_set_tRNS_to_alpha( pngDecoder );
+    }
+
+    // #X Determine color format
+    switch (png_get_color_type( pngDecoder, pngMetadata )) {
+        case PNG_COLOR_TYPE_GRAY:
+            png_set_gray_to_rgb( pngDecoder );
+            imgFormat = ImageFormat::RGB;
+            break;
+
+        case PNG_COLOR_TYPE_GRAY_ALPHA:
+            png_set_gray_to_rgb( pngDecoder );
+            imgFormat = ImageFormat::RGBA;
+            break;
+
+        case PNG_COLOR_TYPE_PALETTE:
+            png_set_expand( pngDecoder );
+            imgFormat = ImageFormat::RGB;
+            break;
+
+        case PNG_COLOR_TYPE_RGB:
+            imgFormat = ImageFormat::RGB;
+            break;
+
+        case PNG_COLOR_TYPE_RGBA:
+            imgFormat = ImageFormat::RGBA;
+            break;
+
+        default:
+            imgFormat = ImageFormat::UNKOWN;
+    }
+
+    if (imgFormat == ImageFormat::UNKOWN) {
+        png_destroy_read_struct( &pngDecoder, &pngMetadata, nullptr );
+        fclose( file.get() );
+        return nullptr;
+    }
+
+    // #X Read bytes per pixels
+    imgBpp = (uint32)png_get_rowbytes( pngDecoder, pngMetadata ) / imgWidth;
+
+    // #X ??? TODO: Investigate this step
+    png_set_interlace_handling( pngDecoder );
+    png_read_update_info( pngDecoder, pngMetadata );
+
+    // #X Read out image data
+    imgData.resize(imgWidth * imgHeight * imgBpp);
+
+    vector<png_bytep> rows;
+    rows.resize( imgHeight, 0 );
+    uint8* row_address = &imgData[0];
+    for (int32 i = 0; i < imgHeight; i++) {
+        rows[i] = row_address;
+        row_address += imgWidth * imgBpp;
+    }
+    png_read_image(pngDecoder, &rows[0]);
+
+    // #X Clean up png reading
+    png_read_end( pngDecoder , nullptr );
+    png_destroy_read_struct( &pngDecoder, &pngMetadata, nullptr );
+    fclose( file.get() );
+    
+    // X# Return Image
+    shared_ptr<Image> result = make_shared<Image>();
+    result->width       = imgWidth;
+    result->height      = imgHeight;
+    result->format      = imgFormat;
+    result->bpp         = imgBpp;
+    result->data        = move( imgData );
+    result->sizeBytes   = imgBytes;
+    
+    LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")" << endl;
+
+    return result;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

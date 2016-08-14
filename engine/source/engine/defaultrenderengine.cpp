@@ -25,9 +25,10 @@ void DefaultRenderEngine::onStart()
         throw new EngineException("Couldn't initialize GLEW!");
     }
 
-    // IMAGE UTILS
+    // TEXTURE 
     //////////////
-    ImageUtils::load_png("res/textures/dev/128.png");
+    shared_ptr<Image> img = ImageUtils::load_png("res/textures/dev/128.png");
+    shared_ptr<Texture> tex = make_shared<Texture>( img );
 
     // VERTEX LAYOUT
     //////////////////

@@ -117,6 +117,8 @@
 // Using std primitives
 #include <cstdint>
         using std::size_t;
+        using std::int8_t;   typedef int8_t   int8;
+        using std::uint8_t;  typedef uint8_t  uint8;
         using std::int16_t;  typedef int16_t  int16;
         using std::uint16_t; typedef uint16_t uint16;
         using std::int32_t;  typedef int32_t  int32;
