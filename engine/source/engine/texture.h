@@ -25,6 +25,9 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit Texture(shared_ptr<Image> image, bool linear=true);
+            ~Texture();
+
+    GLuint id();
 
     bool operator==(const Texture& o) const;
     bool operator!=(const Texture& o) const;

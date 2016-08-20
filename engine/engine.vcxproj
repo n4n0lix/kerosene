@@ -81,6 +81,7 @@
     <ClInclude Include="source\engine\vertexlayout.h" />
     <ClInclude Include="source\engine\vertextoken.h" />
     <ClInclude Include="source\engine\vertex_pc.h" />
+    <ClInclude Include="source\engine\vertex_pt.h" />
     <ClInclude Include="source\engine\_gl.h" />
     <ClInclude Include="source\engine\_global.h" />
     <ClInclude Include="source\engine\_mathdefs.h" />
@@ -119,6 +120,7 @@
     <ClCompile Include="source\engine\vertextoken.cpp" />
     <ClCompile Include="source\engine\vertex_pc.cpp" />
     <ClCompile Include="source\engine\buffertoken.cpp" />
+    <ClCompile Include="source\engine\vertex_pt.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />
     <ClCompile Include="source\sandbox\main.cpp" />
     <ClCompile Include="source\sandbox\testgamestate.cpp" />

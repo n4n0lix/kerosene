@@ -9,6 +9,7 @@
 #include <algorithm>
 
 // Other Includes
+#include "vector.h"
 
 // Internal Includes
 #include "_global.h"

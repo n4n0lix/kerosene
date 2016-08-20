@@ -16,14 +16,25 @@ Material::Material(shared_ptr<Shader> shader, shared_ptr<Texture> tex)
     _texture = tex;
 }
 
-shared_ptr<Shader> Material::getShader() const
+shared_ptr<Shader> Material::get_shader() const
 {
     return _shader;
 }
 
-shared_ptr<Texture> Material::getTexture() const
+shared_ptr<Texture> Material::get_texture() const
 {
     return _texture;
+}
+
+void Material::bind() const {
+    if (_shader != nullptr) {
+        if (_texture != nullptr) {
+            glUniform1i(_shader->frag_uniform("texture_base").get().location, 0);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, _texture->id());
+        }
+        _shader->bind();
+    }
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

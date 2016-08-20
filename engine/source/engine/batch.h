@@ -72,7 +72,7 @@ private:
 template<class VERTEX>
 Batch<VERTEX>::Batch(shared_ptr<Material> material) {
     _material = material;
-    _shader = material->getShader();
+    _shader = material->get_shader();
     _vao = make_unique<VertexArray<VERTEX>>(_shader->getVertexLayout());
 }
 
@@ -104,7 +104,7 @@ void Batch<VERTEX>::remove_render_static(shared_ptr<VertexToken> token)
 template<class VERTEX>
 void Batch<VERTEX>::render()
 {
-    _material->getShader()->bind();
+    _material->bind();
     _vao->render();
 }
 

@@ -31,9 +31,18 @@ Texture::Texture(shared_ptr<Image> image, bool linear)
     }
 
     // 2# Load image data       
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image->data[0]);
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->data.data());
 
     glGenerateMipmap( GL_TEXTURE_2D );
+}
+
+Texture::~Texture()
+{
+    glDeleteTextures(1, &_id);
+}
+
+GLuint Texture::id() {
+    return _id;
 }
 
 bool Texture::operator==(const Texture & o) const

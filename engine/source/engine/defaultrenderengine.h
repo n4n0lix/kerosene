@@ -21,6 +21,7 @@
 #include "shaderbuilder.h"
 #include "batch.h"
 #include "vertex_pc.h"
+#include "vertex_pt.h"
 #include "primitivetype.h"
 #include "vertexarray.h"
 #include "imageutils.h"
@@ -61,9 +62,10 @@ private:
     unique_ptr<GLWindow>    _mainWindow;
 
     // Test
-    shared_ptr<Shader> _shader;
     unique_ptr<Batch<Vertex_pc>> _batch;
+    unique_ptr<Batch<Vertex_pt>> _batch2;
     unique_ptr<VertexArray<Vertex_pc>> _vao;
+    shared_ptr<Texture> _tex;
 
     shared_ptr<VertexToken> _tokenTriangle1;
     shared_ptr<VertexToken> _tokenTriangle2;

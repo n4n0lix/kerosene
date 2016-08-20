@@ -6,12 +6,17 @@ ENGINE_NAMESPACE_BEGIN
 /*                     Public Static                      */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-// Uniform
-Uniform Shader::Uni_WVP                  = { "mat4", "uni_wvp" };
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+void Shader::bind(GLuint shaderId)
+{
+    if (CURRENT_SHADER != shaderId) {
+        glUseProgram(shaderId);
+        CURRENT_SHADER = shaderId;
+    }
+}
 
 bool Shader::operator==(const Shader & o) const
 {
@@ -30,10 +35,29 @@ bool Shader::operator<(const Shader & o1) const
 
 void Shader::bind() const
 {
-    if (CURRENT_SHADER != _id) {
-        glUseProgram(_id);
-        CURRENT_SHADER = _id;
+    Shader::bind(_id);
+}
+
+Nullable<Uniform> Shader::vertex_uniform(string name) const
+{
+    for (auto uniform : _vertexUniforms) {
+        if (uniform.name == name) {
+            return Nullable<Uniform>( uniform );
+        }
     }
+
+    return Nullable<Uniform>();
+}
+
+Nullable<Uniform> Shader::frag_uniform(string name) const
+{
+    for (auto uniform : _fragUniforms) {
+        if (uniform.name == name) {
+            return Nullable<Uniform>(uniform);
+        }
+    }
+
+    return Nullable<Uniform>();
 }
 
 shared_ptr<VertexLayout> Shader::getVertexLayout() const

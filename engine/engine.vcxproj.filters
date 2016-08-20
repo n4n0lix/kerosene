@@ -279,6 +279,9 @@
     <ClInclude Include="source\engine\imageutils.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\vertex_pt.h">
+      <Filter>Headerdateien\engine\render\vertices</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\defaultrenderengine.cpp">
@@ -382,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="source\engine\imageutils.cpp">
       <Filter>Quelldateien\engine\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertex_pt.cpp">
+      <Filter>Quelldateien\engine\render\vertices</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

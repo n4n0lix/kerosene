@@ -31,8 +31,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     explicit Material(shared_ptr<Shader> shader = nullptr, shared_ptr<Texture> tex = nullptr);
 
-    shared_ptr<Shader>  getShader() const;
-    shared_ptr<Texture> getTexture() const;
+    shared_ptr<Shader>  get_shader() const;
+    shared_ptr<Texture> get_texture() const;
+
+    void                bind() const;
+
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
