@@ -18,6 +18,14 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
+struct GLFWwindowDestroyer {
+
+    void operator()(GLFWwindow* ptr) {
+        glfwDestroyWindow(ptr);
+    }
+
+};
+
 class GLWindow
 {
 public:
@@ -25,7 +33,6 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit GLWindow(const string title="Kerosine Engine", const int32_t width=800, const int32_t height=600);
-            ~GLWindow();
 
      void    show();
      void    hide();
@@ -52,20 +59,20 @@ public:
 
      inline void    swapBuffers()
      {
-         glfwSwapBuffers(_handle);
+         glfwSwapBuffers(_handle.get());
      }
 
      inline void    makeCurrent()
      {
-         if (GLWindow::CURRENT_CONTEXT != _handle) {
-             glfwMakeContextCurrent(_handle);
-             GLWindow::CURRENT_CONTEXT = _handle;
+         if (GLWindow::CURRENT_CONTEXT != _handle.get()) {
+             glfwMakeContextCurrent(_handle.get());
+             GLWindow::CURRENT_CONTEXT = _handle.get();
          }
      }
 
      inline void    unmakeCurrent()
      {
-         if (GLWindow::CURRENT_CONTEXT == _handle) {
+         if (GLWindow::CURRENT_CONTEXT == _handle.get()) {
              glfwMakeContextCurrent(nullptr);
              GLWindow::CURRENT_CONTEXT = nullptr;
          }
@@ -77,7 +84,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    GLFWwindow* _handle;
+    unique_ptr<GLFWwindow, GLFWwindowDestroyer> _handle;
     
     string _title;
 

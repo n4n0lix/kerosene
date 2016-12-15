@@ -282,6 +282,18 @@
     <ClInclude Include="source\engine\vertex_pt.h">
       <Filter>Headerdateien\engine\render\vertices</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\textureslot.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\camera.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\uniformtemplate.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\textureslottemplate.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\defaultrenderengine.cpp">
@@ -388,6 +400,15 @@
     </ClCompile>
     <ClCompile Include="source\engine\vertex_pt.cpp">
       <Filter>Quelldateien\engine\render\vertices</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\uniformtemplate.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\textureslottemplate.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\camera.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

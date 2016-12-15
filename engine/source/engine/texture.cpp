@@ -36,11 +36,6 @@ Texture::Texture(shared_ptr<Image> image, bool linear)
     glGenerateMipmap( GL_TEXTURE_2D );
 }
 
-Texture::~Texture()
-{
-    glDeleteTextures(1, &_id);
-}
-
 GLuint Texture::id() {
     return _id;
 }

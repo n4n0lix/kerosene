@@ -12,6 +12,7 @@
 #include "_global.h"
 #include "shader.h"
 #include "texture.h"
+#include "textureslottemplate.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -42,7 +43,7 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     shared_ptr<Shader>  _shader;
-    shared_ptr<Texture> _texture;
+    shared_ptr<Texture> _textureDiffuse;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

@@ -37,7 +37,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit ResourceManager();
 
-    shared_ptr<Material> getMaterial(const shared_ptr<Shader> shader, const shared_ptr<Texture> tex);
+    shared_ptr<Material> create_material(const shared_ptr<Shader> shader, const shared_ptr<Texture> tex);
     
 
 private:

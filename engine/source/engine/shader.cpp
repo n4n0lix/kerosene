@@ -60,7 +60,18 @@ Nullable<Uniform> Shader::frag_uniform(string name) const
     return Nullable<Uniform>();
 }
 
-shared_ptr<VertexLayout> Shader::getVertexLayout() const
+Nullable<TextureSlot> Shader::frag_texture_slot(string name) const
+{
+    for (auto slot : _fragTextureSlots) {
+        if (slot.name == name) {
+            return Nullable<TextureSlot>(slot);
+        }
+    }
+
+    return Nullable<TextureSlot>();
+}
+
+shared_ptr<VertexLayout> Shader::get_vertex_layout() const
 {
     return _vertexLayout;
 }

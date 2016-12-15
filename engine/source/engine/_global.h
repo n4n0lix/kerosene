@@ -88,11 +88,19 @@
 #endif
 
 // COMPILER DEPENDENT STUFF
+#include <signal.h>
+
 #       ifdef COMPILER_MSVC
-#           define INLINE   __forceinline
+#           define INLINE           __forceinline
+#           define DEBUG_TRIGGER    __debugbreak();
 #       elif defined COMPILER_GCC
 #           define INLINE   __attribute__((always_inline))
+#           define DEBUG_TRIGGER    raise(SIGTRAP)
 #       endif
+
+
+// DEBUG TRIGGER
+
 
 // Namespace
 #define ENGINE_NAMESPACE kerosene

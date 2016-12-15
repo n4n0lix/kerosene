@@ -25,6 +25,7 @@
 #include "primitivetype.h"
 #include "vertexarray.h"
 #include "imageutils.h"
+#include "camera.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -43,6 +44,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
             explicit DefaultRenderEngine();
+            ~DefaultRenderEngine();
 
     /* IRenderEngine */
     virtual void onStart();
@@ -62,15 +64,16 @@ private:
     unique_ptr<GLWindow>    _mainWindow;
 
     // Test
-    unique_ptr<Batch<Vertex_pc>> _batch;
-    unique_ptr<Batch<Vertex_pt>> _batch2;
-    unique_ptr<VertexArray<Vertex_pc>> _vao;
+    unique_ptr<Camera> _camera;
+    //unique_ptr<Batch<Vertex_pc>> _batch;
+    //unique_ptr<Batch<Vertex_pt>> _batch2;
+    //unique_ptr<VertexArray<Vertex_pc>> _vao;
     shared_ptr<Texture> _tex;
 
-    shared_ptr<VertexToken> _tokenTriangle1;
-    shared_ptr<VertexToken> _tokenTriangle2;
-    shared_ptr<VertexToken> _tokenTriangle3;
-    shared_ptr<VertexToken> _tokenTriangle4;
+    //shared_ptr<VertexToken> _tokenTriangle1;
+    //shared_ptr<VertexToken> _tokenTriangle2;
+    //shared_ptr<VertexToken> _tokenTriangle3;
+    //shared_ptr<VertexToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END

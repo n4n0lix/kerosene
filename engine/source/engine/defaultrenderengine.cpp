@@ -11,6 +11,13 @@ DefaultRenderEngine::DefaultRenderEngine() : IRenderEngine()
 
 }
 
+
+
+DefaultRenderEngine::~DefaultRenderEngine()
+{
+    glfwTerminate();
+}
+
 void DefaultRenderEngine::onStart()
 {
     _exitRequested = false;
@@ -58,7 +65,7 @@ void DefaultRenderEngine::onStart()
         << "}\n";
 
     shared_ptr<Shader> colorShader = ShaderBuilder()
-                        .vertex_uniform({ "mat4", "uni_wvp" })
+                        .vertex_uniform("mat4", "uni_wvp")
                         .vertexlayout(pcLayout)
                         .vertex_source(csVertexShader.str())
                         .frag_source(csFragmentShader.str())
@@ -84,61 +91,65 @@ void DefaultRenderEngine::onStart()
         << "out vec4 out_color;\n"
         << "\n"
         << "void main() {\n"
-        << "    out_color = texture(texture_base, fs_texcoords);\n"
+        << "    out_color = texture(" << TextureSlotTemplate::TEXTURE_DIFFUSE.name << ", fs_texcoords);\n"
         << "}\n";
 
     shared_ptr<Shader> texShader = ShaderBuilder()
-        .vertex_uniform({ "mat4",       "uni_wvp" })
-        .frag_uniform({ "sampler2D",  "texture_base" })
+        .vertex_uniform("mat4", "uni_wvp")
+        .frag_texture_slot(TextureSlotTemplate::TEXTURE_DIFFUSE)
         .vertexlayout(ptLayout)
         .vertex_source(tsVertexShader.str())
         .frag_source(tsFragmentShader.str())
         .build();
 
-    shared_ptr<Material> materialTex = make_shared<Material>(texShader, _tex);
+    //shared_ptr<Material> materialTex = make_shared<Material>(texShader, _tex);
 
     // BATCH
     //////////
-    _batch = make_unique<Batch<Vertex_pc>>(materialColor);
+    //_batch = make_unique<Batch<Vertex_pc>>(materialColor);
 
-    Vector<Vertex_pc> vertices1 = Vector<Vertex_pc>();
-    vertices1.add(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices1.add(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices1.add(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    _tokenTriangle1 = _batch->add_vertices(vertices1);
+    //Vector<Vertex_pc> vertices1 = Vector<Vertex_pc>();
+    //vertices1.add(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    //vertices1.add(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices1.add(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    //_tokenTriangle1 = _batch->add_vertices(vertices1);
 
-    Vector<Vertex_pc> vertices2 = Vector<Vertex_pc>();
-    vertices2.add(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices2.add(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices2.add(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    _tokenTriangle2 = _batch->add_vertices(vertices2);
+    //Vector<Vertex_pc> vertices2 = Vector<Vertex_pc>();
+    //vertices2.add(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    //vertices2.add(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices2.add(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    //_tokenTriangle2 = _batch->add_vertices(vertices2);
 
-    Vector<Vertex_pc> vertices3 = Vector<Vertex_pc>();
-    vertices3.add(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    vertices3.add(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    vertices3.add(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    _tokenTriangle3 = _batch->add_vertices(vertices3);
+    //Vector<Vertex_pc> vertices3 = Vector<Vertex_pc>();
+    //vertices3.add(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    //vertices3.add(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    //vertices3.add(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    //_tokenTriangle3 = _batch->add_vertices(vertices3);
 
-    _batch->add_render_static(_tokenTriangle1);
-    _batch->add_render_static(_tokenTriangle2);
-    _batch->add_render_static(_tokenTriangle3);
+    //_batch->add_render_static(_tokenTriangle1);
+    //_batch->add_render_static(_tokenTriangle2);
+    //_batch->add_render_static(_tokenTriangle3);
+    //_batch->remove_render_static(_tokenTriangle3);
 
     // BATCH 2
     //////////
-    _batch2 = make_unique<Batch<Vertex_pt>>(materialTex);
+    //_batch2 = make_unique<Batch<Vertex_pt>>(materialTex);
 
-    Vector<Vertex_pt> vertices4 = Vector<Vertex_pt>();
-    vertices4.add(Vertex_pt(Vector3f(1, 0, -.5), Vector2f(1.0f, 1.0f)));
-    vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
-    vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
+    //Vector<Vertex_pt> vertices4 = Vector<Vertex_pt>();
+    //vertices4.add(Vertex_pt(Vector3f(1, 0, -.5), Vector2f(1.0f, 1.0f)));
+    //vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
+    //vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
 
-    vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
-    vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
-    vertices4.add(Vertex_pt(Vector3f(0, 1, -.5), Vector2f(0.0f, 0.0f)));
+    //vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
+    //vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
+    //vertices4.add(Vertex_pt(Vector3f(0, 1, -.5), Vector2f(0.0f, 0.0f)));
 
-    _tokenTriangle4 = _batch2->add_vertices(vertices4);
-    _batch2->add_render_static(_tokenTriangle4);
+    //_tokenTriangle4 = _batch2->add_vertices(vertices4);
+    //_batch2->add_render_static(_tokenTriangle4);
 
+    // CAMERA
+    ///////////
+    _camera = make_unique<Camera>();
 }
 
 void DefaultRenderEngine::onUpdate()
@@ -152,8 +163,8 @@ void DefaultRenderEngine::onUpdate()
     glViewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
 
     // Test code
-    _batch->render();
-    _batch2->render();
+    //_batch->render();
+    //_batch2->render();
 
     // #3 Render
     _mainWindow->swapBuffers();
@@ -164,11 +175,7 @@ void DefaultRenderEngine::onUpdate()
 
 void DefaultRenderEngine::onShutdown()
 {
-    // TODO: Fix this, should be deleted automatically by destructor of texture
-    GLuint texId = _tex->id();
-    glDeleteTextures(1, &texId);
 
-    glfwTerminate();
 }
 
 void DefaultRenderEngine::setInterpolation(float interpol)

@@ -10,16 +10,24 @@
 
 // Internal Includes
 #include "_global.h"
+#include "matrix4f.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-struct Uniform {
+class Uniform {
+public:
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                        Public                          */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    Uniform()                                               : type(""), name(""), location(-1) { }
+    Uniform(string type, string name , int32 location = -1) : type(type), name(name), location(location) { }
+
     string  type;
     string  name;
-    GLint   location;
+    int32   location;
 
     bool operator<(const Uniform& o1) const { return name == o1.name ? type < o1.type : name < o1.name; }
     bool operator==(const Uniform& o) const { return type == o.type && name == o.name; }

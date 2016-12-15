@@ -15,11 +15,13 @@
 
 #include "_gl.h"
 #include "uniform.h"
+#include "textureslot.h"
 
 #include "vertex.h"
 #include "vector2f.h"
 #include "vector3f.h"
 #include "vector4f.h"
+#include "matrix4f.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -49,7 +51,8 @@ public:
     void                     bind() const;
     Nullable<Uniform>        vertex_uniform(string name) const;
     Nullable<Uniform>        frag_uniform(string name) const;
-    shared_ptr<VertexLayout> getVertexLayout() const;
+    Nullable<TextureSlot>    frag_texture_slot(string name) const;
+    shared_ptr<VertexLayout> get_vertex_layout() const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -61,6 +64,7 @@ private:
     shared_ptr<VertexLayout>  _vertexLayout;
     Vector<Uniform>           _vertexUniforms;
     Vector<Uniform>           _fragUniforms;
+    Vector<TextureSlot>       _fragTextureSlots;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

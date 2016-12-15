@@ -24,6 +24,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                      Buffer(uint32 objSize, uint32 objCapacity);
 
+
             uint32                   object_size() const;
             uint32                   object_capacity() const;
             uint32                   atom_capacity() const;

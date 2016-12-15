@@ -35,13 +35,15 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
               explicit Batch(shared_ptr<Material> material);
-    
+
     shared_ptr<VertexToken>             add_vertices(Vector<VERTEX> vertices);
     void                                remove_vertices(shared_ptr<VertexToken> token);
     
     void                                add_render_static(shared_ptr<VertexToken> token);
     void                                remove_render_static(shared_ptr<VertexToken> token);
     
+    void                                set_view_matrix(Matrix4f viewMatrix);
+
     void                                render();
 
 protected:
@@ -73,7 +75,7 @@ template<class VERTEX>
 Batch<VERTEX>::Batch(shared_ptr<Material> material) {
     _material = material;
     _shader = material->get_shader();
-    _vao = make_unique<VertexArray<VERTEX>>(_shader->getVertexLayout());
+    _vao = make_unique<VertexArray<VERTEX>>(_shader->get_vertex_layout());
 }
 
 template<class VERTEX>

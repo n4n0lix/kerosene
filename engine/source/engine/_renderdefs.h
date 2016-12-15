@@ -12,15 +12,15 @@
 #include "_gl.h"
 #include "_global.h"
 
+#include "uniform.h"
+#include "textureslot.h"
+
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i)) // Creates an (void*) offset-pointer
-
-struct TextureSlot {
-    // TODO
-};
 
 ENGINE_NAMESPACE_END

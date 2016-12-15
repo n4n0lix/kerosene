@@ -21,7 +21,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class VERTEX>
-class VertexBuffer : public ArrayBuffer<VERTEX> 
+class VertexBuffer : public ArrayBuffer<VERTEX>
 {
 public:
 
@@ -34,7 +34,6 @@ public:
 
             shared_ptr<BufferToken>     add_vertices(Vector<VERTEX> vertices);
             void                        remove_vertices(shared_ptr<BufferToken> token);
-
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */

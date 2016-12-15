@@ -22,7 +22,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     // 1# Open file
     FILE* ptrFile;
     errno_t error = fopen_s(&ptrFile, filepath.c_str(), "rb");
-    unique_ptr<FILE> file = unique_ptr<FILE>(ptrFile);
+    //unique_ptr<FILE> file = unique_ptr<FILE>(ptrFile);
 
     std::cout << filepath << endl;
 
@@ -33,14 +33,14 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
 
     // 2# Verify png file
     unsigned char fileSignature[8];
-    if (fread(fileSignature, 1, sizeof(fileSignature), file.get()) < 8) {
-        fclose(file.get());
+    if (fread(fileSignature, 1, sizeof(fileSignature), ptrFile) < 8) {
+        fclose( ptrFile );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' couldn't be read!" << endl;
         return nullptr;
     }
 
     if (!png_check_sig(fileSignature, 8)) {
-        fclose( file.get() );
+        fclose( ptrFile );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' is no png file!" << endl;
         return nullptr;
     }
@@ -48,7 +48,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     // 3# Prepare PNG decoding
     png_structp pngDecoder = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (pngDecoder == nullptr) {
-        fclose( file.get() );
+        fclose( ptrFile );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-handle!" << endl;
         return nullptr;
     }
@@ -56,7 +56,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     png_infop pngMetadata = png_create_info_struct(pngDecoder);
     if (pngMetadata == nullptr) {
         png_destroy_read_struct(&pngDecoder, nullptr, nullptr);
-        fclose( file.get() );
+        fclose( ptrFile );
         LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-metadata!" << endl;
         return nullptr;
     }
@@ -65,11 +65,11 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     // set libpng error handling mechanism
     if (setjmp(png_jmpbuf(pngDecoder))) {
         png_destroy_read_struct(&pngDecoder, &pngMetadata, nullptr);
-        fclose(file.get());
+        fclose( ptrFile );
         return nullptr;
     }
 
-    png_init_io( pngDecoder, file.get() );
+    png_init_io( pngDecoder, ptrFile );
 
     // skip signature bytes (we already read those)
     png_set_sig_bytes( pngDecoder, sizeof(fileSignature) );
@@ -121,7 +121,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
 
     if (imgFormat == ImageFormat::UNKOWN) {
         png_destroy_read_struct( &pngDecoder, &pngMetadata, nullptr );
-        fclose( file.get() );
+        fclose( ptrFile );
         return nullptr;
     }
 
@@ -147,7 +147,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     // #X Clean up png reading
     png_read_end( pngDecoder , nullptr );
     png_destroy_read_struct( &pngDecoder, &pngMetadata, nullptr );
-    fclose( file.get() );
+    fclose( ptrFile );
     
     // X# Return Image
     shared_ptr<Image> result = make_shared<Image>();
@@ -155,12 +155,12 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     result->height      = imgHeight;
     result->format      = imgFormat;
     result->bpp         = imgBpp;
-    result->data        = move( imgData );
+    result->data        = imgData; // move ( )
     result->sizeBytes   = imgBytes;
     
     LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")" << endl;
 
-    return result;
+    return move(result);
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

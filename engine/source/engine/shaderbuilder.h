@@ -15,10 +15,15 @@
 // Internal Includes
 #include "_global.h"
 #include "_gl.h"
+#include "engineexception.h"
 
+#include "uniform.h"
+#include "textureslot.h"
 #include "vertex.h"
 #include "shader.h"
-#include "engineexception.h"
+#include "uniformtemplate.h"
+#include "textureslottemplate.h"
+
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -34,8 +39,15 @@ public:
             explicit ShaderBuilder();
 
     ShaderBuilder& vertexlayout(shared_ptr<VertexLayout> layout);
-    ShaderBuilder& vertex_uniform(Uniform uniform);
-    ShaderBuilder& frag_uniform(Uniform uniform);
+
+    ShaderBuilder& vertex_uniform(string type, string name);
+    ShaderBuilder& vertex_uniform(UniformTemplate uniform);
+
+    ShaderBuilder& frag_uniform(string type, string name);
+    ShaderBuilder& frag_uniform(UniformTemplate uniform);
+
+    ShaderBuilder& frag_texture_slot(TextureSlotTemplate slot);
+
 
     // TODO: PerInstance Layout
 
@@ -53,12 +65,14 @@ private:
     string                  gen_fragment_source() const;
     GLuint                  create_shader(GLenum shaderType) const;
     GLuint                  link_program(GLuint vertexShader, GLuint fragmentShader) const;
-    Vector<Uniform>         process_uniforms(GLuint shaderId, const Vector<Uniform>* uniforms) const;
+    Vector<Uniform>         process_uniforms(GLuint shaderId, const Vector<UniformTemplate>* uniforms) const;
+    Vector<TextureSlot>     process_texture_slots(GLuint shaderId, const Vector<TextureSlotTemplate>* textureSlots) const;
 
     // TODO: Find a way to store ptr/refs here
     shared_ptr<VertexLayout>    _vertexLayout;
-    Vector<Uniform>             _vsUniforms;
-    Vector<Uniform>             _fsUniforms;
+    Vector<UniformTemplate>     _vsUniforms;
+    Vector<UniformTemplate>     _fsUniforms;
+    Vector<TextureSlotTemplate> _fsTextureSlots;
 
     string _vsSource;
     string _fsSource;
@@ -68,7 +82,8 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     static string VERTEX_COMPONENT(VertexComponent vComp);
-    static string UNIFORM(Uniform uniform);
+    static string UNIFORM(UniformTemplate uniformTemplate);
+    static string TEXTURE_SLOT(TextureSlotTemplate slot);
 };
 
 ENGINE_NAMESPACE_END

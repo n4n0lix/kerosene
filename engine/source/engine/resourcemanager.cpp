@@ -15,7 +15,7 @@ ResourceManager::ResourceManager()
 
 }
 
-shared_ptr<Material> ResourceManager::getMaterial(const shared_ptr<Shader> shader, const shared_ptr<Texture> tex)
+shared_ptr<Material> ResourceManager::create_material(const shared_ptr<Shader> shader, const shared_ptr<Texture> tex)
 {
     // 1# Create a key to access the map
     pair<Shader, Texture> materialId = make_pair(*shader, *tex);
@@ -30,7 +30,7 @@ shared_ptr<Material> ResourceManager::getMaterial(const shared_ptr<Shader> shade
     else {
         garbageCollectMaterials();
         // 2.2# Create new material
-        shared_ptr<Material> material( new Material(shader, tex) );
+        shared_ptr<Material> material = make_shared<Material>( shader, tex );
         _materials.insert( make_pair(materialId, material) );
         return material;
     }

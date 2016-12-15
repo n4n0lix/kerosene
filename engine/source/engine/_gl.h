@@ -1,8 +1,10 @@
 #pragma once
 #pragma warning(disable: 4005)
 
+#include "_global.h"
 #include "glew.h"
 #include "glfw3.h"
+
 
 #ifdef GL_DEBUG
     #include <string>
@@ -11,16 +13,17 @@
 
     std::string gl_err_to_string(GLenum enm);
 
-    #define printGLErrors(glFunc)                                                               \
-        { GLenum err;                                                                           \
-          err = glGetError();                                                                   \
-          if (err != GL_NO_ERROR) {                                                             \
-            std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << "#glFunc##" << ":" << endl;  \
-            while (err != GL_NO_ERROR) {                                                        \
-                            std::cout << "    GL ERROR: " << gl_err_to_string(err) << endl;     \
-                            err = glGetError();                                                 \
-                    }                                                                           \
-            }                                                                                   \
+    #define printGLErrors(glFunc)                                                                   \
+        { GLenum err;                                                                               \
+          err = glGetError();                                                                       \
+          if (err != GL_NO_ERROR) {                                                                 \
+            std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#" << ":" << endl;   \
+            while (err != GL_NO_ERROR) {                                                            \
+                            std::cout << "    GL ERROR: " << gl_err_to_string(err) << endl;         \
+                            err = glGetError();                                                     \
+            }                                                                                       \
+            DEBUG_TRIGGER                                                                           \
+        }                                                                                           \
         }
 #endif
 
@@ -183,6 +186,19 @@
     GLMock::invoking("glGenTextures")
 #endif
 
+// glGetUniformLocation
+#ifdef GL_DEBUG
+    #undef glGetUniformLocation
+    #define glGetUniformLocation(...) \
+    GLEW_GET_FUN(__glewGetUniformLocation)(__VA_ARGS__); \
+    printGLErrors(glGetUniformLocation)
+#elif GL_MOCK
+    #undef glGetUniformLocation
+    #define glGetUniformLocation(...) GLMock::invoking("glGetUniformLocation")
+#endif
+
+
+
 // P
 // glPixelStorei
 #ifdef GL_DEBUG
@@ -214,6 +230,18 @@
 
 
 // U
+// glUniform1i
+#ifdef GL_DEBUG
+#undef glUniform1i
+#define glUniform1i(...) \
+    GLEW_GET_FUN(__glewUniform1i)(__VA_ARGS__); \
+    printGLErrors(glUniform1i)
+#elif GL_MOCK
+#undef glUniform1i
+#define glUniform1i(...) GLMock::invoking("glUniform1i")
+#endif
+
+// glUseProgram
 #ifdef GL_DEBUG
     #undef glUseProgram
     #define glUseProgram(...) \
@@ -223,6 +251,8 @@
     #undef glUseProgram
     #define glUseProgram(...) GLMock::invoking("glUseProgram")
 #endif
+
+
 
 // V
 #ifdef GL_DEBUG

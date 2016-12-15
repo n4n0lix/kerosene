@@ -17,15 +17,27 @@ ShaderBuilder& ShaderBuilder::vertexlayout(shared_ptr<VertexLayout> layout)
     return *this;
 }
 
-ShaderBuilder& ShaderBuilder::vertex_uniform(Uniform uniform)
+ShaderBuilder& ShaderBuilder::vertex_uniform(string type, string name)
 {
-    _vsUniforms.add(uniform);
+    _vsUniforms.add({ type, name });
     return *this;
 }
 
-ShaderBuilder& ShaderBuilder::frag_uniform(Uniform uniform)
+ShaderBuilder& ShaderBuilder::vertex_uniform(UniformTemplate uniformTemplate)
 {
-    _fsUniforms.add(uniform);
+    _vsUniforms.add(uniformTemplate);
+    return *this;
+}
+
+ShaderBuilder& ShaderBuilder::frag_uniform(string type, string name)
+{
+    _fsUniforms.add({ type, name });
+    return *this;
+}
+
+ShaderBuilder& ShaderBuilder::frag_texture_slot(TextureSlotTemplate slot)
+{
+    _fsTextureSlots.add(slot);
     return *this;
 }
 
@@ -52,7 +64,8 @@ unique_ptr<Shader> ShaderBuilder::build() const
 
     // SHADER UNIFORMS
     shader->_vertexUniforms = process_uniforms(shader->_id, &_vsUniforms);
-    shader->_fragUniforms = process_uniforms(shader->_id, &_fsUniforms);
+    shader->_fragUniforms   = process_uniforms(shader->_id, &_fsUniforms);
+    shader->_fragTextureSlots   = process_texture_slots(shader->_id, &_fsTextureSlots);
 
     // SHADER LAYOUT
     shader->_vertexLayout = _vertexLayout;
@@ -79,7 +92,7 @@ string ShaderBuilder::gen_vertex_source() const
         << "\n";
 
     // Uniforms
-    for (Uniform uniform : _vsUniforms) {
+    for (UniformTemplate uniform : _vsUniforms) {
         result << UNIFORM(uniform);
     }
 
@@ -107,8 +120,13 @@ string ShaderBuilder::gen_fragment_source() const
         << "\n";
 
     // Uniforms
-    for (Uniform uniform : _fsUniforms) {
+    for (UniformTemplate uniform : _fsUniforms) {
         result << UNIFORM(uniform);
+    }
+
+    // Texture Slots
+    for (TextureSlotTemplate slot : _fsTextureSlots) {
+        result << TEXTURE_SLOT(slot);
     }
 
     // Source Code
@@ -167,18 +185,32 @@ GLuint ShaderBuilder::link_program(GLuint vertexShaderId, GLuint fragmentShaderI
     return shaderId;
 }
 
-Vector<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const Vector<Uniform>* uniforms) const
+Vector<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const Vector<UniformTemplate>* tmplates) const
 {
-    Vector<Uniform> result;
+    Vector<Uniform> uniforms;
     Shader::bind( shaderId );
 
-    for (Uniform uniform : *uniforms) {
-        Uniform tmpuni = uniform;
-        tmpuni.location = glGetUniformLocation( shaderId, tmpuni.name.c_str() );
-        result.add( tmpuni );
+    for (UniformTemplate tmplate : *tmplates) {
+        Uniform uniform = tmplate.to_uniform();
+        int32 uniformLocation = glGetUniformLocation(shaderId, tmplate.name.c_str());
+        uniforms.add( uniform );
     }
 
-    return result;
+    return uniforms;
+}
+
+Vector<TextureSlot> ShaderBuilder::process_texture_slots(GLuint shaderId, const Vector<TextureSlotTemplate>* tmplates) const
+{
+    Vector<TextureSlot> slots;
+    Shader::bind(shaderId);
+
+    for (TextureSlotTemplate tmplate : *tmplates) {
+        TextureSlot slot = tmplate.to_textureslot();
+        slot.location = glGetUniformLocation(shaderId, tmplate.name.c_str());
+        slots.add(slot);
+    }
+
+    return slots;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -192,10 +224,17 @@ string ShaderBuilder::VERTEX_COMPONENT(VertexComponent vComp)
     return result.str();
 }
 
-string ShaderBuilder::UNIFORM(Uniform uniform)
+string ShaderBuilder::UNIFORM(UniformTemplate uniformTemplate)
 {
     ostringstream result;
-    result << "uniform " << uniform.type << " " << uniform.name << ";\n";
+    result << "uniform " << uniformTemplate.type << " " << uniformTemplate.name << ";\n";
+    return result.str();
+}
+
+string ShaderBuilder::TEXTURE_SLOT(TextureSlotTemplate slot)
+{
+    ostringstream result;
+    result << "uniform sampler2D " << slot.name << ";\n";
     return result.str();
 }
 

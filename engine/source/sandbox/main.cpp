@@ -19,6 +19,7 @@
 #include "decimal32.h"
 
 #include "testgamestate.h"
+#include "_gl.h"
 
 #include <bitset>
 
@@ -28,8 +29,6 @@ using namespace ENGINE_NAMESPACE;
 
 int main(int argc, char *argv[])
 {
-    decimal32 dec1 = decimal32::fromDouble(3.141);
-
     EngineConfiguration& config = EngineConfiguration();
     config.tickrate(100)
           .gamestate(std::make_unique<TestGameState>())
@@ -39,5 +38,9 @@ int main(int argc, char *argv[])
           .physics(std::make_unique<DisabledPhysicsEngine>())
           .network(std::make_unique<DisabledNetworkEngine>());
 
-    return Engine(config).run();
+    Engine(config).run();
+
+    glfwTerminate();
+    exit(0);
+    return 0;
 }
