@@ -10,6 +10,7 @@
 
 // Other Includes
 #include "gamestate.h"
+#include "gameobject.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

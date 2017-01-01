@@ -121,6 +121,10 @@
         using std::dynamic_pointer_cast;
         using std::static_pointer_cast;
 
+        template <typename T> 
+        using s_ptr = std::shared_ptr<T>;
+        template <typename T> 
+        using u_ptr = std::unique_ptr<T>;
 
 // Using std primitives
 #include <cstdint>
@@ -172,6 +176,9 @@
 
 // Using assertions
 #include <cassert>
+#include <type_traits>
+
+#define StaticAssert(cond) static_assert(cond, "Static Type Assertion failure at" __FILE__ ": " STRINGIFY(__LINE__));
 
 #if defined(CONTRACTS_ENABLED)
 #   define Requires(cond)  if (!(cond)) \
@@ -181,7 +188,8 @@
 #   define Ensures(cond)  if (!(cond)) \
     throw std::runtime_error("Postcondition failure at " __FILE__ ": " STRINGIFY(__LINE__));
 #else
-#   define Requires(cond)           
+#   define Requires(cond)   
+#   define Assert(cond)
 #   define Ensures(cond)           
 #endif 
 

@@ -1,5 +1,4 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -59,4 +58,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // GAMESTATE_H

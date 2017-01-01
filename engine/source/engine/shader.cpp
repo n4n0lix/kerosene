@@ -85,11 +85,17 @@ Shader::Shader()
 
 }
 
+Shader::~Shader()
+{
+    LOGGER.log(Level::DEBUG, _id) << "DELETE" << endl;
+    glDeleteProgram( _id );
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                      Private Static                    */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 GLuint Shader::CURRENT_SHADER = 0;
-Logger Shader::LOGGER = Logger("Shader", Level::OFF);
+Logger Shader::LOGGER = Logger("Shader", Level::DEBUG);
 
 ENGINE_NAMESPACE_END

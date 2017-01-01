@@ -155,7 +155,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     result->height      = imgHeight;
     result->format      = imgFormat;
     result->bpp         = imgBpp;
-    result->data        = imgData; // move ( )
+    result->data        = move( imgData );
     result->sizeBytes   = imgBytes;
     
     LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")" << endl;

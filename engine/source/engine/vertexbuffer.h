@@ -13,7 +13,9 @@
 #include "_gl.h"
 #include "_global.h"
 #include "_renderdefs.h"
+
 #include "arraybuffer.h"
+#include "vertexlayout.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -29,6 +31,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                         VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initCapacity);
+                                        ~VertexBuffer();
 
             GLuint                      get_id();
 
@@ -70,6 +73,13 @@ VertexBuffer<VERTEX>::VertexBuffer(shared_ptr<VertexLayout> layout, uint32 initC
 
     _vboId = createVBO(atom_capacity());
     LOGGER.log(Level::DEBUG, _vboId) << "CREATE" << endl;
+}
+
+template<class VERTEX>
+inline VertexBuffer<VERTEX>::~VertexBuffer()
+{
+    LOGGER.log(Level::DEBUG, _vboId) << "DELETE" << endl;
+    glDeleteBuffers( 1, &_vboId );
 }
 
 template<class VERTEX>
@@ -166,6 +176,6 @@ GLuint VertexBuffer<VERTEX>::createVBO(uint32 capacityBytes) {
 }
 
 template<class VERTEX>
-Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>", Level::WARN);
+Logger VertexBuffer<VERTEX>::LOGGER = Logger("VertexBuffer<>", Level::DEBUG);
 
 ENGINE_NAMESPACE_END

@@ -23,7 +23,6 @@ template<class T>
 class Vector : public vector<T>
 {
 public:
-
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -34,6 +33,7 @@ public:
 
     void                    add(const T& object);
 
+    size_t                  remove(size_t index);
     size_t                  remove(T& object);
     size_t                  remove(std::function<bool(T&)> func);
 
@@ -55,7 +55,17 @@ private:
 template<class T>
 void Vector<T>::add(const T& object)
 {
-    this->push_back(object);
+    this->push_back( object );
+}
+
+template<class T>
+size_t Vector<T>::remove(size_t index)
+{
+    if (!(index >= 0 && index < size())) { return 0; }
+
+    size_t oldSize = size();
+    erase(begin() + index);
+    return oldSize - size();
 }
 
 template<class T>
@@ -75,7 +85,7 @@ size_t Vector<T>::remove(std::function<bool(T&)> func)
 }
 
 template<class T>
-bool Vector<T>::contains(T & object)
+bool Vector<T>::contains(T& object)
 {
     return std::find(begin(), end(), object) != end();
 }

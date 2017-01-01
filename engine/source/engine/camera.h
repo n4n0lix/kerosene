@@ -13,7 +13,10 @@
 #include "_global.h"
 #include "vector3f.h"
 #include "matrix4f.h"
+#include "viewport4.h"
 #include "logger.h"
+
+#include "world.h"
 
 
 ENGINE_NAMESPACE_BEGIN
@@ -29,7 +32,20 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
               Camera();
 
-    void        render();
+    void        set_eye( Vector3f eye );
+    Vector3f    get_eye();
+
+    void        set_target( Vector3f target );
+    Vector3f    get_target();
+
+    void        set_clear_color( Vector4f color );
+    Vector4f    get_clear_color();
+
+    void        set_viewport( Viewport4i viewport );
+    void        set_viewport( int32 x, int32 y, int32 w, int32 h );
+    Viewport4i  get_viewport();
+
+    void        render( s_ptr<World> world );
     Matrix4f    view_matrix();
 
 protected:
@@ -42,8 +58,11 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    Vector3f _eye;
-    Vector3f _target;
+    Vector3f    _eye;
+    Vector3f    _target;
+
+    Vector4f    _clearColor;
+    Viewport4i  _viewport;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

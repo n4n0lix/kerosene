@@ -7,7 +7,7 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 const TextureSlotTemplate TextureSlotTemplate::TEXTURE_DIFFUSE = { "tex_diffuse",    0, GL_TEXTURE0 };
-const TextureSlotTemplate TextureSlotTemplate::TEXTURE_NORMAL  = { "texture_normal", 1, GL_TEXTURE1 };
+const TextureSlotTemplate TextureSlotTemplate::TEXTURE_NORMAL  = { "tex_normal",     1, GL_TEXTURE1 };
 
 TextureSlot TextureSlotTemplate::to_textureslot()
 {

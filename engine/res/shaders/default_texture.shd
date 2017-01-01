@@ -1,0 +1,18 @@
++uniform mat4 uni_wvp
++layout vertex_pt
+>VERTEX
+out vec2 fs_texcoords;
+
+void main() {
+    gl_Position = vec4(position, 1.0);
+    fs_texcoords = texcoords;
+}
+
+>FRAGMENT
+in vec2 fs_texcoords;
+
+out vec4 out_color;
+
+void main() {
+    out_color = texture(tex_diffuse, fs_texcoords);
+}

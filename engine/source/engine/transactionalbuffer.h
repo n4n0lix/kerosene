@@ -10,6 +10,8 @@
 // Internal Includes
 #include "_global.h"
 
+#include "logger.h"
+
 #include "buffer.h"
 #include "buffertoken.h"
 

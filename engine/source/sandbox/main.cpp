@@ -38,9 +38,5 @@ int main(int argc, char *argv[])
           .physics(std::make_unique<DisabledPhysicsEngine>())
           .network(std::make_unique<DisabledNetworkEngine>());
 
-    Engine(config).run();
-
-    glfwTerminate();
-    exit(0);
-    return 0;
+    return Engine(config).run();
 }

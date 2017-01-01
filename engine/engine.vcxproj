@@ -28,17 +28,26 @@
     <ClInclude Include="source\engine\arraybuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera.h" />
+    <ClInclude Include="source\engine\component.h" />
+    <ClInclude Include="source\engine\gameobject.h" />
+    <ClInclude Include="source\engine\ilogiccomponent.h" />
     <ClInclude Include="source\engine\imageutils.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
+    <ClInclude Include="source\engine\irendercomponent.h" />
     <ClInclude Include="source\engine\map.h" />
     <ClInclude Include="source\engine\non_null.h" />
     <ClInclude Include="source\engine\nullable.h" />
+    <ClInclude Include="source\engine\rendermanager.h" />
     <ClInclude Include="source\engine\stackbuffer.h" />
     <ClInclude Include="source\engine\stackbuffertoken.h" />
+    <ClInclude Include="source\engine\stringutils.h" />
+    <ClInclude Include="source\engine\textureoptions.h" />
     <ClInclude Include="source\engine\textureslot.h" />
     <ClInclude Include="source\engine\textureslottemplate.h" />
     <ClInclude Include="source\engine\transactionalbuffer.h" />
+    <ClInclude Include="source\engine\transform.h" />
     <ClInclude Include="source\engine\uniformtemplate.h" />
+    <ClInclude Include="source\engine\uptrvector.h" />
     <ClInclude Include="source\engine\vector.h" />
     <ClInclude Include="source\engine\range.h" />
     <ClInclude Include="source\engine\tb_removeop.h" />
@@ -67,8 +76,7 @@
     <ClInclude Include="source\engine\material.h" />
     <ClInclude Include="source\engine\matrix4f.h" />
     <ClInclude Include="source\engine\primitivetype.h" />
-    <ClInclude Include="source\engine\quaterion4f.h" />
-    <ClInclude Include="source\engine\resourcemanager.h" />
+    <ClInclude Include="source\engine\quaternion4f.h" />
     <ClInclude Include="source\engine\shader.h" />
     <ClInclude Include="source\engine\shaderbuilder.h" />
     <ClInclude Include="source\engine\staticmesh.h" />
@@ -86,6 +94,8 @@
     <ClInclude Include="source\engine\vertextoken.h" />
     <ClInclude Include="source\engine\vertex_pc.h" />
     <ClInclude Include="source\engine\vertex_pt.h" />
+    <ClInclude Include="source\engine\viewport4.h" />
+    <ClInclude Include="source\engine\world.h" />
     <ClInclude Include="source\engine\_gl.h" />
     <ClInclude Include="source\engine\_global.h" />
     <ClInclude Include="source\engine\_mathdefs.h" />
@@ -105,6 +115,7 @@
     <ClCompile Include="source\engine\engine.cpp" />
     <ClCompile Include="source\engine\engineconfiguration.cpp" />
     <ClCompile Include="source\engine\engineexception.cpp" />
+    <ClCompile Include="source\engine\gameobject.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
     <ClCompile Include="source\engine\imageutils.cpp" />
@@ -112,14 +123,17 @@
     <ClCompile Include="source\engine\material.cpp" />
     <ClCompile Include="source\engine\matrix4f.cpp" />
     <ClCompile Include="source\engine\quaterion4f.cpp" />
-    <ClCompile Include="source\engine\resourcemanager.cpp" />
+    <ClCompile Include="source\engine\rendermanager.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
     <ClCompile Include="source\engine\shaderbuilder.cpp" />
     <ClCompile Include="source\engine\range.cpp" />
     <ClCompile Include="source\engine\stackbuffertoken.cpp" />
+    <ClCompile Include="source\engine\stringutils.cpp" />
     <ClCompile Include="source\engine\tb_removeop.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
+    <ClCompile Include="source\engine\textureoptions.cpp" />
     <ClCompile Include="source\engine\textureslottemplate.cpp" />
+    <ClCompile Include="source\engine\transform.cpp" />
     <ClCompile Include="source\engine\uniformtemplate.cpp" />
     <ClCompile Include="source\engine\vector2f.cpp" />
     <ClCompile Include="source\engine\vector3f.cpp" />
@@ -128,6 +142,7 @@
     <ClCompile Include="source\engine\vertex_pc.cpp" />
     <ClCompile Include="source\engine\buffertoken.cpp" />
     <ClCompile Include="source\engine\vertex_pt.cpp" />
+    <ClCompile Include="source\engine\world.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />
     <ClCompile Include="source\sandbox\main.cpp" />
     <ClCompile Include="source\sandbox\testgamestate.cpp" />
@@ -204,7 +219,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\kerosene\engine\libs\cross;$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
@@ -224,7 +239,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\kerosene\engine\libs\cross;$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
@@ -246,7 +261,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\kerosene\engine\libs\cross;$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessToFile>false</PreprocessToFile>
@@ -271,7 +286,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\kerosene\engine\libs\cross;$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessToFile>false</PreprocessToFile>

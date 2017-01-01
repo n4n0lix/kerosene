@@ -15,12 +15,17 @@ DefaultRenderEngine::DefaultRenderEngine() : IRenderEngine()
 
 DefaultRenderEngine::~DefaultRenderEngine()
 {
-    glfwTerminate();
+    //glfwTerminate();
+}
+
+void DefaultRenderEngine::cleanUp()
+{
+
 }
 
 void DefaultRenderEngine::onStart()
 {
-    _exitRequested = false;
+    _exitRequested = false; 
 
     if (!glfwInit()) {
         throw new EngineException("Couldn't initialize GLFW!");
@@ -32,120 +37,56 @@ void DefaultRenderEngine::onStart()
         throw new EngineException("Couldn't initialize GLEW!");
     }
 
-    // TEXTURE 
+    // RENDER MANAGER
     //////////////
-    shared_ptr<Image> img = ImageUtils::load_png("res/textures/dev/128.png");
-    _tex = make_shared<Texture>( img, false );
+    _world = make_shared<World>();
+    _renderManagers.put( _world, make_shared<RenderManager>() );
 
-    // VERTEX LAYOUT
-    //////////////////
+    s_ptr<RenderManager> renderManagerW1 = _renderManagers.get( _world );
+    // MATERIALS 
+    //////////////
+    s_ptr<Material> matTex = make_shared<Material>( renderManagerW1->load_shader("builtin_texture"),
+                                                    renderManagerW1->load_texture("res/textures/dev/128.png") );
 
-    shared_ptr<VertexLayout> pcLayout = make_shared<VertexLayout>(Vertex_pc().layout());
-    shared_ptr<VertexLayout> ptLayout = make_shared<VertexLayout>(Vertex_pt().layout());
-
-    // COLOR SHADER
-    ///////////
-    ostringstream csVertexShader;
-    csVertexShader
-        << "out vec4 fs_color;\n"
-        << "\n"
-        << "void main() {\n"
-        << "    gl_Position = vec4(position, 1.0);\n"
-        << "    fs_color = color;\n"
-        << "}\n";
-
-    ostringstream csFragmentShader;
-    csFragmentShader
-        << "in vec4 fs_color;\n"
-        << "\n"
-        << "out vec4 out_color;\n"
-        << "\n"
-        << "void main() {\n"
-        << "    out_color = fs_color;\n"
-        << "}\n";
-
-    shared_ptr<Shader> colorShader = ShaderBuilder()
-                        .vertex_uniform("mat4", "uni_wvp")
-                        .vertexlayout(pcLayout)
-                        .vertex_source(csVertexShader.str())
-                        .frag_source(csFragmentShader.str())
-                        .build();
-
-    shared_ptr<Material> materialColor = make_shared<Material>( colorShader );
-
-    // TEXTURE SHADER
-    ///////////
-    ostringstream tsVertexShader;
-    tsVertexShader
-        << "out vec2 fs_texcoords;\n"
-        << "\n"
-        << "void main() {\n"
-        << "    gl_Position = vec4(position, 1.0);\n"
-        << "    fs_texcoords = texcoords;\n"
-        << "}\n";
-
-    ostringstream tsFragmentShader;
-    tsFragmentShader
-        << "in vec2 fs_texcoords;\n"
-        << "\n"
-        << "out vec4 out_color;\n"
-        << "\n"
-        << "void main() {\n"
-        << "    out_color = texture(" << TextureSlotTemplate::TEXTURE_DIFFUSE.name << ", fs_texcoords);\n"
-        << "}\n";
-
-    shared_ptr<Shader> texShader = ShaderBuilder()
-        .vertex_uniform("mat4", "uni_wvp")
-        .frag_texture_slot(TextureSlotTemplate::TEXTURE_DIFFUSE)
-        .vertexlayout(ptLayout)
-        .vertex_source(tsVertexShader.str())
-        .frag_source(tsFragmentShader.str())
-        .build();
-
-    //shared_ptr<Material> materialTex = make_shared<Material>(texShader, _tex);
+    s_ptr<Material> matColor = make_shared<Material>( renderManagerW1->load_shader("builtin_diffuse") );
 
     // BATCH
     //////////
-    //_batch = make_unique<Batch<Vertex_pc>>(materialColor);
+    Vector<Vertex_pc> vertices1 = Vector<Vertex_pc>();
+    vertices1.add(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices1.add(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices1.add(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle1 = renderManagerW1->add_vertices(matColor, vertices1);
 
-    //Vector<Vertex_pc> vertices1 = Vector<Vertex_pc>();
-    //vertices1.add(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices1.add(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices1.add(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //_tokenTriangle1 = _batch->add_vertices(vertices1);
+    Vector<Vertex_pc> vertices2 = Vector<Vertex_pc>();
+    vertices2.add(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices2.add(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices2.add(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle2 = renderManagerW1->add_vertices(matColor, vertices2);
 
-    //Vector<Vertex_pc> vertices2 = Vector<Vertex_pc>();
-    //vertices2.add(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices2.add(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices2.add(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //_tokenTriangle2 = _batch->add_vertices(vertices2);
+    Vector<Vertex_pc> vertices3 = Vector<Vertex_pc>();
+    vertices3.add(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
+    vertices3.add(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
+    vertices3.add(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
+    _tokenTriangle3 = renderManagerW1->add_vertices(matColor, vertices3);
 
-    //Vector<Vertex_pc> vertices3 = Vector<Vertex_pc>();
-    //vertices3.add(Vertex_pc(Vector3f(-1, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-    //vertices3.add(Vertex_pc(Vector3f(0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
-    //vertices3.add(Vertex_pc(Vector3f(-.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-    //_tokenTriangle3 = _batch->add_vertices(vertices3);
-
-    //_batch->add_render_static(_tokenTriangle1);
-    //_batch->add_render_static(_tokenTriangle2);
-    //_batch->add_render_static(_tokenTriangle3);
-    //_batch->remove_render_static(_tokenTriangle3);
+    renderManagerW1->add_render( _tokenTriangle1 );
+    renderManagerW1->add_render( _tokenTriangle2 );
+    renderManagerW1->add_render( _tokenTriangle3 );
 
     // BATCH 2
     //////////
-    //_batch2 = make_unique<Batch<Vertex_pt>>(materialTex);
+    Vector<Vertex_pt> vertices4 = Vector<Vertex_pt>();
+    vertices4.add(Vertex_pt(Vector3f(1, 0, -.5), Vector2f(1.0f, 1.0f)));
+    vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
+    vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
 
-    //Vector<Vertex_pt> vertices4 = Vector<Vertex_pt>();
-    //vertices4.add(Vertex_pt(Vector3f(1, 0, -.5), Vector2f(1.0f, 1.0f)));
-    //vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
-    //vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
+    vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
+    vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
+    vertices4.add(Vertex_pt(Vector3f(0, 1, -.5), Vector2f(0.0f, 0.0f)));
 
-    //vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
-    //vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
-    //vertices4.add(Vertex_pt(Vector3f(0, 1, -.5), Vector2f(0.0f, 0.0f)));
-
-    //_tokenTriangle4 = _batch2->add_vertices(vertices4);
-    //_batch2->add_render_static(_tokenTriangle4);
+    _tokenTriangle4 = renderManagerW1->add_vertices(matTex, vertices4);
+    renderManagerW1->add_render(_tokenTriangle4);
 
     // CAMERA
     ///////////
@@ -157,16 +98,9 @@ void DefaultRenderEngine::onUpdate()
     // #1 Make context current
     _mainWindow->makeCurrent();
 
-    // #2 GL code
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glViewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
-
-    // Test code
-    //_batch->render();
-    //_batch2->render();
-
-    // #3 Render
+    // #2 Render
+    _camera->set_viewport(0, 0, _mainWindow->getRenderWidth(), _mainWindow->getRenderHeight());
+    _renderManagers.get( _world )->render();
     _mainWindow->swapBuffers();
 
     // X# Update GUI
@@ -199,6 +133,12 @@ void DefaultRenderEngine::initContextAndWindow()
     _mainWindow->setY(300);
     _mainWindow->makeCurrent();
     std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << std::endl;
+}
+
+
+void DefaultRenderEngine::setup_built_in_shaders()
+{
+
 }
 
 ENGINE_NAMESPACE_END

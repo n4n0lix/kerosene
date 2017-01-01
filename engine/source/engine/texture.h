@@ -12,6 +12,7 @@
 // Internal Includes
 #include "_global.h"
 #include "imageutils.h"
+#include "textureoptions.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -24,7 +25,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Texture(shared_ptr<Image> image, bool linear=true);
+            explicit Texture(shared_ptr<Image> image, TextureOptions options = TextureOptions());
+            ~Texture();
 
     GLuint id();
 

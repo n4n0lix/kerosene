@@ -111,9 +111,6 @@
     <ClInclude Include="source\engine\shader.h">
       <Filter>Headerdateien\engine\render</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\resourcemanager.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\shaderbuilder.h">
       <Filter>Headerdateien\engine\render</Filter>
     </ClInclude>
@@ -142,9 +139,6 @@
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\matrix4f.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\quaterion4f.h">
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\vector2f.h">
@@ -294,6 +288,42 @@
     <ClInclude Include="source\engine\textureslottemplate.h">
       <Filter>Headerdateien\engine\render</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\textureoptions.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stringutils.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\rendermanager.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\viewport4.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\world.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\component.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\gameobject.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\quaternion4f.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\ilogiccomponent.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\irendercomponent.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\uptrvector.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\transform.h">
+      <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\defaultrenderengine.cpp">
@@ -313,9 +343,6 @@
     </ClCompile>
     <ClCompile Include="source\engine\vertex_pc.cpp">
       <Filter>Quelldateien\engine\render\vertices</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\resourcemanager.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\gamestate.cpp">
       <Filter>Quelldateien\engine\core</Filter>
@@ -409,6 +436,24 @@
     </ClCompile>
     <ClCompile Include="source\engine\camera.cpp">
       <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\textureoptions.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stringutils.cpp">
+      <Filter>Quelldateien\engine\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\rendermanager.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\world.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\transform.cpp">
+      <Filter>Quelldateien\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\gameobject.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

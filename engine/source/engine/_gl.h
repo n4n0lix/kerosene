@@ -10,20 +10,19 @@
     #include <string>
     #include <map> 
     #include "logger.h"
-
+//std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#" << endl;
     std::string gl_err_to_string(GLenum enm);
 
     #define printGLErrors(glFunc)                                                                   \
-        { GLenum err;                                                                               \
+        {             \
+          GLenum err;                                                                               \
           err = glGetError();                                                                       \
           if (err != GL_NO_ERROR) {                                                                 \
             std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#" << ":" << endl;   \
-            while (err != GL_NO_ERROR) {                                                            \
-                            std::cout << "    GL ERROR: " << gl_err_to_string(err) << endl;         \
-                            err = glGetError();                                                     \
-            }                                                                                       \
+            std::cout << "    GL ERROR: " << gl_err_to_string(err) << endl;                         \
+            err = glGetError();                                                                     \
             DEBUG_TRIGGER                                                                           \
-        }                                                                                           \
+          }                                                                                         \
         }
 #endif
 
@@ -132,6 +131,17 @@
 #endif
 
 // D
+// glDeleteVertexArrays
+#ifdef GL_DEBUG
+#undef glDeleteVertexArrays
+#define glDeleteVertexArrays(...) \
+    GLEW_GET_FUN(__glewDeleteVertexArrays)(__VA_ARGS__); \
+    printGLErrors(glDeleteVertexArrays)
+#elif GL_MOCK
+#undef glDeleteVertexArrays
+#define glDeleteVertexArrays(...) GLMock::invoking("glDeleteVertexArrays")
+#endif
+
 // glDeleteBuffers
 #ifdef GL_DEBUG
     #undef glDeleteBuffers
@@ -141,6 +151,16 @@
 #elif GL_MOCK
     #undef glDeleteBuffers
     #define glDeleteBuffers(...) GLMock::invoking("glDeleteBuffers")
+#endif
+
+// glDeleteTextures
+#ifdef GL_DEBUG
+#define glDeleteTextures(...) \
+    glDeleteTextures(__VA_ARGS__); \
+    printGLErrors(glDeleteTextures)
+#elif GL_MOCK
+#undef glDeleteTextures
+#define glDeleteTextures(...) GLMock::invoking("glDeleteTextures")
 #endif
 
 // glDrawElements
@@ -176,6 +196,18 @@
     GLMock::invoking("glGenBuffers")
 #endif
 
+// glGenerateMipmap
+#ifdef GL_DEBUG
+#undef glGenerateMipmap
+#define glGenerateMipmap(...) \
+    GLEW_GET_FUN(__glewGenerateMipmap)(__VA_ARGS__); \
+    printGLErrors(glGenerateMipmap)
+#elif GL_MOCK
+#undef glGenerateMipmap
+#define glGenerateMipmap(...) \
+    GLMock::invoking("glGenerateMipmap")
+#endif
+
 // glGenTextures
 #ifdef GL_DEBUG
     #define glGenTextures(...) \
@@ -186,6 +218,17 @@
     GLMock::invoking("glGenTextures")
 #endif
 
+// glGenVertexArrays
+#ifdef GL_DEBUG
+#undef glGenVertexArrays
+#define glGenVertexArrays(...) \
+    GLEW_GET_FUN(__glewGenVertexArrays)(__VA_ARGS__); \
+    printGLErrors(glGenVertexArrays)
+#elif GL_MOCK
+#undef glGenVertexArrays
+#define glGenVertexArrays(...) GLMock::invoking("glGenVertexArrays")
+#endif
+
 // glGetUniformLocation
 #ifdef GL_DEBUG
     #undef glGetUniformLocation
@@ -194,7 +237,7 @@
     printGLErrors(glGetUniformLocation)
 #elif GL_MOCK
     #undef glGetUniformLocation
-    #define glGetUniformLocation(...) GLMock::invoking("glGetUniformLocation")
+    #define glGetUniformLocation(...) 1; GLMock::invoking("glGetUniformLocation")
 #endif
 
 
@@ -255,6 +298,7 @@
 
 
 // V
+// glVertexAttribPointer
 #ifdef GL_DEBUG
     #undef glVertexAttribPointer
     #define glVertexAttribPointer(...) \
@@ -263,4 +307,14 @@
 #elif GL_MOCK
     #undef glVertexAttribPointer
     #define glVertexAttribPointer(...) GLMock::invoking("glVertexAttribPointer")
+#endif
+
+// glViewport
+#ifdef GL_DEBUG
+#define glViewport(...) \
+    glViewport(__VA_ARGS__); \
+    printGLErrors(glViewport)
+#elif GL_MOCK
+#undef glViewport
+#define glViewport(...) GLMock::invoking("glViewport")
 #endif

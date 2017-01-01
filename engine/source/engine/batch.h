@@ -27,24 +27,38 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+class IBatch
+{
+public :
+
+    virtual void                    remove_vertices(s_ptr<VertexToken> token) = 0;
+
+    virtual void                    add_render(s_ptr<VertexToken> token)      = 0;
+    virtual void                    remove_render(s_ptr<VertexToken> token)   = 0;
+
+    virtual void                    set_view_matrix(Matrix4f viewMatrix)           = 0;
+
+    virtual void                    render() = 0;
+};
+
 template<class VERTEX>
-class Batch
+class Batch : public IBatch
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-              explicit Batch(shared_ptr<Material> material);
+              explicit Batch(s_ptr<Material> material);
 
-    shared_ptr<VertexToken>             add_vertices(Vector<VERTEX> vertices);
-    void                                remove_vertices(shared_ptr<VertexToken> token);
+            s_ptr<VertexToken>     add_vertices(Vector<VERTEX> vertices);
+    virtual void                        remove_vertices(s_ptr<VertexToken> token);
     
-    void                                add_render_static(shared_ptr<VertexToken> token);
-    void                                remove_render_static(shared_ptr<VertexToken> token);
+    virtual void                        add_render(s_ptr<VertexToken> token);
+    virtual void                        remove_render(s_ptr<VertexToken> token);
     
-    void                                set_view_matrix(Matrix4f viewMatrix);
+    virtual void                        set_view_matrix(Matrix4f viewMatrix);
 
-    void                                render();
+    virtual void                        render();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -58,8 +72,7 @@ private:
 
     unique_ptr<VertexArray<VERTEX>> _vao;
 
-    shared_ptr<Material> _material;
-    shared_ptr<Shader>   _shader;
+    s_ptr<Material> _material;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -72,36 +85,39 @@ private:
 /*                        Public                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 template<class VERTEX>
-Batch<VERTEX>::Batch(shared_ptr<Material> material) {
+Batch<VERTEX>::Batch(s_ptr<Material> material) {
     _material = material;
-    _shader = material->get_shader();
-    _vao = make_unique<VertexArray<VERTEX>>(_shader->get_vertex_layout());
+    _vao = make_unique<VertexArray<VERTEX>>(material->get_shader()->get_vertex_layout());
 }
 
 template<class VERTEX>
-shared_ptr<VertexToken> Batch<VERTEX>::add_vertices(Vector<VERTEX> vertices)
+s_ptr<VertexToken> Batch<VERTEX>::add_vertices(Vector<VERTEX> vertices)
 {
     return _vao->add_vertices( vertices );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_vertices(shared_ptr<VertexToken> token)
+void Batch<VERTEX>::remove_vertices(s_ptr<VertexToken> token)
 {
     _vao->remove_vertices( token );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::add_render_static(shared_ptr<VertexToken> token)
+void Batch<VERTEX>::add_render(s_ptr<VertexToken> token)
 {
     _vao->add_render_static( token );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_render_static(shared_ptr<VertexToken> token)
+void Batch<VERTEX>::remove_render(s_ptr<VertexToken> token)
 {
     _vao->remove_render_static(token);
 }
 
+template<class VERTEX>
+inline void Batch<VERTEX>::set_view_matrix(Matrix4f viewMatrix)
+{
+}
 
 template<class VERTEX>
 void Batch<VERTEX>::render()

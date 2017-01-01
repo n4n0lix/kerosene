@@ -26,6 +26,8 @@
 #include "vertexarray.h"
 #include "imageutils.h"
 #include "camera.h"
+#include "texture.h"
+#include "rendermanager.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -46,6 +48,8 @@ public:
             explicit DefaultRenderEngine();
             ~DefaultRenderEngine();
 
+    void cleanUp();
+
     /* IRenderEngine */
     virtual void onStart();
     virtual void onUpdate();
@@ -59,21 +63,24 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     void initContextAndWindow();
+    void setup_built_in_shaders();
 
     bool                    _exitRequested;
     unique_ptr<GLWindow>    _mainWindow;
 
+    shared_ptr<World>                       _world;
+    Map<s_ptr<World>, s_ptr<RenderManager>> _renderManagers;
+
     // Test
     unique_ptr<Camera> _camera;
-    //unique_ptr<Batch<Vertex_pc>> _batch;
-    //unique_ptr<Batch<Vertex_pt>> _batch2;
-    //unique_ptr<VertexArray<Vertex_pc>> _vao;
-    shared_ptr<Texture> _tex;
+    unique_ptr<Batch<Vertex_pc>> _batch;
+    unique_ptr<Batch<Vertex_pt>> _batch2;
+    unique_ptr<VertexArray<Vertex_pc>> _vao;
 
-    //shared_ptr<VertexToken> _tokenTriangle1;
-    //shared_ptr<VertexToken> _tokenTriangle2;
-    //shared_ptr<VertexToken> _tokenTriangle3;
-    //shared_ptr<VertexToken> _tokenTriangle4;
+    shared_ptr<VertexToken> _tokenTriangle1;
+    shared_ptr<VertexToken> _tokenTriangle2;
+    shared_ptr<VertexToken> _tokenTriangle3;
+    shared_ptr<VertexToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END

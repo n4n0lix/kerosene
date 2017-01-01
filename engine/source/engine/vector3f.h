@@ -35,6 +35,9 @@ public:
     static const Vector3f Y_AXIS;
     static const Vector3f Z_AXIS;
 
+    static Vector3f zero() { return move( Vector3f(0.0f, 0.0f, 0.0f) ); }
+    static Vector3f unit() { return move( Vector3f(1.0f, 1.0f, 1.0f) ); }
+
     static Vector3f lerp(const Vector3f source, const Vector3f target, const float amount);
     static float    angleBetween(const Vector3f vector1, const Vector3f vector2);
     static float    distanceBetween(const Vector3f vector1, const Vector3f vector2);
