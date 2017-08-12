@@ -10,6 +10,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "vector.h"
 #include "uptrvector.h"
 
 #include "world.h"
@@ -23,10 +24,11 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
+class World;
+
 //
 // Contracts: 
-// - If a GameObject "dies" it tells his _parent and his _world.
-// - GameObjects are owned by a _parent.
+// - GameObjects are owned by a world.
 //
 class GameObject
 {
@@ -35,10 +37,26 @@ class GameObject
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
             explicit GameObject();
+			~GameObject();
 
-    void                add_child(u_ptr<GameObject> child);
-    bool                is_child(GameObject* child);
-    u_ptr<GameObject>   remove_child(GameObject* child);
+	class Handle {
+	public:
+		Handle(GameObject* gameObject);
+		~Handle();
+
+		GameObject* get();
+		void		invalidate();
+
+	private:
+		GameObject*	gameObject;
+		bool		valid;
+
+	};
+
+	u_ptr<Handle> get_handle();
+
+	void		  destroy();
+	bool          shall_be_destroyed();
 
     Transform transform;
     Transform lastTransform;
@@ -46,23 +64,25 @@ public:
     Transform globalTransform;
     Transform lastGlobalTransform;
 
+	vector<Handle*> activeHandles;
+
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    World*                          _world;
-    GameObject*                     _parent;
-    UptrVector<GameObject>   _children;
+	uint64					_id;	
+	bool					_destroy;
 
-    u_ptr<ILogicComponent>  _logic;
-    u_ptr<IRenderComponent> _render;
+    u_ptr<ILogicComponent>  _logic;     // Owned by this
+    u_ptr<IRenderComponent> _render;    // Owned by this
+
+	static atomic<uint64>	UID_COUNTER;
 
 };
 

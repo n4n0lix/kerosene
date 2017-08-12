@@ -45,6 +45,8 @@ void DefaultRenderEngine::onStart()
     s_ptr<RenderManager> renderManagerW1 = _renderManagers.get( _world );
     // MATERIALS 
     //////////////
+    s_ptr<Shader> shad = renderManagerW1->load_shader("builtin_texture");
+
     s_ptr<Material> matTex = make_shared<Material>( renderManagerW1->load_shader("builtin_texture"),
                                                     renderManagerW1->load_texture("res/textures/dev/128.png") );
 

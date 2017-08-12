@@ -12,7 +12,7 @@ RenderManager::RenderManager()
 
 void RenderManager::remove_vertices(s_ptr<VertexToken> token)
 {
-    s_ptr<IBatch> batch = _tokenToBatches.get( token ); 
+    s_ptr<IBatch> batch = _tokenToBatches[ token ]; 
 
     if (batch != nullptr) {
         batch->remove_vertices(token);
@@ -21,7 +21,7 @@ void RenderManager::remove_vertices(s_ptr<VertexToken> token)
 
 void RenderManager::add_render(s_ptr<VertexToken> token)
 {
-    s_ptr<IBatch> batch = _tokenToBatches.get(token);
+    s_ptr<IBatch> batch = _tokenToBatches[ token ];
 
     if (batch != nullptr) {
         batch->add_render(token);
@@ -30,7 +30,7 @@ void RenderManager::add_render(s_ptr<VertexToken> token)
 
 void RenderManager::remove_render(s_ptr<VertexToken> token)
 {
-    s_ptr<IBatch> batch = _tokenToBatches.get(token);
+    s_ptr<IBatch> batch = _tokenToBatches[token];
 
     if (batch != nullptr) {
         batch->remove_render(token);
@@ -39,25 +39,34 @@ void RenderManager::remove_render(s_ptr<VertexToken> token)
 
 void RenderManager::render()
 {
-    for each (s_ptr<IBatch> aBatch in _materialToBatches.values())
+    // 1# get all batches
+    Vector<s_ptr<IBatch>> batches = Vector<s_ptr<IBatch>>();
+
+    for (pair<w_ptr<Material>, s_ptr<IBatch>> entry : _materialToBatches) {
+        if (!batches.contains(entry.second)) {
+            batches.add(entry.second);
+        }
+    }
+
+    // 2# render all batches
+    for each (s_ptr<IBatch> batch in batches)
     {
-        aBatch->render();
+        batch->render();
     }
 }
 
 s_ptr<Texture> RenderManager::load_texture(string filename, TextureOptions options)
 {
-    s_ptr<Texture> texture;
 
     // 1# Check if texture is already loaded. TODO: This currently ignores texture options
-    texture = _texturesByFile.get(filename);
-
-    if (texture != nullptr) {
-        return texture;
+    w_ptr<Texture> weak = _fileToTextures.get(filename);
+    if (!weak.expired()) {
+        return weak.lock();
     }
 
     // 2# Load Texture
-    s_ptr<Image> image = nullptr;
+    s_ptr<Texture> texture;
+    s_ptr<Image> image;
 
     // PNG
     if (StringUtils::ends_with(filename, ".png")) {
@@ -65,13 +74,13 @@ s_ptr<Texture> RenderManager::load_texture(string filename, TextureOptions optio
     }
 
     texture = make_shared<Texture>(image, options);
-    _texturesByFile.put(filename, texture);
+    _fileToTextures.put(filename, texture);
     return texture;
 }
 
 s_ptr<Texture> RenderManager::overwrite_texture(string filename, s_ptr<Texture> texture)
 {
-    _texturesByFile.put(filename, texture);
+    _fileToTextures.put(filename, texture);
     return texture;
 }
 
@@ -79,15 +88,26 @@ s_ptr<Shader> RenderManager::load_shader(string filename)
 {
     s_ptr<Shader> shader;
 
-    // 1# Check if texture is already loaded. TODO: This currently ignores texture options
-    shader = _shadersByFile.get(filename);
+    // 1# Check if shader is already loaded. TODO: This currently ignores texture options
+    w_ptr<Shader> weak = _fileToShader.get(filename);
+    if (!weak.expired()) {
+        return weak.lock();
+    }
 
     if (shader != nullptr) {
         return shader;
     }
 
-    // 2# Load Shader from file
+    // 2# Try to load from built-in-shaders
+    s_ptr<Shader> builtIn = _builtinShaders.get(filename);
+    if (builtIn != nullptr) {
+        return builtIn;
+    }
+
+    // 3# Load Shader from file
     // TODO:
+
+    LOGGER.log(Level::WARN) << "Shader '" << filename << "' not found!";
 
     return nullptr;
 }
@@ -97,9 +117,9 @@ s_ptr<Material> RenderManager::load_material(s_ptr<Shader> shader, s_ptr<Texture
     return s_ptr<Material>();
 }
 
-s_ptr<Shader> RenderManager::overwrite_shader(string filename, s_ptr<Shader> shader)
+s_ptr<Shader> RenderManager::built_in_shader(string filename, s_ptr<Shader> shader)
 {
-    _shadersByFile.put(filename, shader);
+    _builtinShaders.put(filename, shader);
     return shader;
 }
 
@@ -138,7 +158,7 @@ void RenderManager::setup_builtin_shaders()
         .frag_source(csFragmentShader.str())
         .build();
 
-    overwrite_shader("builtin_diffuse", colorShader);
+    built_in_shader("builtin_diffuse", colorShader);
 
     // TEXTURE SHADER
     ///////////
@@ -169,7 +189,13 @@ void RenderManager::setup_builtin_shaders()
         .frag_source(tsFragmentShader.str())
         .build();
 
-    overwrite_shader("builtin_texture", texShader);
+    built_in_shader("builtin_texture", texShader);
 }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Private Static                     */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+Logger RenderManager::LOGGER = Logger("RenderManager", Level::DEBUG);
 
 ENGINE_NAMESPACE_END

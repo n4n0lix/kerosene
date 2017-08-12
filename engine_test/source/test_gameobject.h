@@ -8,10 +8,10 @@
 
 BEHAVIOUR(GameObject, if_child_is_added_it_becomes_a_child)
     GameObject parent;
-    u_ptr<GameObject> uChild = make_unique<GameObject>();
+    s_ptr<GameObject> uChild = make_shared<GameObject>();
     GameObject*       rChild = uChild.get();
 
-    parent.add_child( move(uChild) );
+    parent.add_child( rChild );
 
     IS_TRUE( parent.is_child( rChild ) );
 END

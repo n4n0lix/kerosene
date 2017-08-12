@@ -303,9 +303,6 @@
     <ClInclude Include="source\engine\world.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\component.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\gameobject.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
@@ -323,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="source\engine\transform.h">
       <Filter>Headerdateien\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\icomponent.h">
+      <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
