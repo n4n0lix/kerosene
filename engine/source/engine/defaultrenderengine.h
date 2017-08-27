@@ -81,6 +81,11 @@ private:
     shared_ptr<VertexToken> _tokenTriangle2;
     shared_ptr<VertexToken> _tokenTriangle3;
     shared_ptr<VertexToken> _tokenTriangle4;
+
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                     Private Static                     */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 };
 
 ENGINE_NAMESPACE_END

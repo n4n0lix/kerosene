@@ -33,11 +33,14 @@ public:
 
     void                    add(const T& object);
 
-    size_t                  remove(size_t index);
+    size_t                  remove_at(size_t index);
+	size_t                  remove_by_predicate(std::function<bool(T&)> func);
+
     size_t                  remove(T& object);
-    size_t                  remove(std::function<bool(T&)> func);
+	size_t                  remove(T* object);
 
     bool                    contains(T& object);
+	bool					contains_r(T& object);
 
     void                    forAll(std::function<void(T&)> func);
 
@@ -59,7 +62,7 @@ void Vector<T>::add(const T& object)
 }
 
 template<class T>
-size_t Vector<T>::remove(size_t index)
+size_t Vector<T>::remove_at(size_t index)
 {
     if (!(index >= 0 && index < size())) { return 0; }
 
@@ -69,7 +72,15 @@ size_t Vector<T>::remove(size_t index)
 }
 
 template<class T>
-size_t Vector<T>::remove(T & object)
+size_t Vector<T>::remove_by_predicate(std::function<bool(T&)> func)
+{
+	size_t oldSize = size();
+	erase(std::remove_if(begin(), end(), func), end());
+	return oldSize - size();
+}
+
+template<class T>
+size_t Vector<T>::remove(T& object)
 {
     size_t oldSize = size();
     erase(std::remove(begin(), end(), object), end());
@@ -77,17 +88,23 @@ size_t Vector<T>::remove(T & object)
 }
 
 template<class T>
-size_t Vector<T>::remove(std::function<bool(T&)> func)
+size_t Vector<T>::remove(T* object)
 {
-    size_t oldSize = size();
-    erase(std::remove_if(begin(), end(), func), end());
-    return oldSize - size();
+	size_t oldSize = size();
+	erase(std::remove(begin(), end(), object), end());
+	return oldSize - size();
 }
 
 template<class T>
 bool Vector<T>::contains(T& object)
 {
     return std::find(begin(), end(), object) != end();
+}
+
+template<class T>
+bool Vector<T>::contains_r(T& object)
+{
+	return std::find(rbegin(), rend(), object) != rend();
 }
 
 template<class T>

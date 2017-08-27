@@ -20,7 +20,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class T>
-class UptrVector : public vector<u_ptr<T>>
+class UniquePtrVector : public vector<u_ptr<T>>
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -53,13 +53,13 @@ private:
 };
 
 template<class T>
-void UptrVector<T>::add(u_ptr<T> object)
+void UniquePtrVector<T>::add(u_ptr<T> object)
 {
     this->push_back( move(object) );
 }
 
 template<class T>
-size_t UptrVector<T>::remove(size_t index)
+size_t UniquePtrVector<T>::remove(size_t index)
 {
     if (!(index >= 0 && index < size())) { return 0; }
 
@@ -69,15 +69,14 @@ size_t UptrVector<T>::remove(size_t index)
 }
 
 template<class T>
-size_t UptrVector<T>::remove(T* object)
+size_t UniquePtrVector<T>::remove(T* object)
 {
     if (object == nullptr) { return 0; }
-
-    return remove( [&](u_ptr<T> const& p) { return p.get() == object; } );
+	return remove( index_of(object) );
 }
 
 template<class T>
-size_t UptrVector<T>::remove(std::function<bool(u_ptr<T>&)> func)
+size_t UniquePtrVector<T>::remove(std::function<bool(u_ptr<T>&)> func)
 {
     size_t oldSize = size();
     erase(std::remove_if(begin(), end(), func), end());
@@ -85,7 +84,7 @@ size_t UptrVector<T>::remove(std::function<bool(u_ptr<T>&)> func)
 }
 
 template<class T>
-u_ptr<T> UptrVector<T>::extract(size_t index)
+u_ptr<T> UniquePtrVector<T>::extract(size_t index)
 {
     if (!(index >= 0 && index < size())) { return nullptr; }
 
@@ -95,13 +94,13 @@ u_ptr<T> UptrVector<T>::extract(size_t index)
 }
 
 template<class T>
-u_ptr<T> UptrVector<T>::extract(T* object)
+u_ptr<T> UniquePtrVector<T>::extract(T* object)
 {
-    return move( extract(index_of(object)) );
+    return move( extract( index_of(object) ) );
 }
 
 template<class T>
-inline size_t UptrVector<T>::index_of(T* object)
+inline size_t UniquePtrVector<T>::index_of(T* object)
 {
     for (size_t i = 0; i < size(); i++) {
         u_ptr<T>& p = at(i);
@@ -115,7 +114,7 @@ inline size_t UptrVector<T>::index_of(T* object)
 }
 
 template<class T>
-bool UptrVector<T>::contains(T* object)
+bool UniquePtrVector<T>::contains(T* object)
 {
     for (size_t i = 0; i < size(); i++) {
         u_ptr<T>& p = at(i);
@@ -129,7 +128,7 @@ bool UptrVector<T>::contains(T* object)
 }
 
 template<class T>
-void UptrVector<T>::forAll(std::function<void(u_ptr<T>&)> func)
+void UniquePtrVector<T>::forAll(std::function<void(u_ptr<T>&)> func)
 {
     std::for_each(begin(), end(), func);
 }

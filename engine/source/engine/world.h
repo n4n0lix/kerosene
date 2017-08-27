@@ -12,7 +12,7 @@
 #include "_global.h"
 #include "logger.h"
 #include "gameobject.h"
-#include "uptrvector.h"
+#include "uniqueptrvector.h"
 
 
 ENGINE_NAMESPACE_BEGIN
@@ -27,7 +27,10 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-        World();
+        explicit World();
+
+	void			  add(u_ptr<GameObject> gameObject);
+	u_ptr<GameObject> remove(GameObject* gameObject);
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -39,7 +42,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    unique_ptr<GameObject>   _root;
+	UniquePtrVector<GameObject> _gameObjects;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

@@ -117,7 +117,7 @@ void TransactionalBuffer<T>::remove(shared_ptr<BufferToken> token)
 
     // 1# Check if token is invalid, and if it is remove corresponding writeops ...
     if (!token->valid()) {
-        _writeBucket.remove([&](shared_ptr<TB_WriteOp<T>> op) -> bool { return op->token() == token; });
+        _writeBucket.remove_by_predicate([&](shared_ptr<TB_WriteOp<T>> op) -> bool { return op->token() == token; });
         return;
     }
 

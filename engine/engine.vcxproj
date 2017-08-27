@@ -30,6 +30,7 @@
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\icomponent.h" />
     <ClInclude Include="source\engine\gameobject.h" />
+    <ClInclude Include="source\engine\idgenerator.h" />
     <ClInclude Include="source\engine\ilogiccomponent.h" />
     <ClInclude Include="source\engine\imageutils.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
@@ -41,13 +42,14 @@
     <ClInclude Include="source\engine\stackbuffer.h" />
     <ClInclude Include="source\engine\stackbuffertoken.h" />
     <ClInclude Include="source\engine\stringutils.h" />
+    <ClInclude Include="source\engine\testrendercomponent.h" />
     <ClInclude Include="source\engine\textureoptions.h" />
     <ClInclude Include="source\engine\textureslot.h" />
     <ClInclude Include="source\engine\textureslottemplate.h" />
     <ClInclude Include="source\engine\transactionalbuffer.h" />
     <ClInclude Include="source\engine\transform.h" />
     <ClInclude Include="source\engine\uniformtemplate.h" />
-    <ClInclude Include="source\engine\uptrvector.h" />
+    <ClInclude Include="source\engine\uniqueptrvector.h" />
     <ClInclude Include="source\engine\vector.h" />
     <ClInclude Include="source\engine\range.h" />
     <ClInclude Include="source\engine\tb_removeop.h" />
@@ -118,6 +120,7 @@
     <ClCompile Include="source\engine\gameobject.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
+    <ClCompile Include="source\engine\idgenerator.cpp" />
     <ClCompile Include="source\engine\imageutils.cpp" />
     <ClCompile Include="source\engine\indexbuffer.cpp" />
     <ClCompile Include="source\engine\material.cpp" />

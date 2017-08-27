@@ -10,6 +10,8 @@
 
 // Internal Includes
 #include "_global.h"
+#include "vector.h"
+#include "world.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -22,9 +24,9 @@ class IRenderEngine
 public:
     virtual ~IRenderEngine() {};
 
-    virtual void onStart()      = 0;
+    virtual void onStart()		= 0;
     virtual void onUpdate()     = 0;
-    virtual void onShutdown()   = 0;
+    virtual void onShutdown()	= 0;
 
     virtual void setInterpolation(float interpol) = 0;
     virtual bool isExitRequested() = 0;

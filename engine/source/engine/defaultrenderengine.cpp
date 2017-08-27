@@ -15,7 +15,7 @@ DefaultRenderEngine::DefaultRenderEngine() : IRenderEngine()
 
 DefaultRenderEngine::~DefaultRenderEngine()
 {
-    //glfwTerminate();
+    glfwTerminate();
 }
 
 void DefaultRenderEngine::cleanUp()
@@ -43,6 +43,7 @@ void DefaultRenderEngine::onStart()
     _renderManagers.put( _world, make_shared<RenderManager>() );
 
     s_ptr<RenderManager> renderManagerW1 = _renderManagers.get( _world );
+
     // MATERIALS 
     //////////////
     s_ptr<Shader> shad = renderManagerW1->load_shader("builtin_texture");
@@ -142,5 +143,9 @@ void DefaultRenderEngine::setup_built_in_shaders()
 {
 
 }
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                      Private Static                    */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 ENGINE_NAMESPACE_END

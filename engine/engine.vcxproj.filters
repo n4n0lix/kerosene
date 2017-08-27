@@ -91,6 +91,9 @@
     <Filter Include="Quelldateien\engine\utils\buffer">
       <UniqueIdentifier>{ad01befc-a0e2-456e-a3d5-6ff45fd0202e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\engine\utils\sorting">
+      <UniqueIdentifier>{c2c054c6-9d53-46c4-bf61-42c0afa17f64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -315,14 +318,20 @@
     <ClInclude Include="source\engine\irendercomponent.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\uptrvector.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\transform.h">
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\icomponent.h">
       <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\uniqueptrvector.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\testrendercomponent.h">
+      <Filter>Headerdateien\sandbox</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\idgenerator.h">
+      <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -454,6 +463,9 @@
     </ClCompile>
     <ClCompile Include="source\engine\gameobject.cpp">
       <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\idgenerator.cpp">
+      <Filter>Quelldateien\engine\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
