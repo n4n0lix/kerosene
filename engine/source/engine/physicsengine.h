@@ -16,16 +16,16 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class INetworkEngine
+class PhysicsEngine
 {
 
 public:
+			PhysicsEngine();
 
-    virtual void onStart()      = 0;
-    virtual void onUpdate()     = 0;
-    virtual void onShutdown()   = 0;
+    void on_start();
+    void on_update();
+    void on_shutdown();
 
 };
 
 ENGINE_NAMESPACE_END
-

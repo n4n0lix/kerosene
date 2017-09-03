@@ -11,7 +11,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Vertex_pt::Vertex_pt(Vector3f position, Vector2f texcoords) : Vertex()
+Vertex_pt::Vertex_pt(list3f position, list2f texcoords) : Vertex()
 {
     this->position = position;
     this->texcoords = texcoords;

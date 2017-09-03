@@ -51,9 +51,9 @@ uint32 BufferToken::object_size()
     return _objSize;
 }
 
-Vector<uint32> BufferToken::object_indices()
+list<uint32> BufferToken::object_indices()
 {
-    Vector<uint32> objIndices;
+    list<uint32> objIndices;
 
     if (_objRange.length() > 0) {
         for (uint32 i = _objRange.index(); i <= _objRange.last_index(); i++) {

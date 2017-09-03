@@ -12,7 +12,7 @@
 // Internal Includes
 #include "_global.h"
 #include "logger.h"
-#include "vector.h"
+#include "list.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -45,8 +45,8 @@ public:
     /*                      Public Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static shared_ptr<Image> load_png(string file);
-    static void              flip_y(shared_ptr<Image> image);
+    static owner<Image>		 load_png(string file);
+    static void              flip_y(Image* image);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

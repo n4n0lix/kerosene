@@ -37,32 +37,32 @@ public:
      void    show();
      void    hide();
 
-     void    setTitle(string title);
-     string  getTitle();
+     void    set_title(string title);
+     string  get_title();
 
-     void    setWidth(int32_t width);
-     int32_t getWidth();
+     void    set_width(int32_t width);
+     int32   get_width();
 
-     void    setHeight(int32_t height);
-     int32_t getHeight();
+     void    set_height(int32_t height);
+     int32   get_height();
 
-     void    setX(int32_t x);
-     int32_t getX();
+     void    set_x(int32_t x);
+     int32   get_x();
 
-     void    setY(int32_t y);
-     int32_t getY();
+     void    set_y(int32_t y);
+     int32   get_y();
 
-     int32_t getRenderWidth();
-     int32_t getRenderHeight();
+     int32   get_renderwidth();
+     int32   get_renderheight();
 
-     bool    closeRequested();
+     bool    close_requested();
 
-     inline void    swapBuffers()
+     inline void    swap_buffers()
      {
          glfwSwapBuffers(_handle.get());
      }
 
-     inline void    makeCurrent()
+     inline void    make_current()
      {
          if (GLWindow::CURRENT_CONTEXT != _handle.get()) {
              glfwMakeContextCurrent(_handle.get());
@@ -70,7 +70,7 @@ public:
          }
      }
 
-     inline void    unmakeCurrent()
+     inline void    unmake_current()
      {
          if (GLWindow::CURRENT_CONTEXT == _handle.get()) {
              glfwMakeContextCurrent(nullptr);

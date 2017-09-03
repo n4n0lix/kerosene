@@ -10,7 +10,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-IdGenerator::IdGenerator() : _rng(std::mt19937()), _usedIds(Vector<uint32>()) {
+IdGenerator::IdGenerator() : _rng(std::mt19937()), _usedIds(list<uint32>()) {
 
 }
 

@@ -11,7 +11,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Vertex_pc::Vertex_pc(Vector3f position, Vector4f color) : Vertex()
+Vertex_pc::Vertex_pc(list3f position, list4f color) : Vertex()
 {
     this->position = position;
     this->color = color;

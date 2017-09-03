@@ -38,14 +38,14 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit                Vertex_pt(Vector3f position = Vector3f(0, 0, 0), Vector2f texcoords = Vector2f(0, 0));
+    explicit                Vertex_pt(list3f position = list3f(0, 0, 0), list2f texcoords = list2f(0, 0));
 
     virtual VertexLayout    layout()   const;
     virtual vector<float>   data()     const;
     virtual uint32          bytesize() const;
 
-    Vector3f position;
-    Vector2f texcoords;
+    list3f position;
+    list2f texcoords;
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */

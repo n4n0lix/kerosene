@@ -17,22 +17,14 @@ Engine::Engine(EngineConfiguration& config)
 
     /* Gamestate */
     // Hand over the ownership
-    _gameState = shared_ptr<GameState>{ config.claimGameState().release() }; // Hand over the ownership
+    _gameState = move( config.claimGameState() );
 
     // Render
-    _render =   shared_ptr<IRenderEngine>{ config.claimRenderEngine().release() }; // Hand over the ownership
-
-    // Logic
-    _logic =    shared_ptr<ILogicEngine>{ config.claimLogicEngine().release() }; // Hand over the ownership
-
-    // Input
-    _input =    shared_ptr<IInputEngine>{ config.claimInputEngine().release() }; // Hand over the ownership
-
-    // Physics
-    _physics =  shared_ptr<IPhysicsEngine>{ config.claimPhysicsEngine().release() }; // Hand over the ownership
-
-    // Network
-    _network =  shared_ptr<INetworkEngine>{ config.claimNetworkEngine().release() }; // Hand over the ownership
+    _render  = make_unique<RenderEngine>();
+    _logic   = make_unique<LogicEngine>();
+    _input   = make_unique<InputEngine>();
+    _physics = make_unique<PhysicsEngine>();
+    _network = make_unique<NetworkEngine>();
 
     // Post-Conditions
     Ensures( _tickTime > 0 );
@@ -47,21 +39,21 @@ Engine::Engine(EngineConfiguration& config)
 int Engine::run() {
 
     // StartUp
-    _render->onStart();
-    _input->onStart();
-    _logic->onStart();
-    _physics->onStart();
-    _network->onStart();
+    _render->on_start();
+    _input->on_start();
+    _logic->on_start();
+    _physics->on_start();
+    _network->on_start();
 
     // Mainloop
     mainloop();
 
     // Shutdown
-    _network->onShutdown();
-    _physics->onShutdown();
-    _logic->onShutdown();
-    _input->onShutdown();
-    _render->onShutdown();
+    _network->on_shutdown();
+    _physics->on_shutdown();
+    _logic->on_shutdown();
+    _input->on_shutdown();
+    _render->on_shutdown();
 
     return 0;
 }
@@ -75,8 +67,8 @@ void Engine::mainloop() {
 
     // Init mainloop
     bool programEnd = false;
-    uint64_t tickCurrent  = getCurrentMS();
-    uint64_t tickPrevious = getCurrentMS();
+    uint64_t tickCurrent  = get_current_ms();
+    uint64_t tickPrevious = get_current_ms();
     uint64_t tickDuration = 0;
     uint64_t lag          = 0;
 
@@ -84,7 +76,7 @@ void Engine::mainloop() {
     while ( !programEnd )
     {
         // Calculate the tick rate
-        tickCurrent  = getCurrentMS();
+        tickCurrent  = get_current_ms();
         tickDuration = tickCurrent - tickPrevious;
         tickPrevious = tickCurrent;
         lag          += tickDuration;
@@ -92,42 +84,48 @@ void Engine::mainloop() {
         // 1# Logic
         while ( lag >= _tickTime )
         {
-            _input->onUpdate();
+            _input->on_update();
 
-            updateGameState();
+            update_gamestate();
 
-            _logic->onUpdate();
-            _physics->onUpdate();
+            _logic->on_update();
+            _physics->on_update();
 
             lag -= _tickTime;
         }
 
         // 2# Rendering
-        _render->setInterpolation((float)((double) lag / (double) _tickTime)); // Add '+ 1' to switch to extrapolation
+        _render->set_interpolation((float)((double) lag / (double) _tickTime)); // Add '+ 1' to switch to extrapolation
+        _render->on_render( _gameState->get_gameobjects() );
 
-        _render->onUpdate();
-
-        programEnd = _render->isExitRequested();
+        programEnd = _render->is_exit_requested();
     }
 }
 
-void Engine::updateGameState()
+void Engine::update_gamestate()
 {
-    if (_gameState != nullptr) {
+    // Update Gamestate
+    if (_gameState != nullptr && _gameState->get_status() == RUNNING) {
         _gameState->update();
+    }	
 
-        if (_gameState->getStatus() == FINISHED) {
-            _gameState->end();
-            _gameState = _gameState->getNext();
+    // End Gamestate
+	if (_gameState != nullptr && _gameState->get_status() == FINISHED) {
+		_gameState->end();
+        _gameState->set_renderengine( nullptr );
 
-            if (_gameState != nullptr) {
-                _gameState->start();
-            }
-        }
-    }
+		_gameState = _gameState->take_next_gamestate();
+	}
+
+    // Start Gamestate
+	if (_gameState != nullptr && _gameState->get_status() == READY) {
+        _gameState->set_renderengine( _render.get() );
+
+		_gameState->start();
+	}
 }
 
-uint64_t Engine::getCurrentMS()
+uint64_t Engine::get_current_ms()
 {
     return std::chrono::duration_cast< std::chrono::milliseconds >(
         std::chrono::system_clock::now().time_since_epoch()

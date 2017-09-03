@@ -108,9 +108,6 @@
     <ClInclude Include="source\engine\glwindow.h">
       <Filter>Headerdateien\engine\render</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\irenderengine.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\shader.h">
       <Filter>Headerdateien\engine\render</Filter>
     </ClInclude>
@@ -159,43 +156,10 @@
     <ClInclude Include="source\engine\_mathdefs.h">
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\disabledinputengine.h">
-      <Filter>Headerdateien\engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\iinputengine.h">
-      <Filter>Headerdateien\engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\ilogicengine.h">
-      <Filter>Headerdateien\engine\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\disabledlogicengine.h">
-      <Filter>Headerdateien\engine\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\inetworkengine.h">
-      <Filter>Headerdateien\engine\network</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\disablednetworkengine.h">
-      <Filter>Headerdateien\engine\network</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\defaultrenderengine.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\logger.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\iphysicsengine.h">
-      <Filter>Headerdateien\engine\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\disabledphysicsengine.h">
-      <Filter>Headerdateien\engine\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\disabledrenderengine.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\engine.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\engineconfiguration.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\engineexception.h">
@@ -239,9 +203,6 @@
     </ClInclude>
     <ClInclude Include="source\engine\indexbuffer.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector.h">
-      <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\arraybuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
@@ -297,14 +258,8 @@
     <ClInclude Include="source\engine\stringutils.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\rendermanager.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\viewport4.h">
       <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\world.h">
-      <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\gameobject.h">
       <Filter>Headerdateien\engine\core</Filter>
@@ -312,32 +267,50 @@
     <ClInclude Include="source\engine\quaternion4f.h">
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\ilogiccomponent.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\irendercomponent.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\transform.h">
       <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\icomponent.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\uniqueptrvector.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\testrendercomponent.h">
-      <Filter>Headerdateien\sandbox</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\idgenerator.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\component.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\sandbox\testrendercomponent.h">
+      <Filter>Headerdateien\sandbox</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\renderengine.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\rendercomponent.h">
+      <Filter>Headerdateien\engine\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logiccomponent.h">
+      <Filter>Headerdateien\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\engineconfiguration.h">
+      <Filter>Headerdateien\engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\physicsengine.h">
+      <Filter>Headerdateien\engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\networkengine.h">
+      <Filter>Headerdateien\engine\network</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\inputengine.h">
+      <Filter>Headerdateien\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logicengine.h">
+      <Filter>Headerdateien\engine\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\list.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\owner_list.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\engine\defaultrenderengine.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\texture.cpp">
       <Filter>Quelldateien\engine\render</Filter>
     </ClCompile>
@@ -385,21 +358,6 @@
     </ClCompile>
     <ClCompile Include="source\engine\material.cpp">
       <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\disabledrenderengine.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\disabledinputengine.cpp">
-      <Filter>Quelldateien\engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\disabledlogicengine.cpp">
-      <Filter>Quelldateien\engine\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\disabledphysicsengine.cpp">
-      <Filter>Quelldateien\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\disablednetworkengine.cpp">
-      <Filter>Quelldateien\engine\network</Filter>
     </ClCompile>
     <ClCompile Include="source\sandbox\main.cpp">
       <Filter>Quelldateien\sandbox</Filter>
@@ -452,12 +410,6 @@
     <ClCompile Include="source\engine\stringutils.cpp">
       <Filter>Quelldateien\engine\utils</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\rendermanager.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\world.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\transform.cpp">
       <Filter>Quelldateien\engine\math</Filter>
     </ClCompile>
@@ -466,6 +418,33 @@
     </ClCompile>
     <ClCompile Include="source\engine\idgenerator.cpp">
       <Filter>Quelldateien\engine\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sandbox\testrendercomponent.cpp">
+      <Filter>Quelldateien\sandbox</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\component.cpp">
+      <Filter>Quelldateien\engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\renderengine.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\rendercomponent.cpp">
+      <Filter>Quelldateien\engine\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\logiccomponent.cpp">
+      <Filter>Quelldateien\engine\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\physicsengine.cpp">
+      <Filter>Quelldateien\engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\networkengine.cpp">
+      <Filter>Quelldateien\engine\network</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\logicengine.cpp">
+      <Filter>Quelldateien\engine\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\inputengine.cpp">
+      <Filter>Quelldateien\engine\input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

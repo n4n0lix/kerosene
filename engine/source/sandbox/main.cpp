@@ -3,19 +3,14 @@
 
 #include "logger.h"
 
-#include "iinputengine.h"
-#include "irenderengine.h"
-#include "ilogicengine.h"
-#include "iphysicsengine.h"
-#include "inetworkengine.h"
+#include "inputengine.h"
+#include "renderengine.h"
+#include "logicengine.h"
+#include "physicsengine.h"
+#include "networkengine.h"
 
-#include "disabledinputengine.h"
 #define ENGINE_DEBUG
 
-#include "defaultrenderengine.h"
-#include "disabledlogicengine.h"
-#include "disabledphysicsengine.h"
-#include "disablednetworkengine.h"
 #include "decimal32.h"
 
 #include "testgamestate.h"
@@ -31,12 +26,7 @@ int main(int argc, char *argv[])
 {
     EngineConfiguration& config = EngineConfiguration();
     config.tickrate(100)
-          .gamestate(std::make_unique<TestGameState>())
-          .render(std::make_unique<DefaultRenderEngine>())
-          .input(std::make_unique<DisabledInputEngine>())
-          .logic(std::make_unique<DisabledLogicEngine>())
-          .physics(std::make_unique<DisabledPhysicsEngine>())
-          .network(std::make_unique<DisabledNetworkEngine>());
+          .gamestate(std::make_unique<TestGameState>());
 
     return Engine(config).run();
 }

@@ -15,6 +15,16 @@ GameObject::~GameObject()
 	ID_GENERATOR.remove(_id);
 }
 
+void GameObject::set_rendercomponent(owner<RenderComponent> comp)
+{
+	_render = move(comp);
+}
+
+RenderComponent* GameObject::get_rendercomponent()
+{
+	return _render.get();
+}
+
 void GameObject::destroy_at_tick_end()
 {
 	_destroyAtTickEnd = true;

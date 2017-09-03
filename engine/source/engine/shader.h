@@ -63,9 +63,9 @@ private:
 
     GLuint                    _id;
     shared_ptr<VertexLayout>  _vertexLayout;
-    Vector<Uniform>           _vertexUniforms;
-    Vector<Uniform>           _fragUniforms;
-    Vector<TextureSlot>       _fragTextureSlots;
+    list<Uniform>             _vertexUniforms;
+    list<Uniform>             _fragUniforms;
+    list<TextureSlot>         _fragTextureSlots;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

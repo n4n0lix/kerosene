@@ -9,7 +9,7 @@
 #include <algorithm>
 
 // Other Includes
-#include "vector.h"
+#include "list.h"
 
 // Internal Includes
 #include "_global.h"
@@ -38,9 +38,10 @@ public:
     bool                    contains(K key);
     bool                    empty();
     V                       get(K key);
-    Vector<V>               values();
-    Vector<K>               keys();
-    Vector<pair<K, V>>      as_vector();
+    list<V>                 values();
+    list<K>                 keys();
+    list<pair<K, V>>        as_vector();
+	void					clear();
 
     bool                    remove(K key);
 
@@ -83,9 +84,9 @@ V Map<K, V>::get(K key)
 }
 
 template<class K, class V>
-Vector<V> Map<K, V>::values()
+list<V> Map<K, V>::values()
 {
-    Vector<V> values = Vector<V>();
+    list<V> values = list<V>();
 
     for (pair<K,V> entry: _map) {
         if (!values.contains(entry.second)) {
@@ -97,9 +98,9 @@ Vector<V> Map<K, V>::values()
 }
 
 template<class K, class V>
-Vector<K> Map<K, V>::keys()
+list<K> Map<K, V>::keys()
 {
-    Vector<V> keys = Vector<V>();
+    list<V> keys = list<V>();
 
     for (pair<K, V> entry : _map) {
         keys.add(entry.first);
@@ -109,13 +110,19 @@ Vector<K> Map<K, V>::keys()
 }
 
 template<class K, class V>
-Vector<pair<K, V>> Map<K, V>::as_vector()
+list<pair<K, V>> Map<K, V>::as_vector()
 {
-    Vector<pair<K, V>> result;
+    list<pair<K, V>> result;
     for (auto pair : _map) {
-        result.push_back(std::pair<K,V>(pair));
+        result.add(std::pair<K,V>(pair));
     }
     return result;
+}
+
+template<class K, class V>
+inline void Map<K, V>::clear()
+{
+	_map.clear();
 }
 
 template<class K, class V>

@@ -9,7 +9,7 @@
 #include <functional>
 
 // Std-Extensions
-#include "vector.h"
+#include "list.h"
 #include "map.h"
 
 // Internal Includes
@@ -45,13 +45,13 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        commit_write(Vector<T> objects, shared_ptr<BufferToken> token);
+    virtual void                        commit_write(list<T> objects, shared_ptr<BufferToken> token);
     virtual void                        commit_remove(shared_ptr<BufferToken> token);
 
     virtual shared_ptr<BufferToken>     create_token(uint32 id);
 
     // Final-Implementation
-    virtual void                        write(uint32 index, Vector<T> objects) = 0;
+    virtual void                        write(uint32 index, list<T> objects) = 0;
     virtual void                        remove(uint32 index, uint32 length) { };
     virtual void                        resize(uint32 oldCapacity, uint32 newCapacity) = 0;
 
@@ -106,7 +106,7 @@ ArrayBuffer<T>::ArrayBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void ArrayBuffer<T>::commit_write(Vector<T> objects, shared_ptr<BufferToken> aToken)
+void ArrayBuffer<T>::commit_write(list<T> objects, shared_ptr<BufferToken> aToken)
 {
     auto token = static_pointer_cast<ArrayBufferToken>(aToken);
 

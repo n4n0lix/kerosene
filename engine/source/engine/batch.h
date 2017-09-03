@@ -50,15 +50,15 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
               explicit Batch(s_ptr<Material> material);
 
-            s_ptr<VertexToken>     add_vertices(Vector<VERTEX> vertices);
-    virtual void                        remove_vertices(s_ptr<VertexToken> token);
+            s_ptr<VertexToken>     add_vertices(list<VERTEX> vertices);
+    virtual void                   remove_vertices(s_ptr<VertexToken> token);
     
-    virtual void                        add_render(s_ptr<VertexToken> token);
-    virtual void                        remove_render(s_ptr<VertexToken> token);
+    virtual void                   add_render(s_ptr<VertexToken> token);
+    virtual void                   remove_render(s_ptr<VertexToken> token);
     
-    virtual void                        set_view_matrix(Matrix4f viewMatrix);
+    virtual void                   set_view_matrix(Matrix4f viewMatrix);
 
-    virtual void                        render();
+    virtual void                   render();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -70,7 +70,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    unique_ptr<VertexArray<VERTEX>> _vao;
+    owner<VertexArray<VERTEX>> _vao;
 
     s_ptr<Material> _material;
 
@@ -91,7 +91,7 @@ Batch<VERTEX>::Batch(s_ptr<Material> material) {
 }
 
 template<class VERTEX>
-s_ptr<VertexToken> Batch<VERTEX>::add_vertices(Vector<VERTEX> vertices)
+s_ptr<VertexToken> Batch<VERTEX>::add_vertices(list<VERTEX> vertices)
 {
     return _vao->add_vertices( vertices );
 }

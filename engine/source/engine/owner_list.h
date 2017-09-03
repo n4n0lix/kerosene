@@ -20,7 +20,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class T>
-class UniquePtrVector : public vector<u_ptr<T>>
+class owner_list : public vector<owner<T>>
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -31,35 +31,37 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    void                    add(u_ptr<T> object);
+    void                    add(owner<T> object);
 
     size_t                  remove(size_t index);
     size_t                  remove(T* object);
-    size_t                  remove(std::function<bool(u_ptr<T>&)> func);
+    size_t                  remove(std::function<bool(owner<T>&)> func);
 
-    u_ptr<T>                extract(size_t index);
-    u_ptr<T>                extract(T* object);
+    owner<T>                extract(size_t index);
+    owner<T>                extract(T* object);
 
     size_t                  index_of(T* object);
 
     bool                    contains(T* object);
 
-    void                    forAll(std::function<void(u_ptr<T>&)> func);
+    void                    for_all(std::function<void(owner<T>&)> func);
+
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+    list<T> _nonOwnerList;
 };
 
 template<class T>
-void UniquePtrVector<T>::add(u_ptr<T> object)
+void owner_list<T>::add(owner<T> object)
 {
     this->push_back( move(object) );
 }
 
 template<class T>
-size_t UniquePtrVector<T>::remove(size_t index)
+size_t owner_list<T>::remove(size_t index)
 {
     if (!(index >= 0 && index < size())) { return 0; }
 
@@ -69,14 +71,14 @@ size_t UniquePtrVector<T>::remove(size_t index)
 }
 
 template<class T>
-size_t UniquePtrVector<T>::remove(T* object)
+size_t owner_list<T>::remove(T* object)
 {
     if (object == nullptr) { return 0; }
 	return remove( index_of(object) );
 }
 
 template<class T>
-size_t UniquePtrVector<T>::remove(std::function<bool(u_ptr<T>&)> func)
+size_t owner_list<T>::remove(std::function<bool(owner<T>&)> func)
 {
     size_t oldSize = size();
     erase(std::remove_if(begin(), end(), func), end());
@@ -84,26 +86,26 @@ size_t UniquePtrVector<T>::remove(std::function<bool(u_ptr<T>&)> func)
 }
 
 template<class T>
-u_ptr<T> UniquePtrVector<T>::extract(size_t index)
+owner<T> owner_list<T>::extract(size_t index)
 {
     if (!(index >= 0 && index < size())) { return nullptr; }
 
-    u_ptr<T> result = move( at(index) );
+    owner<T> result = move( at(index) );
     remove(index);
     return move(result);
 }
 
 template<class T>
-u_ptr<T> UniquePtrVector<T>::extract(T* object)
+owner<T> owner_list<T>::extract(T* object)
 {
     return move( extract( index_of(object) ) );
 }
 
 template<class T>
-inline size_t UniquePtrVector<T>::index_of(T* object)
+inline size_t owner_list<T>::index_of(T* object)
 {
     for (size_t i = 0; i < size(); i++) {
-        u_ptr<T>& p = at(i);
+        owner<T>& p = at(i);
 
         if (p.get() == object) {
             return i;
@@ -114,10 +116,10 @@ inline size_t UniquePtrVector<T>::index_of(T* object)
 }
 
 template<class T>
-bool UniquePtrVector<T>::contains(T* object)
+bool owner_list<T>::contains(T* object)
 {
     for (size_t i = 0; i < size(); i++) {
-        u_ptr<T>& p = at(i);
+        owner<T>& p = at(i);
 
         if (p.get() == object) {
             return true;
@@ -128,7 +130,7 @@ bool UniquePtrVector<T>::contains(T* object)
 }
 
 template<class T>
-void UniquePtrVector<T>::forAll(std::function<void(u_ptr<T>&)> func)
+void owner_list<T>::for_all(std::function<void(owner<T>&)> func)
 {
     std::for_each(begin(), end(), func);
 }

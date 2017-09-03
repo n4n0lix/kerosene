@@ -1,31 +1,30 @@
 // Header
-#include "disabledphysicsengine.h"
+#include "logicengine.h"
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-DisabledPhysicsEngine::DisabledPhysicsEngine() : IPhysicsEngine()
+LogicEngine::LogicEngine()
 {
 
 }
 
-void DisabledPhysicsEngine::onStart()
+void LogicEngine::on_start()
 {
 
 }
 
-void DisabledPhysicsEngine::onUpdate()
+void LogicEngine::on_update()
 {
 
 }
 
-void DisabledPhysicsEngine::onShutdown()
+void LogicEngine::on_shutdown()
 {
 
 }
-
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */

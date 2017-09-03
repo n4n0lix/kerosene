@@ -6,9 +6,8 @@ ENGINE_NAMESPACE_BEGIN
 /*                      Public Static                     */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-// TODO: Too large method (150 lines)
 // http://devcry.heiho.net/html/2015/20150517-libpng.html
-shared_ptr<Image> ImageUtils::load_png(string filepath)
+owner<Image> ImageUtils::load_png(string filepath)
 {
     LOGGER.log(Level::DEBUG) << "Load png file '" << filepath.c_str() << "' ..." << endl;
 
@@ -17,12 +16,12 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     uint32          imgBpp;
     ImageFormat     imgFormat;
     uint32          imgBytes;
-    Vector<uint8>   imgData;
+    list<uint8>     imgData;
 
     // 1# Open file
     FILE* ptrFile;
     errno_t error = fopen_s(&ptrFile, filepath.c_str(), "rb");
-    //unique_ptr<FILE> file = unique_ptr<FILE>(ptrFile);
+    //owner<FILE> file = owner<FILE>(ptrFile);
 
     std::cout << filepath << endl;
 
@@ -150,7 +149,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     fclose( ptrFile );
     
     // X# Return Image
-    shared_ptr<Image> result = make_shared<Image>();
+    owner<Image> result = make_unique<Image>();
     result->width       = imgWidth;
     result->height      = imgHeight;
     result->format      = imgFormat;
@@ -160,7 +159,7 @@ shared_ptr<Image> ImageUtils::load_png(string filepath)
     
     LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")" << endl;
 
-    return move(result);
+    return move( result );
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

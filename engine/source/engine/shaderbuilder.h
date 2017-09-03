@@ -54,7 +54,7 @@ public:
     ShaderBuilder& vertex_source(string vscode);
     ShaderBuilder& frag_source(string fscode);
 
-    unique_ptr<Shader> build() const;
+    owner<Shader>  build() const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -65,14 +65,14 @@ private:
     string                  gen_fragment_source() const;
     GLuint                  create_shader(GLenum shaderType) const;
     GLuint                  link_program(GLuint vertexShader, GLuint fragmentShader) const;
-    Vector<Uniform>         process_uniforms(GLuint shaderId, const Vector<UniformTemplate>* uniforms) const;
-    Vector<TextureSlot>     process_texture_slots(GLuint shaderId, const Vector<TextureSlotTemplate>* textureSlots) const;
+    list<Uniform>           process_uniforms(GLuint shaderId, const list<UniformTemplate>* uniforms) const;
+    list<TextureSlot>       process_texture_slots(GLuint shaderId, const list<TextureSlotTemplate>* textureSlots) const;
 
     // TODO: Find a way to store ptr/refs here
-    shared_ptr<VertexLayout>    _vertexLayout;
-    Vector<UniformTemplate>     _vsUniforms;
-    Vector<UniformTemplate>     _fsUniforms;
-    Vector<TextureSlotTemplate> _fsTextureSlots;
+    shared_ptr<VertexLayout>  _vertexLayout;
+    list<UniformTemplate>     _vsUniforms;
+    list<UniformTemplate>     _fsUniforms;
+    list<TextureSlotTemplate> _fsTextureSlots;
 
     string _vsSource;
     string _fsSource;

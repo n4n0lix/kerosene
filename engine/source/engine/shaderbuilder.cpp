@@ -53,9 +53,9 @@ ShaderBuilder& ShaderBuilder::frag_source(string fscode)
     return *this;
 }
 
-unique_ptr<Shader> ShaderBuilder::build() const
+owner<Shader> ShaderBuilder::build() const
 {
-    unique_ptr<Shader> shader(new Shader());
+    owner<Shader> shader(new Shader());
 
     // SHADER CODE
     GLuint vertexShaderId = create_shader(GL_VERTEX_SHADER);
@@ -185,9 +185,9 @@ GLuint ShaderBuilder::link_program(GLuint vertexShaderId, GLuint fragmentShaderI
     return shaderId;
 }
 
-Vector<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const Vector<UniformTemplate>* tmplates) const
+list<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const list<UniformTemplate>* tmplates) const
 {
-    Vector<Uniform> uniforms;
+    list<Uniform> uniforms;
     Shader::bind( shaderId );
 
     for (UniformTemplate tmplate : *tmplates) {
@@ -199,9 +199,9 @@ Vector<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const Vector<Un
     return uniforms;
 }
 
-Vector<TextureSlot> ShaderBuilder::process_texture_slots(GLuint shaderId, const Vector<TextureSlotTemplate>* tmplates) const
+list<TextureSlot> ShaderBuilder::process_texture_slots(GLuint shaderId, const list<TextureSlotTemplate>* tmplates) const
 {
-    Vector<TextureSlot> slots;
+    list<TextureSlot> slots;
     Shader::bind(shaderId);
 
     for (TextureSlotTemplate tmplate : *tmplates) {

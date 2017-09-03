@@ -10,21 +10,24 @@
 
 // Internal Includes
 #include "_global.h"
-#include "inetworkengine.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DisabledNetworkEngine : public INetworkEngine
+class NetworkEngine
 {
-public:
-            explicit DisabledNetworkEngine();
 
-    virtual void onStart();
-    virtual void onUpdate();
-    virtual void onShutdown();
+public:
+
+			NetworkEngine();
+
+    void on_start();
+    void on_update();
+    void on_shutdown();
+
 };
 
 ENGINE_NAMESPACE_END
+

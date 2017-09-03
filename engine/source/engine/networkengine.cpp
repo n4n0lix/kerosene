@@ -1,27 +1,27 @@
 // Header
-#include "disablednetworkengine.h"
+#include "networkengine.h"
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-DisabledNetworkEngine::DisabledNetworkEngine() : INetworkEngine()
+NetworkEngine::NetworkEngine()
 {
 
 }
 
-void DisabledNetworkEngine::onStart()
+void NetworkEngine::on_start()
 {
 
 }
 
-void DisabledNetworkEngine::onUpdate()
+void NetworkEngine::on_update()
 {
 
 }
 
-void DisabledNetworkEngine::onShutdown()
+void NetworkEngine::on_shutdown()
 {
 
 }

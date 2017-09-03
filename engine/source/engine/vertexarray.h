@@ -35,7 +35,7 @@ public:
                 explicit VertexArray(s_ptr<VertexLayout> layout);
                 ~VertexArray();
 
-    s_ptr<VertexToken>             add_vertices(Vector<VERTEX> vertices);
+    s_ptr<VertexToken>					add_vertices(list<VERTEX> vertices);
     void                                remove_vertices(s_ptr<VertexToken> token);
 
     void                                add_render_static(s_ptr<VertexToken> token);
@@ -64,7 +64,7 @@ private:
     s_ptr<VertexBuffer<VERTEX>>    _vertexBuffer;
     s_ptr<IndexBuffer>             _indexBuffer;
 
-    Vector<s_ptr<VertexToken>>     _toAddToIndexBuffer;
+    list<s_ptr<VertexToken>>       _toAddToIndexBuffer;
 
     uint32 _vertexTokenNextId;
 
@@ -104,7 +104,7 @@ inline VertexArray<VERTEX>::~VertexArray()
 }
 
 template<class VERTEX>
-s_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(Vector<VERTEX> vertices) {
+s_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(list<VERTEX> vertices) {
     // 1# Add vertices
     s_ptr<BufferToken> vertexBufferToken = _vertexBuffer->add_vertices( vertices );
 

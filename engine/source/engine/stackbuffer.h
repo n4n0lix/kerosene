@@ -9,7 +9,7 @@
 #include <functional>
 
 // Std-Extensions
-#include "vector.h"
+#include "list.h"
 #include "map.h"
 
 // Internal Includes
@@ -44,7 +44,7 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                            commit_write(Vector<T> objects, shared_ptr<BufferToken> commit_token);
+    virtual void                            commit_write(list<T> objects, shared_ptr<BufferToken> commit_token);
     virtual void                            commit_remove(shared_ptr<BufferToken> token);
         
     virtual shared_ptr<BufferToken>         create_token(uint32 id);
@@ -52,7 +52,7 @@ protected:
     using                                   TransactionalBuffer::get_future_tokens;
 
     // Final-Implementation
-    virtual void                            write(uint32 index, Vector<T> objects) = 0;
+    virtual void                            write(uint32 index, list<T> objects) = 0;
     virtual void                            resize(uint32 oldCapacity, uint32 newCapacity) = 0;
     virtual void                            copy(uint32 srcIndex, uint32 destIndex, uint32 length) = 0;
 
@@ -98,7 +98,7 @@ StackBuffer<T>::StackBuffer(uint32 objSize, uint32 objCapacity) : TransactionalB
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void StackBuffer<T>::commit_write(Vector<T> objects, shared_ptr<BufferToken> aToken)
+void StackBuffer<T>::commit_write(list<T> objects, shared_ptr<BufferToken> aToken)
 {
     auto token = static_pointer_cast<StackBufferToken>(aToken);
 

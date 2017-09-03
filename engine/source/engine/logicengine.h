@@ -11,21 +11,22 @@
 // Internal Includes
 #include "_global.h"
 
-#include "iinputengine.h"
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DisabledInputEngine : public IInputEngine
+class LogicEngine
 {
-public:
-            explicit DisabledInputEngine();
 
-    virtual void onStart();
-    virtual void onUpdate();
-    virtual void onShutdown();
+public:
+			LogicEngine();
+
+    void on_start();
+    void on_update();
+    void on_shutdown();
+
 };
 
 ENGINE_NAMESPACE_END
+

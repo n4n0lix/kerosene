@@ -21,11 +21,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            TB_WriteOp(uint32 uid, shared_ptr<BufferToken> token, Vector<OBJECT> objects);
+            TB_WriteOp(uint32 uid, shared_ptr<BufferToken> token, list<OBJECT> objects);
 
     uint32                      uid();
     shared_ptr<BufferToken>     token();
-    Vector<OBJECT>              claim_objects();
+    list<OBJECT>              claim_objects();
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
@@ -33,12 +33,12 @@ private:
 
     uint32                      _uid;
     shared_ptr<BufferToken>     _token;
-    Vector<OBJECT>              _objects;
+    list<OBJECT>              _objects;
 
 };
 
 template<class OBJECT>
-TB_WriteOp<OBJECT>::TB_WriteOp(uint32 uid, shared_ptr<BufferToken> token, Vector<OBJECT> objects)
+TB_WriteOp<OBJECT>::TB_WriteOp(uint32 uid, shared_ptr<BufferToken> token, list<OBJECT> objects)
 {
     _uid = uid;
     _token = token;
@@ -58,7 +58,7 @@ shared_ptr<BufferToken> TB_WriteOp<OBJECT>::token()
 }
 
 template<class OBJECT>
-Vector<OBJECT> TB_WriteOp<OBJECT>::claim_objects()
+list<OBJECT> TB_WriteOp<OBJECT>::claim_objects()
 {
     return std::move( _objects );
 }

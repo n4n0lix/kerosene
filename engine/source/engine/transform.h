@@ -30,8 +30,8 @@ public:
 
     Matrix4f toMatrix4f();
 
-    Vector3f        position;
-    Vector3f        scale;
+    list3f        position;
+    list3f        scale;
     Quaternion4f    rotation;
 
 protected:

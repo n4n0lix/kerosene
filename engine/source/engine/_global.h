@@ -125,8 +125,9 @@
         using s_ptr = std::shared_ptr<T>;
         template <typename T>
         using w_ptr = std::weak_ptr<T>;
-        template <typename T> 
-        using u_ptr = std::unique_ptr<T>;
+
+        template <typename T>
+        using owner = std::unique_ptr<T>;
 
 // Using std primitives
 #include <cstdint>

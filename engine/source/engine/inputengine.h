@@ -10,24 +10,24 @@
 
 // Internal Includes
 #include "_global.h"
-#include "irenderengine.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class DisabledRenderEngine : public IRenderEngine
+class InputEngine
 {
+
 public:
-            explicit DisabledRenderEngine();
 
-    virtual void onStart();
-    virtual void onUpdate();
-    virtual void onShutdown();
+			InputEngine();
 
-    virtual void setInterpolation(float interpol);
-    virtual bool isExitRequested();
+    void on_start();
+    void on_update();
+    void on_shutdown();
+
 };
 
 ENGINE_NAMESPACE_END
+

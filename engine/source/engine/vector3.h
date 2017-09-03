@@ -18,7 +18,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class Vector3
+class list3
 {
 public:
 
@@ -29,12 +29,12 @@ public:
     const int32_t    COMPONENTS = 3;
     const int32_t    BYTES = sizeof(decimal32) * 3;
 
-    static Vector3 X_AXIS;
-    static Vector3 Y_AXIS;
-    static Vector3 Z_AXIS;
+    static list3 X_AXIS;
+    static list3 Y_AXIS;
+    static list3 Z_AXIS;
 
-    INLINE static Vector3   lerp(Vector3 source, Vector3 target, decimal32 amount) {
-        Vector3 result;
+    INLINE static list3   lerp(list3 source, list3 target, decimal32 amount) {
+        list3 result;
         decimal32 _1_amount = decimal32::ONE - amount;
         result.x = source.x * _1_amount + target.x * amount;
         result.y = source.y * _1_amount + target.y * amount;
@@ -42,7 +42,7 @@ public:
         return result;
     }
 
-    INLINE static decimal32 angleBetween(Vector3 vector1, Vector3 vector2) {
+    INLINE static decimal32 angleBetween(list3 vector1, list3 vector2) {
         decimal32 dls = vector1.dot(vector2) / (vector1.length() * vector2.length());
 
         if (dls < -decimal32::ONE) {
@@ -55,49 +55,49 @@ public:
         return decimal32::acos(dls);
     }
 
-    INLINE static decimal32 distanceBetween(Vector3 vector1, Vector3 vector2) {
+    INLINE static decimal32 distanceBetween(list3 vector1, list3 vector2) {
         return (vector1 - vector2).length();
     }
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            INLINE explicit Vector3()                                      : x(decimal32::fromInt(0)), y(decimal32::fromInt(0)), z(decimal32::fromInt(0)) { }
-            INLINE explicit Vector3(decimal32 x, decimal32 y)              : x(x), y(y), z(decimal32::fromInt(0)) { }
-            INLINE explicit Vector3(decimal32 x, decimal32 y, decimal32 z) : x(x), y(y), z(z) { }
+            INLINE explicit list3()                                      : x(decimal32::fromInt(0)), y(decimal32::fromInt(0)), z(decimal32::fromInt(0)) { }
+            INLINE explicit list3(decimal32 x, decimal32 y)              : x(x), y(y), z(decimal32::fromInt(0)) { }
+            INLINE explicit list3(decimal32 x, decimal32 y, decimal32 z) : x(x), y(y), z(z) { }
 
     INLINE bool     isUnit() { return x == 1 && y == 1 && z == 1; }
     INLINE bool     isZero() { return x == 0 && y == 0 && z == 0; }
 
-    INLINE bool operator==(Vector3& o) const { return x == o.x && y == o.y && z == o.z; }
-    INLINE bool operator!=(Vector3& o) const { return !(*this == o); }
+    INLINE bool operator==(list3& o) const { return x == o.x && y == o.y && z == o.z; }
+    INLINE bool operator!=(list3& o) const { return !(*this == o); }
 
-    INLINE Vector3 operator-() const { Vector3 result; result.x = -x; result.y = -y; result.z = -z; return result; }
+    INLINE list3 operator-() const { list3 result; result.x = -x; result.y = -y; result.z = -z; return result; }
 
-    INLINE Vector3 operator+(Vector3 o) const { Vector3 result = *this; result += o; return result; }
-    INLINE Vector3 operator-(Vector3 o) const { Vector3 result = *this; result -= o; return result; }
-    INLINE Vector3 operator*(Vector3 o) const { Vector3 result = *this; result *= o; return result; }
-    INLINE Vector3 operator/(Vector3 o) const { Vector3 result = *this; result /= o; return result; }
+    INLINE list3 operator+(list3 o) const { list3 result = *this; result += o; return result; }
+    INLINE list3 operator-(list3 o) const { list3 result = *this; result -= o; return result; }
+    INLINE list3 operator*(list3 o) const { list3 result = *this; result *= o; return result; }
+    INLINE list3 operator/(list3 o) const { list3 result = *this; result /= o; return result; }
 
-    INLINE Vector3& operator+=(Vector3 o) { x += o.x; y += o.y; z += o.z; return *this; }
-    INLINE Vector3& operator-=(Vector3 o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
-    INLINE Vector3& operator*=(Vector3 o) { x *= o.x; y *= o.y; z *= o.z; return *this; }
-    INLINE Vector3& operator/=(Vector3 o) { x /= o.x; y /= o.y; z /= o.z; return *this; }
+    INLINE list3& operator+=(list3 o) { x += o.x; y += o.y; z += o.z; return *this; }
+    INLINE list3& operator-=(list3 o) { x -= o.x; y -= o.y; z -= o.z; return *this; }
+    INLINE list3& operator*=(list3 o) { x *= o.x; y *= o.y; z *= o.z; return *this; }
+    INLINE list3& operator/=(list3 o) { x /= o.x; y /= o.y; z /= o.z; return *this; }
 
-    INLINE Vector3 operator+(decimal32 o) const { Vector3 result = *this; result += o; return result; }
-    INLINE Vector3 operator-(decimal32 o) const { Vector3 result = *this; result -= o; return result; }
-    INLINE Vector3 operator*(decimal32 o) const { Vector3 result = *this; result *= o; return result; }
-    INLINE Vector3 operator/(decimal32 o) const { Vector3 result = *this; result /= o; return result; }
+    INLINE list3 operator+(decimal32 o) const { list3 result = *this; result += o; return result; }
+    INLINE list3 operator-(decimal32 o) const { list3 result = *this; result -= o; return result; }
+    INLINE list3 operator*(decimal32 o) const { list3 result = *this; result *= o; return result; }
+    INLINE list3 operator/(decimal32 o) const { list3 result = *this; result /= o; return result; }
 
-    INLINE Vector3& operator+=(decimal32  o) { x += o; y += o; z += o; return *this; }
-    INLINE Vector3& operator-=(decimal32  o) { x -= o; y -= o; z -= o; return *this; }
-    INLINE Vector3& operator*=(decimal32  o) { x *= o; y *= o; z *= o; return *this; }
-    INLINE Vector3& operator/=(decimal32  o) { x /= o; y /= o; z /= o; return *this; }
+    INLINE list3& operator+=(decimal32  o) { x += o; y += o; z += o; return *this; }
+    INLINE list3& operator-=(decimal32  o) { x -= o; y -= o; z -= o; return *this; }
+    INLINE list3& operator*=(decimal32  o) { x *= o; y *= o; z *= o; return *this; }
+    INLINE list3& operator/=(decimal32  o) { x /= o; y /= o; z /= o; return *this; }
 
 
-    INLINE Vector3   normalized() const
+    INLINE list3   normalized() const
     {
-        Vector3 result = *this;
+        list3 result = *this;
         decimal32 len = result.length();
 
         if (len != decimal32::ZERO) {
@@ -113,12 +113,12 @@ public:
         return decimal32::sqrt(x*x + y*y + z*z);
     }
 
-    INLINE decimal32 dot(Vector3 o) const {
+    INLINE decimal32 dot(list3 o) const {
         return x * o.x + y * o.y + z * o.z;
     }
 
-    INLINE Vector3   cross(Vector3 o) const {
-        Vector3 result = *this;
+    INLINE list3   cross(list3 o) const {
+        list3 result = *this;
         result.x = y * o.z - z * o.y;
         result.y = z * o.x - x * o.z;
         result.z = x * o.y - y * o.x;
@@ -135,8 +135,8 @@ private:
 
 };
 
-Vector3 Vector3::X_AXIS = Vector3(decimal32::ONE, decimal32::ZERO, decimal32::ZERO);
-Vector3 Vector3::Y_AXIS = Vector3(decimal32::ZERO, decimal32::ONE, decimal32::ZERO);
-Vector3 Vector3::Z_AXIS = Vector3(decimal32::ZERO, decimal32::ZERO, decimal32::ONE);
+list3 list3::X_AXIS = list3(decimal32::ONE, decimal32::ZERO, decimal32::ZERO);
+list3 list3::Y_AXIS = list3(decimal32::ZERO, decimal32::ONE, decimal32::ZERO);
+list3 list3::Z_AXIS = list3(decimal32::ZERO, decimal32::ZERO, decimal32::ONE);
 
 ENGINE_NAMESPACE_END

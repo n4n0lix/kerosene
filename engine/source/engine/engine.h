@@ -13,16 +13,11 @@
 
 // Internal Includes
 #include "_global.h"
-#include "irenderengine.h"
-#include "disabledrenderengine.h"
-#include "ilogicengine.h"
-#include "disabledlogicengine.h"
-#include "iinputengine.h"
-#include "disabledinputengine.h"
-#include "inetworkengine.h"
-#include "disablednetworkengine.h"
-#include "iphysicsengine.h"
-#include "disabledphysicsengine.h"
+#include "renderengine.h"
+#include "logicengine.h"
+#include "inputengine.h"
+#include "networkengine.h"
+#include "physicsengine.h"
 #include "engineconfiguration.h"
 #include "gamestate.h"
 
@@ -73,19 +68,19 @@ private:
 
     /*  METHODS */
     void mainloop();
-    void updateGameState();
-    uint64 getCurrentMS();
+    void update_gamestate();
+    uint64 get_current_ms();
 
     /*  VARIABLES */
     uint64 _tickTime;
     
-    shared_ptr<IRenderEngine>  _render;
-    shared_ptr<ILogicEngine>   _logic;
-    shared_ptr<IInputEngine>   _input;
-    shared_ptr<INetworkEngine> _network;
-    shared_ptr<IPhysicsEngine> _physics;
+    owner<RenderEngine>  _render;
+    owner<LogicEngine>   _logic;
+    owner<InputEngine>   _input;
+    owner<NetworkEngine> _network;
+    owner<PhysicsEngine> _physics;
 
-    shared_ptr<GameState> _gameState;
+    owner<GameState>     _gameState;
 
 };
 

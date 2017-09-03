@@ -27,7 +27,7 @@ struct vec4 {
     float w;
 };
 
-class Vector4f
+class list4f
 {
 public:
 
@@ -35,49 +35,49 @@ public:
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static Vector4f X_AXIS;
-    static Vector4f Y_AXIS;
-    static Vector4f Z_AXIS;
-    static Vector4f W_AXIS;
+    static list4f X_AXIS;
+    static list4f Y_AXIS;
+    static list4f Z_AXIS;
+    static list4f W_AXIS;
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Vector4f();
-            explicit Vector4f(const float x, const float y);
-            explicit Vector4f(const float x, const float y, const float z);
-            explicit Vector4f(const float x, const float y, const float z, const float w);
+            explicit list4f();
+            explicit list4f(const float x, const float y);
+            explicit list4f(const float x, const float y, const float z);
+            explicit list4f(const float x, const float y, const float z, const float w);
 
 
     bool     isUnit();
     bool     isZero();
-    bool operator==(const Vector4f& o) const;
-    bool operator!=(const Vector4f& o) const;
+    bool operator==(const list4f& o) const;
+    bool operator!=(const list4f& o) const;
 
-    Vector4f operator-() const;
+    list4f operator-() const;
 
-    Vector4f operator+(const Vector4f o) const;
-    Vector4f operator-(const Vector4f o) const;
-    Vector4f operator*(const Vector4f o) const;
-    Vector4f operator/(const Vector4f o) const;
+    list4f operator+(const list4f o) const;
+    list4f operator-(const list4f o) const;
+    list4f operator*(const list4f o) const;
+    list4f operator/(const list4f o) const;
 
-    Vector4f& operator+=(const Vector4f o);
-    Vector4f& operator-=(const Vector4f o);
-    Vector4f& operator*=(const Vector4f o);
-    Vector4f& operator/=(const Vector4f o);
+    list4f& operator+=(const list4f o);
+    list4f& operator-=(const list4f o);
+    list4f& operator*=(const list4f o);
+    list4f& operator/=(const list4f o);
 
-    Vector4f operator+(const float o) const;
-    Vector4f operator-(const float o) const;
-    Vector4f operator*(const float o) const;
-    Vector4f operator/(const float o) const;
+    list4f operator+(const float o) const;
+    list4f operator-(const float o) const;
+    list4f operator*(const float o) const;
+    list4f operator/(const float o) const;
 
-    Vector4f& operator+=(const float o);
-    Vector4f& operator-=(const float o);
-    Vector4f& operator*=(const float o);
-    Vector4f& operator/=(const float o);
+    list4f& operator+=(const float o);
+    list4f& operator-=(const float o);
+    list4f& operator*=(const float o);
+    list4f& operator/=(const float o);
 
-    Vector4f normalized() const;
+    list4f normalized() const;
     float    length() const;
 
     vec4     toVec4() const;

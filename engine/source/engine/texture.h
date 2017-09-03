@@ -25,7 +25,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Texture(shared_ptr<Image> image, TextureOptions options = TextureOptions());
+            explicit Texture(Image* image, TextureOptions options = TextureOptions());
             ~Texture();
 
     GLuint id();

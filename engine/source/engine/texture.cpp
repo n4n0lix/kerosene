@@ -6,7 +6,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Texture::Texture(shared_ptr<Image> image, TextureOptions options)
+Texture::Texture(Image* image, TextureOptions options)
 {
     // 0# Contract Pre
     Requires( image != nullptr );

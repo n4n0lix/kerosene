@@ -22,7 +22,7 @@ GLuint IndexBuffer::get_id()
     return _iboId;
 }
 
-shared_ptr<BufferToken> IndexBuffer::add_indices(Vector<uint32> indices)
+shared_ptr<BufferToken> IndexBuffer::add_indices(list<uint32> indices)
 {
     LOGGER.log( Level::DEBUG, _iboId ) << "ADD " << indices.size() << " indices" << endl;
     return StackBuffer<uint32>::write( std::move(indices) );
@@ -37,7 +37,7 @@ void IndexBuffer::remove_indices(shared_ptr<BufferToken> token)
 /*                       Protected                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void IndexBuffer::write(uint32 index, Vector<uint32> indices) {
+void IndexBuffer::write(uint32 index, list<uint32> indices) {
     // debug only
     std::ostringstream debugMsg;
     debugMsg << "WRITE INDICES [";

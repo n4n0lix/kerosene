@@ -11,6 +11,7 @@
 // Other Includes
 #include "gamestate.h"
 #include "gameobject.h"
+#include "testrendercomponent.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -25,9 +26,9 @@ public:
     explicit TestGameState();
 
 protected:
-    virtual void onStart();
-    virtual void onUpdate();
-    virtual void onEnd();
+    virtual void on_start();
+    virtual void on_update();
+    virtual void on_end();
 };
 
 #endif // TESTGAMESTATE_H

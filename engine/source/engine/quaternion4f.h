@@ -32,7 +32,7 @@ public:
     static Quaternion4f Z_AXIS;
     static Quaternion4f W_AXIS;
 
-    static Quaternion4f rotationAxis(Vector3f axis, float angle) {
+    static Quaternion4f rotationAxis(list3f axis, float angle) {
             float s = (float)sin(angle / 2);
 
             return Quaternion4f(axis.x * s, axis.y * s, axis.z * s, (float)cos(angle / 2));

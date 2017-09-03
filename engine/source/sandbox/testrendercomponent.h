@@ -11,37 +11,52 @@
 // Internal Includes
 #include "_global.h"
 
-#include "gameobject.h"
+#include "rendercomponent.h"
+#include "vertextoken.h"
+#include "material.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class GameObject;
-
-class IComponent
+class TestRenderComponent : public RenderComponent
 {
+public:
+
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                     Public Static                      */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-public:
-            explicit IComponent();
+			TestRenderComponent();
 
 protected:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                       Protected                        */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/*                       Protected                        */
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    virtual void onInitialize() = 0;
-    virtual void onDeinitialize() = 0;
+	virtual void on_init();
+	virtual void on_render();
+	virtual void on_deinit();
+
+	using RenderComponent::get_renderengine;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    
-    GameObject* _gameObject;
+
+	shared_ptr<Material> _materialDiff;
+	shared_ptr<Material> _materialTex;
+
+	shared_ptr<VertexToken> _tokenTriangle1;
+	shared_ptr<VertexToken> _tokenTriangle2;
+	shared_ptr<VertexToken> _tokenTriangle3;
+	shared_ptr<VertexToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END
+

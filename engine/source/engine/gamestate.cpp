@@ -14,12 +14,12 @@ GameState::GameState()
 void GameState::start()
 {
     _status = RUNNING;
-    onStart();
+    on_start();
 }
 
 void GameState::update()
 {
-    onUpdate();
+    on_update();
 }
 
 void GameState::finish()
@@ -29,23 +29,66 @@ void GameState::finish()
 
 void GameState::end()
 {
-    onEnd();
+    on_end();
     _status = READY;
 }
 
-GameStateStatus GameState::getStatus() const
+GameStateStatus     GameState::get_status() const
 {
     return _status;
 }
 
-shared_ptr<GameState> GameState::getNext() const
+void                GameState::add_gameobject(owner<GameObject> gameObject)
 {
-    return _nextGameState;
+	_gameObjects.add(gameObject.get());
+	_gameObjectsOwners.add( move(gameObject) );
 }
 
-void GameState::setNext(shared_ptr<GameState> next)
+owner<GameObject>   GameState::remove_gameobject(GameObject* gameObject)
 {
-    _nextGameState = next;
+	_gameObjects.remove(gameObject);
+	return _gameObjectsOwners.extract(gameObject);
+}
+
+/**
+ * Returns all gameobjects of this gamestate.
+ */
+list<GameObject*> GameState::get_gameobjects()
+{
+	return _gameObjects;
+}
+
+/**
+ * Gives ownership over the next gamestate.
+ */
+owner<GameState>    GameState::take_next_gamestate()
+{
+    return move( _nextGameState );
+}
+
+/**
+ * Takes ownership of the next gamestate.
+ */
+void                GameState::give_next_gamestate(owner<GameState> next)
+{
+    _nextGameState = move( next );
+}
+
+/**
+ * Returns the renderengine. This only returns a valid object if 
+ * the gamestate is the current gamestate used by the engine.
+ */
+RenderEngine*   GameState::get_renderengine()
+{
+    return move( _renderEngine );
+}
+
+/**
+* Set the render engine for this gamestate.
+*/
+void            GameState::set_renderengine(RenderEngine* render)
+{
+    _renderEngine = render;
 }
 
 

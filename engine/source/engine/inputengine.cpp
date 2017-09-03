@@ -1,38 +1,29 @@
 // Header
-#include "disabledrenderengine.h"
+#include "inputengine.h"
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-DisabledRenderEngine::DisabledRenderEngine() : IRenderEngine()
+InputEngine::InputEngine()
 {
 
 }
 
-void DisabledRenderEngine::onStart()
+void InputEngine::on_start()
 {
 
 }
 
-void DisabledRenderEngine::onUpdate()
+void InputEngine::on_update()
 {
 
 }
 
-void DisabledRenderEngine::onShutdown()
+void InputEngine::on_shutdown()
 {
 
-}
-
-void DisabledRenderEngine::setInterpolation(float interpol)
-{
-
-}
-
-bool DisabledRenderEngine::isExitRequested() {
-    return false;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

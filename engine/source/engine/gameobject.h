@@ -10,15 +10,14 @@
 
 // Internal Includes
 #include "_global.h"
-#include "vector.h"
-#include "uniqueptrvector.h"
+#include "list.h"
+#include "owner_list.h"
 #include "idgenerator.h"
 
-#include "world.h"
 #include "transform.h"
 
-#include "ilogiccomponent.h"
-#include "irendercomponent.h"
+#include "logiccomponent.h"
+#include "rendercomponent.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -26,6 +25,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 class World;
+class RenderComponent;
 
 //
 // Contracts: 
@@ -41,6 +41,9 @@ public:
 public:
             explicit GameObject();
 			~GameObject();
+
+	void			 set_rendercomponent(owner<RenderComponent> comp);
+	RenderComponent* get_rendercomponent();
 
 	void	destroy_at_tick_end();
 	bool    shall_be_destroyed_at_tick_end();
@@ -64,8 +67,8 @@ private:
 	uint32					_id;	
 	bool					_destroyAtTickEnd;
 
-    u_ptr<ILogicComponent>  _logic;     // Owned by this
-    u_ptr<IRenderComponent> _render;    // Owned by this
+    owner<LogicComponent>  _logic;     // Owned by this
+    owner<RenderComponent> _render;    // Owned by this
 
 	static IdGenerator ID_GENERATOR;
 

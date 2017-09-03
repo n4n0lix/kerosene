@@ -39,18 +39,18 @@ public:
     virtual uint32                              num_objects();
     virtual bool                                contains(shared_ptr<BufferToken> token);
 
-    virtual shared_ptr<BufferToken>             write(Vector<T> objects);
+    virtual shared_ptr<BufferToken>             write(list<T> objects);
     virtual void                                remove(shared_ptr<BufferToken> token);
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    const   Vector<shared_ptr<BufferToken>>&    get_tokens();
-    const   Vector<shared_ptr<BufferToken>>&    get_future_tokens();
+    const   list<shared_ptr<BufferToken>>&      get_tokens();
+    const   list<shared_ptr<BufferToken>>&      get_future_tokens();
     virtual shared_ptr<BufferToken>             create_token(uint32 tokenId); // Override this if custom token class is used
 
     // Inter-Implementation
-    virtual void                                commit_write(Vector<T> objects, shared_ptr<BufferToken> commit_token) = 0;
+    virtual void                                commit_write(list<T> objects, shared_ptr<BufferToken> commit_token) = 0;
     virtual void                                commit_remove(shared_ptr<BufferToken> token) = 0;
 
 private:
@@ -61,12 +61,12 @@ private:
             uint32                              generate_writeop_id();
             uint32                              generate_removeop_id();
 
-    uint32                                  _numObjects;
+    uint32                                _numObjects;
 
-    Vector<shared_ptr<TB_WriteOp<T>>>       _writeBucket;
-    Vector<shared_ptr<BufferToken>>         _removeBucket;
-    Vector<shared_ptr<BufferToken>>         _tokenToWrite;
-    Vector<shared_ptr<BufferToken>>         _tokenWritten;
+    list<shared_ptr<TB_WriteOp<T>>>       _writeBucket;
+    list<shared_ptr<BufferToken>>         _removeBucket;
+    list<shared_ptr<BufferToken>>         _tokenToWrite;
+    list<shared_ptr<BufferToken>>         _tokenWritten;
 
     uint32                  _nextUidToken;
     uint32                  _nextUidWriteOp;
@@ -93,7 +93,7 @@ TransactionalBuffer<T>::TransactionalBuffer(uint32 objSize, uint32 objCapacity) 
 }
 
 template<class T>
-shared_ptr<BufferToken> TransactionalBuffer<T>::write(Vector<T> objects)
+shared_ptr<BufferToken> TransactionalBuffer<T>::write(list<T> objects)
 {
     // 1# Guards
     Requires( !objects.empty() );
@@ -126,13 +126,13 @@ void TransactionalBuffer<T>::remove(shared_ptr<BufferToken> token)
 }
 
 template<class T>
-const Vector<shared_ptr<BufferToken>>& TransactionalBuffer<T>::get_tokens()
+const list<shared_ptr<BufferToken>>& TransactionalBuffer<T>::get_tokens()
 {
     return _tokenWritten;
 }
 
 template<class T>
-inline const Vector<shared_ptr<BufferToken>>& TransactionalBuffer<T>::get_future_tokens()
+inline const list<shared_ptr<BufferToken>>& TransactionalBuffer<T>::get_future_tokens()
 {
     return _tokenToWrite;
 }
