@@ -32,14 +32,14 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
               Camera();
 
-    void        set_eye( list3f eye );
-    list3f    get_eye();
+    void        set_eye( Vector3f eye );
+    Vector3f    get_eye();
 
-    void        set_target( list3f target );
-    list3f    get_target();
+    void        set_target( Vector3f target );
+    Vector3f    get_target();
 
-    void        set_clear_color( list4f color );
-    list4f    get_clear_color();
+    void        set_clear_color( Vector4f color );
+    Vector4f    get_clear_color();
 
     void        set_viewport( Viewport4i viewport );
     void        set_viewport( int32 x, int32 y, int32 w, int32 h );
@@ -58,10 +58,10 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    list3f    _eye;
-    list3f    _target;
+    Vector3f    _eye;
+    Vector3f    _target;
 
-    list4f    _clearColor;
+    Vector4f    _clearColor;
     Viewport4i  _viewport;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

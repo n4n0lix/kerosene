@@ -38,7 +38,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit ShaderBuilder();
 
-    ShaderBuilder& vertexlayout(shared_ptr<VertexLayout> layout);
+    ShaderBuilder& vertexlayout(VertexLayout layout);
 
     ShaderBuilder& vertex_uniform(string type, string name);
     ShaderBuilder& vertex_uniform(UniformTemplate uniform);
@@ -69,7 +69,7 @@ private:
     list<TextureSlot>       process_texture_slots(GLuint shaderId, const list<TextureSlotTemplate>* textureSlots) const;
 
     // TODO: Find a way to store ptr/refs here
-    shared_ptr<VertexLayout>  _vertexLayout;
+    VertexLayout              _vertexLayout;
     list<UniformTemplate>     _vsUniforms;
     list<UniformTemplate>     _fsUniforms;
     list<TextureSlotTemplate> _fsTextureSlots;

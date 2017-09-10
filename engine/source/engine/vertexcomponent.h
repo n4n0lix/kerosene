@@ -20,9 +20,9 @@ ENGINE_NAMESPACE_BEGIN
 struct VertexComponent {
     string type;
     string name;
-    GLuint position;
+    uint32 position;
     
-    GLuint components() const {
+    uint32 num_components() const {
         if (type == string("float")) {
             return 1;
         }
@@ -39,7 +39,7 @@ struct VertexComponent {
         return 0;
     }
 
-    GLuint bytesize() const {
+    uint32 bytesize() const {
         if (type == string("float")) {
             return 1 * FLOAT_BYTES;
         }

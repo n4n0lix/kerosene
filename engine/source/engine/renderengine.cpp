@@ -210,8 +210,8 @@ void RenderEngine::init_context_and_window()
 void RenderEngine::setup_builtin_shaders()
 {
 	// VERTEX LAYOUTS
-	s_ptr<VertexLayout> pcLayout = make_shared<VertexLayout>(Vertex_pc().layout());
-	s_ptr<VertexLayout> ptLayout = make_shared<VertexLayout>(Vertex_pt().layout());
+	VertexLayout pcLayout = Vertex_pc().layout();
+	VertexLayout ptLayout = Vertex_pt().layout();
 
 	// SETUP BUILT-IN SHADER
 	// COLOR SHADER

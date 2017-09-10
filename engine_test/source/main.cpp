@@ -1,10 +1,21 @@
-#include "test.h"
+#define CATCH_CONFIG_RUNNER
+#include "catch.h"
 
-int main(int argc, char *argv[])
+#include "_gl.h"
+#include "_global.h"
+
+#include <cstdio>
+
+int main(int argc, char* argv[])
 {
-    RUN_BEHAVIOUR_TESTS();
-    //RUN_PERFORMANCE_TESTS();
+    // global setup...
 
-    system("pause");
-    return 0;
+    int result = Catch::Session().run(argc, argv);
+
+    // global clean-up...
+
+    std::cout << "Press anykey to exit the program ...";
+    std::getchar();
+
+    return (result < 0xff ? result : 0xff);
 }

@@ -35,11 +35,11 @@ public:
     void                    put(K key, V value);
 
     size_t                  size();
-    bool                    contains(K key);
+    bool                    contains(K key) const;
     bool                    empty();
     V                       get(K key);
     list<V>                 values();
-    list<K>                 keys();
+    list<K>                 keys() const;
     list<pair<K, V>>        as_vector();
 	void					clear();
 
@@ -66,7 +66,7 @@ size_t Map<K, V>::size()
 }
 
 template<class K, class V>
-bool Map<K, V>::contains(K key)
+bool Map<K, V>::contains(K key) const
 {
     return _map.find(key) != _map.end();
 }
@@ -98,7 +98,7 @@ list<V> Map<K, V>::values()
 }
 
 template<class K, class V>
-list<K> Map<K, V>::keys()
+list<K> Map<K, V>::keys() const
 {
     list<V> keys = list<V>();
 

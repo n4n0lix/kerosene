@@ -70,7 +70,7 @@ private:
     owner<LogicComponent>  _logic;     // Owned by this
     owner<RenderComponent> _render;    // Owned by this
 
-	static IdGenerator ID_GENERATOR;
+	static IDGen ID_GENERATOR;
 
 };
 

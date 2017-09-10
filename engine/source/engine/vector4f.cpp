@@ -6,32 +6,32 @@ ENGINE_NAMESPACE_BEGIN
 /*                      Public Static                     */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-list4f list4f::X_AXIS = list4f(1.0f, 0.0f, 0.0f, 0.0f);
-list4f list4f::Y_AXIS = list4f(0.0f, 1.0f, 0.0f, 0.0f);
-list4f list4f::Z_AXIS = list4f(0.0f, 0.0f, 1.0f, 0.0f);
-list4f list4f::W_AXIS = list4f(0.0f, 0.0f, 0.0f, 1.0f);
+Vector4f Vector4f::X_AXIS = Vector4f(1.0f, 0.0f, 0.0f, 0.0f);
+Vector4f Vector4f::Y_AXIS = Vector4f(0.0f, 1.0f, 0.0f, 0.0f);
+Vector4f Vector4f::Z_AXIS = Vector4f(0.0f, 0.0f, 1.0f, 0.0f);
+Vector4f Vector4f::W_AXIS = Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-bool list4f::isUnit()
+bool Vector4f::isUnit()
 {
     return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
 }
 
-bool list4f::isZero()
+bool Vector4f::isZero()
 {
     return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
 }
 
-list4f::list4f()                                                            : x(0), y(0), z(0), w(0) { }
-list4f::list4f(const float x, const float y)                                : x(x), y(y), z(0), w(0) { }
-list4f::list4f(const float x, const float y, const float z)                 : x(x), y(y), z(z), w(0) { }
-list4f::list4f(const float x, const float y, const float z, const float w)  : x(x), y(y), z(z), w(w) { }
+Vector4f::Vector4f()                                                            : x(0), y(0), z(0), w(0) { }
+Vector4f::Vector4f(const float x, const float y)                                : x(x), y(y), z(0), w(0) { }
+Vector4f::Vector4f(const float x, const float y, const float z)                 : x(x), y(y), z(z), w(0) { }
+Vector4f::Vector4f(const float x, const float y, const float z, const float w)  : x(x), y(y), z(z), w(w) { }
 
 
-bool list4f::operator==(const list4f& o) const
+bool Vector4f::operator==(const Vector4f& o) const
 {
     return x == o.x
         && y == o.y
@@ -39,14 +39,14 @@ bool list4f::operator==(const list4f& o) const
         && w == o.w;
 }
 
-bool list4f::operator!=(const list4f & o) const
+bool Vector4f::operator!=(const Vector4f & o) const
 {
     return !(*this == o);
 }
 
-list4f list4f::operator-() const
+Vector4f Vector4f::operator-() const
 {
-    list4f result;
+    Vector4f result;
     result.x = -x;
     result.y = -y;
     result.z = -z;
@@ -54,36 +54,36 @@ list4f list4f::operator-() const
     return result;
 }
 
-list4f list4f::operator+(const list4f o) const
+Vector4f Vector4f::operator+(const Vector4f o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result += o;
     return result;
 }
 
-list4f list4f::operator-(const list4f o) const
+Vector4f Vector4f::operator-(const Vector4f o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result -= o;
     return result;
 }
 
-list4f list4f::operator*(const list4f o) const
+Vector4f Vector4f::operator*(const Vector4f o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result *= o;
     return result;
 }
 
-list4f list4f::operator/(const list4f o) const
+Vector4f Vector4f::operator/(const Vector4f o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result /= o;
     return result;
 }
 
 
-list4f& list4f::operator+=(const list4f o)
+Vector4f& Vector4f::operator+=(const Vector4f o)
 {
     x += o.x;
     y += o.y;
@@ -92,7 +92,7 @@ list4f& list4f::operator+=(const list4f o)
     return *this;
 }
 
-list4f& list4f::operator-=(const list4f o)
+Vector4f& Vector4f::operator-=(const Vector4f o)
 {
     x -= o.x;
     y -= o.y;
@@ -101,7 +101,7 @@ list4f& list4f::operator-=(const list4f o)
     return *this;
 }
 
-list4f& list4f::operator*=(const list4f o)
+Vector4f& Vector4f::operator*=(const Vector4f o)
 {
     x *= o.x;
     y *= o.y;
@@ -110,7 +110,7 @@ list4f& list4f::operator*=(const list4f o)
     return *this;
 }
 
-list4f& list4f::operator/=(const list4f o)
+Vector4f& Vector4f::operator/=(const Vector4f o)
 {
     x /= o.x;
     y /= o.y;
@@ -120,36 +120,36 @@ list4f& list4f::operator/=(const list4f o)
 }
 
 
-list4f list4f::operator+(const float o) const
+Vector4f Vector4f::operator+(const float o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result += o;
     return result;
 }
 
-list4f list4f::operator-(const float o) const
+Vector4f Vector4f::operator-(const float o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result -= o;
     return result;
 }
 
-list4f list4f::operator*(const float o) const
+Vector4f Vector4f::operator*(const float o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result *= o;
     return result;
 }
 
-list4f list4f::operator/(const float o) const
+Vector4f Vector4f::operator/(const float o) const
 {
-    list4f result = *this;
+    Vector4f result = *this;
     result /= o;
     return result;
 }
 
 
-list4f& list4f::operator+=(const float o)
+Vector4f& Vector4f::operator+=(const float o)
 {
     x += o;
     y += o;
@@ -158,7 +158,7 @@ list4f& list4f::operator+=(const float o)
     return *this;
 }
 
-list4f& list4f::operator-=(const float o)
+Vector4f& Vector4f::operator-=(const float o)
 {
     x -= o;
     y -= o;
@@ -167,7 +167,7 @@ list4f& list4f::operator-=(const float o)
     return *this;
 }
 
-list4f& list4f::operator*=(const float o)
+Vector4f& Vector4f::operator*=(const float o)
 {
     x *= o;
     y *= o;
@@ -176,7 +176,7 @@ list4f& list4f::operator*=(const float o)
     return *this;
 }
 
-list4f& list4f::operator/=(const float o)
+Vector4f& Vector4f::operator/=(const float o)
 {
     x /= o;
     y /= o;
@@ -185,7 +185,7 @@ list4f& list4f::operator/=(const float o)
     return *this;
 }
 
-vec4 list4f::toVec4() const
+vec4 Vector4f::toVec4() const
 {
     return { x, y, z, w };
 }

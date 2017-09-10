@@ -53,7 +53,7 @@ public:
     Nullable<Uniform>        vertex_uniform(string name) const;
     Nullable<Uniform>        frag_uniform(string name) const;
     Nullable<TextureSlot>    frag_texture_slot(string name) const;
-    shared_ptr<VertexLayout> get_vertex_layout() const;
+    VertexLayout             get_vertex_layout() const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -62,7 +62,7 @@ private:
             explicit Shader();
 
     GLuint                    _id;
-    shared_ptr<VertexLayout>  _vertexLayout;
+    VertexLayout              _vertexLayout;
     list<Uniform>             _vertexUniforms;
     list<Uniform>             _fragUniforms;
     list<TextureSlot>         _fragTextureSlots;

@@ -6,13 +6,13 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-GameObject::GameObject() : _id(ID_GENERATOR.get())
+GameObject::GameObject() : _id(ID_GENERATOR.new_id())
 {
 }
 
 GameObject::~GameObject()
 {
-	ID_GENERATOR.remove(_id);
+	ID_GENERATOR.release_id(_id);
 }
 
 void GameObject::set_rendercomponent(owner<RenderComponent> comp)
@@ -39,6 +39,6 @@ bool GameObject::shall_be_destroyed_at_tick_end()
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-IdGenerator GameObject::ID_GENERATOR = IdGenerator();
+IDGen GameObject::ID_GENERATOR = IDGen();
 
 ENGINE_NAMESPACE_END

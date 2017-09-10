@@ -22,48 +22,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\engine\source\engine\arraybuffer.h" />
-    <ClInclude Include="..\engine\source\engine\arraybuffertoken.h" />
     <ClInclude Include="..\engine\source\engine\batch.h" />
     <ClInclude Include="..\engine\source\engine\buffer.h" />
     <ClInclude Include="..\engine\source\engine\buffertoken.h" />
     <ClInclude Include="..\engine\source\engine\camera.h" />
     <ClInclude Include="..\engine\source\engine\component.h" />
     <ClInclude Include="..\engine\source\engine\decimal32.h" />
-    <ClInclude Include="..\engine\source\engine\defaultrenderengine.h" />
-    <ClInclude Include="..\engine\source\engine\disabledinputengine.h" />
-    <ClInclude Include="..\engine\source\engine\disabledlogicengine.h" />
-    <ClInclude Include="..\engine\source\engine\disablednetworkengine.h" />
-    <ClInclude Include="..\engine\source\engine\disabledphysicsengine.h" />
-    <ClInclude Include="..\engine\source\engine\disabledrenderengine.h" />
     <ClInclude Include="..\engine\source\engine\engine.h" />
     <ClInclude Include="..\engine\source\engine\engineconfiguration.h" />
     <ClInclude Include="..\engine\source\engine\engineexception.h" />
     <ClInclude Include="..\engine\source\engine\gameobject.h" />
     <ClInclude Include="..\engine\source\engine\gamestate.h" />
     <ClInclude Include="..\engine\source\engine\glwindow.h" />
-    <ClInclude Include="..\engine\source\engine\iinputengine.h" />
-    <ClInclude Include="..\engine\source\engine\ilogiccomponent.h" />
-    <ClInclude Include="..\engine\source\engine\ilogicengine.h" />
+    <ClInclude Include="..\engine\source\engine\idgenerator.h" />
     <ClInclude Include="..\engine\source\engine\imageutils.h" />
     <ClInclude Include="..\engine\source\engine\indexbuffer.h" />
-    <ClInclude Include="..\engine\source\engine\inetworkengine.h" />
-    <ClInclude Include="..\engine\source\engine\iphysicsengine.h" />
-    <ClInclude Include="..\engine\source\engine\irendercomponent.h" />
-    <ClInclude Include="..\engine\source\engine\irenderengine.h" />
+    <ClInclude Include="..\engine\source\engine\inputengine.h" />
+    <ClInclude Include="..\engine\source\engine\list.h" />
     <ClInclude Include="..\engine\source\engine\logger.h" />
+    <ClInclude Include="..\engine\source\engine\logiccomponent.h" />
+    <ClInclude Include="..\engine\source\engine\logicengine.h" />
     <ClInclude Include="..\engine\source\engine\map.h" />
     <ClInclude Include="..\engine\source\engine\material.h" />
     <ClInclude Include="..\engine\source\engine\matrix4f.h" />
+    <ClInclude Include="..\engine\source\engine\networkengine.h" />
     <ClInclude Include="..\engine\source\engine\non_null.h" />
     <ClInclude Include="..\engine\source\engine\nullable.h" />
+    <ClInclude Include="..\engine\source\engine\owner_list.h" />
+    <ClInclude Include="..\engine\source\engine\physicsengine.h" />
     <ClInclude Include="..\engine\source\engine\primitivetype.h" />
     <ClInclude Include="..\engine\source\engine\quaternion4f.h" />
     <ClInclude Include="..\engine\source\engine\range.h" />
-    <ClInclude Include="..\engine\source\engine\rendermanager.h" />
+    <ClInclude Include="..\engine\source\engine\rendercomponent.h" />
+    <ClInclude Include="..\engine\source\engine\renderengine.h" />
     <ClInclude Include="..\engine\source\engine\shader.h" />
     <ClInclude Include="..\engine\source\engine\shaderbuilder.h" />
     <ClInclude Include="..\engine\source\engine\stackbuffer.h" />
@@ -80,8 +71,6 @@
     <ClInclude Include="..\engine\source\engine\transform.h" />
     <ClInclude Include="..\engine\source\engine\uniform.h" />
     <ClInclude Include="..\engine\source\engine\uniformtemplate.h" />
-    <ClInclude Include="..\engine\source\engine\uptrvector.h" />
-    <ClInclude Include="..\engine\source\engine\vector.h" />
     <ClInclude Include="..\engine\source\engine\vector2f.h" />
     <ClInclude Include="..\engine\source\engine\vector3.h" />
     <ClInclude Include="..\engine\source\engine\vector3f.h" />
@@ -89,52 +78,44 @@
     <ClInclude Include="..\engine\source\engine\vertex.h" />
     <ClInclude Include="..\engine\source\engine\vertexarray.h" />
     <ClInclude Include="..\engine\source\engine\vertexbuffer.h" />
+    <ClInclude Include="..\engine\source\engine\vertexbuffertoken.h" />
     <ClInclude Include="..\engine\source\engine\vertexcomponent.h" />
     <ClInclude Include="..\engine\source\engine\vertexlayout.h" />
     <ClInclude Include="..\engine\source\engine\vertextoken.h" />
     <ClInclude Include="..\engine\source\engine\vertex_pc.h" />
     <ClInclude Include="..\engine\source\engine\vertex_pt.h" />
     <ClInclude Include="..\engine\source\engine\viewport4.h" />
-    <ClInclude Include="..\engine\source\engine\world.h" />
     <ClInclude Include="..\engine\source\engine\_gl.h" />
     <ClInclude Include="..\engine\source\engine\_global.h" />
     <ClInclude Include="..\engine\source\engine\_mathdefs.h" />
     <ClInclude Include="..\engine\source\engine\_renderdefs.h" />
-    <ClInclude Include="source\generator.h" />
-    <ClInclude Include="source\perfclass.h" />
-    <ClInclude Include="source\test.h" />
-    <ClInclude Include="source\testclass.h" />
-    <ClInclude Include="source\testdefs.h" />
-    <ClInclude Include="source\testregistry.h" />
-    <ClInclude Include="source\test_decimal32.h" />
-    <ClInclude Include="source\test_gameobject.h" />
-    <ClInclude Include="source\test_vector3f.h" />
-    <ClInclude Include="source\test_vertexbuffer.h" />
+    <ClInclude Include="source\catch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\engine\source\engine\arraybuffertoken.cpp" />
     <ClCompile Include="..\engine\source\engine\buffertoken.cpp" />
     <ClCompile Include="..\engine\source\engine\camera.cpp" />
+    <ClCompile Include="..\engine\source\engine\component.cpp" />
     <ClCompile Include="..\engine\source\engine\decimal32.cpp" />
-    <ClCompile Include="..\engine\source\engine\defaultrenderengine.cpp" />
-    <ClCompile Include="..\engine\source\engine\disabledinputengine.cpp" />
-    <ClCompile Include="..\engine\source\engine\disabledlogicengine.cpp" />
-    <ClCompile Include="..\engine\source\engine\disablednetworkengine.cpp" />
-    <ClCompile Include="..\engine\source\engine\disabledphysicsengine.cpp" />
-    <ClCompile Include="..\engine\source\engine\disabledrenderengine.cpp" />
     <ClCompile Include="..\engine\source\engine\engine.cpp" />
     <ClCompile Include="..\engine\source\engine\engineconfiguration.cpp" />
     <ClCompile Include="..\engine\source\engine\engineexception.cpp" />
     <ClCompile Include="..\engine\source\engine\gameobject.cpp" />
     <ClCompile Include="..\engine\source\engine\gamestate.cpp" />
     <ClCompile Include="..\engine\source\engine\glwindow.cpp" />
+    <ClCompile Include="..\engine\source\engine\idgenerator.cpp" />
     <ClCompile Include="..\engine\source\engine\imageutils.cpp" />
     <ClCompile Include="..\engine\source\engine\indexbuffer.cpp" />
+    <ClCompile Include="..\engine\source\engine\inputengine.cpp" />
+    <ClCompile Include="..\engine\source\engine\logiccomponent.cpp" />
+    <ClCompile Include="..\engine\source\engine\logicengine.cpp" />
     <ClCompile Include="..\engine\source\engine\material.cpp" />
     <ClCompile Include="..\engine\source\engine\matrix4f.cpp" />
+    <ClCompile Include="..\engine\source\engine\networkengine.cpp" />
+    <ClCompile Include="..\engine\source\engine\physicsengine.cpp" />
     <ClCompile Include="..\engine\source\engine\quaterion4f.cpp" />
     <ClCompile Include="..\engine\source\engine\range.cpp" />
-    <ClCompile Include="..\engine\source\engine\rendermanager.cpp" />
+    <ClCompile Include="..\engine\source\engine\rendercomponent.cpp" />
+    <ClCompile Include="..\engine\source\engine\renderengine.cpp" />
     <ClCompile Include="..\engine\source\engine\shader.cpp" />
     <ClCompile Include="..\engine\source\engine\shaderbuilder.cpp" />
     <ClCompile Include="..\engine\source\engine\stackbuffertoken.cpp" />
@@ -148,12 +129,13 @@
     <ClCompile Include="..\engine\source\engine\vector2f.cpp" />
     <ClCompile Include="..\engine\source\engine\vector3f.cpp" />
     <ClCompile Include="..\engine\source\engine\vector4f.cpp" />
+    <ClCompile Include="..\engine\source\engine\vertexbuffertoken.cpp" />
     <ClCompile Include="..\engine\source\engine\vertextoken.cpp" />
     <ClCompile Include="..\engine\source\engine\vertex_pc.cpp" />
     <ClCompile Include="..\engine\source\engine\vertex_pt.cpp" />
-    <ClCompile Include="..\engine\source\engine\world.cpp" />
     <ClCompile Include="..\engine\source\engine\_gl.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\test_vertexbuffer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6A639E9E-B6AF-4C90-9FFE-8DD3B128B790}</ProjectGuid>
@@ -228,7 +210,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\source\engine;$(SolutionDir)engine\libs\cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GL_MOCK;CONTRACTS_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_MOCK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
@@ -247,7 +229,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\source\engine;$(SolutionDir)engine\libs\cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GL_MOCK;CONTRACTS_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_MOCK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>

@@ -71,7 +71,7 @@ Nullable<TextureSlot> Shader::frag_texture_slot(string name) const
     return Nullable<TextureSlot>();
 }
 
-shared_ptr<VertexLayout> Shader::get_vertex_layout() const
+VertexLayout Shader::get_vertex_layout() const
 {
     return _vertexLayout;
 }

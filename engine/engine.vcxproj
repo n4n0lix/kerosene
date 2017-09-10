@@ -23,9 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+    <Text Include="source\gameidea.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\engine\arraybuffertoken.h" />
+    <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\component.h" />
@@ -53,7 +54,6 @@
     <ClInclude Include="source\engine\range.h" />
     <ClInclude Include="source\engine\tb_removeop.h" />
     <ClInclude Include="source\engine\tb_writeop.h" />
-    <ClInclude Include="source\engine\arraybuffer.h" />
     <ClInclude Include="source\engine\buffertoken.h" />
     <ClInclude Include="source\engine\buffer.h" />
     <ClInclude Include="source\engine\decimal32.h" />
@@ -97,7 +97,7 @@
     <ClInclude Include="source\sandbox\testrendercomponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\engine\arraybuffertoken.cpp" />
+    <ClCompile Include="source\engine\vertexbuffertoken.cpp" />
     <ClCompile Include="source\engine\camera.cpp" />
     <ClCompile Include="source\engine\component.cpp" />
     <ClCompile Include="source\engine\decimal32.cpp" />

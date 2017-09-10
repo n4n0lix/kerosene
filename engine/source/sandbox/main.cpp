@@ -1,17 +1,7 @@
 #include "engine.h"
 #include "engineconfiguration.h"
 
-#include "logger.h"
-
-#include "inputengine.h"
-#include "renderengine.h"
-#include "logicengine.h"
-#include "physicsengine.h"
-#include "networkengine.h"
-
 #define ENGINE_DEBUG
-
-#include "decimal32.h"
 
 #include "testgamestate.h"
 #include "_gl.h"

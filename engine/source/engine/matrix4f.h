@@ -49,7 +49,7 @@ public:
             && m.m30 == 0.0f && m.m31 == 0.0f && m.m32 == 0.0f && m.m33 == 1.0f;
     }
 
-    static Matrix4f rotationAxis(const float angle, const list3f axis)
+    static Matrix4f rotationAxis(const float angle, const Vector3f axis)
     {
             float c = (float)cos(angle);
             float s = (float)sin(angle);
@@ -79,7 +79,7 @@ public:
                              0.0f, 0.0f, 0.0f, 0.0f);
     }
 
-    static Matrix4f translation(list3f v)
+    static Matrix4f translation(Vector3f v)
     {
         return Matrix4f(0, 0, 0, v.x,
                         0, 0, 0, v.y,
@@ -87,7 +87,7 @@ public:
                         0, 0, 0, 0);
     }
 
-    static Matrix4f scaling(list3f v)
+    static Matrix4f scaling(Vector3f v)
     {
         return Matrix4f(v.x,   0,   0,   0,
                         0,   v.y,   0,   0,
@@ -140,11 +140,11 @@ public:
                        -(right + left) * invX, -(top + bottom) * invY, -(zfar + znear) * invZ,   1);
     }
 
-    static Matrix4f lookAtLH(list3f eye, list3f target, list3f up) {
+    static Matrix4f lookAtLH(Vector3f eye, Vector3f target, Vector3f up) {
 
-        list3f zaxis = (target-eye).normalized();
-        list3f xaxis = up.cross(zaxis).normalized();
-        list3f yaxis = zaxis.cross(xaxis);
+        Vector3f zaxis = (target-eye).normalized();
+        Vector3f xaxis = up.cross(zaxis).normalized();
+        Vector3f yaxis = zaxis.cross(xaxis);
 
         return Matrix4f(xaxis.x, xaxis.y, xaxis.z, -xaxis.dot(eye),
                         yaxis.x, yaxis.y, yaxis.z, -yaxis.dot(eye),
@@ -175,7 +175,7 @@ public:
     Matrix4f operator*(Matrix4f o) const;
 
 
-    list4f /*Quaternion4f*/ toQuaternion4f() {
+    Vector4f /*Quaternion4f*/ toQuaternion4f() {
         float x, y, z, w;
 
         float s;
@@ -216,7 +216,7 @@ public:
             }
         }
 
-        return list4f(x, y, z, w);
+        return Vector4f(x, y, z, w);
     }
 
     float m00, m01, m02, m03;

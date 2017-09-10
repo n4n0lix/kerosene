@@ -6,11 +6,9 @@
 
 // Std-Includes
 
-// Std-Extensions
-#include "list.h"
-
 // Internal Includes
 #include "_global.h"
+#include "list.h"
 #include "range.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -18,12 +16,15 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class BufferToken {
+class VertexBufferToken {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                                BufferToken(uint32 id, void* buffer);
+                VertexBufferToken(uint32 id, void* buffer);
+
+    uint32      range_id();
+    void        set_range_id(uint32 rangeId);
 
     void*                       get_buffer();
     uint32                      get_id();
@@ -41,8 +42,8 @@ public:
     void                        set_object_size(uint32 objSize);
     void                        set_atom_range(Range range);
 
-    bool                        operator!=(const BufferToken& o) const;
-    bool                        operator==(const BufferToken& o) const;
+    bool                        operator!=(const VertexBufferToken& o) const;
+    bool                        operator==(const VertexBufferToken& o) const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -51,16 +52,18 @@ private:
 
     void                        update();
 
-    void*   _buffer;
-    uint32  _id;
 
-    bool    _valid;
+    uint32          _id;
+    void*           _buffer;
 
+    bool            _valid;
+
+    uint32                      _rangeId;
     uint32                      _objSize;
     Range                       _atomRange;
     Range                       _objRange;
     shared_ptr<vector<uint32>>  _objIndices;
+
 };
 
 ENGINE_NAMESPACE_END
-

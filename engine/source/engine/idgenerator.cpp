@@ -10,27 +10,28 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-IdGenerator::IdGenerator() : _rng(std::mt19937()), _usedIds(list<uint32>()) {
+IDGen::IDGen() : _rng(std::mt19937()), _usedIds(list<uint32>()) {
 
 }
 
-uint32 IdGenerator::get() {
+uint32 IDGen::new_id() {
 	uint32 newId = _rng();
 
-	while ( _usedIds.contains_r(newId) ) {
+    std::sort(_usedIds.begin(), _usedIds.end());
+	while ( std::binary_search(_usedIds.begin(), _usedIds.end(), newId) ) {
 		newId = _rng();
 	}
 
 	_usedIds.add( newId );
-
+    
 	return newId;
 }
 
-void IdGenerator::put(uint32 id) {
+void IDGen::put(uint32 id) {
 	_usedIds.add(id);
 }
 
-void IdGenerator::remove(uint32 id) {
+void IDGen::release_id(uint32 id) {
 	_usedIds.remove(id);
 }
 

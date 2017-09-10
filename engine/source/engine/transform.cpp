@@ -6,7 +6,7 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 
-Transform::Transform() : position(list3f::zero()), scale(list3f::unit()), rotation(Quaternion4f::rotationIdentity())
+Transform::Transform() : position(Vector3f::zero()), scale(Vector3f::unit()), rotation(Quaternion4f::rotationIdentity())
 {
 }
 

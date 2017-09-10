@@ -32,7 +32,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                explicit VertexArray(s_ptr<VertexLayout> layout);
+                explicit VertexArray(VertexLayout layout);
                 ~VertexArray();
 
     s_ptr<VertexToken>					add_vertices(list<VERTEX> vertices);
@@ -51,18 +51,19 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    void                                native_render();
 
     void                                write_new_indices_into_indexbuffer();
 
-    void                                set_vertexbuffer(s_ptr<VertexBuffer<VERTEX>> vertexbuffer);
-    void                                set_indexbuffer(s_ptr<IndexBuffer> indexbuffer);
+    void                                set_vertexbuffer(owner<VertexBuffer<VERTEX>> vertexbuffer);
+    void                                set_indexbuffer(owner<IndexBuffer> indexbuffer);
 
     GLuint _vaoId;
 
     vector<s_ptr<VertexToken>>     _vertexTokens;
-    s_ptr<VertexLayout>            _layout;
-    s_ptr<VertexBuffer<VERTEX>>    _vertexBuffer;
-    s_ptr<IndexBuffer>             _indexBuffer;
+    VertexLayout                   _layout;
+    owner<VertexBuffer<VERTEX>>    _vertexBuffer;
+    owner<IndexBuffer>             _indexBuffer;
 
     list<s_ptr<VertexToken>>       _toAddToIndexBuffer;
 
@@ -82,22 +83,19 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-VertexArray<VERTEX>::VertexArray(s_ptr<VertexLayout> layout) : _vertexTokenNextId(0), _layout(layout)
-{
-    // 0# Contract Pre
-    Requires( layout != nullptr );
-    
+VertexArray<VERTEX>::VertexArray(VertexLayout layout) : _vertexTokenNextId(0), _layout(layout)
+{  
     // #1 Create VAO
     glGenVertexArrays(1, &_vaoId);
     LOGGER.log(Level::DEBUG, _vaoId) << "CREATE" << endl;
 
     // #2 Create VBO and IxBO
-    set_vertexbuffer(make_shared<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ));
-    set_indexbuffer(make_shared<IndexBuffer>( DEFAULT_INDEXBUFFER_SIZE ));
+    set_vertexbuffer(make_unique<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ));
+    set_indexbuffer(make_unique<IndexBuffer>( DEFAULT_INDEXBUFFER_SIZE ));
 }
 
 template<class VERTEX>
-inline VertexArray<VERTEX>::~VertexArray()
+VertexArray<VERTEX>::~VertexArray()
 {
     LOGGER.log(Level::DEBUG, _vaoId) << "DELETE" << endl;
     glDeleteVertexArrays( 1, &_vaoId);
@@ -106,7 +104,7 @@ inline VertexArray<VERTEX>::~VertexArray()
 template<class VERTEX>
 s_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(list<VERTEX> vertices) {
     // 1# Add vertices
-    s_ptr<BufferToken> vertexBufferToken = _vertexBuffer->add_vertices( vertices );
+    s_ptr<VertexBufferToken> vertexBufferToken = _vertexBuffer->add_vertices( vertices );
 
     // 2# Assemble VertexToken
     s_ptr<VertexToken> vertexToken = make_shared<VertexToken>(_vertexTokenNextId++);
@@ -115,7 +113,7 @@ s_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(list<VERTEX> vertices) {
     // X# Contract Post
     Ensures( vertexToken != nullptr );
     Ensures( vertexBufferToken != nullptr );
-    // TODO: Ensures vertexBufferToken is in vertexbuffer
+    Ensures( _vertexBuffer->contains(vertexBufferToken) );
 
     return vertexToken;
 }
@@ -135,10 +133,9 @@ void VertexArray<VERTEX>::remove_vertices(s_ptr<VertexToken> token) {
     _vertexBuffer->remove_vertices( token->vertexbuffer_token() );
 
     // X# Contract Post
-    // TODO:
-    Ensures( _vertexBuffer )
-    // Ensure token not in vertexbuffer
-    // Ensure token not in indexbuffer
+    Ensures( _vertexBuffer );
+    Ensures( !_vertexBuffer->contains(token->vertexbuffer_token()) );
+    // TODO: Ensure token not in indexbuffer
 }
 
 template<class VERTEX>
@@ -192,6 +189,11 @@ void VertexArray<VERTEX>::render()
     _indexBuffer->commit_write();
 
     // 6# Render
+    native_render();
+}
+
+template<class VERTEX>
+void VertexArray<VERTEX>::native_render() {
     glBindVertexArray(_vaoId);
     glDrawElements(PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
     glBindVertexArray(0);
@@ -221,12 +223,12 @@ void VertexArray<VERTEX>::write_new_indices_into_indexbuffer() {
 
 // TODO: Add nullptr handling -> unbind old vbo
 template<class VERTEX>
-void VertexArray<VERTEX>::set_vertexbuffer(s_ptr<VertexBuffer<VERTEX>> vertexBuffer)
+void VertexArray<VERTEX>::set_vertexbuffer(owner<VertexBuffer<VERTEX>> vertexBuffer)
 {
     LOGGER.log(Level::DEBUG, _vaoId) << "BIND VBO (id:" << vertexBuffer->get_id() << ")" << endl;
 
     // #1 Set vertexbuffer
-    _vertexBuffer = vertexBuffer;
+    _vertexBuffer = move( vertexBuffer );
 
     // #2 Bind vertexbuffer
     glBindVertexArray(_vaoId);
@@ -234,11 +236,11 @@ void VertexArray<VERTEX>::set_vertexbuffer(s_ptr<VertexBuffer<VERTEX>> vertexBuf
 
     // #3 Declare VBO Layout
     GLuint offset = 0;
-    for (VertexComponent component : _layout->components) {
-        LOGGER.log(Level::DEBUG, _vaoId) << "ATTR (pos:" << component.position << ", num:" << component.components() << ", glt:" << component.gltype() << ", off:" << offset << ")" << endl;
+    for (VertexComponent component : _layout.components()) {
+        LOGGER.log(Level::DEBUG, _vaoId) << "ATTR (pos:" << component.position << ", num:" << component.num_components() << ", glt:" << component.gltype() << ", off:" << offset << ")" << endl;
         glEnableVertexAttribArray(component.position);
-        glVertexAttribPointer(component.position, component.components(), component.gltype(), false, _layout->bytesize(), BUFFER_OFFSET(offset));
-        offset += component.bytesize();
+        glVertexAttribPointer((GLuint) component.position, (GLuint) component.num_components(), component.gltype(), false, (GLuint) _layout.bytesize(), BUFFER_OFFSET(offset));
+        offset += (GLuint) component.bytesize();
     }
 
     // #3 Cleanup
@@ -247,12 +249,12 @@ void VertexArray<VERTEX>::set_vertexbuffer(s_ptr<VertexBuffer<VERTEX>> vertexBuf
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::set_indexbuffer(s_ptr<IndexBuffer> indexBuffer)
+void VertexArray<VERTEX>::set_indexbuffer(owner<IndexBuffer> indexBuffer)
 {
     LOGGER.log(Level::DEBUG, _vaoId) << "BIND IxBO (id:" << indexBuffer->get_id() << ")" << endl;
 
     // #1 Set indexbuffer
-    _indexBuffer = indexBuffer;
+    _indexBuffer = move( indexBuffer );
 
     // #2 Bind indexbuffer
     glBindVertexArray(_vaoId);

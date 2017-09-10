@@ -84,7 +84,7 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-TransactionalBuffer<T>::TransactionalBuffer(uint32 objSize, uint32 objCapacity) : Buffer(objSize, objCapacity)
+TransactionalBuffer<T>::TransactionalBuffer(uint32 objSize, uint32 objCapacity) : Buffer<T>(objSize, objCapacity)
 {
     _nextUidToken = 0;
     _nextUidWriteOp = 0;
@@ -102,7 +102,7 @@ shared_ptr<BufferToken> TransactionalBuffer<T>::write(list<T> objects)
     shared_ptr<BufferToken> token = create_token(generate_token_id());
 
     // 3# Store in write bucket
-    _writeBucket.add(make_shared<TB_WriteOp<T>>(generate_writeop_id(), token, std::move(objects)));
+    _writeBucket.add(make_shared<TB_WriteOp<T>>(generate_writeop_id(), token, move(objects)));
     _tokenToWrite.add(token);
 
     // 4# Return token

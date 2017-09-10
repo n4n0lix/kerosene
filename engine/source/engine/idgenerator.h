@@ -20,7 +20,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class IdGenerator
+class IDGen
 {
 public:
 
@@ -32,11 +32,11 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-				IdGenerator();
+				IDGen();
 			
-	uint32	get();
+	uint32	new_id();
 	void    put(uint32 id);
-	void    remove(uint32 id);
+	void    release_id(uint32 id);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

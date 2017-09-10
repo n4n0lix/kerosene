@@ -11,7 +11,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Vertex_pc::Vertex_pc(list3f position, list4f color) : Vertex()
+Vertex_pc::Vertex_pc(Vector3f position, Vector4f color) : Vertex()
 {
     this->position = position;
     this->color = color;
@@ -19,8 +19,8 @@ Vertex_pc::Vertex_pc(list3f position, list4f color) : Vertex()
 
 VertexLayout Vertex_pc::layout() const
 {
-    return{ { {"vec3", "position", 1}, 
-              {"vec4", "color",    2} } };
+    return { { {"vec3", "position", 1}, 
+               {"vec4", "color",    2} } };
 }
 
 vector<float> Vertex_pc::data() const

@@ -97,6 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+    <Text Include="source\gameidea.txt">
+      <Filter>Headerdateien</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\engine\_global.h">
@@ -204,9 +207,6 @@
     <ClInclude Include="source\engine\indexbuffer.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\arraybuffer.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\transactionalbuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
@@ -223,9 +223,6 @@
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\stackbuffertoken.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\arraybuffertoken.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\non_null.h">
@@ -309,6 +306,9 @@
     <ClInclude Include="source\engine\owner_list.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\vertexbuffertoken.h">
+      <Filter>Headerdateien\engine\render\opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\texture.cpp">
@@ -383,9 +383,6 @@
     <ClCompile Include="source\engine\stackbuffertoken.cpp">
       <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\arraybuffertoken.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\vertextoken.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
     </ClCompile>
@@ -445,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="source\engine\inputengine.cpp">
       <Filter>Quelldateien\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertexbuffertoken.cpp">
+      <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

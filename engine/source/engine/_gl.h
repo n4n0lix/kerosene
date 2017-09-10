@@ -259,7 +259,7 @@
     glTexParameteri(__VA_ARGS__); \
     printGLErrors(glTexParameteri)
 #elif GL_MOCK
-    #define glTexParameteri(x, y) GLMock::invoking("glTexParameteri")
+    #define glTexParameteri(...) GLMock::invoking("glTexParameteri")
 #endif
 
 // glTexImage2D
@@ -268,7 +268,7 @@
     glTexImage2D(__VA_ARGS__); \
     printGLErrors(glTexImage2D)
 #elif GL_MOCK
-    #define glTexImage2D(x, y) GLMock::invoking("glTexImage2D")
+    #define glTexImage2D(...) GLMock::invoking("glTexImage2D")
 #endif
 
 

@@ -11,7 +11,7 @@ ShaderBuilder::ShaderBuilder()
 
 }
 
-ShaderBuilder& ShaderBuilder::vertexlayout(shared_ptr<VertexLayout> layout)
+ShaderBuilder& ShaderBuilder::vertexlayout(VertexLayout layout)
 {
     _vertexLayout = layout;
     return *this;
@@ -97,7 +97,7 @@ string ShaderBuilder::gen_vertex_source() const
     }
 
     // Vertex Components
-    for (VertexComponent component : _vertexLayout->components) {
+    for (VertexComponent component : _vertexLayout.components()) {
         result << VERTEX_COMPONENT(component);
     }
     result << "\n";

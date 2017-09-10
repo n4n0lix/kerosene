@@ -175,7 +175,7 @@
         using std::function;
 
 // Guards
-#define Guard(x) if (!x)
+#define Guard(x) if (!(x))
 
 // Using assertions
 #include <cassert>

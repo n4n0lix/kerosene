@@ -38,8 +38,8 @@ public:
 
     size_t                  remove(T& object);
 
-    bool                    contains(T& object);
-	bool					contains_r(T& object);
+    bool                    contains(T& object) const;
+	bool					contains_r(T& object) const;
 
     void                    forAll(std::function<void(T&)> func);
 
@@ -95,13 +95,13 @@ size_t list<T>::remove(T& object)
 //}
 
 template<class T>
-bool list<T>::contains(T& object)
+bool list<T>::contains(T& object) const
 {
     return std::find(begin(), end(), object) != end();
 }
 
 template<class T>
-bool list<T>::contains_r(T& object)
+bool list<T>::contains_r(T& object) const
 {
 	return std::find(rbegin(), rend(), object) != rend();
 }
