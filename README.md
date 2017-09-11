@@ -27,7 +27,7 @@ make guard-checks visible.
     Guard( <bool> ) return;
 
 ### 2.3 raw pointers
-the usage of raw pointers is only allowed if the pointer takes no ownership of the data it points to. try to minimize the usage of raw pointers! 
+raw pointers take no ownership in their objects. never `delete` a rawpointer!
 
 ## 3. design
 ### 3.1 utils
