@@ -26,8 +26,8 @@ make guard-checks visible.
 
     Guard( <bool> ) return;
 
-### 2.3 raw pointers
-raw pointers take no ownership in their objects. never `delete` a rawpointer!
+### 2.3 pointers
+raw pointers take no ownership in their objects. never `delete` a rawpointer! make sure that the ownership of every object created on the heap (`new`) is managed by a smartpointer. use `unique_ptr` (or it's alias `owner`) as default, and only if it makes sense use `shared_ptr` (or it's alias `shared_owner`).
 
 ## 3. design
 ### 3.1 utils
