@@ -45,20 +45,8 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-            /**
-             * Public-constructor
-             *
-             * @param config An engine configuration. Takes over the ownership of all
-             *               instances provided by the configuration.
-             * @param parent The parent QObject
-             */
             explicit Engine(EngineConfiguration& config);
 
-    /**
-     * Starts the engine.
-     *
-     * @return A status-code when finished.
-     */
     int run();
 
 private:
