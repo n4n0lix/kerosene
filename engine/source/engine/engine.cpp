@@ -10,6 +10,11 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+/**
+ * Public-constructor
+ *
+ * @param config A configuration for the engine.
+ */
 Engine::Engine(EngineConfiguration& config)
 {
     // Tick rate
@@ -36,6 +41,11 @@ Engine::Engine(EngineConfiguration& config)
     Ensures( _network != nullptr );
 }
 
+/**
+ * Starts the engine.
+ *
+ * @return A status-code when finished. [0: no error occured]
+ */
 int Engine::run() {
 
     // StartUp
