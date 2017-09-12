@@ -309,6 +309,9 @@
     <ClInclude Include="source\engine\vertexbuffertoken.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\owner.h">
+      <Filter>Headerdateien\engine\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\texture.cpp">

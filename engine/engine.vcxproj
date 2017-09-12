@@ -26,6 +26,7 @@
     <Text Include="source\gameidea.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera.h" />
