@@ -9,13 +9,13 @@
 #include <sstream> 
     using std::ostringstream;
 #include <algorithm>
+#include <exception>
 
 // Other Includes
 
 // Internal Includes
 #include "_global.h"
 #include "_gl.h"
-#include "engineexception.h"
 
 #include "uniform.h"
 #include "textureslot.h"

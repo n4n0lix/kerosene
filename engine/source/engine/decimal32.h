@@ -7,12 +7,12 @@
 // Std-Includes
 #include <cmath>
 #include <ostream>
+#include <exception>
 
 // Other Includes
 
 // Internal Includes
 #include "_global.h"
-#include "engineexception.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

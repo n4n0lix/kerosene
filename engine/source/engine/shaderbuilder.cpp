@@ -161,7 +161,7 @@ GLuint ShaderBuilder::create_shader(GLenum shaderType) const
 
     glGetShaderiv(shaderId, GL_COMPILE_STATUS, &status);
     if (status == GL_FALSE) {
-        throw EngineException("Shader compiling failed!");
+        throw std::exception("Shader compiling failed!");
     }
 
     return shaderId;
@@ -178,7 +178,7 @@ GLuint ShaderBuilder::link_program(GLuint vertexShaderId, GLuint fragmentShaderI
 
     glGetProgramiv(shaderId, GL_LINK_STATUS, &status);
     if (status == GL_FALSE) {
-        throw EngineException("Shader-Program linking failed!");
+        throw std::exception("Shader-Program linking failed!");
     }
     glValidateProgram(shaderId);
 

@@ -25,7 +25,7 @@ decimal32 decimal32::sqrt(const decimal32& d)
         if (d == ZERO) {
             return ZERO;
         }
-        throw new EngineException("The square root of a negative number is undefined!");
+        throw std::exception("The square root of a negative number is undefined!");
     }
 
     // Binary search
@@ -56,7 +56,7 @@ decimal32 decimal32::sqrt_fast(const decimal32& d)
         if (d == ZERO) {
             return ZERO;
         }
-        throw new EngineException("The square root of a negative number is undefined!");
+        throw std::exception("The square root of a negative number is undefined!");
     }
 
     return decimal32::fromDouble(std::sqrt(decimal32::toDouble(d)));

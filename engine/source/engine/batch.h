@@ -15,7 +15,6 @@
 #include "_global.h"
 #include "_renderdefs.h"
 #include "logger.h"
-#include "engineexception.h"
 #include "vertex.h"
 #include "shader.h"
 #include "primitivetype.h"

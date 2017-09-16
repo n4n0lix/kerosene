@@ -6,13 +6,13 @@
 
 // Std-Includes
 #include <iostream>
+#include <exception>
 
 // Other Includes
 
 // Internal Includes
 #include "_gl.h"
 #include "_global.h"
-#include "engineexception.h"
 #include "glwindow.h"
 #include "gameobject.h"
 

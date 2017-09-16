@@ -11,7 +11,6 @@
 
 // Internal Includes
 #include "_global.h"
-#include "engineexception.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

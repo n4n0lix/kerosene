@@ -165,9 +165,6 @@
     <ClInclude Include="source\engine\engine.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\engineexception.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\gamestate.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
@@ -333,9 +330,6 @@
       <Filter>Quelldateien\engine\core</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\engineconfiguration.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\engineexception.cpp">
       <Filter>Quelldateien\engine\core</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\quaterion4f.cpp">

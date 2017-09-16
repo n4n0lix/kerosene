@@ -10,13 +10,13 @@ ENGINE_NAMESPACE_BEGIN
 void RenderEngine::on_start()
 {
     if (!glfwInit()) {
-        throw new EngineException("Couldn't initialize GLFW!");
+        throw std::exception("Couldn't initialize GLFW!");
     }
 
     init_context_and_window();
 
     if (glewInit() != GLEW_OK) {
-        throw new EngineException("Couldn't initialize GLEW!");
+        throw std::exception("Couldn't initialize GLEW!");
     }
 
 	setup_builtin_shaders();

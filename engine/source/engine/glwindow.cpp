@@ -21,7 +21,7 @@ GLWindow::GLWindow(const string title, const int32_t width, const int32_t height
     _handle = unique_ptr<GLFWwindow, GLFWwindowDestroyer>(glfwCreateWindow(width, height, "Kerosine Engine", nullptr, nullptr), GLFWwindowDestroyer());
 
     if (_handle == nullptr) {
-        throw EngineException("Failed to create the GLFW window");
+        throw std::exception("Failed to create the GLFW window");
     }
 
     set_title(title);

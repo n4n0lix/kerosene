@@ -35,8 +35,6 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     Logger(string className, Level level) : _className(className), _level(level), _silentOutput(std::ostringstream()) { }
-    ~Logger() = default;
-
 
     std::ostream& log(Level level) {
         return get_stream(level) << get_log_level_name(level) << " - " << _className << " - ";
