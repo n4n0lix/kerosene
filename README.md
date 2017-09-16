@@ -27,7 +27,7 @@ make guard-checks visible.
     Guard( <bool> ) return;
 
 ### 2.3 pointers
-raw pointers are strictly forbidden! use either `owner<T>/weak<T>` for single ownership or `shared_ptr<T>/weak_ptr<T>` for multiple ownership. Every object, unless a 3rd library promises to manage the life time of a raw pointer, has it's lifetime to be managed by a smart pointer.
+raw pointers are strictly forbidden! use either `owner<T>/weak<T>` for single ownership or `shared_ptr<T>/weak_ptr<T>` for shared ownership. Every object, unless a 3rd library promises to manage the life time of a raw pointer, has it's lifetime to be managed by a smart pointer.
 
 ## 3. design
 ### 3.1 utils
