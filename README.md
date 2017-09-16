@@ -13,6 +13,9 @@ use the provided solution `engine.sln`.
 ##### linux
 * todo
 
+#### rules of contribution
+- PR musn't create memory leaks
+
 ## 2. code
 ### 2.1 contract
 make visible what the function requires and ensures after its execution.
