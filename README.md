@@ -13,6 +13,9 @@ use the provided solution `engine.sln`.
 ##### linux
 * todo
 
+#### rules of contribution
+- PR musn't create memory leaks
+
 ## 2. code
 ### 2.1 contract
 make visible what the function requires and ensures after its execution.
@@ -27,7 +30,7 @@ make guard-checks visible.
     Guard( <bool> ) return;
 
 ### 2.3 pointers
-raw pointers take no ownership in their objects. never `delete` a rawpointer! make sure that the ownership of every object created on the heap (`new`) is managed by a smartpointer. use `unique_ptr` (or it's alias `owner`) as default, and only if it makes sense use `shared_ptr` (or it's alias `shared_owner`).
+raw pointers are strictly forbidden! use either `owner<T>/weak<T>` for single ownership or `shared_ptr<T>/weak_ptr<T>` for shared ownership. Every object, unless a 3rd library promises to manage the life time of a raw pointer, has it's lifetime to be managed by a smart pointer.
 
 ## 3. design
 ### 3.1 utils
