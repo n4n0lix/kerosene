@@ -31,7 +31,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                                 TransactionalBuffer(uint32 objSize, uint32 objCapacity);
-
+                                                virtual ~TransactionalBuffer() = default;
 
             void                                commit_write();
             void                                commit_remove();

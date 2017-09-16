@@ -33,6 +33,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 				IDGen();
+                ~IDGen() = default;
 			
 	uint32	new_id();
 	void    put(uint32 id);

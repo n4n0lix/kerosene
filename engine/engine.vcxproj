@@ -39,7 +39,6 @@
     <ClInclude Include="source\engine\indexbuffer.h" />
     <ClInclude Include="source\engine\rendercomponent.h" />
     <ClInclude Include="source\engine\map.h" />
-    <ClInclude Include="source\engine\non_null.h" />
     <ClInclude Include="source\engine\nullable.h" />
     <ClInclude Include="source\engine\stackbuffer.h" />
     <ClInclude Include="source\engine\stackbuffertoken.h" />

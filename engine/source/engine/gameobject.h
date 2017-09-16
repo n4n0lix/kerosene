@@ -39,8 +39,8 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-            explicit GameObject();
-			~GameObject();
+            GameObject();
+            ~GameObject();
 
 	void			 set_rendercomponent(owner<RenderComponent> comp);
 	RenderComponent* get_rendercomponent();

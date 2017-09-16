@@ -22,6 +22,7 @@ class InputEngine
 public:
 
 			InputEngine();
+            ~InputEngine() = default;
 
     void on_start();
     void on_update();

@@ -29,6 +29,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            Vertex() = default;
+            virtual ~Vertex() = default;
 
     virtual VertexLayout  layout()      const = 0;
     virtual vector<float> data()        const = 0;

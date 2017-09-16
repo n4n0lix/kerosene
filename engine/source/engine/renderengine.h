@@ -51,9 +51,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-            explicit RenderEngine();
-            ~RenderEngine();
+            RenderEngine() = default;
+            virtual ~RenderEngine() = default;
 
     // GENERAL
     void on_start();
@@ -62,25 +61,31 @@ public:
 	bool is_exit_requested();
 
     // UTILITY
-    void        set_interpolation(float interpol);
-	GLWindow*   get_window();
+    void            set_interpolation(float interpol);
+	weak<GLWindow>  get_window();
+    owner<Texture>  load_texture(string filename, TextureOptions options = TextureOptions());
 
 	// RESOURCES
-	owner<Texture>      load_texture(string filename, TextureOptions options = TextureOptions());
-	s_ptr<Texture>      load_static_texture(string filename, TextureOptions options = TextureOptions());
+	weak<Texture>       add_texture(string filename, owner<Texture> texture);
+    weak<Texture>       get_texture(string name);
+    bool                has_texture(string name);
 
-	s_ptr<Shader>       load_shader(string filename);
-	s_ptr<Shader>       built_in_shader(string name, s_ptr<Shader> shader);
+    weak<Shader>        add_shader(string name, owner<Shader> shader);
+	weak<Shader>        get_shader(string name);
+    bool                has_shader(string name);
 
-	s_ptr<Material>     load_material(s_ptr<Shader> shader, s_ptr<Texture> texture);
+    weak<Material>      add_material(string name, owner<Material> material);
+    weak<Material>      get_material(string name);
+    bool                has_material(string name);
+
 
 	// RENDERING
 	template<class VERTEX>
-	s_ptr<VertexToken>  add_vertices(s_ptr<Material> material, list<VERTEX> vertices);
-	void                remove_vertices(s_ptr<VertexToken> token);
+	owner<VertexToken>  add_vertices(weak<Material> material, list<VERTEX> vertices);
+	void                remove_vertices(owner<VertexToken> token);
 
-	void                add_render(s_ptr<VertexToken> token);
-	void                remove_render(s_ptr<VertexToken> token);
+	void                add_render(weak<VertexToken> token);
+	void                remove_render(weak<VertexToken> token);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -94,15 +99,12 @@ private:
     // Test
     owner<Camera> _camera;
 
-	Map< string, w_ptr<Texture>>													_fileToTextures;    // Textures          owned by creator
+	map< string, owner<Texture> >	                            _textures;
+	map< string, owner<Shader> >	                            _shaders;
+    map< string, owner<Material> >                              _materials;
 
-	Map< string, w_ptr<Shader>>														_fileToShader;      // Shaders           owned by creators
-	Map< string, s_ptr<Shader>>														_builtinShaders;    // Built-in Shaders  owned by this
-
-	Map< pair<w_ptr<Shader>, w_ptr<Texture>>, w_ptr<Material>>						_materials;         // Materials         owned by creators
-
-	map< w_ptr<Material>,    s_ptr<IBatch>, std::owner_less<w_ptr<Material>>>		_materialToBatches; // Batches           owned by this
-	map< w_ptr<VertexToken>, s_ptr<IBatch>, std::owner_less<w_ptr<VertexToken>>>	_tokenToBatches;    // Batches           owned by this
+    map< weak<Material>,    owner<IBatch>, weak_less<Material>>     _batches;
+	map< weak<VertexToken>, weak<IBatch>,  weak_less<VertexToken>>	_batchTokenLookup;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -113,21 +115,22 @@ private:
 };
 
 template<class VERTEX>
-inline s_ptr<VertexToken> RenderEngine::add_vertices(s_ptr<Material> material, list<VERTEX> vertices)
+owner<VertexToken> RenderEngine::add_vertices(weak<Material> material, list<VERTEX> vertices)
 {
-	// #1.1 Get batch if already one exists...
-	s_ptr<Batch<VERTEX>> batch = dynamic_pointer_cast<Batch<VERTEX>>(_materialToBatches[material]);
-
-	// #1.2 ... or create a new one
-	if (batch == nullptr) {
-		batch = make_shared<Batch<VERTEX>>(material);
-		_materialToBatches[material] = batch;
+	// #1 Check if batch exists for material, otherwise instanciate one
+	if (_batches.count(material) == 0) {
+        owner<Batch<VERTEX>> batch = make_owner<Batch<VERTEX>>(material);
+        _batches.emplace(material, move(batch));
 	}
 
-	// #2 Add vertices to batch
-	s_ptr<VertexToken> token = batch->add_vertices(vertices);
-	_tokenToBatches[token] = batch;
-	return token;
+    // #2 Get batch and add vertices
+    weak<IBatch> ibatch = _batches[material].get_non_owner();
+
+    weak<Batch<VERTEX>> batch = static_weak_cast<Batch<VERTEX>>( ibatch );
+	owner<VertexToken> token  = batch->add_vertices(vertices);
+	_batchTokenLookup.emplace(token.get_non_owner(), ibatch);
+
+    return std::move(token);
 }
 
 ENGINE_NAMESPACE_END

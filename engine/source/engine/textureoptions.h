@@ -27,7 +27,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit TextureOptions();
+            TextureOptions();
+            ~TextureOptions() = default;
 
     TextureOptions&  filtering(TextureFiltering filtering);
     TextureFiltering filtering();

@@ -1,0 +1,30 @@
+
+# Ranger
+	- Trapper ( lawful )
+			~ Traps and catches animals alive (ravens, that are used for sending packages)
+	- Manhunter ( evil )
+			~ Traps and catches humans alive to make them slaves or sell
+	- Hunter ( lawful )
+			~ Read animal tracks and hunt them down for resources
+    
+# Farmer
+	- Gentleman farmer ( lawful )
+		. Have land with crops/trees, tender for peasents to collect the crops and give them a small margin
+	- Peasent ( lawful )
+		. Sign up at farms for field work and get a small margin for delivered products
+
+
+# Faithworker
+	- Priest ( lawful )
+		. for large fee can do a resurrect-contract (+5 light faith for resurrected)
+		. faith magic
+	- Necromancer ( evil )
+		. for small fee can do a resurrect-contract (+15 dark faith for resurrected)
+		. blood magic
+	- Shaman ( neutral )
+		. nature magic
+
+
+# Warrior
+	- Paladin ( lawful )
+			~ can only issue ressurection-contract by priest

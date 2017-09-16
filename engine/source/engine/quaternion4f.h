@@ -81,8 +81,9 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Quaternion4f();
-            explicit Quaternion4f(const float x, const float y, const float z, const float w);
+            Quaternion4f();
+            Quaternion4f(const float x, const float y, const float z, const float w);
+            ~Quaternion4f() = default;
 
     bool operator==(const Quaternion4f& o) const;
     bool operator!=(const Quaternion4f& o) const;

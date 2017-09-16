@@ -135,6 +135,7 @@
     <ClCompile Include="..\engine\source\engine\vertex_pt.cpp" />
     <ClCompile Include="..\engine\source\engine\_gl.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\test_owner.cpp" />
     <ClCompile Include="source\test_vertexbuffer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

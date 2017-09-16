@@ -29,6 +29,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit EngineConfiguration();
+            ~EngineConfiguration() = default;
 
     EngineConfiguration&        tickrate(uint32 tickRate);
     uint32                      getTickRate() const;

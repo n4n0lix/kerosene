@@ -31,6 +31,9 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                      Private Static                    */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    StringUtils() = default;
+    ~StringUtils() = default;
+
     static Logger LOGGER;
 };
 

@@ -36,7 +36,9 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit ShaderBuilder();
+            ShaderBuilder();
+            ~ShaderBuilder() = default;
+
 
     ShaderBuilder& vertexlayout(VertexLayout layout);
 

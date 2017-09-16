@@ -162,6 +162,7 @@ public:
                      float v20, float v21, float v22, float v23,
                      float v30, float v31, float v32, float v33);
             explicit Matrix4f(float diagonal);
+            ~Matrix4f() = default;
 
 
     bool operator==(Matrix4f& o) const;

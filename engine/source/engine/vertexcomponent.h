@@ -17,7 +17,11 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-struct VertexComponent {
+class VertexComponent {
+public:
+    VertexComponent() = default;
+    ~VertexComponent() = default;
+
     string type;
     string name;
     uint32 position;

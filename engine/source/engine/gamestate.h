@@ -34,6 +34,7 @@ class GameState
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
             explicit GameState();
+            ~GameState() = default;
 
     void start();
     void update();

@@ -18,7 +18,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-struct VertexLayout {
+class VertexLayout {
 private:
     uint32 _numComps;
     uint32 _bytesize;
@@ -36,6 +36,8 @@ public:
             _bytesize += component.bytesize();
         }
     }
+
+    ~VertexLayout() = default;
 
     vector<VertexComponent> components() const {
         return _components;

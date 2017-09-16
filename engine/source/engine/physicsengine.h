@@ -21,6 +21,7 @@ class PhysicsEngine
 
 public:
 			PhysicsEngine();
+            ~PhysicsEngine() = default;
 
     void on_start();
     void on_update();

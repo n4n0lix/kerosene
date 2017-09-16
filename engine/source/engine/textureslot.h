@@ -22,6 +22,7 @@ public:
     static const TextureSlot TEXTURE_NORMAL;
 
     TextureSlot(string name = string(""), uint32 slot = 0, int32 glTextureSlot = -1, int32 location = -1) :name(name), slot(slot), glTextureSlot(glTextureSlot), location(location) {}
+    ~TextureSlot() = default;
 
     string  name;
     uint32  slot;

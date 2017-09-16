@@ -38,7 +38,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit                Vertex_pt(Vector3f position = Vector3f(0, 0, 0), Vector2f texcoords = Vector2f(0, 0));
+                    Vertex_pt(Vector3f position = Vector3f(0, 0, 0), Vector2f texcoords = Vector2f(0, 0));
+                    virtual ~Vertex_pt() = default;
 
     virtual VertexLayout    layout()   const;
     virtual vector<float>   data()     const;

@@ -26,6 +26,7 @@ class LogicComponent : public Component
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
             explicit LogicComponent();
+            virtual ~LogicComponent() = default;
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

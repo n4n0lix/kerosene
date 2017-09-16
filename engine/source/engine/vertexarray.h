@@ -35,11 +35,11 @@ public:
                 explicit VertexArray(VertexLayout layout);
                 ~VertexArray();
 
-    s_ptr<VertexToken>					add_vertices(list<VERTEX> vertices);
-    void                                remove_vertices(s_ptr<VertexToken> token);
+    owner<VertexToken>					add_vertices(list<VERTEX> vertices);
+    void                                remove_vertices(owner<VertexToken> token);
 
-    void                                add_render_static(s_ptr<VertexToken> token);
-    void                                remove_render_static(s_ptr<VertexToken> token);
+    void                                add_render_static(weak<VertexToken> token);
+    void                                remove_render_static(weak<VertexToken> token);
 
     void                                render();
 protected:
@@ -60,12 +60,11 @@ private:
 
     GLuint _vaoId;
 
-    vector<s_ptr<VertexToken>>     _vertexTokens;
     VertexLayout                   _layout;
     owner<VertexBuffer<VERTEX>>    _vertexBuffer;
     owner<IndexBuffer>             _indexBuffer;
 
-    list<s_ptr<VertexToken>>       _toAddToIndexBuffer;
+    list<weak<VertexToken>>       _toAddToIndexBuffer;
 
     uint32 _vertexTokenNextId;
 
@@ -90,8 +89,8 @@ VertexArray<VERTEX>::VertexArray(VertexLayout layout) : _vertexTokenNextId(0), _
     LOGGER.log(Level::DEBUG, _vaoId) << "CREATE" << endl;
 
     // #2 Create VBO and IxBO
-    set_vertexbuffer(make_unique<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ));
-    set_indexbuffer(make_unique<IndexBuffer>( DEFAULT_INDEXBUFFER_SIZE ));
+    set_vertexbuffer( make_owner<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ) );
+    set_indexbuffer( make_owner<IndexBuffer>( DEFAULT_INDEXBUFFER_SIZE ) );
 }
 
 template<class VERTEX>
@@ -102,12 +101,12 @@ VertexArray<VERTEX>::~VertexArray()
 }
 
 template<class VERTEX>
-s_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(list<VERTEX> vertices) {
+owner<VertexToken> VertexArray<VERTEX>::add_vertices(list<VERTEX> vertices) {
     // 1# Add vertices
-    s_ptr<VertexBufferToken> vertexBufferToken = _vertexBuffer->add_vertices( vertices );
+    shared<VertexBufferToken> vertexBufferToken = _vertexBuffer->add_vertices( vertices );
 
     // 2# Assemble VertexToken
-    s_ptr<VertexToken> vertexToken = make_shared<VertexToken>(_vertexTokenNextId++);
+    owner<VertexToken> vertexToken = make_owner<VertexToken>(_vertexTokenNextId++);
     vertexToken->set_vertexbuffer_token( vertexBufferToken );
 
     // X# Contract Post
@@ -115,11 +114,11 @@ s_ptr<VertexToken> VertexArray<VERTEX>::add_vertices(list<VERTEX> vertices) {
     Ensures( vertexBufferToken != nullptr );
     Ensures( _vertexBuffer->contains(vertexBufferToken) );
 
-    return vertexToken;
+    return std::move( vertexToken );
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::remove_vertices(s_ptr<VertexToken> token) {
+void VertexArray<VERTEX>::remove_vertices(owner<VertexToken> token) {
     // 0# Contract Pre
     Requires( token != nullptr );
     Requires( token->vertexbuffer_token() != nullptr );
@@ -132,31 +131,33 @@ void VertexArray<VERTEX>::remove_vertices(s_ptr<VertexToken> token) {
     // 2# Remove from vertexbuffer
     _vertexBuffer->remove_vertices( token->vertexbuffer_token() );
 
+    // 3# Destroy token
+    token.destroy();
+
     // X# Contract Post
-    Ensures( _vertexBuffer );
     Ensures( !_vertexBuffer->contains(token->vertexbuffer_token()) );
     // TODO: Ensure token not in indexbuffer
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::add_render_static(s_ptr<VertexToken> token)
+void VertexArray<VERTEX>::add_render_static(weak<VertexToken> token)
 {
     // 0# Contract Pre
-    Requires(token != nullptr);
-    Requires(token->vertexbuffer_token() != nullptr);
+    Requires( token.is_valid() )
+    Requires( token != nullptr );
+    Requires( token->vertexbuffer_token() != nullptr );
 
     _toAddToIndexBuffer.add( token );
 }
 
 template<class VERTEX>
-void VertexArray<VERTEX>::remove_render_static(s_ptr<VertexToken> token)
+void VertexArray<VERTEX>::remove_render_static(weak<VertexToken> token)
 {
     // 0# Contract Pre
+    Requires( token.is_valid() )
     Requires( token != nullptr );
-    // TODO: Requires indexBufferToken is in indexbuffer
-
-    // 1# Guards
-    Guard( !token->indexbuffer_token() ) return;
+    Requires( _indexBuffer->contains(token->indexbuffer_token())
+                || _toAddToIndexBuffer.contains(token) );
 
     // 2# If indices aren't in indexbuffer yet but in queue for it, just remove them from the queue.
     if (_toAddToIndexBuffer.contains( token )) {
@@ -168,8 +169,8 @@ void VertexArray<VERTEX>::remove_render_static(s_ptr<VertexToken> token)
     _indexBuffer->remove_indices( token->indexbuffer_token() );
 
     // X# Contract Post
-    // TODO:
-    // Ensure token is not in indexbuffer
+    Ensures( !_indexBuffer->contains(token->indexbuffer_token()) );
+    Ensures( !_toAddToIndexBuffer.contains(token) );
 }
 
 template<class VERTEX>

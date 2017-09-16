@@ -7,11 +7,6 @@ using namespace ENGINE_NAMESPACE;
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-TestGameState::TestGameState() : GameState()
-{
-
-}
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Protected                       */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -20,8 +15,8 @@ void TestGameState::on_start()
 {
     get_renderengine()->get_window()->set_title("kerosene - Test");
 
-    owner<GameObject> gameObject	= make_unique<GameObject>();
-	gameObject->set_rendercomponent( move( make_unique<TestRenderComponent>() ));
+    owner<GameObject> gameObject = make_owner<GameObject>();
+	gameObject->set_rendercomponent( std::move( make_owner<TestRenderComponent>() ));
 	add_gameobject( move(gameObject) );
 }
 

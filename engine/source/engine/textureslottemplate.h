@@ -23,6 +23,9 @@ public:
     static const TextureSlotTemplate TEXTURE_DIFFUSE;
     static const TextureSlotTemplate TEXTURE_NORMAL;
 
+    TextureSlotTemplate() = default;
+    ~TextureSlotTemplate() = default;
+
     TextureSlot to_textureslot();
 
     string  name;

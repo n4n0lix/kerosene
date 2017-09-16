@@ -24,6 +24,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                 BufferToken(uint32 id, void* buffer);
+                                virtual ~BufferToken() = default;
 
     void*                       get_buffer();
     uint32                      get_id();

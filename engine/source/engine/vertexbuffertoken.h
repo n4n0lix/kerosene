@@ -22,6 +22,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                 VertexBufferToken(uint32 id, void* buffer);
+                ~VertexBufferToken() = default;
 
     uint32      range_id();
     void        set_range_id(uint32 rangeId);

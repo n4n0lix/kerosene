@@ -27,7 +27,8 @@ class RenderComponent : public Component
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-    explicit RenderComponent();
+            RenderComponent();
+            virtual ~RenderComponent() = default;
 
 	void init(RenderEngine* engine);
 	void render();

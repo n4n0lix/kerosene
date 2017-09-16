@@ -26,7 +26,8 @@ class Transform
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-            explicit Transform();
+            Transform();
+            ~Transform() = default;
 
     Matrix4f toMatrix4f();
 

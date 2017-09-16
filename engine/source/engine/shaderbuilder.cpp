@@ -55,7 +55,7 @@ ShaderBuilder& ShaderBuilder::frag_source(string fscode)
 
 owner<Shader> ShaderBuilder::build() const
 {
-    owner<Shader> shader(new Shader());
+    owner<Shader> shader = make_owner<Shader>();
 
     // SHADER CODE
     GLuint vertexShaderId = create_shader(GL_VERTEX_SHADER);

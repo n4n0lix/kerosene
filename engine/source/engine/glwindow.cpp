@@ -28,6 +28,10 @@ GLWindow::GLWindow(const string title, const int32_t width, const int32_t height
     show();
 }
 
+GLWindow::~GLWindow() {
+    glfwDestroyWindow(_handle.get());
+}
+
 void GLWindow::show()
 {
     glfwShowWindow(_handle.get());

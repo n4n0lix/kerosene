@@ -23,7 +23,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                      Buffer(uint32 objSize, uint32 objCapacity);
-
+                                     virtual ~Buffer() = default;
 
             uint32                   object_size() const;
             uint32                   object_capacity() const;

@@ -39,7 +39,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit                Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
+                    Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
+                    virtual ~Vertex_pc() = default;
 
     virtual VertexLayout    layout()   const;
     virtual vector<float>   data()     const;

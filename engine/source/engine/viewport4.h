@@ -37,11 +37,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Viewport4();
-            explicit Viewport4(const TYPE x, const TYPE y);
-            explicit Viewport4(const TYPE x, const TYPE y, const TYPE w);
-            explicit Viewport4(const TYPE x, const TYPE y, const TYPE w, const TYPE h);
-
+            Viewport4();
+            Viewport4(const TYPE x, const TYPE y);
+            Viewport4(const TYPE x, const TYPE y, const TYPE w);
+            Viewport4(const TYPE x, const TYPE y, const TYPE w, const TYPE h);
+            ~Viewport4() = default;
 
     bool operator==(const Viewport4& o) const;
     bool operator!=(const Viewport4& o) const;

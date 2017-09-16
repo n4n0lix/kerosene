@@ -25,6 +25,9 @@ enum class ImageFormat {
 
 class Image {
 public:
+    Image() = default;
+    ~Image() = default;
+
     uint32          width;
     uint32          height;
     uint32          bpp; // Bytes per pixels
@@ -52,6 +55,9 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                      Private Static                    */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    ImageUtils() = default;
+    ~ImageUtils() = default;
+
     static Logger LOGGER;
 };
 

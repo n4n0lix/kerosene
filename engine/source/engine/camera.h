@@ -31,6 +31,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
               Camera();
+              ~Camera() = default;
 
     void        set_eye( Vector3f eye );
     Vector3f    get_eye();

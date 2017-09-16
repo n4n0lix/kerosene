@@ -6,24 +6,24 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Material::Material(shared_ptr<Shader> shader, shared_ptr<Texture> tex)
+Material::Material(weak<Shader> shader, weak<Texture> tex)
 {
     _shader = shader;
     _textureDiffuse = tex;
 }
 
-shared_ptr<Shader> Material::get_shader() const
+weak<Shader> Material::get_shader() const
 {
     return _shader;
 }
 
-shared_ptr<Texture> Material::get_texture() const
+weak<Texture> Material::get_texture() const
 {
     return _textureDiffuse;
 }
 
 void Material::bind() const {
-    if (_shader != nullptr) {
+    if (_shader.is_valid() && _shader != nullptr) {
         _shader->bind();
         if (_textureDiffuse != nullptr) {
             // TEXTURE_DIFFUSE

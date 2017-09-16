@@ -36,7 +36,7 @@ ENGINE_NAMESPACE_BEGIN
 
 template<class T>
 struct WriteOp {
-    s_ptr<VertexBufferToken>    token;
+    shared<VertexBufferToken>    token;
     list<T>                     vertices;
 };
 
@@ -100,11 +100,10 @@ private:
 
     Map<uint32, Range>    _freeRanges;
     Map<uint32, Range>    _usedRanges;
-    Map<s_ptr<VertexBufferToken>, list<T>> _writeBucket;
-    //map<s_ptr<VertexBufferToken>, list<T>> _writeBucket2;
+    Map<shared<VertexBufferToken>, list<T>> _writeBucket;
 
-    list<s_ptr<VertexBufferToken>>      _removeBucket;
-    list<s_ptr<VertexBufferToken>>      _tokens;
+    list<shared<VertexBufferToken>>      _removeBucket;
+    list<shared<VertexBufferToken>>      _tokens;
 
     IDGen                 _rangeIDGen;
     IDGen                 _tokenIDGen;
@@ -133,8 +132,8 @@ VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) {
 
     // 2# Buffer Mgmt
     auto initialRange = Range(0, _atomCapacity);
-    _freeRanges.put(_rangeIDGen.new_id(), initialRange);
-    LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size() << endl;
+    _freeRanges.put(_rangeIDGen.new_id(), initialRange); 
+    LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size() << "\n";
 
     // 3# OpenGL
     _vboId = createVBO(_atomCapacity);
@@ -166,7 +165,7 @@ shared_ptr<VertexBufferToken> VertexBuffer<T>::add_vertices(list<T> vertices)
     Requires(!vertices.empty());
 
     // 2# Create token
-    s_ptr<VertexBufferToken> token = make_shared<VertexBufferToken>( _tokenIDGen.new_id(), this);
+    shared<VertexBufferToken> token = make_shared<VertexBufferToken>( _tokenIDGen.new_id(), this);
 
     // 3# Store in write bucket
     _writeBucket.put(token, std::move(vertices));
@@ -177,7 +176,7 @@ shared_ptr<VertexBufferToken> VertexBuffer<T>::add_vertices(list<T> vertices)
 }
 
 template<class T>
-void VertexBuffer<T>::remove_vertices(s_ptr<VertexBufferToken> token)
+void VertexBuffer<T>::remove_vertices(shared<VertexBufferToken> token)
 {
     // 0# Contract pre
     Requires(token != nullptr);
@@ -193,7 +192,7 @@ void VertexBuffer<T>::remove_vertices(s_ptr<VertexBufferToken> token)
 }
 
 template<class T>
-const list<s_ptr<VertexBufferToken>>& VertexBuffer<T>::get_tokens()
+const list<shared<VertexBufferToken>>& VertexBuffer<T>::get_tokens()
 {
     return _tokens;
 }

@@ -122,7 +122,7 @@
         using std::static_pointer_cast;
 
         template <typename T> 
-        using s_ptr = std::shared_ptr<T>;
+        using shared = std::shared_ptr<T>;
         template <typename T>
         using w_ptr = std::weak_ptr<T>;
 
@@ -207,3 +207,12 @@
 #define UINT16_BYTES 2
 #define UINT32_BYTES 4
 #define UINT64_BYTES 8
+
+// MEMORY LEAK DETECTION
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif

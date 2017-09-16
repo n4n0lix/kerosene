@@ -22,6 +22,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             TB_WriteOp(uint32 uid, shared_ptr<BufferToken> token, list<OBJECT> objects);
+            ~TB_WriteOp() = default;
 
     uint32                      uid();
     shared_ptr<BufferToken>     token();

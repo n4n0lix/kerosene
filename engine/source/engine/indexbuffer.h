@@ -27,7 +27,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                                        IndexBuffer(uint32 initCapacity);
+                                        explicit IndexBuffer(uint32 initCapacity);
+                                        virtual ~IndexBuffer() = default;
 
             GLuint                      get_id();
 

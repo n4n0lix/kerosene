@@ -34,6 +34,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                                             StackBuffer(uint32 objSize, uint32 objCapacity);
+                                            virtual ~StackBuffer() = default;
 
     using                                   TransactionalBuffer<T>::commit_write;
     using                                   TransactionalBuffer<T>::commit_remove;

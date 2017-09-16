@@ -46,6 +46,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
             explicit Engine(EngineConfiguration& config);
+            ~Engine() = default;
 
     int run();
 

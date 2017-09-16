@@ -32,6 +32,7 @@ public:
             explicit EngineException(const char* msg);
             explicit EngineException(const std::exception& e);
 
+            ~EngineException() = default;
 };
 
 ENGINE_NAMESPACE_END

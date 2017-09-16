@@ -225,9 +225,6 @@
     <ClInclude Include="source\engine\stackbuffertoken.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\non_null.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\vertextoken.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>

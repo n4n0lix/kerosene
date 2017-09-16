@@ -21,6 +21,7 @@ class LogicEngine
 
 public:
 			LogicEngine();
+            ~LogicEngine() = default;
 
     void on_start();
     void on_update();

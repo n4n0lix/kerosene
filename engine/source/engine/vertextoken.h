@@ -18,7 +18,8 @@ ENGINE_NAMESPACE_BEGIN
 
 class VertexToken {
 public:
-    VertexToken(uint32 id);
+            explicit VertexToken(uint32 id);
+            ~VertexToken() = default;
 
     uint32                  id();
 

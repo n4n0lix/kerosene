@@ -22,6 +22,7 @@ class NetworkEngine
 public:
 
 			NetworkEngine();
+            ~NetworkEngine() = default;
 
     void on_start();
     void on_update();

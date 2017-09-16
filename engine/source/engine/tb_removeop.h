@@ -28,6 +28,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             TB_RemoveOp(uint32 id, shared_ptr<BufferToken> token);
+            ~TB_RemoveOp() = default;
 
     uint32                      id();
     shared_ptr<BufferToken>     token();

@@ -25,11 +25,11 @@ Engine::Engine(EngineConfiguration& config)
     _gameState = move( config.claimGameState() );
 
     // Render
-    _render  = make_unique<RenderEngine>();
-    _logic   = make_unique<LogicEngine>();
-    _input   = make_unique<InputEngine>();
-    _physics = make_unique<PhysicsEngine>();
-    _network = make_unique<NetworkEngine>();
+    _render  = make_owner<RenderEngine>();
+    _logic   = make_owner<LogicEngine>();
+    _input   = make_owner<InputEngine>();
+    _physics = make_owner<PhysicsEngine>();
+    _network = make_owner<NetworkEngine>();
 
     // Post-Conditions
     Ensures( _tickTime > 0 );

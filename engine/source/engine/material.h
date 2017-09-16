@@ -21,7 +21,7 @@ ENGINE_NAMESPACE_BEGIN
 
 class Material
 {
-    friend class AssetManager;
+
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
@@ -30,20 +30,21 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit Material(shared_ptr<Shader> shader, shared_ptr<Texture> tex = nullptr);
+            Material(weak<Shader> shader, weak<Texture> tex = nullptr);
+            ~Material() = default;
 
-    shared_ptr<Shader>  get_shader() const;
-    shared_ptr<Texture> get_texture() const;
+    weak<Shader>  get_shader() const;
+    weak<Texture> get_texture() const;
 
-    void                bind() const;
+    void          bind() const;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    shared_ptr<Shader>  _shader;
-    shared_ptr<Texture> _textureDiffuse;
+    weak<Shader>  _shader;
+    weak<Texture> _textureDiffuse;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

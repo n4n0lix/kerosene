@@ -31,8 +31,9 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Vector2f();
-            explicit Vector2f(const float x, const float y);
+            Vector2f();
+            Vector2f(const float x, const float y);
+            ~Vector2f() = default;
             
     bool     isUnit();
     bool     isZero();

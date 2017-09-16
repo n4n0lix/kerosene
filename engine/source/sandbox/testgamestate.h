@@ -23,7 +23,8 @@ class TestGameState : public GameState
 {
 
 public:
-    explicit TestGameState();
+    TestGameState() = default;
+    virtual ~TestGameState() = default;
 
 protected:
     virtual void on_start();

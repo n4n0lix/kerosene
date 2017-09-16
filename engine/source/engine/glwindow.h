@@ -33,6 +33,8 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             explicit GLWindow(const string title="Kerosine Engine", const int32_t width=800, const int32_t height=600);
+            ~GLWindow();
+
 
      void    show();
      void    hide();

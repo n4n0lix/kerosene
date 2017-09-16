@@ -23,8 +23,9 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    Range();
-    Range(uint32 start, uint32 length);
+            Range();
+            Range(uint32 start, uint32 length);
+            ~Range() = default;
 
     uint32  start();
     uint32  length();

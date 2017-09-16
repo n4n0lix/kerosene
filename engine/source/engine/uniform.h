@@ -24,6 +24,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     Uniform()                                               : type(""), name(""), location(-1) { }
     Uniform(string type, string name , int32 location = -1) : type(type), name(name), location(location) { }
+    ~Uniform() = default;
 
     string  type;
     string  name;

@@ -33,8 +33,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-			TestRenderComponent();
-
+			TestRenderComponent() = default;
+            virtual ~TestRenderComponent() = default;
 protected:
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	/*                       Protected                        */
@@ -51,13 +51,13 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	shared_ptr<Material> _materialDiff;
-	shared_ptr<Material> _materialTex;
+    weak<Material> _materialDiff;
+    weak<Material> _materialTex;
 
-	shared_ptr<VertexToken> _tokenTriangle1;
-	shared_ptr<VertexToken> _tokenTriangle2;
-	shared_ptr<VertexToken> _tokenTriangle3;
-	shared_ptr<VertexToken> _tokenTriangle4;
+	owner<VertexToken> _tokenTriangle1;
+    owner<VertexToken> _tokenTriangle2;
+    owner<VertexToken> _tokenTriangle3;
+    owner<VertexToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END

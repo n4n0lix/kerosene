@@ -149,7 +149,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     fclose( ptrFile );
     
     // X# Return Image
-    owner<Image> result = make_unique<Image>();
+    owner<Image> result = make_owner<Image>();
     result->width       = imgWidth;
     result->height      = imgHeight;
     result->format      = imgFormat;

@@ -30,6 +30,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     UniformTemplate(string type, string name) : type(type), name(name) {}
+    ~UniformTemplate() = default;
 
     Uniform to_uniform() { return Uniform(type, name); }
 

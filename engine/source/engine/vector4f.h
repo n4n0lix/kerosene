@@ -44,11 +44,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Vector4f();
-            explicit Vector4f(const float x, const float y);
-            explicit Vector4f(const float x, const float y, const float z);
-            explicit Vector4f(const float x, const float y, const float z, const float w);
-
+            Vector4f();
+            Vector4f(const float x, const float y);
+            Vector4f(const float x, const float y, const float z);
+            Vector4f(const float x, const float y, const float z, const float w);
+            ~Vector4f() = default;
 
     bool     isUnit();
     bool     isZero();

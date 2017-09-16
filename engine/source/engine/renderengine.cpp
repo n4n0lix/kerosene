@@ -7,16 +7,6 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-RenderEngine::RenderEngine()
-{
-
-}
-
-RenderEngine::~RenderEngine()
-{
-    
-}
-
 void RenderEngine::on_start()
 {
     if (!glfwInit()) {
@@ -31,7 +21,7 @@ void RenderEngine::on_start()
 
 	setup_builtin_shaders();
 
-	_camera = make_unique<Camera>();
+	_camera = make_owner<Camera>();
 }
 
 void RenderEngine::on_render(list<GameObject*> gameObjects)
@@ -55,16 +45,8 @@ void RenderEngine::on_render(list<GameObject*> gameObjects)
 	}
 
 	// #3 Render batches
-	list<s_ptr<IBatch>> batches = list<s_ptr<IBatch>>();
-
-	for (pair<w_ptr<Material>, s_ptr<IBatch>> entry : _materialToBatches) {
-		if (!batches.contains(entry.second)) {
-			batches.add(entry.second);
-		}
-	}
-
-	for each (s_ptr<IBatch> batch in batches)
-		batch->render();
+    for (auto it = _batches.begin(); it != _batches.end(); ++it)
+        it->second->render();	
 
     _mainWindow->swap_buffers();
 
@@ -75,9 +57,13 @@ void RenderEngine::on_render(list<GameObject*> gameObjects)
 void RenderEngine::on_shutdown()
 {
 	// Release OPEN GL Resources
-	_builtinShaders.clear();
-	_materialToBatches.clear();
-	_tokenToBatches.clear();
+    // Clear Shaders
+    _shaders.clear();
+    _textures.clear();
+    _materials.clear();
+    _batches.clear();
+
+    _batchTokenLookup.clear();
 
 	glfwTerminate();
 }
@@ -87,9 +73,9 @@ void RenderEngine::set_interpolation(float interpol)
     // TODO Implement
 }
 
-GLWindow* RenderEngine::get_window()
+weak<GLWindow> RenderEngine::get_window()
 {
-    return _mainWindow.get();
+    return _mainWindow.get_non_owner();
 }
 
 bool RenderEngine::is_exit_requested()
@@ -97,101 +83,108 @@ bool RenderEngine::is_exit_requested()
     return  _mainWindow->close_requested();
 }
 
-void RenderEngine::remove_vertices(s_ptr<VertexToken> token)
+// VERTICES
+void RenderEngine::remove_vertices(owner<VertexToken> token)
 {
-	s_ptr<IBatch> batch = _tokenToBatches[token];
+	weak<IBatch> batch = _batchTokenLookup[token.get_non_owner()];
 
 	if (batch != nullptr) {
-		batch->remove_vertices(token);
+		batch->remove_vertices(std::move( token ));
 	}
 }
 
-void RenderEngine::add_render(s_ptr<VertexToken> token)
+void RenderEngine::add_render(weak<VertexToken> token)
 {
-	s_ptr<IBatch> batch = _tokenToBatches[token];
+    Guard( token.is_valid() ) return;
+
+    weak<IBatch> batch = _batchTokenLookup[token];
 
 	if (batch != nullptr) {
 		batch->add_render(token);
 	}
 }
 
-void RenderEngine::remove_render(s_ptr<VertexToken> token)
+void RenderEngine::remove_render(weak<VertexToken> token)
 {
-	s_ptr<IBatch> batch = _tokenToBatches[token];
+    Guard(token.is_valid()) return;
+
+    weak<IBatch> batch = _batchTokenLookup[token];
 
 	if (batch != nullptr) {
 		batch->remove_render(token);
 	}
 }
 
-s_ptr<Texture> RenderEngine::load_static_texture(string filename, TextureOptions options)
-{
-
-	// 1# Check if texture is already loaded. TODO: This currently ignores texture options
-	w_ptr<Texture> weak = _fileToTextures.get(filename);
-	if (!weak.expired()) {
-		return weak.lock();
-	}
-
-	// 2# Load Texture
-	s_ptr<Texture> texture = s_ptr<Texture>( load_texture(filename, options).release() );
-	_fileToTextures.put(filename, texture);
-	return texture;
-}
-
-/**
- * <summary>Simply loads a texture.</summary>  
- * <returns>
- */
+// TEXTURE
 owner<Texture> RenderEngine::load_texture(string filename, TextureOptions options)
 {
-	owner<Image> image;
-
-	if (StringUtils::ends_with(filename, ".png"))
-		image = ImageUtils::load_png(filename);
-	else
-		LOGGER.log(Level::ERROR) << "Unsupported filetype: " << filename << endl;
-
-	return move( make_unique<Texture>(image.get(), options) );
+    owner<Image> image;
+    
+    if (StringUtils::ends_with(filename, ".png"))
+        image = ImageUtils::load_png(filename);
+    else
+        LOGGER.log(Level::ERROR) << "Unsupported filetype: " << filename << endl;
+    
+    return make_owner<Texture>(image.get(), options);
 }
 
-s_ptr<Shader> RenderEngine::load_shader(string filename)
+weak<Texture> RenderEngine::add_texture(string name, owner<Texture> texture)
 {
-	s_ptr<Shader> shader;
+    _textures.emplace(name, std::move(texture) );
+    return _textures[name].get_non_owner();
+}
 
-	// 1# Check if shader is already loaded. TODO: This currently ignores texture options
-	w_ptr<Shader> weak = _fileToShader.get(filename);
-	if (!weak.expired()) {
-		return weak.lock();
-	}
+weak<Texture> RenderEngine::get_texture(string name)
+{
+    if (_textures.count(name) == 1) {
+        return _textures[name].get_non_owner();
+    }
 
-	if (shader != nullptr) {
-		return shader;
-	}
+    return nullptr;
+}
 
-	// 2# Try to load from built-in-shaders
-	s_ptr<Shader> builtIn = _builtinShaders.get(filename);
-	if (builtIn != nullptr) {
-		return builtIn;
-	}
+bool RenderEngine::has_texture(string name) {
+    return _textures.count(name) == 1;
+}
 
-	// 3# Load Shader from file
-	// TODO:
+// SHADER
+weak<Shader> RenderEngine::add_shader(string name, owner<Shader> shader)
+{
+    _shaders.emplace(name, std::move(shader));
+    return _shaders[name].get_non_owner();
+}
 
-	LOGGER.log(Level::WARN) << "Shader '" << filename << "' not found!";
+weak<Shader> RenderEngine::get_shader(string name)
+{
+    if (_shaders.count(name) == 1) {
+        return _shaders[name].get_non_owner();
+    }
 
 	return nullptr;
 }
 
-s_ptr<Material> RenderEngine::load_material(s_ptr<Shader> shader, s_ptr<Texture> texture)
-{
-	return s_ptr<Material>();
+bool RenderEngine::has_shader(string name) {
+    return _shaders.count(name) == 1;
 }
 
-s_ptr<Shader> RenderEngine::built_in_shader(string filename, s_ptr<Shader> shader)
+// MATERIAL
+weak<Material> RenderEngine::add_material(string name, owner<Material> material)
 {
-	_builtinShaders.put(filename, shader);
-	return shader;
+    _materials.emplace(name, std::move(material));
+    return _materials[name].get_non_owner();
+}
+
+weak<Material> RenderEngine::get_material(string name)
+{
+    if (_materials.count(name) == 1) {
+        return _materials[name].get_non_owner();
+    }
+
+    return nullptr;
+}
+
+bool RenderEngine::has_material(string name) {
+    return _materials.count(name) == 1;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -200,7 +193,7 @@ s_ptr<Shader> RenderEngine::built_in_shader(string filename, s_ptr<Shader> shade
 
 void RenderEngine::init_context_and_window()
 {
-    _mainWindow = std::make_unique<GLWindow>("Test", 800, 600);
+    _mainWindow = make_owner<GLWindow>("Test", 800, 600);
     _mainWindow->set_x(800);
     _mainWindow->set_y(300);
     _mainWindow->make_current();
@@ -235,14 +228,14 @@ void RenderEngine::setup_builtin_shaders()
 		<< "    out_color = fs_color;\n"
 		<< "}\n";
 
-	s_ptr<Shader> colorShader = ShaderBuilder()
+	owner<Shader> colorShader = ShaderBuilder()
 		.vertex_uniform("mat4", "uni_wvp")
 		.vertexlayout(pcLayout)
 		.vertex_source(csVertexShader.str())
 		.frag_source(csFragmentShader.str())
 		.build();
 
-	built_in_shader("builtin_diffuse", colorShader);
+	add_shader("builtin_diffuse", std::move( colorShader ));
 
 	// TEXTURE SHADER
 	///////////
@@ -265,7 +258,7 @@ void RenderEngine::setup_builtin_shaders()
 		<< "    out_color = texture(" << TextureSlotTemplate::TEXTURE_DIFFUSE.name << ", fs_texcoords);\n"
 		<< "}\n";
 
-	s_ptr<Shader> texShader = ShaderBuilder()
+	owner<Shader> texShader = ShaderBuilder()
 		.vertex_uniform("mat4", "uni_wvp")
 		.frag_texture_slot(TextureSlotTemplate::TEXTURE_DIFFUSE)
 		.vertexlayout(ptLayout)
@@ -273,7 +266,7 @@ void RenderEngine::setup_builtin_shaders()
 		.frag_source(tsFragmentShader.str())
 		.build();
 
-	built_in_shader("builtin_texture", texShader);
+	add_shader("builtin_texture", std::move( texShader ));
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

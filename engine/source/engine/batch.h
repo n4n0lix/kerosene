@@ -31,12 +31,13 @@ class IBatch
 {
 public :
 
-    virtual void                    remove_vertices(s_ptr<VertexToken> token) = 0;
+    virtual             ~IBatch() = default;
+    virtual void                    remove_vertices(owner<VertexToken> token) = 0;
 
-    virtual void                    add_render(s_ptr<VertexToken> token)      = 0;
-    virtual void                    remove_render(s_ptr<VertexToken> token)   = 0;
+    virtual void                    add_render(weak<VertexToken> token)      = 0;
+    virtual void                    remove_render(weak<VertexToken> token)   = 0;
 
-    virtual void                    set_view_matrix(Matrix4f viewMatrix)           = 0;
+    virtual void                    set_view_matrix(Matrix4f viewMatrix)      = 0;
 
     virtual void                    render() = 0;
 };
@@ -48,13 +49,14 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-              explicit Batch(s_ptr<Material> material);
+              explicit Batch(weak<Material> material);
+              virtual ~Batch() = default;
 
-            s_ptr<VertexToken>     add_vertices(list<VERTEX> vertices);
-    virtual void                   remove_vertices(s_ptr<VertexToken> token);
+            owner<VertexToken>     add_vertices(list<VERTEX> vertices);
+    virtual void                   remove_vertices(owner<VertexToken> token);
     
-    virtual void                   add_render(s_ptr<VertexToken> token);
-    virtual void                   remove_render(s_ptr<VertexToken> token);
+    virtual void                   add_render(weak<VertexToken> token);
+    virtual void                   remove_render(weak<VertexToken> token);
     
     virtual void                   set_view_matrix(Matrix4f viewMatrix);
 
@@ -72,7 +74,7 @@ private:
 
     owner<VertexArray<VERTEX>> _vao;
 
-    s_ptr<Material> _material;
+    weak<Material> _material;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -85,31 +87,33 @@ private:
 /*                        Public                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 template<class VERTEX>
-Batch<VERTEX>::Batch(s_ptr<Material> material) {
+Batch<VERTEX>::Batch(weak<Material> material) {
+    if (!material.is_valid() || material == nullptr) throw std::exception("Material is null!");
+
     _material = material;
-    _vao = make_unique<VertexArray<VERTEX>>(material->get_shader()->get_vertex_layout());
+    _vao = make_owner<VertexArray<VERTEX>>(material->get_shader()->get_vertex_layout());
 }
 
 template<class VERTEX>
-s_ptr<VertexToken> Batch<VERTEX>::add_vertices(list<VERTEX> vertices)
+owner<VertexToken> Batch<VERTEX>::add_vertices(list<VERTEX> vertices)
 {
     return _vao->add_vertices( vertices );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_vertices(s_ptr<VertexToken> token)
+void Batch<VERTEX>::remove_vertices(owner<VertexToken> token)
 {
-    _vao->remove_vertices( token );
+    _vao->remove_vertices( std::move( token ));
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::add_render(s_ptr<VertexToken> token)
+void Batch<VERTEX>::add_render(weak<VertexToken> token)
 {
     _vao->add_render_static( token );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_render(s_ptr<VertexToken> token)
+void Batch<VERTEX>::remove_render(weak<VertexToken> token)
 {
     _vao->remove_render_static(token);
 }
@@ -122,7 +126,10 @@ inline void Batch<VERTEX>::set_view_matrix(Matrix4f viewMatrix)
 template<class VERTEX>
 void Batch<VERTEX>::render()
 {
-    _material->bind();
+    if (_material.is_valid()) {
+        _material->bind();
+    }
+    
     _vao->render();
 }
 

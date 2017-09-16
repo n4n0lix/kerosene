@@ -45,10 +45,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Vector3f();
-            explicit Vector3f(const float x, const float y);
-            explicit Vector3f(const float x, const float y, const float z);
-            
+            Vector3f();
+            Vector3f(const float x, const float y);
+            Vector3f(const float x, const float y, const float z);
+            ~Vector3f() = default;
+
     bool     isUnit();
     bool     isZero();
     bool operator==(const Vector3f& o) const;

@@ -21,6 +21,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
                 StackBufferToken(uint32 id, void* buffer);
+                virtual ~StackBufferToken() = default;
 
     uint32      range_id();
     void        set_range_id(uint32 rangeId);
