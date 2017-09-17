@@ -11,8 +11,6 @@
 // Other Includes
 
 // Std-Extensions
-#include "list.h"
-#include "map.h"
 
 // Internal Includes
 #include "_gl.h"
@@ -96,8 +94,8 @@ private:
 
     VertexLayout          _layout;
 
-    Map<uint32, Range>    _freeRanges;
-    Map<uint32, Range>    _usedRanges;
+    map<uint32, Range>    _freeRanges;
+    map<uint32, Range>    _usedRanges;
 
     map<weak<VertexBufferToken>, vector<T>, weak_less<VertexBufferToken>> _writeBucket;
 
@@ -106,7 +104,7 @@ private:
 
     IDGen                 _rangeIDGen;
     IDGen                 _tokenIDGen;
-IDGen                 _writeOpIDGen;
+    IDGen                 _writeOpIDGen;
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                     Private Static                     */
@@ -131,7 +129,7 @@ VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) {
 
     // 2# Buffer Mgmt
     auto initialRange = Range(0, _atomCapacity);
-    _freeRanges.put(_rangeIDGen.new_id(), initialRange);
+    _freeRanges[ _rangeIDGen.new_id() ] = initialRange;
     LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size() << "\n";
 
     // 3# OpenGL
@@ -327,10 +325,10 @@ void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> t
     uint32_t size = (uint32_t)vertices.size() * object_size();
 
     uint32 freeRangeId = get_free_range(size);
-    Range freeRange = _freeRanges.get(freeRangeId);
+    Range freeRange = _freeRanges[freeRangeId];
 
-    _freeRanges.remove(freeRangeId);
-    _usedRanges.put(freeRangeId, freeRange);
+    _freeRanges.erase(freeRangeId);
+    _usedRanges[freeRangeId] = freeRange;
 
     // 2# Bring data into native format
     vector<float> data;
@@ -367,18 +365,18 @@ void VertexBuffer<T>::commit_remove(weak<VertexBufferToken> token)
     // 1# Get used range
     uint32 rangeId = token->range_id();
 
-    if (!_usedRanges.contains(rangeId)) {
+    if (_usedRanges.count( rangeId ) == 0) {
         LOGGER.log(Level::WARN) << "Attempting to remove unkown range with id: " << rangeId << endl;
         return;
     }
 
-    Range range = _usedRanges.get(rangeId);
+    Range range = _usedRanges[rangeId];
 
     // 2# Remove range
     native_remove_at(range.index(), range.length());
 
-    _usedRanges.remove(rangeId);
-    _freeRanges.put(rangeId, range);
+    _usedRanges.erase(rangeId);
+    _freeRanges[rangeId] = range;
 
     // 3# Invalidate token
     token->invalidate();
@@ -403,15 +401,15 @@ void VertexBuffer<T>::optimize_free_ranges() {
 
 template<class T>
 bool VertexBuffer<T>::_optimize_free_ranges() {
-    auto freeRanges = _freeRanges.as_vector();
 
-    for (size_t i = 0; i < freeRanges.size(); i++) {
-        for (size_t p = i + 1; p < freeRanges.size(); p++) {
-            auto range1Id = freeRanges.at(i).first;
-            auto range1 = freeRanges.at(i).second;
+    for (auto it0 = _freeRanges.begin(); it0 != _freeRanges.end(); ++it0) {
+        for (auto it1 = _freeRanges.begin(); it1 != _freeRanges.end(); ++it1) {
 
-            auto range2Id = freeRanges.at(p).first;
-            auto range2 = freeRanges.at(p).second;
+            auto range1Id = it0->first;
+            auto range1 = it0->second;
+
+            auto range2Id = it1->first;
+            auto range2 = it1->second;
 
             if (range1.index() + range1.length() == range2.index()) {
                 merge_free_ranges(range1Id, range2Id);
@@ -429,17 +427,13 @@ bool VertexBuffer<T>::_optimize_free_ranges() {
 
 template<class T>
 void VertexBuffer<T>::merge_free_ranges(uint32 range1Id, uint32 range2Id) {
-    // 1# Guards
-    if (!_freeRanges.contains(range1Id)) {
-        return;
-    }
+    // 0# Guards
+    Guard( _freeRanges.count(range1Id) > 0 ) return;
+    Guard( _freeRanges.count(range2Id) > 0 ) return;
 
-    if (!_freeRanges.contains(range2Id)) {
-        return;
-    }
-
-    Range range1 = _freeRanges.get(range1Id);
-    Range range2 = _freeRanges.get(range2Id);
+    // 1# Get ranges to merge
+    Range range1 = _freeRanges[range1Id];
+    Range range2 = _freeRanges[range2Id];
 
     if (range1.index() + range1.length() != range2.index()) {
         LOGGER.log(Level::WARN) << "Attempting to merge non-adjacent ranges with id: " << range1Id << ", " << range2Id << endl;
@@ -448,12 +442,12 @@ void VertexBuffer<T>::merge_free_ranges(uint32 range1Id, uint32 range2Id) {
 
     // 2# Create new range
     uint32 mergedRangeId = _rangeIDGen.new_id();
-    auto mergedRange = Range(range1.index(), range1.length() + range2.length());
+    auto mergedRange = Range( range1.index(), range1.length() + range2.length() );
 
     // 3# Swap out ranges
-    _freeRanges.remove(range1Id);
-    _freeRanges.remove(range2Id);
-    _freeRanges.put(mergedRangeId, mergedRange);
+    _freeRanges.erase(range1Id);
+    _freeRanges.erase(range2Id);
+    _freeRanges[ mergedRangeId ] = mergedRange;
 }
 
 template<class T>
@@ -461,9 +455,10 @@ uint32 VertexBuffer<T>::get_free_range(uint32 length) {
     // 1# Find a range with range.length >= length
     Nullable<uint32> optionalRangeId;
 
-    for (auto pair : _freeRanges.as_vector()) {
-        if (pair.second.length() >= length) {
-            optionalRangeId = pair.first;
+    for (auto it = _freeRanges.begin(); it != _freeRanges.end(); ++it) {
+        if (it->second.length() >= length) {
+            optionalRangeId = it->first;
+            break;
         }
     }
 
@@ -471,9 +466,10 @@ uint32 VertexBuffer<T>::get_free_range(uint32 length) {
     if (optionalRangeId.is_null()) {
         resize(atom_capacity(), atom_capacity() + length);
 
-        for (auto pair : _freeRanges.as_vector()) {
-            if (pair.second.length() >= length) {
-                optionalRangeId = pair.first;
+        for (auto it = _freeRanges.begin(); it != _freeRanges.end(); ++it) {
+            if (it->second.length() >= length) {
+                optionalRangeId = it->first;
+                break;
             }
         }
 
@@ -482,7 +478,7 @@ uint32 VertexBuffer<T>::get_free_range(uint32 length) {
         }
     }
 
-    Range range = _freeRanges.get(optionalRangeId.get());
+    Range range = _freeRanges[optionalRangeId.get()];
 
     // 2.2# If range is larger than needed, split
     if (range.length() > length) {
@@ -493,9 +489,9 @@ uint32 VertexBuffer<T>::get_free_range(uint32 length) {
         uint32 newRange2Length = range.length() - length;
         auto newRange2 = Range(newRange2Index, newRange2Length);
 
-        _freeRanges.remove(optionalRangeId.get());
-        _freeRanges.put( newRange1Id, newRange1 );
-        _freeRanges.put( _rangeIDGen.new_id() , newRange2);
+        _freeRanges.erase(optionalRangeId.get());
+        _freeRanges[ newRange1Id ] = newRange1;
+        _freeRanges[_rangeIDGen.new_id() ] = newRange2;
 
         return newRange1Id;
     }
@@ -512,7 +508,7 @@ void VertexBuffer<T>::resize(uint32 oldAtomCapacity, uint32 newAtomCapacity) {
     _atomCapacity = newAtomCapacity;
 
     auto additionalFreeRange = Range(oldAtomCapacity, newAtomCapacity - oldAtomCapacity);
-    _freeRanges.put( _rangeIDGen.new_id(), additionalFreeRange );
+    _freeRanges[ _rangeIDGen.new_id() ] = additionalFreeRange;
 
     optimize_free_ranges();
 }

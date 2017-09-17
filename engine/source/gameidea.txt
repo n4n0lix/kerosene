@@ -35,6 +35,11 @@
 
 # If weapons are used for a long time you can make them unique, then level with "souls collected".
 
+- Two Hands Dagger
+- Two-Hand Sword
+- One-Hand Sword
+- Chain with Lantern (Uncle Benjin Style)
+
 ==========================
 
 Names:
