@@ -56,26 +56,24 @@ public:
             uint32                          object_capacity()   const;
             uint32                          atom_capacity()     const;
 
-            shared_ptr<VertexBufferToken>   add_vertices(list<T> vertices);
-            void                            remove_vertices(shared_ptr<VertexBufferToken> token);
+            weak<VertexBufferToken>         add_vertices(vector<T> vertices);
+            void                            remove_vertices(weak<VertexBufferToken> token);
 
             void                            commit_write();
             void                            commit_remove();
 
             virtual uint32                  num_vertices()      const;
-            bool                            contains(shared_ptr<VertexBufferToken> token) const;
+            bool                            contains(weak<VertexBufferToken> token) const;
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    const   list<shared_ptr<VertexBufferToken>>&    get_tokens();
-
             void                                    native_remove_at(uint32 index, uint32 length);
             void                                    native_resize(uint32 oldCapacity, uint32 newCapacity);
             
-            void                                    commit_write(list<T> objects, shared_ptr<VertexBufferToken> token);
-            void                                    commit_remove(shared_ptr<VertexBufferToken> token);
+            void                                    commit_write(vector<T> objects, weak<VertexBufferToken> token);
+            void                                    commit_remove(weak<VertexBufferToken> token);
 
             void                                    native_write_at(uint32 index, vector<float> data);
 
@@ -100,22 +98,23 @@ private:
 
     Map<uint32, Range>    _freeRanges;
     Map<uint32, Range>    _usedRanges;
-    Map<shared<VertexBufferToken>, list<T>> _writeBucket;
 
-    list<shared<VertexBufferToken>>      _removeBucket;
-    list<shared<VertexBufferToken>>      _tokens;
+    map<weak<VertexBufferToken>, vector<T>, weak_less<VertexBufferToken>> _writeBucket;
+
+    vector<weak<VertexBufferToken>>      _removeBucket;
+    vector<owner<VertexBufferToken>>      _tokens;
 
     IDGen                 _rangeIDGen;
     IDGen                 _tokenIDGen;
-    IDGen                 _writeOpIDGen;
+IDGen                 _writeOpIDGen;
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Private Static                     */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-            GLuint      createVBO(uint32 capacityBytes);
+GLuint      createVBO(uint32 capacityBytes);
 
-    static Logger LOGGER;
+static Logger LOGGER;
 
 };
 
@@ -132,7 +131,7 @@ VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) {
 
     // 2# Buffer Mgmt
     auto initialRange = Range(0, _atomCapacity);
-    _freeRanges.put(_rangeIDGen.new_id(), initialRange); 
+    _freeRanges.put(_rangeIDGen.new_id(), initialRange);
     LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size() << "\n";
 
     // 3# OpenGL
@@ -147,96 +146,99 @@ template<class T>
 VertexBuffer<T>::~VertexBuffer()
 {
     LOGGER.log(Level::DEBUG, _vboId) << "DELETE" << endl;
-    glDeleteBuffers( 1, &_vboId );
+    glDeleteBuffers(1, &_vboId);
 }
 
 template<class T>
-GLuint VertexBuffer<T>::get_id() const 
+GLuint VertexBuffer<T>::get_id() const
 {
     return _vboId;
 }
 
 template<class T>
-shared_ptr<VertexBufferToken> VertexBuffer<T>::add_vertices(list<T> vertices)
+weak<VertexBufferToken> VertexBuffer<T>::add_vertices(vector<T> vertices)
 {
     LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices.size() << " vertices" << endl;
-
     // 1# Guards
-    Requires(!vertices.empty());
+    Requires( vertices.size() > 0 );
 
     // 2# Create token
-    shared<VertexBufferToken> token = make_shared<VertexBufferToken>( _tokenIDGen.new_id(), this);
+    owner<VertexBufferToken> token = make_owner<VertexBufferToken>(_tokenIDGen.new_id(), this);
+    weak<VertexBufferToken> nonOwner = token.get_non_owner();
 
     // 3# Store in write bucket
-    _writeBucket.put(token, std::move(vertices));
-    //_writeBucket2.insert( make_pair<s_ptr<VertexBufferToken>, list<T>>( std::move(token), std::move(vertices) );
+    _writeBucket.emplace( nonOwner, std::move( vertices ));
+    _tokens.emplace_back( std::move( token ));
 
     // 4# Return token
-    return token;
+    return nonOwner;
 }
 
 template<class T>
-void VertexBuffer<T>::remove_vertices(shared<VertexBufferToken> token)
+void VertexBuffer<T>::remove_vertices(weak<VertexBufferToken> wToken)
 {
     // 0# Contract pre
-    Requires(token != nullptr);
+    Requires( wToken != nullptr );
+    Requires( wToken.ptr_is_valid() );
 
     // 1# If token is not valid yet, remove it from the 'to write' bucket
-    if (!token->valid()) {
-        _writeBucket.remove( token );
+    if (!wToken->valid()) {
+        owner<VertexBufferToken> oToken = extract_owner(_tokens, wToken);
+        oToken.destroy();
+
+        _writeBucket.erase(wToken);
         return;
     }
 
     // 2# Create RemoveOp for token
-    _removeBucket.add( token );
-}
-
-template<class T>
-const list<shared<VertexBufferToken>>& VertexBuffer<T>::get_tokens()
-{
-    return _tokens;
+    _removeBucket.push_back( wToken );
 }
 
 template<class T>
 void VertexBuffer<T>::commit_write() {
     // 0# Contract pre
-    Guard( !_writeBucket.empty() ) return;
+    Guard( _writeBucket.size() > 0 ) return;
 
     // 1# Do WriteOps
-    for (auto writeOp : _writeBucket.as_vector()) {
-        auto token = writeOp.first;
-        auto vertices = writeOp.second;
+    for (auto it = _writeBucket.begin(); it != _writeBucket.end(); it++) {
+        auto token = it->first;
+        auto vertices = it->second;
 
-        commit_write( std::move(vertices), token );
+        commit_write( std::move(vertices) , token);
         _numVertices += token->object_range().length();
-
-        _tokens.add( token );
     }
+
     _writeBucket.clear();
 
     // X# Contract Post
-    Ensures( _writeBucket.empty() );
+    Ensures( _writeBucket.size() == 0 );
 }
 
 template<class T>
 void VertexBuffer<T>::commit_remove() {
     // 1# Search for unnused tokens and remove them
-    for (auto token : _tokens) {
-        if (token.use_count() == 1) {
-            _removeBucket.add(token);
+    for (auto it = _tokens.begin(); it != _tokens.end();) {
+        if (it->ref_count() == 1) {
+            it->destroy();
+            _tokens.erase( it );
+        }
+        else {
+            it++;
         }
     }
 
     // 2# Do RemoveOps
     for (auto removeToken : _removeBucket) {
-        commit_remove(removeToken);
+        commit_remove( removeToken );
         _numVertices -= removeToken->object_range().length();
-        _tokens.remove(removeToken);
+
+        owner<VertexBufferToken> oToken = extract_owner( _tokens, removeToken );
+        oToken.destroy();
     }
     _removeBucket.clear();
 
     // X# Contract Post
-    Ensures(_removeBucket.empty());
+    Ensures( _removeBucket.size() == 0 );
 }
 
 template<class T>
@@ -246,9 +248,9 @@ uint32 VertexBuffer<T>::num_vertices() const
 }
 
 template<class T>
-bool VertexBuffer<T>::contains(shared_ptr<VertexBufferToken> token) const
+bool VertexBuffer<T>::contains(weak<VertexBufferToken> token) const
 {
-    return _tokens.contains(token) || _writeBucket.contains(token);
+    return contains_owner( _tokens, token );
 }
 
 template<class T>
@@ -313,12 +315,13 @@ void VertexBuffer<T>::native_resize(uint32 oldCapacity, uint32 newCapacity)
 }
 
 template<class T>
-void VertexBuffer<T>::commit_write(list<T> vertices, shared_ptr<VertexBufferToken> token)
+void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> token)
 {
     // 0# Contract Pre
     Guard(vertices.size() > 0) return;
 
-    Requires(token != nullptr);
+    Requires( token != nullptr );
+    Requires( token.ptr_is_valid() );
 
     // 1# Get free range
     uint32_t size = (uint32_t)vertices.size() * object_size();
@@ -355,9 +358,11 @@ void VertexBuffer<T>::commit_write(list<T> vertices, shared_ptr<VertexBufferToke
 }
 
 template<class T>
-void VertexBuffer<T>::commit_remove(shared_ptr<VertexBufferToken> token)
+void VertexBuffer<T>::commit_remove(weak<VertexBufferToken> token)
 {
     // 0# Contract Pre
+    Requires( token.ptr_is_valid() );
+    Requires( token != nullptr );
 
     // 1# Get used range
     uint32 rangeId = token->range_id();

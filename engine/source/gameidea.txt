@@ -23,8 +23,19 @@
 		. blood magic
 	- Shaman ( neutral )
 		. nature magic
+		. can control animals while being in stasis
 
 
 # Warrior
 	- Paladin ( lawful )
-			~ can only issue ressurection-contract by priest
+			~ can only issue ressurection-contract by priest (?? hight dark faith --> being weaker??)
+
+
+==========================
+
+# If weapons are used for a long time you can make them unique, then level with "souls collected".
+
+==========================
+
+Names:
+ - Tormen

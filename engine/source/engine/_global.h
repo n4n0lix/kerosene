@@ -126,8 +126,7 @@
         template <typename T>
         using w_ptr = std::weak_ptr<T>;
 
-        //template <typename T>
-        //using owner = std::unique_ptr<T>;
+
 
 #include "owner.h"
 

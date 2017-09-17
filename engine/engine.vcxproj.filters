@@ -306,6 +306,9 @@
     <ClInclude Include="source\engine\owner.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\_stdext.h">
+      <Filter>Headerdateien\engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\texture.cpp">

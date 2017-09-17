@@ -95,7 +95,7 @@ void RenderEngine::remove_vertices(owner<VertexToken> token)
 
 void RenderEngine::add_render(weak<VertexToken> token)
 {
-    Guard( token.is_valid() ) return;
+    Guard( token.ptr_is_valid() ) return;
 
     weak<IBatch> batch = _batchTokenLookup[token];
 
@@ -106,7 +106,7 @@ void RenderEngine::add_render(weak<VertexToken> token)
 
 void RenderEngine::remove_render(weak<VertexToken> token)
 {
-    Guard(token.is_valid()) return;
+    Guard(token.ptr_is_valid()) return;
 
     weak<IBatch> batch = _batchTokenLookup[token];
 

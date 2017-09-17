@@ -23,7 +23,7 @@ weak<Texture> Material::get_texture() const
 }
 
 void Material::bind() const {
-    if (_shader.is_valid() && _shader != nullptr) {
+    if (_shader.ptr_is_valid() && _shader != nullptr) {
         _shader->bind();
         if (_textureDiffuse != nullptr) {
             // TEXTURE_DIFFUSE

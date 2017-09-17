@@ -51,7 +51,7 @@ public:
               explicit Batch(weak<Material> material);
               virtual ~Batch() = default;
 
-            owner<VertexToken>     add_vertices(list<VERTEX> vertices);
+            owner<VertexToken>     add_vertices(vector<VERTEX>&& vertices);
     virtual void                   remove_vertices(owner<VertexToken> token);
     
     virtual void                   add_render(weak<VertexToken> token);
@@ -87,16 +87,16 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 template<class VERTEX>
 Batch<VERTEX>::Batch(weak<Material> material) {
-    if (!material.is_valid() || material == nullptr) throw std::exception("Material is null!");
+    if (!material.ptr_is_valid() || material == nullptr) throw std::exception("Material is null!");
 
     _material = material;
     _vao = make_owner<VertexArray<VERTEX>>(material->get_shader()->get_vertex_layout());
 }
 
 template<class VERTEX>
-owner<VertexToken> Batch<VERTEX>::add_vertices(list<VERTEX> vertices)
+owner<VertexToken> Batch<VERTEX>::add_vertices(vector<VERTEX>&& vertices)
 {
-    return _vao->add_vertices( vertices );
+    return _vao->add_vertices( std::forward<vector<VERTEX>>( vertices ));
 }
 
 template<class VERTEX>
@@ -125,7 +125,7 @@ inline void Batch<VERTEX>::set_view_matrix(Matrix4f viewMatrix)
 template<class VERTEX>
 void Batch<VERTEX>::render()
 {
-    if (_material.is_valid()) {
+    if (_material.ptr_is_valid()) {
         _material->bind();
     }
     

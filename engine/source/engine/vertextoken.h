@@ -23,14 +23,14 @@ public:
 
     uint32                  id();
 
-    void                            set_vertexbuffer_token(shared_ptr<VertexBufferToken> token);
-    shared_ptr<VertexBufferToken>   vertexbuffer_token();
+    void                            set_vertexbuffer_token(weak<VertexBufferToken> token);
+    weak<VertexBufferToken>         vertexbuffer_token();
 
     void                            set_indexbuffer_token(shared_ptr<BufferToken> token);
     shared_ptr<BufferToken>         indexbuffer_token();
 private:
     uint32 _id;
-    shared_ptr<VertexBufferToken>   _tokenVertexBuffer;
+    weak<VertexBufferToken>         _tokenVertexBuffer;
     shared_ptr<BufferToken>         _tokenIndexBuffer;
 };
 

@@ -11,12 +11,12 @@ uint32 VertexToken::id()
     return _id;
 }
 
-void VertexToken::set_vertexbuffer_token(shared_ptr<VertexBufferToken> token)
+void VertexToken::set_vertexbuffer_token(weak<VertexBufferToken> token)
 {
     _tokenVertexBuffer = token;
 }
 
-shared_ptr<VertexBufferToken> VertexToken::vertexbuffer_token()
+weak<VertexBufferToken> VertexToken::vertexbuffer_token()
 {
     return _tokenVertexBuffer;
 }

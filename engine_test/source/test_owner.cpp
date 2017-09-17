@@ -16,7 +16,7 @@ SCENARIO("weak is valid after creation from an owner", "[owner]") {
             auto weak = _owner.get_non_owner();
 
             THEN("weak is valid and both are pointing to the same, initial object") {
-                REQUIRE(weak.is_valid());
+                REQUIRE(weak.ptr_is_valid());
 
                 REQUIRE(_owner.get() == object);
                 REQUIRE(_owner.get() == weak.get());
@@ -31,13 +31,13 @@ SCENARIO("weak is invalid after its owner is destroyed", "[owner]") {
         auto _owner = owner<int32>(object);
         auto weak  = _owner.get_non_owner();
 
-        REQUIRE(weak.is_valid());
+        REQUIRE(weak.ptr_is_valid());
 
         WHEN("the owner ptr goes out of scope") {
             { auto __owner = std::move(_owner); }
 
             THEN("the weak ptr becomes invalid") {
-                REQUIRE(!weak.is_valid());
+                REQUIRE(!weak.ptr_is_valid());
             }
         }
     }
@@ -68,7 +68,7 @@ SCENARIO("releasing the ownership of a pointer invalidates its corresponding wea
             _owner.release();
 
             THEN("weak becomes invalid and owner points to null") {
-                REQUIRE(!weak.is_valid());
+                REQUIRE(!weak.ptr_is_valid());
                 REQUIRE(_owner.get() == nullptr);
             }
         }

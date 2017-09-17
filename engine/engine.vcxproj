@@ -92,6 +92,7 @@
     <ClInclude Include="source\engine\_global.h" />
     <ClInclude Include="source\engine\_mathdefs.h" />
     <ClInclude Include="source\engine\_renderdefs.h" />
+    <ClInclude Include="source\engine\_stdext.h" />
     <ClInclude Include="source\sandbox\testgamestate.h" />
     <ClInclude Include="source\sandbox\testrendercomponent.h" />
   </ItemGroup>

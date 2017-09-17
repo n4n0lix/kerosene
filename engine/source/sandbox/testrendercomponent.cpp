@@ -27,19 +27,19 @@ void TestRenderComponent::on_init()
 	vertices1.add(Vertex_pc(Vector3f(-1, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
 	vertices1.add(Vertex_pc(Vector3f( 0, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
 	vertices1.add(Vertex_pc(Vector3f(-.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-	_tokenTriangle1 = engine->add_vertices(_materialDiff, vertices1);
+	_tokenTriangle1 = engine->add_vertices(_materialDiff, std::move( vertices1 ));
 
 	list<Vertex_pc> vertices2 = list<Vertex_pc>();
 	vertices2.add(Vertex_pc(Vector3f(0, -1, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
 	vertices2.add(Vertex_pc(Vector3f(1, -1, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
 	vertices2.add(Vertex_pc(Vector3f(.5, 0, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-	_tokenTriangle2 = engine->add_vertices(_materialDiff, vertices2);
+	_tokenTriangle2 = engine->add_vertices(_materialDiff, std::move( vertices2 ));
 
 	list<Vertex_pc> vertices3 = list<Vertex_pc>();
 	vertices3.add(Vertex_pc(Vector3f(-1.0, 0, -.5), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
 	vertices3.add(Vertex_pc(Vector3f( 0.0, 0, -.5), Vector4f(1.0f, 1.0f, 0.0f, 1.0f)));
 	vertices3.add(Vertex_pc(Vector3f(-0.5, 1, -.5), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-	_tokenTriangle3 = engine->add_vertices(_materialDiff, vertices3);
+	_tokenTriangle3 = engine->add_vertices(_materialDiff, std::move( vertices3 ));
 
 	engine->add_render( _tokenTriangle1.get_non_owner() );
 	engine->add_render( _tokenTriangle2.get_non_owner() );
@@ -53,7 +53,7 @@ void TestRenderComponent::on_init()
 	vertices4.add(Vertex_pt(Vector3f(0, 0, -.5), Vector2f(0.0f, 1.0f)));
 	vertices4.add(Vertex_pt(Vector3f(1, 1, -.5), Vector2f(1.0f, 0.0f)));
 	vertices4.add(Vertex_pt(Vector3f(0, 1, -.5), Vector2f(0.0f, 0.0f)));
-	_tokenTriangle4 = engine->add_vertices(_materialTex, vertices4);
+	_tokenTriangle4 = engine->add_vertices(_materialTex, std::move( vertices4 ));
 
 	engine->add_render( _tokenTriangle4.get_non_owner() );
 }

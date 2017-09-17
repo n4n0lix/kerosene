@@ -127,7 +127,7 @@ owner<VertexToken> RenderEngine::add_vertices(weak<Material> material, list<VERT
     weak<IBatch> ibatch = _batches[material].get_non_owner();
 
     weak<Batch<VERTEX>> batch = static_weak_cast<Batch<VERTEX>>( ibatch );
-	owner<VertexToken> token  = batch->add_vertices(vertices);
+	owner<VertexToken> token  = batch->add_vertices( std::move( vertices ));
 	_batchTokenLookup.emplace(token.get_non_owner(), ibatch);
 
     return std::move(token);
