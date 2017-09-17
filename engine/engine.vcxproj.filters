@@ -180,12 +180,6 @@
     <ClInclude Include="source\engine\_gl.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\tb_removeop.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\tb_writeop.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\buffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
@@ -203,9 +197,6 @@
     </ClInclude>
     <ClInclude Include="source\engine\indexbuffer.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\transactionalbuffer.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\stackbuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
@@ -364,9 +355,6 @@
     </ClCompile>
     <ClCompile Include="source\engine\_gl.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\tb_removeop.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\buffertoken.cpp">
       <Filter>Quelldateien\engine\utils\buffer</Filter>

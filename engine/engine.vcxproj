@@ -46,14 +46,11 @@
     <ClInclude Include="source\engine\textureoptions.h" />
     <ClInclude Include="source\engine\textureslot.h" />
     <ClInclude Include="source\engine\textureslottemplate.h" />
-    <ClInclude Include="source\engine\transactionalbuffer.h" />
     <ClInclude Include="source\engine\transform.h" />
     <ClInclude Include="source\engine\uniformtemplate.h" />
     <ClInclude Include="source\engine\owner_list.h" />
     <ClInclude Include="source\engine\list.h" />
     <ClInclude Include="source\engine\range.h" />
-    <ClInclude Include="source\engine\tb_removeop.h" />
-    <ClInclude Include="source\engine\tb_writeop.h" />
     <ClInclude Include="source\engine\buffertoken.h" />
     <ClInclude Include="source\engine\buffer.h" />
     <ClInclude Include="source\engine\decimal32.h" />
@@ -124,7 +121,6 @@
     <ClCompile Include="source\engine\range.cpp" />
     <ClCompile Include="source\engine\stackbuffertoken.cpp" />
     <ClCompile Include="source\engine\stringutils.cpp" />
-    <ClCompile Include="source\engine\tb_removeop.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
     <ClCompile Include="source\engine\textureoptions.cpp" />
     <ClCompile Include="source\engine\textureslottemplate.cpp" />

@@ -6,14 +6,14 @@ ENGINE_NAMESPACE_BEGIN
 /*                          Public                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-VertexBufferToken::VertexBufferToken(uint32 uid, void* buffer)
+VertexBufferToken::VertexBufferToken( uint32 uid, void* buffer )
 {
     _buffer = buffer;
     _id = uid;
     _valid = false;
 }
 
-void VertexBufferToken::set_range_id(uint32 rangeId) {
+void VertexBufferToken::set_range_id( uint32 rangeId ) {
     _rangeId = rangeId;
 }
 
@@ -60,43 +60,37 @@ uint32 VertexBufferToken::object_size()
     return _objSize;
 }
 
-list<uint32> VertexBufferToken::object_indices()
+vector<uint32> VertexBufferToken::object_indices()
 {
-    list<uint32> objIndices;
+    vector<uint32> objIndices;
 
     if (_objRange.length() > 0) {
         for (uint32 i = _objRange.index(); i <= _objRange.last_index(); i++) {
-            objIndices.push_back(i);
+            objIndices.push_back( i );
         }
     }
 
-    return std::move(objIndices);
+    return std::move( objIndices );
 }
 
-bool VertexBufferToken::operator!=(const VertexBufferToken& o) const
+bool VertexBufferToken::operator!=( const VertexBufferToken& o ) const
 {
     return _id != o._id || _buffer != o._buffer;
 }
 
-bool VertexBufferToken::operator==(const VertexBufferToken& o) const
+bool VertexBufferToken::operator==( const VertexBufferToken& o ) const
 {
     return !(*this != o);
 }
 
 
-void VertexBufferToken::set_object_size(uint32 objSize)
+void VertexBufferToken::set_object_size( uint32 objSize )
 {
     _objSize = objSize;
     update();
 }
 
-void VertexBufferToken::move(uint32 distance)
-{
-    _atomRange.move(distance);
-    update();
-}
-
-void VertexBufferToken::set_atom_range(Range range)
+void VertexBufferToken::set_atom_range( Range range )
 {
     _atomRange = range;
     update();
@@ -104,8 +98,8 @@ void VertexBufferToken::set_atom_range(Range range)
 
 void VertexBufferToken::update()
 {
-    _objRange = Range(_atomRange.index() / _objSize,
-        _atomRange.length() / _objSize);
+    _objRange = Range( _atomRange.index() / _objSize,
+                       _atomRange.length() / _objSize );
 }
 
 ENGINE_NAMESPACE_END

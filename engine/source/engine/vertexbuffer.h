@@ -33,12 +33,6 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class T>
-struct WriteOp {
-    shared<VertexBufferToken>    token;
-    list<T>                     vertices;
-};
-
-template<class T>
 class VertexBuffer
 {
 public:

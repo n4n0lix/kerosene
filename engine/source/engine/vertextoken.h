@@ -8,7 +8,7 @@
 
 // Internal Includes
 #include "_global.h"
-#include "buffertoken.h"
+#include "stackbuffertoken.h"
 #include "vertexbuffertoken.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -21,17 +21,17 @@ public:
             explicit VertexToken(uint32 id);
             ~VertexToken() = default;
 
-    uint32                  id();
+    uint32  id();
 
-    void                            set_vertexbuffer_token(weak<VertexBufferToken> token);
-    weak<VertexBufferToken>         vertexbuffer_token();
+    void                      set_vertexbuffer_token(weak<VertexBufferToken> token);
+    weak<VertexBufferToken>   vertexbuffer_token();
 
-    void                            set_indexbuffer_token(shared_ptr<BufferToken> token);
-    shared_ptr<BufferToken>         indexbuffer_token();
+    void                      set_indexbuffer_token(weak<StackBufferToken> token);
+    weak<StackBufferToken>    indexbuffer_token();
 private:
     uint32 _id;
-    weak<VertexBufferToken>         _tokenVertexBuffer;
-    shared_ptr<BufferToken>         _tokenIndexBuffer;
+    weak<VertexBufferToken>   _tokenVertexBuffer;
+    weak<StackBufferToken>    _tokenIndexBuffer;
 };
 
 ENGINE_NAMESPACE_END

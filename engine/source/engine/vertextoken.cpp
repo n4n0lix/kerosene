@@ -21,12 +21,12 @@ weak<VertexBufferToken> VertexToken::vertexbuffer_token()
     return _tokenVertexBuffer;
 }
 
-void VertexToken::set_indexbuffer_token(shared_ptr<BufferToken> token)
+void VertexToken::set_indexbuffer_token(weak<StackBufferToken> token)
 {
     _tokenIndexBuffer = token;
 }
 
-shared_ptr<BufferToken> VertexToken::indexbuffer_token()
+weak<StackBufferToken> VertexToken::indexbuffer_token()
 {
     return _tokenIndexBuffer;
 }

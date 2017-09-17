@@ -20,28 +20,28 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class IndexBuffer : public StackBuffer<uint32> 
+class IndexBuffer : public StackBuffer<uint32>
 {
 public:
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                                        explicit IndexBuffer(uint32 initCapacity);
-                                        virtual ~IndexBuffer() = default;
+            explicit IndexBuffer( uint32 initCapacity );
+            virtual ~IndexBuffer() = default;
 
-            GLuint                      get_id();
+    GLuint                      get_id();
 
-            shared_ptr<BufferToken>     add_indices(list<uint32> indices);
-            void                        remove_indices(shared_ptr<BufferToken> token);
+    weak<StackBufferToken>      add_indices( vector<uint32> indices );
+    void                        remove_indices( weak<StackBufferToken> token );
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    virtual void                        write(uint32 index, list<uint32> vertices);
-    virtual void                        resize(uint32 oldCapacity, uint32 newCapacity);
-    virtual void                        copy(uint32 srcIndex, uint32 destIndex, uint32 length);
+    virtual void                        native_write( uint32 index, vector<uint32> vertices );
+    virtual void                        native_resize( uint32 oldCapacity, uint32 newCapacity );
+    virtual void                        native_copy( uint32 srcIndex, uint32 destIndex, uint32 length );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -54,7 +54,7 @@ private:
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-            GLuint                      createIBO(uint32 capacityBytes);
+    GLuint                      createIBO( uint32 capacityBytes );
 
     static Logger LOGGER;
 };
