@@ -22,7 +22,6 @@
 
 #include "range.h"
 
-#include "buffer.h"
 #include "vertexbuffertoken.h"
 
 #include "vertexlayout.h"

@@ -11,8 +11,6 @@
 // Internal Includes
 #include "_global.h"
 #include "gameobject.h"
-#include "owner_list.h"
-#include "list.h"
 
 #include "renderengine.h"
 
@@ -41,11 +39,11 @@ public:
     void finish();
     void end();
 
-    GameStateStatus         get_status() const;
+    GameStateStatus             get_status() const;
 
-	void				    add_gameobject(owner<GameObject> gameObject);
-    owner<GameObject>       remove_gameobject(GameObject* gameObject);
-	list<GameObject*>	    get_gameobjects();
+	void				        add_gameobject(owner<GameObject> gameObject);
+    owner<GameObject>           remove_gameobject(weak<GameObject> gameObject);
+    vector<weak<GameObject>>    get_gameobjects();
 
     owner<GameState>        take_next_gamestate();
     void                    give_next_gamestate(owner<GameState> next);
@@ -70,8 +68,8 @@ private:
     GameStateStatus				_status;
 
     owner<GameState>			_nextGameState;
-	owner_list<GameObject>      _gameObjectsOwners;
-	list<GameObject*>			_gameObjects;
+    vector<owner<GameObject>>   _gameObjectsOwners;
+    vector<weak<GameObject>>	_gameObjects;
     RenderEngine*               _renderEngine;
 
 };

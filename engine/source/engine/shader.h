@@ -11,7 +11,7 @@
 
 // Internal Includes
 #include "_global.h"
-#include "map.h"
+#include "nullable.h"
 
 #include "_gl.h"
 #include "uniform.h"
@@ -63,9 +63,9 @@ private:
 
     GLuint                    _id;
     VertexLayout              _vertexLayout;
-    list<Uniform>             _vertexUniforms;
-    list<Uniform>             _fragUniforms;
-    list<TextureSlot>         _fragTextureSlots;
+    vector<Uniform>           _vertexUniforms;
+    vector<Uniform>           _fragUniforms;
+    vector<TextureSlot>       _fragTextureSlots;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

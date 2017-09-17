@@ -180,12 +180,6 @@
     <ClInclude Include="source\engine\_gl.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\buffer.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\buffertoken.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\vertexlayout.h">
       <Filter>Headerdateien\engine\render</Filter>
     </ClInclude>
@@ -200,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="source\engine\stackbuffer.h">
       <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\map.h">
-      <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\nullable.h">
       <Filter>Headerdateien\engine\utils</Filter>
@@ -285,12 +276,6 @@
     <ClInclude Include="source\engine\logicengine.h">
       <Filter>Headerdateien\engine\logic</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\list.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\owner_list.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\vertexbuffertoken.h">
       <Filter>Headerdateien\engine\render\opengl</Filter>
     </ClInclude>
@@ -355,9 +340,6 @@
     </ClCompile>
     <ClCompile Include="source\engine\_gl.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\buffertoken.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\indexbuffer.cpp">
       <Filter>Quelldateien\engine\render\opengl</Filter>

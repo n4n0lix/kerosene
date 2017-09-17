@@ -40,20 +40,20 @@ GameStateStatus     GameState::get_status() const
 
 void                GameState::add_gameobject(owner<GameObject> gameObject)
 {
-	_gameObjects.add(gameObject.get());
-	_gameObjectsOwners.add( move(gameObject) );
+	_gameObjects.push_back( gameObject.get_non_owner() );
+    _gameObjectsOwners.push_back( std::move( gameObject ) );
 }
 
-owner<GameObject>   GameState::remove_gameobject(GameObject* gameObject)
+owner<GameObject>   GameState::remove_gameobject(weak<GameObject> gameObject)
 {
-	_gameObjects.remove(gameObject);
-	return _gameObjectsOwners.extract(gameObject);
+    std::remove( _gameObjects.begin(), _gameObjects.end(), gameObject );
+	return extract_owner( _gameObjectsOwners, gameObject );
 }
 
 /**
  * Returns all gameobjects of this gamestate.
  */
-list<GameObject*> GameState::get_gameobjects()
+vector<weak<GameObject>> GameState::get_gameobjects()
 {
 	return _gameObjects;
 }

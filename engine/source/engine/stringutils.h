@@ -12,7 +12,6 @@
 // Internal Includes
 #include "_global.h"
 #include "logger.h"
-#include "list.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

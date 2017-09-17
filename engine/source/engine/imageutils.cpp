@@ -16,7 +16,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     uint32          imgBpp;
     ImageFormat     imgFormat;
     uint32          imgBytes;
-    list<uint8>     imgData;
+    vector<uint8>   imgData;
 
     // 1# Open file
     FILE* ptrFile;

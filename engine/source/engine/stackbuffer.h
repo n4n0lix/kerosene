@@ -9,14 +9,13 @@
 #include <functional>
 
 // Std-Extensions
-#include "owner.h"
 
 // Internal Includes
 #include "_global.h"
+#include "owner.h"
 #include "range.h"
 #include "stackbuffertoken.h"
 #include "logger.h"
-#include "buffertoken.h"
 
 #include "idgenerator.h"
 

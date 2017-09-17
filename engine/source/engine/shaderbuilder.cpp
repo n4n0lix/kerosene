@@ -19,25 +19,25 @@ ShaderBuilder& ShaderBuilder::vertexlayout(VertexLayout layout)
 
 ShaderBuilder& ShaderBuilder::vertex_uniform(string type, string name)
 {
-    _vsUniforms.add({ type, name });
+    _vsUniforms.push_back({ type, name });
     return *this;
 }
 
 ShaderBuilder& ShaderBuilder::vertex_uniform(UniformTemplate uniformTemplate)
 {
-    _vsUniforms.add(uniformTemplate);
+    _vsUniforms.push_back(uniformTemplate);
     return *this;
 }
 
 ShaderBuilder& ShaderBuilder::frag_uniform(string type, string name)
 {
-    _fsUniforms.add({ type, name });
+    _fsUniforms.push_back({ type, name });
     return *this;
 }
 
 ShaderBuilder& ShaderBuilder::frag_texture_slot(TextureSlotTemplate slot)
 {
-    _fsTextureSlots.add(slot);
+    _fsTextureSlots.push_back(slot);
     return *this;
 }
 
@@ -185,29 +185,29 @@ GLuint ShaderBuilder::link_program(GLuint vertexShaderId, GLuint fragmentShaderI
     return shaderId;
 }
 
-list<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const list<UniformTemplate>* tmplates) const
+vector<Uniform> ShaderBuilder::process_uniforms(GLuint shaderId, const vector<UniformTemplate>* tmplates) const
 {
-    list<Uniform> uniforms;
+    vector<Uniform> uniforms;
     Shader::bind( shaderId );
 
     for (UniformTemplate tmplate : *tmplates) {
         Uniform uniform = tmplate.to_uniform();
         int32 uniformLocation = glGetUniformLocation(shaderId, tmplate.name.c_str());
-        uniforms.add( uniform );
+        uniforms.push_back( uniform );
     }
 
     return uniforms;
 }
 
-list<TextureSlot> ShaderBuilder::process_texture_slots(GLuint shaderId, const list<TextureSlotTemplate>* tmplates) const
+vector<TextureSlot> ShaderBuilder::process_texture_slots(GLuint shaderId, const vector<TextureSlotTemplate>* tmplates) const
 {
-    list<TextureSlot> slots;
+    vector<TextureSlot> slots;
     Shader::bind(shaderId);
 
     for (TextureSlotTemplate tmplate : *tmplates) {
         TextureSlot slot = tmplate.to_textureslot();
         slot.location = glGetUniformLocation(shaderId, tmplate.name.c_str());
-        slots.add(slot);
+        slots.push_back(slot);
     }
 
     return slots;

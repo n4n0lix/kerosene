@@ -24,7 +24,7 @@ void RenderEngine::on_start()
 	_camera = make_owner<Camera>();
 }
 
-void RenderEngine::on_render(list<GameObject*> gameObjects)
+void RenderEngine::on_render(vector<weak<GameObject>> gameObjects)
 {
 	// 1# Setup rendering
     _mainWindow->make_current();
@@ -33,7 +33,7 @@ void RenderEngine::on_render(list<GameObject*> gameObjects)
 	_camera->make_current();
 
 	// #2 Update Rendercomponents
-	for (GameObject* gameObject : gameObjects) {
+	for (weak<GameObject> gameObject : gameObjects) {
 		RenderComponent* component = gameObject->get_rendercomponent();
 
 		if (component != nullptr) {

@@ -67,14 +67,14 @@ private:
     string                  gen_fragment_source() const;
     GLuint                  create_shader(GLenum shaderType) const;
     GLuint                  link_program(GLuint vertexShader, GLuint fragmentShader) const;
-    list<Uniform>           process_uniforms(GLuint shaderId, const list<UniformTemplate>* uniforms) const;
-    list<TextureSlot>       process_texture_slots(GLuint shaderId, const list<TextureSlotTemplate>* textureSlots) const;
+    vector<Uniform>         process_uniforms(GLuint shaderId, const vector<UniformTemplate>* uniforms) const;
+    vector<TextureSlot>     process_texture_slots(GLuint shaderId, const vector<TextureSlotTemplate>* textureSlots) const;
 
     // TODO: Find a way to store ptr/refs here
-    VertexLayout              _vertexLayout;
-    list<UniformTemplate>     _vsUniforms;
-    list<UniformTemplate>     _fsUniforms;
-    list<TextureSlotTemplate> _fsTextureSlots;
+    VertexLayout                _vertexLayout;
+    vector<UniformTemplate>     _vsUniforms;
+    vector<UniformTemplate>     _fsUniforms;
+    vector<TextureSlotTemplate> _fsTextureSlots;
 
     string _vsSource;
     string _fsSource;

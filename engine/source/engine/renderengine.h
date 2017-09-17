@@ -56,7 +56,7 @@ public:
 
     // GENERAL
     void on_start();
-	void on_render(list<GameObject*> gameObjects);
+	void on_render(vector<weak<GameObject>> gameObjects);
     void on_shutdown();
 	bool is_exit_requested();
 
@@ -81,7 +81,7 @@ public:
 
 	// RENDERING
 	template<class VERTEX>
-	owner<VertexToken>  add_vertices(weak<Material> material, list<VERTEX> vertices);
+	owner<VertexToken>  add_vertices(weak<Material> material, vector<VERTEX> vertices);
 	void                remove_vertices(owner<VertexToken> token);
 
 	void                add_render(weak<VertexToken> token);
@@ -115,7 +115,7 @@ private:
 };
 
 template<class VERTEX>
-owner<VertexToken> RenderEngine::add_vertices(weak<Material> material, list<VERTEX> vertices)
+owner<VertexToken> RenderEngine::add_vertices(weak<Material> material, vector<VERTEX> vertices)
 {
 	// #1 Check if batch exists for material, otherwise instanciate one
 	if (_batches.count(material) == 0) {

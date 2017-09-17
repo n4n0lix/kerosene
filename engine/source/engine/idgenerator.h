@@ -10,7 +10,6 @@
 #include <random>
 
 // Other Includes
-#include "list.h"
 
 // Internal Includes
 #include "_global.h"
@@ -44,7 +43,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    list<uint32>			_usedIds;
+    vector<uint32>			_usedIds;
 	std::mt19937			_rng;
 };
 

@@ -10,7 +10,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-IDGen::IDGen() : _rng(std::mt19937()), _usedIds(list<uint32>()) {
+IDGen::IDGen() : _rng(std::mt19937()), _usedIds(vector<uint32>()) {
 
 }
 
@@ -22,17 +22,17 @@ uint32 IDGen::new_id() {
 		newId = _rng();
 	}
 
-	_usedIds.add( newId );
+	_usedIds.push_back( newId );
     
 	return newId;
 }
 
 void IDGen::put(uint32 id) {
-	_usedIds.add(id);
+	_usedIds.push_back(id);
 }
 
 void IDGen::release_id(uint32 id) {
-	_usedIds.remove(id);
+    std::remove( _usedIds.begin(), _usedIds.end(), id );
 }
 
 
