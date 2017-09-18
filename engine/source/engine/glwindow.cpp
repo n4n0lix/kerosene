@@ -18,7 +18,7 @@ GLWindow::GLWindow(const string title, const int32_t width, const int32_t height
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // Create the window
-    _handle = owner<GLFWwindow>(glfwCreateWindow(width, height, "Kerosine Engine", nullptr, nullptr));
+    _handle = glfwCreateWindow(width, height, "Kerosine Engine", nullptr, nullptr);
 
     if (_handle == nullptr) {
         throw std::exception("Failed to create the GLFW window");
@@ -29,23 +29,23 @@ GLWindow::GLWindow(const string title, const int32_t width, const int32_t height
 }
 
 GLWindow::~GLWindow() {
-    glfwDestroyWindow(_handle.get());
+    glfwDestroyWindow(_handle);
 }
 
 void GLWindow::show()
 {
-    glfwShowWindow(_handle.get());
+    glfwShowWindow(_handle);
 }
 
 void GLWindow::hide()
 {
-    glfwHideWindow(_handle.get());
+    glfwHideWindow(_handle);
 }
 
 void GLWindow::set_title(string title)
 {
     _title = title;
-    glfwSetWindowTitle(_handle.get(), title.c_str());
+    glfwSetWindowTitle(_handle, title.c_str());
 }
 
 string GLWindow::get_title()
@@ -56,68 +56,72 @@ string GLWindow::get_title()
 void GLWindow::set_width(int32_t width)
 {
     int32_t height = get_height();
-    glfwSetWindowSize(_handle.get(), width, height);
+    glfwSetWindowSize(_handle, width, height);
 }
 
 int32_t GLWindow::get_width()
 {
     int32_t width;
-    glfwGetWindowSize(_handle.get(), &width, nullptr);
+    glfwGetWindowSize(_handle, &width, nullptr);
     return width;
 }
 
 void GLWindow::set_height(int32_t height)
 {
     int32_t width = get_width();
-    glfwSetWindowSize(_handle.get(), width, height);
+    glfwSetWindowSize(_handle, width, height);
 }
 
 int32_t GLWindow::get_height()
 {
     int32_t height;
-    glfwGetWindowSize(_handle.get(), nullptr, &height);
+    glfwGetWindowSize(_handle, nullptr, &height);
     return height;
 }
 
 void GLWindow::set_x(int32_t x) {
     int32_t y = get_y();
-    glfwSetWindowPos(_handle.get(), x, y);
+    glfwSetWindowPos(_handle, x, y);
 }
 
 int32_t GLWindow::get_x() {
     int32_t x;
-    glfwGetWindowPos(_handle.get(), &x, nullptr);
+    glfwGetWindowPos(_handle, &x, nullptr);
     return x;
 }
 
 void GLWindow::set_y(int32_t y) {
     int32_t x = get_x();
-    glfwSetWindowPos(_handle.get(), x, y);
+    glfwSetWindowPos(_handle, x, y);
 }
 
 int32_t GLWindow::get_y() {
     int32_t y;
-    glfwGetWindowPos(_handle.get(), nullptr, &y);
+    glfwGetWindowPos(_handle, nullptr, &y);
     return y;
 }
 
 int32_t GLWindow::get_renderwidth()
 {
     int width, height;
-    glfwGetFramebufferSize(_handle.get(), &width, &height);
+    glfwGetFramebufferSize(_handle, &width, &height);
     return width;
 }
 
 int32_t GLWindow::get_renderheight()
 {
     int width, height;
-    glfwGetFramebufferSize(_handle.get(), &width, &height);
+    glfwGetFramebufferSize(_handle, &width, &height);
     return height;
 }
 
 bool GLWindow::close_requested()
 {
-    return glfwWindowShouldClose(_handle.get()) == GL_TRUE;
+    return glfwWindowShouldClose(_handle) == GL_TRUE;
+}
+
+GLFWwindow* GLWindow::get_handle() {
+    return _handle;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

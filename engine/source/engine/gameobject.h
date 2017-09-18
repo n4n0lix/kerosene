@@ -40,8 +40,8 @@ public:
             GameObject();
             ~GameObject();
 
-	void			 set_rendercomponent(owner<RenderComponent> comp);
-	RenderComponent* get_rendercomponent();
+	void			        set_rendercomponent(owner<RenderComponent> comp);
+	weak<RenderComponent>   get_rendercomponent();
 
 	void	destroy_at_tick_end();
 	bool    shall_be_destroyed_at_tick_end();

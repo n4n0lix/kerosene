@@ -20,9 +20,9 @@ void GameObject::set_rendercomponent( owner<RenderComponent> comp )
     _render = std::move( comp );
 }
 
-RenderComponent* GameObject::get_rendercomponent()
+weak<RenderComponent> GameObject::get_rendercomponent()
 {
-    return _render.get();
+    return _render.get_non_owner();
 }
 
 void GameObject::destroy_at_tick_end()

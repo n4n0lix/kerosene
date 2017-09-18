@@ -22,7 +22,16 @@ void TestGameState::on_start()
 
 void TestGameState::on_update()
 {
+    queue<KeyEvent> keys = get_inputengine()->get_keyevents();
 
+    while ( !keys.empty() ) {
+        KeyEvent evt = keys.front();
+        keys.pop();
+
+        if ( evt.key() == GLFW_KEY_W ) {
+            std::cout << "W pressed!\n";
+        }
+    }
 }
 
 void TestGameState::on_end()

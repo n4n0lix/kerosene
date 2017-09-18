@@ -48,8 +48,11 @@ public:
     owner<GameState>        take_next_gamestate();
     void                    give_next_gamestate(owner<GameState> next);
 
-    RenderEngine*           get_renderengine();
-    void                    set_renderengine(RenderEngine* render);
+    weak<RenderEngine>      get_renderengine();
+    void                    set_renderengine(weak<RenderEngine> render);
+
+    weak<InputEngine>       get_inputengine();
+    void                    set_inputengine( weak<InputEngine> input );
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -70,8 +73,9 @@ private:
     owner<GameState>			_nextGameState;
     vector<owner<GameObject>>   _gameObjectsOwners;
     vector<weak<GameObject>>	_gameObjects;
-    RenderEngine*               _renderEngine;
 
+    weak<RenderEngine>          _renderEngine;
+    weak<InputEngine>           _inputEngine;
 };
 
 ENGINE_NAMESPACE_END

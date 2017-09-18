@@ -33,18 +33,18 @@ void GameState::end()
     _status = READY;
 }
 
-GameStateStatus     GameState::get_status() const
+GameStateStatus GameState::get_status() const
 {
     return _status;
 }
 
-void                GameState::add_gameobject(owner<GameObject> gameObject)
+void GameState::add_gameobject(owner<GameObject> gameObject)
 {
 	_gameObjects.push_back( gameObject.get_non_owner() );
     _gameObjectsOwners.push_back( std::move( gameObject ) );
 }
 
-owner<GameObject>   GameState::remove_gameobject(weak<GameObject> gameObject)
+owner<GameObject> GameState::remove_gameobject(weak<GameObject> gameObject)
 {
     std::remove( _gameObjects.begin(), _gameObjects.end(), gameObject );
 	return extract_owner( _gameObjectsOwners, gameObject );
@@ -69,7 +69,7 @@ owner<GameState>    GameState::take_next_gamestate()
 /**
  * Takes ownership of the next gamestate.
  */
-void                GameState::give_next_gamestate(owner<GameState> next)
+void  GameState::give_next_gamestate(owner<GameState> next)
 {
     _nextGameState = std::move( next );
 }
@@ -78,15 +78,25 @@ void                GameState::give_next_gamestate(owner<GameState> next)
  * Returns the renderengine. This only returns a valid object if 
  * the gamestate is the current gamestate used by the engine.
  */
-RenderEngine*   GameState::get_renderengine()
+weak<RenderEngine> GameState::get_renderengine()
 {
-    return std::move( _renderEngine );
+    return _renderEngine;
 }
+
+ weak<InputEngine> GameState::get_inputengine()
+ {
+     return _inputEngine;
+ }
+
+ void GameState::set_inputengine( weak<InputEngine> input )
+ {
+     _inputEngine = input;
+ }
 
 /**
 * Set the render engine for this gamestate.
 */
-void            GameState::set_renderengine(RenderEngine* render)
+void GameState::set_renderengine(weak<RenderEngine> render)
 {
     _renderEngine = render;
 }

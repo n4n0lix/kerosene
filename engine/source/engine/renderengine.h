@@ -15,6 +15,7 @@
 #include "_global.h"
 #include "glwindow.h"
 #include "gameobject.h"
+#include "inputengine.h"
 
 // Testing Includes (temporary)
 #include "primitivetype.h"
@@ -55,15 +56,16 @@ public:
             virtual ~RenderEngine() = default;
 
     // GENERAL
-    void on_start();
+    void on_start( weak<InputEngine> input );
     void on_render( vector<weak<GameObject>> gameObjects );
     void on_shutdown();
     bool is_exit_requested();
+    void hide_cursor(bool hideCursor);
 
     // UTILITY
-    void            set_interpolation( float interpol );
-    weak<GLWindow>  get_window();
-    owner<Texture>  load_texture( string filename, TextureOptions options = TextureOptions() );
+    void                set_interpolation( float interpol );
+    weak<GLWindow>      get_window();
+    owner<Texture>      load_texture( string filename, TextureOptions options = TextureOptions() );
 
     // RESOURCES
     weak<Texture>       add_texture( string filename, owner<Texture> texture );

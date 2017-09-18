@@ -49,8 +49,8 @@ Engine::Engine(EngineConfiguration& config)
 int Engine::run() {
 
     // StartUp
-    _render->on_start();
     _input->on_start();
+    _render->on_start( _input.get_non_owner() );
     _logic->on_start();
     _physics->on_start();
     _network->on_start();
@@ -62,12 +62,11 @@ int Engine::run() {
     _network->on_shutdown();
     _physics->on_shutdown();
     _logic->on_shutdown();
-    _input->on_shutdown();
     _render->on_shutdown();
+    _input->on_shutdown();
 
     return 0;
 }
-
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
@@ -105,7 +104,7 @@ void Engine::mainloop() {
         }
 
         // 2# Rendering
-        _render->set_interpolation((float)((double) lag / (double) _tickTime)); // Add '+ 1' to switch to extrapolation
+        _render->set_interpolation( (float)((double)lag / (double)_tickTime) ); // Add '+ 1' to switch to extrapolation
         _render->on_render( _gameState->get_gameobjects() );
 
         programEnd = _render->is_exit_requested();
@@ -129,7 +128,8 @@ void Engine::update_gamestate()
 
     // Start Gamestate
 	if (_gameState != nullptr && _gameState->get_status() == READY) {
-        _gameState->set_renderengine( _render.get() );
+        _gameState->set_renderengine( _render.get_non_owner() );
+        _gameState->set_inputengine( _input.get_non_owner() );
 
 		_gameState->start();
 	}

@@ -135,7 +135,8 @@
         using std::uint32_t; typedef uint32_t uint32;
         using std::int64_t;  typedef int64_t  int64;
         using std::uint64_t; typedef uint64_t uint64;
-
+        typedef char16_t char16;
+        typedef char32_t char32;
 
 
 
@@ -155,6 +156,9 @@
 // Using collections
 #include <vector>
         using std::vector;
+
+#include <queue>
+        using std::queue;
 
 #include <map>
         using std::map;
@@ -200,6 +204,20 @@
 #define UINT16_BYTES 2
 #define UINT32_BYTES 4
 #define UINT64_BYTES 8
+
+// Define type min/max
+#include <limits>
+#define MIN(X) __min_of(X)
+template<typename T>
+inline T __min_of( T& val ) {
+    return std::numeric_limits<T>::min();
+}
+
+#define MAX(X) __max_of(X)
+template<typename T>
+inline T __max_of( T& val ) {
+    return std::numeric_limits<T>::max();
+}
 
 // MEMORY LEAK DETECTION
 #define _CRTDBG_MAP_ALLOC

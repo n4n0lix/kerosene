@@ -7,8 +7,9 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void RenderEngine::on_start()
+void RenderEngine::on_start( weak<InputEngine> input )
 {
+    // 1# Setup glfw
     if (!glfwInit()) {
         throw std::exception("Couldn't initialize GLFW!");
     }
@@ -22,9 +23,63 @@ void RenderEngine::on_start()
 	setup_builtin_shaders();
 
 	_camera = make_owner<Camera>();
+
+    // 2# Setup callbacks
+    if ( input.ptr_is_valid() && input != nullptr ) {
+        glfwSetWindowUserPointer( _mainWindow->get_handle(), input.get() );
+
+        // 2.1# Key callback
+        auto keyCallback = []( GLFWwindow* window, int key, int scancode, int action, int mods )
+        {
+            static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_keyevent( KeyEvent(key, scancode, action, mods) );
+        };
+        glfwSetKeyCallback( _mainWindow->get_handle(), keyCallback );
+
+        // 2.2# Char callback
+        auto charCallback = []( GLFWwindow* window, unsigned int codepoint, int mods )
+        {
+            static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_charevent( CharEvent( codepoint, mods ));
+        };
+        glfwSetCharModsCallback( _mainWindow->get_handle(), charCallback );
+
+        // 2.3# Mouse pos callback
+        auto mPosCallback = []( GLFWwindow* window, double xpos, double ypos )
+        {
+            static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_mouseevent( MoveEvent( xpos, ypos ) );
+        };
+        glfwSetCursorPosCallback( _mainWindow->get_handle(), mPosCallback );
+
+        // 2.4# Mouse enter/leave
+        auto mEnterLeaveCallback = []( GLFWwindow* window, int entered )
+        {
+            if (entered)
+                static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_mouseevent( EnterEvent() );
+            else
+                static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_mouseevent( LeaveEvent() );
+        };
+        glfwSetCursorEnterCallback( _mainWindow->get_handle(), mEnterLeaveCallback );
+
+        // 2.4# Mouse button
+        auto mClickCallback = [](GLFWwindow* window, int button, int action, int mods)
+        {
+            double x, y;
+            glfwGetCursorPos( window, &x, &y );
+
+            static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_mouseevent( ClickEvent(x,y,button,action,mods) );
+        };
+        glfwSetMouseButtonCallback( _mainWindow->get_handle(), mClickCallback );
+
+        // 2.5# Scroll input
+        auto mScrollCallback = []( GLFWwindow* window, double xoffset, double yoffset )
+        { 
+            static_cast<InputEngine*>(glfwGetWindowUserPointer( window ))->add_mouseevent( ScrollEvent( xoffset, yoffset ) ); 
+        };
+        glfwSetScrollCallback( _mainWindow->get_handle(), mScrollCallback );
+    }
+    
 }
 
-void RenderEngine::on_render(vector<weak<GameObject>> gameObjects)
+void RenderEngine::on_render( vector<weak<GameObject>> gameObjects )
 {
 	// 1# Setup rendering
     _mainWindow->make_current();
@@ -34,7 +89,7 @@ void RenderEngine::on_render(vector<weak<GameObject>> gameObjects)
 
 	// #2 Update Rendercomponents
 	for (weak<GameObject> gameObject : gameObjects) {
-		RenderComponent* component = gameObject->get_rendercomponent();
+		weak<RenderComponent> component = gameObject->get_rendercomponent();
 
 		if (component != nullptr) {
 			if (!component->is_initialized())
@@ -57,13 +112,14 @@ void RenderEngine::on_render(vector<weak<GameObject>> gameObjects)
 void RenderEngine::on_shutdown()
 {
 	// Release OPEN GL Resources
-    // Clear Shaders
     _shaders.clear();
     _textures.clear();
     _materials.clear();
     _batches.clear();
 
     _batchTokenLookup.clear();
+
+    _mainWindow.destroy();
 
 	glfwTerminate();
 }
@@ -81,6 +137,11 @@ weak<GLWindow> RenderEngine::get_window()
 bool RenderEngine::is_exit_requested()
 {
     return  _mainWindow->close_requested();
+}
+
+void RenderEngine::hide_cursor( bool hideCursor )
+{
+    glfwSetInputMode( _mainWindow->get_handle(), GLFW_CURSOR, hideCursor ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL );
 }
 
 // VERTICES
