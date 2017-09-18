@@ -75,14 +75,13 @@ int Engine::run() {
 void Engine::mainloop() {
 
     // Init mainloop
-    bool programEnd = false;
     uint64_t tickCurrent  = get_current_ms();
     uint64_t tickPrevious = get_current_ms();
     uint64_t tickDuration = 0;
     uint64_t lag          = 0;
 
     // Mainloop
-    while ( !programEnd )
+    while (1)
     {
         // Calculate the tick rate
         tickCurrent  = get_current_ms();
@@ -96,6 +95,7 @@ void Engine::mainloop() {
             _input->on_update();
 
             update_gamestate();
+            if ( _gameState == nullptr ) return;
 
             _logic->on_update();
             _physics->on_update();
@@ -107,7 +107,7 @@ void Engine::mainloop() {
         _render->set_interpolation( (float)((double)lag / (double)_tickTime) ); // Add '+ 1' to switch to extrapolation
         _render->on_render( _gameState->get_gameobjects() );
 
-        programEnd = _render->is_exit_requested();
+        if ( _render->is_exit_requested() ) return;
     }
 }
 

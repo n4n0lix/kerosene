@@ -59,7 +59,7 @@ void TestRenderComponent::on_init()
 
 void TestRenderComponent::on_render()
 {
-
+    
 }
 
 void TestRenderComponent::on_deinit()

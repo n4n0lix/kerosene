@@ -285,6 +285,15 @@
     <ClInclude Include="source\engine\idgen.h">
       <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\keyevent.h">
+      <Filter>Headerdateien\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\charevent.h">
+      <Filter>Headerdateien\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\mouseevent.h">
+      <Filter>Headerdateien\engine\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\texture.cpp">

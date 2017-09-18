@@ -83,6 +83,14 @@ SCENARIO("owner can be compared to nullptr without method invokation or explicit
         THEN("comparing with nullptr is false") {
             REQUIRE(_owner != nullptr);
         }
+
+        WHEN( "the owner is nullptr assigned" ) {
+            _owner = nullptr;
+
+            THEN( "owner is equals to nullptr" ) {
+                REQUIRE( _owner == nullptr );
+            }
+        }
     }
 }
 

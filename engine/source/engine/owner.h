@@ -289,6 +289,11 @@ public:
     // Copy Assignment
     owner<T>&       operator=(const owner<T>& orig) = delete;
 
+    owner<T>&       operator=(const nullptr_t& orig ) {
+        destroy();
+        return *this;
+    }
+
     // Move assignment
     template<typename U> // needed for move assign inherent types
     owner<T>&       operator=(owner<U>&& orig) {
@@ -311,8 +316,8 @@ public:
     template<typename U>
     bool            operator!= (const weak<U> &y) const { return !(_ptr == y.get()); }
 
-    bool            operator== (const owner &other) const { return (_ptr == other._ptr); }
-    bool            operator!= (const owner &other) const { return !(this == other); }
+    bool            operator== (const owner& other) const { return (_ptr == other._ptr); }
+    bool            operator!= (const owner& other) const { return !(this == other); }
 
     bool            operator== (const nullptr_t &other) const { return (_ptr == other); }
     bool            operator!= (const nullptr_t &other) const { return !(this == other); }

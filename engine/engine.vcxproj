@@ -26,6 +26,9 @@
     <Text Include="source\gameidea.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\engine\charevent.h" />
+    <ClInclude Include="source\engine\keyevent.h" />
+    <ClInclude Include="source\engine\mouseevent.h" />
     <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />

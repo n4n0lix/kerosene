@@ -45,14 +45,14 @@ public:
     owner<GameObject>           remove_gameobject(weak<GameObject> gameObject);
     vector<weak<GameObject>>    get_gameobjects();
 
-    owner<GameState>        take_next_gamestate();
-    void                    give_next_gamestate(owner<GameState> next);
+    owner<GameState>            take_next_gamestate();
+    void                        give_next_gamestate(owner<GameState> next);
 
-    weak<RenderEngine>      get_renderengine();
-    void                    set_renderengine(weak<RenderEngine> render);
+    weak<RenderEngine>          get_renderengine();
+    void                        set_renderengine(weak<RenderEngine> render);
 
-    weak<InputEngine>       get_inputengine();
-    void                    set_inputengine( weak<InputEngine> input );
+    weak<InputEngine>           get_inputengine();
+    void                        set_inputengine( weak<InputEngine> input );
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -62,6 +62,8 @@ protected:
     virtual void on_start() = 0;
     virtual void on_update() = 0;
     virtual void on_end() = 0;
+
+    void set_status( GameStateStatus status );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

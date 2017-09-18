@@ -9958,52 +9958,6 @@
     <ClInclude Include="..\engine\source\engine\vertex_pc.cpp" />
     <ClInclude Include="..\engine\source\engine\vertex_pt.cpp" />
     <ClInclude Include="..\engine\source\engine\_gl.cpp" />
-    <ClInclude Include="..\engine\source\engine\buffertoken.cpp">
-      <Filter>Quelldateien\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\source\engine\buffertoken2.cpp" />
-    <ClInclude Include="..\engine\source\engine\camera.cpp" />
-    <ClInclude Include="..\engine\source\engine\component.cpp" />
-    <ClInclude Include="..\engine\source\engine\decimal32.cpp" />
-    <ClInclude Include="..\engine\source\engine\engine.cpp" />
-    <ClInclude Include="..\engine\source\engine\engineconfiguration.cpp" />
-    <ClInclude Include="..\engine\source\engine\engineexception.cpp" />
-    <ClInclude Include="..\engine\source\engine\gameobject.cpp" />
-    <ClInclude Include="..\engine\source\engine\gamestate.cpp" />
-    <ClInclude Include="..\engine\source\engine\glwindow.cpp" />
-    <ClInclude Include="..\engine\source\engine\idgenerator.cpp" />
-    <ClInclude Include="..\engine\source\engine\imageutils.cpp" />
-    <ClInclude Include="..\engine\source\engine\indexbuffer.cpp" />
-    <ClInclude Include="..\engine\source\engine\indexbuffertoken.cpp" />
-    <ClInclude Include="..\engine\source\engine\inputengine.cpp" />
-    <ClInclude Include="..\engine\source\engine\logiccomponent.cpp" />
-    <ClInclude Include="..\engine\source\engine\logicengine.cpp" />
-    <ClInclude Include="..\engine\source\engine\material.cpp" />
-    <ClInclude Include="..\engine\source\engine\matrix4f.cpp" />
-    <ClInclude Include="..\engine\source\engine\networkengine.cpp" />
-    <ClInclude Include="..\engine\source\engine\physicsengine.cpp" />
-    <ClInclude Include="..\engine\source\engine\quaterion4f.cpp" />
-    <ClInclude Include="..\engine\source\engine\range.cpp" />
-    <ClInclude Include="..\engine\source\engine\rendercomponent.cpp" />
-    <ClInclude Include="..\engine\source\engine\renderengine.cpp" />
-    <ClInclude Include="..\engine\source\engine\shader.cpp" />
-    <ClInclude Include="..\engine\source\engine\shaderbuilder.cpp" />
-    <ClInclude Include="..\engine\source\engine\stackbuffertoken.cpp" />
-    <ClInclude Include="..\engine\source\engine\stringutils.cpp" />
-    <ClInclude Include="..\engine\source\engine\tb_removeop.cpp" />
-    <ClInclude Include="..\engine\source\engine\texture.cpp" />
-    <ClInclude Include="..\engine\source\engine\textureoptions.cpp" />
-    <ClInclude Include="..\engine\source\engine\textureslottemplate.cpp" />
-    <ClInclude Include="..\engine\source\engine\transform.cpp" />
-    <ClInclude Include="..\engine\source\engine\uniformtemplate.cpp" />
-    <ClInclude Include="..\engine\source\engine\vector2f.cpp" />
-    <ClInclude Include="..\engine\source\engine\vector3f.cpp" />
-    <ClInclude Include="..\engine\source\engine\vector4f.cpp" />
-    <ClInclude Include="..\engine\source\engine\vertexbuffertoken.cpp" />
-    <ClInclude Include="..\engine\source\engine\vertextoken.cpp" />
-    <ClInclude Include="..\engine\source\engine\vertex_pc.cpp" />
-    <ClInclude Include="..\engine\source\engine\vertex_pt.cpp" />
-    <ClInclude Include="..\engine\source\engine\_gl.cpp" />
     <ClInclude Include="source\catch.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -21256,9 +21210,6 @@
     <ClCompile Include="..\engine\source\engine\indexbuffer.cpp">
       <Filter>Quelldateien\engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\source\engine\buffertoken.cpp">
-      <Filter>Quelldateien\engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\source\engine\gamestate.cpp">
       <Filter>Quelldateien\engine</Filter>
     </ClCompile>
@@ -21313,16 +21264,10 @@
     <ClCompile Include="..\engine\source\engine\range.cpp">
       <Filter>Quelldateien\engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\source\engine\tb_removeop.cpp">
-      <Filter>Quelldateien\engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\source\engine\stackbuffertoken.cpp">
       <Filter>Quelldateien\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\source\engine\matrix4f.cpp">
-      <Filter>Quelldateien\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\source\engine\engineexception.cpp">
       <Filter>Quelldateien\engine</Filter>
     </ClCompile>
     <ClCompile Include="..\engine\source\engine\decimal32.cpp">

@@ -24,13 +24,14 @@ void TestGameState::on_update()
 {
     queue<KeyEvent> keys = get_inputengine()->get_keyevents();
 
-    while ( !keys.empty() ) {
-        KeyEvent evt = keys.front();
-        keys.pop();
 
-        if ( evt.key() == GLFW_KEY_W ) {
-            std::cout << "W pressed!\n";
+    for (; !keys.empty(); keys.pop())      
+    {
+        KeyEvent evt = keys.front();
+        if ( evt.key() == Key::ESCAPE ) {
+            set_status( GameStateStatus::FINISHED );
         }
+
     }
 }
 

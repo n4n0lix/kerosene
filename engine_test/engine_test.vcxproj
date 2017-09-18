@@ -23,14 +23,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\source\engine\batch.h" />
-    <ClInclude Include="..\engine\source\engine\buffer.h" />
-    <ClInclude Include="..\engine\source\engine\buffertoken.h" />
     <ClInclude Include="..\engine\source\engine\camera.h" />
     <ClInclude Include="..\engine\source\engine\component.h" />
     <ClInclude Include="..\engine\source\engine\decimal32.h" />
     <ClInclude Include="..\engine\source\engine\engine.h" />
     <ClInclude Include="..\engine\source\engine\engineconfiguration.h" />
-    <ClInclude Include="..\engine\source\engine\engineexception.h" />
     <ClInclude Include="..\engine\source\engine\gameobject.h" />
     <ClInclude Include="..\engine\source\engine\gamestate.h" />
     <ClInclude Include="..\engine\source\engine\glwindow.h" />
@@ -38,17 +35,14 @@
     <ClInclude Include="..\engine\source\engine\imageutils.h" />
     <ClInclude Include="..\engine\source\engine\indexbuffer.h" />
     <ClInclude Include="..\engine\source\engine\inputengine.h" />
-    <ClInclude Include="..\engine\source\engine\list.h" />
     <ClInclude Include="..\engine\source\engine\logger.h" />
     <ClInclude Include="..\engine\source\engine\logiccomponent.h" />
     <ClInclude Include="..\engine\source\engine\logicengine.h" />
-    <ClInclude Include="..\engine\source\engine\map.h" />
     <ClInclude Include="..\engine\source\engine\material.h" />
     <ClInclude Include="..\engine\source\engine\matrix4f.h" />
     <ClInclude Include="..\engine\source\engine\networkengine.h" />
     <ClInclude Include="..\engine\source\engine\non_null.h" />
     <ClInclude Include="..\engine\source\engine\nullable.h" />
-    <ClInclude Include="..\engine\source\engine\owner_list.h" />
     <ClInclude Include="..\engine\source\engine\physicsengine.h" />
     <ClInclude Include="..\engine\source\engine\primitivetype.h" />
     <ClInclude Include="..\engine\source\engine\quaternion4f.h" />
@@ -92,13 +86,11 @@
     <ClInclude Include="source\catch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\engine\source\engine\buffertoken.cpp" />
     <ClCompile Include="..\engine\source\engine\camera.cpp" />
     <ClCompile Include="..\engine\source\engine\component.cpp" />
     <ClCompile Include="..\engine\source\engine\decimal32.cpp" />
     <ClCompile Include="..\engine\source\engine\engine.cpp" />
     <ClCompile Include="..\engine\source\engine\engineconfiguration.cpp" />
-    <ClCompile Include="..\engine\source\engine\engineexception.cpp" />
     <ClCompile Include="..\engine\source\engine\gameobject.cpp" />
     <ClCompile Include="..\engine\source\engine\gamestate.cpp" />
     <ClCompile Include="..\engine\source\engine\glwindow.cpp" />
@@ -120,7 +112,6 @@
     <ClCompile Include="..\engine\source\engine\shaderbuilder.cpp" />
     <ClCompile Include="..\engine\source\engine\stackbuffertoken.cpp" />
     <ClCompile Include="..\engine\source\engine\stringutils.cpp" />
-    <ClCompile Include="..\engine\source\engine\tb_removeop.cpp" />
     <ClCompile Include="..\engine\source\engine\texture.cpp" />
     <ClCompile Include="..\engine\source\engine\textureoptions.cpp" />
     <ClCompile Include="..\engine\source\engine\textureslottemplate.cpp" />

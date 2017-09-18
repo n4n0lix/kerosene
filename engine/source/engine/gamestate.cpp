@@ -93,6 +93,11 @@ weak<RenderEngine> GameState::get_renderengine()
      _inputEngine = input;
  }
 
+ void GameState::set_status( GameStateStatus status )
+ {
+     _status = status;
+ }
+
 /**
 * Set the render engine for this gamestate.
 */
