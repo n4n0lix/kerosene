@@ -159,7 +159,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     
     LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")" << endl;
 
-    return move( result );
+    return std::move( result );
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -33,7 +33,7 @@
     <ClInclude Include="source\engine\component.h" />
     <ClInclude Include="source\engine\engineconfiguration.h" />
     <ClInclude Include="source\engine\gameobject.h" />
-    <ClInclude Include="source\engine\idgenerator.h" />
+    <ClInclude Include="source\engine\idgen.h" />
     <ClInclude Include="source\engine\logiccomponent.h" />
     <ClInclude Include="source\engine\imageutils.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />

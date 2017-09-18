@@ -243,9 +243,6 @@
     <ClInclude Include="source\engine\transform.h">
       <Filter>Headerdateien\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\idgenerator.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\component.h">
       <Filter>Headerdateien\engine\core</Filter>
     </ClInclude>
@@ -284,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="source\engine\_stdext.h">
       <Filter>Headerdateien\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\idgen.h">
+      <Filter>Headerdateien\engine\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

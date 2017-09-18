@@ -41,19 +41,19 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit Shader();
+            explicit Shader();
             ~Shader();
 
-    bool operator==(const Shader& o) const;
-    bool operator!=(const Shader& o) const;
+    bool operator==( const Shader& o ) const;
+    bool operator!=( const Shader& o ) const;
 
     // TODO: Find a better way, this doesn't say that this shader is "smaller"
-    bool operator<(const Shader& o1) const; // To be able to use in map
+    bool operator<( const Shader& o1 ) const; // To be able to use in map
 
     void                     bind();
-    Nullable<Uniform>        vertex_uniform(string name);
-    Nullable<Uniform>        frag_uniform(string name);
-    Nullable<TextureSlot>    frag_texture_slot(string name);
+    Nullable<Uniform>        vertex_uniform( string name );
+    Nullable<Uniform>        frag_uniform( string name );
+    Nullable<TextureSlot>    frag_texture_slot( string name );
     VertexLayout             get_vertex_layout();
 
 private:

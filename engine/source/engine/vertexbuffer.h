@@ -17,7 +17,7 @@
 #include "_global.h"
 #include "_renderdefs.h"
 
-#include "idgenerator.h"
+#include "idgen.h"
 #include "logger.h"
 
 #include "range.h"

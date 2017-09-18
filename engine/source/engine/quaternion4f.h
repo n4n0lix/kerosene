@@ -76,7 +76,7 @@ public:
         return out;
     }
 
-    static Quaternion4f rotationIdentity() { return move( Quaternion4f(0.0f, 0.0f, 0.0f, 1.0f) ); }
+    static Quaternion4f rotationIdentity() { return std::move( Quaternion4f(0.0f, 0.0f, 0.0f, 1.0f) ); }
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */

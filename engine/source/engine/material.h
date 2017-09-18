@@ -30,7 +30,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            Material(weak<Shader> shader, weak<Texture> tex = nullptr);
+            Material( weak<Shader> shader, weak<Texture> tex = nullptr );
             ~Material() = default;
 
     weak<Shader>  get_shader() const;

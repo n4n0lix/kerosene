@@ -24,8 +24,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-             StaticMesh(shared_ptr<Material> material, PrimitiveType type);
-             ~StaticMesh() = default;
+            StaticMesh( shared_ptr<Material> material, PrimitiveType type );
+            ~StaticMesh() = default;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

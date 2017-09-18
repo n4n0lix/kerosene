@@ -6,7 +6,7 @@
 
 // Std-Includes
 #include <algorithm>
-        using std::transform;
+using std::transform;
 
 // Other Includes
 
@@ -28,15 +28,15 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 class IBatch
 {
-public :
+public:
 
     virtual             ~IBatch() = default;
-    virtual void                    remove_vertices(owner<VertexToken> token) = 0;
+    virtual void                    remove_vertices( owner<VertexToken> token ) = 0;
 
-    virtual void                    add_render(weak<VertexToken> token)      = 0;
-    virtual void                    remove_render(weak<VertexToken> token)   = 0;
+    virtual void                    add_render( weak<VertexToken> token ) = 0;
+    virtual void                    remove_render( weak<VertexToken> token ) = 0;
 
-    virtual void                    set_view_matrix(Matrix4f viewMatrix)      = 0;
+    virtual void                    set_view_matrix( Matrix4f viewMatrix ) = 0;
 
     virtual void                    render() = 0;
 };
@@ -48,18 +48,18 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-              explicit Batch(weak<Material> material);
-              virtual ~Batch() = default;
+            explicit Batch( weak<Material> material );
+            virtual ~Batch() = default;
 
-            owner<VertexToken>     add_vertices(vector<VERTEX>&& vertices);
-    virtual void                   remove_vertices(owner<VertexToken> token);
-    
-    virtual void                   add_render(weak<VertexToken> token);
-    virtual void                   remove_render(weak<VertexToken> token);
-    
-    virtual void                   set_view_matrix(Matrix4f viewMatrix);
+    owner<VertexToken>     add_vertices( vector<VERTEX>&& vertices );
+    virtual void           remove_vertices( owner<VertexToken> token );
 
-    virtual void                   render();
+    virtual void           add_render( weak<VertexToken> token );
+    virtual void           remove_render( weak<VertexToken> token );
+
+    virtual void           set_view_matrix( Matrix4f viewMatrix );
+
+    virtual void           render();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -78,7 +78,7 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- 
+
     static Logger LOGGER;
 };
 
@@ -86,49 +86,49 @@ private:
 /*                        Public                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 template<class VERTEX>
-Batch<VERTEX>::Batch(weak<Material> material) {
-    if (!material.ptr_is_valid() || material == nullptr) throw std::exception("Material is null!");
+Batch<VERTEX>::Batch( weak<Material> material ) {
+    if ( !material.ptr_is_valid() || material == nullptr ) throw std::exception( "Material is null!" );
 
     _material = material;
-    _vao = make_owner<VertexArray<VERTEX>>(material->get_shader()->get_vertex_layout());
+    _vao = make_owner<VertexArray<VERTEX>>( material->get_shader()->get_vertex_layout() );
 }
 
 template<class VERTEX>
-owner<VertexToken> Batch<VERTEX>::add_vertices(vector<VERTEX>&& vertices)
+owner<VertexToken> Batch<VERTEX>::add_vertices( vector<VERTEX>&& vertices )
 {
-    return _vao->add_vertices( std::forward<vector<VERTEX>>( vertices ));
+    return _vao->add_vertices( std::forward<vector<VERTEX>>( vertices ) );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_vertices(owner<VertexToken> token)
+void Batch<VERTEX>::remove_vertices( owner<VertexToken> token )
 {
-    _vao->remove_vertices( std::move( token ));
+    _vao->remove_vertices( std::move( token ) );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::add_render(weak<VertexToken> token)
+void Batch<VERTEX>::add_render( weak<VertexToken> token )
 {
     _vao->add_render_static( token );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_render(weak<VertexToken> token)
+void Batch<VERTEX>::remove_render( weak<VertexToken> token )
 {
-    _vao->remove_render_static(token);
+    _vao->remove_render_static( token );
 }
 
 template<class VERTEX>
-inline void Batch<VERTEX>::set_view_matrix(Matrix4f viewMatrix)
+inline void Batch<VERTEX>::set_view_matrix( Matrix4f viewMatrix )
 {
 }
 
 template<class VERTEX>
 void Batch<VERTEX>::render()
 {
-    if (_material.ptr_is_valid()) {
+    if ( _material.ptr_is_valid() ) {
         _material->bind();
     }
-    
+
     _vao->render();
 }
 
@@ -137,6 +137,6 @@ void Batch<VERTEX>::render()
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-Logger Batch<T>::LOGGER = Logger("Batch<>", Level::DEBUG);
+Logger Batch<T>::LOGGER = Logger( "Batch<>", Level::DEBUG );
 
 ENGINE_NAMESPACE_END

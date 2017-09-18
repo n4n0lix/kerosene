@@ -17,7 +17,7 @@ void TestGameState::on_start()
 
     owner<GameObject> gameObject = make_owner<GameObject>();
 	gameObject->set_rendercomponent( std::move( make_owner<TestRenderComponent>() ));
-	add_gameobject( move(gameObject) );
+	add_gameobject( std::move(gameObject) );
 }
 
 void TestGameState::on_update()

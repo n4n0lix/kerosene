@@ -29,17 +29,17 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    UniformTemplate(string type, string name) : type(type), name(name) {}
-    ~UniformTemplate() = default;
+            UniformTemplate( string type, string name ) : type( type ), name( name ) {}
+            ~UniformTemplate() = default;
 
-    Uniform to_uniform() { return Uniform(type, name); }
+    Uniform to_uniform() { return Uniform( type, name ); }
 
     string  type;
     string  name;
 
-    bool operator<(const UniformTemplate& o1) const { return name == o1.name ? type < o1.type : name < o1.name; }
-    bool operator==(const UniformTemplate& o) const { return type == o.type && name == o.name; }
-    bool operator!=(const UniformTemplate& o) const { return !(*this == o); }
+    bool operator<( const UniformTemplate& o1 ) const { return name == o1.name ? type < o1.type : name < o1.name; }
+    bool operator==( const UniformTemplate& o ) const { return type == o.type && name == o.name; }
+    bool operator!=( const UniformTemplate& o ) const { return !(*this == o); }
 };
 
 ENGINE_NAMESPACE_END

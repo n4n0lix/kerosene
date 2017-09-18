@@ -28,10 +28,10 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    Nullable()          : _isNull(true)     { };
-    Nullable(T value)   : _isNull(false)    { _value = value; };
+            Nullable() : _isNull( true ) { };
+            Nullable( T value ) : _isNull( false ) { _value = value; };
 
-    Nullable<T>& operator=(T value);
+    Nullable<T>& operator=( T value );
     Nullable<T>& make_null();
 
     bool         is_null();
@@ -45,7 +45,7 @@ private:
 };
 
 template<class T>
-Nullable<T>& Nullable<T>::operator=(T value)
+Nullable<T>& Nullable<T>::operator=( T value )
 {
     _value = value;
     _isNull = false;

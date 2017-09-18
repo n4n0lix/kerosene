@@ -30,30 +30,30 @@ public:
             RenderComponent();
             virtual ~RenderComponent() = default;
 
-	void init(RenderEngine* engine);
-	void render();
-	void deinit();
+    void init( RenderEngine* engine );
+    void render();
+    void deinit();
 
-	bool is_initialized();
+    bool is_initialized();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	virtual void on_init() = 0;
-	virtual void on_render() = 0;
-	virtual void on_deinit() = 0;
+    virtual void on_init() = 0;
+    virtual void on_render() = 0;
+    virtual void on_deinit() = 0;
 
-	RenderEngine* get_renderengine();
+    RenderEngine* get_renderengine();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	bool			_initialized;
-	RenderEngine*	_renderEngine;
+    bool			_initialized;
+    RenderEngine*	_renderEngine;
 
 };
 

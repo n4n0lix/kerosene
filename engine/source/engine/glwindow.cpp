@@ -18,7 +18,7 @@ GLWindow::GLWindow(const string title, const int32_t width, const int32_t height
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // Create the window
-    _handle = unique_ptr<GLFWwindow, GLFWwindowDestroyer>(glfwCreateWindow(width, height, "Kerosine Engine", nullptr, nullptr), GLFWwindowDestroyer());
+    _handle = owner<GLFWwindow>(glfwCreateWindow(width, height, "Kerosine Engine", nullptr, nullptr));
 
     if (_handle == nullptr) {
         throw std::exception("Failed to create the GLFW window");

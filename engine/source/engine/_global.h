@@ -112,19 +112,13 @@
 
 // Using std smart pointers
 #include <memory>
-        using std::unique_ptr;
-        using std::make_unique;
         using std::shared_ptr;
         using std::make_shared;
-        using std::weak_ptr;
-        using std::move;
         using std::dynamic_pointer_cast;
         using std::static_pointer_cast;
 
         template <typename T> 
         using shared = std::shared_ptr<T>;
-        template <typename T>
-        using w_ptr = std::weak_ptr<T>;
 
 
 

@@ -22,7 +22,7 @@ Engine::Engine(EngineConfiguration& config)
 
     /* Gamestate */
     // Hand over the ownership
-    _gameState = move( config.claimGameState() );
+    _gameState = std::move( config.claimGameState() );
 
     // Render
     _render  = make_owner<RenderEngine>();

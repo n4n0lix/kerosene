@@ -24,7 +24,7 @@ public:
     /*                      Public Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static bool ends_with(string haystack, string needle);
+    static bool ends_with( string haystack, string needle );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -1,4 +1,4 @@
-#include "idgenerator.h"
+#include "idgen.h"
 
 ENGINE_NAMESPACE_BEGIN
 

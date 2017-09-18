@@ -24,8 +24,8 @@ enum class ImageFormat {
 
 class Image {
 public:
-    Image() = default;
-    ~Image() = default;
+            Image() = default;
+            ~Image() = default;
 
     uint32          width;
     uint32          height;
@@ -36,7 +36,7 @@ public:
 
     string          dbg_str() {
         std::ostringstream oss;
-        oss << width << "x" << height << "x" << bpp*8;
+        oss << width << "x" << height << "x" << bpp * 8;
         return oss.str();
     }
 };
@@ -47,8 +47,8 @@ public:
     /*                      Public Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static owner<Image>		 load_png(string file);
-    static void              flip_y(Image* image);
+    static owner<Image>		 load_png( string file );
+    static void              flip_y( Image* image );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

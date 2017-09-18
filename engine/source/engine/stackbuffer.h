@@ -17,7 +17,7 @@
 #include "stackbuffertoken.h"
 #include "logger.h"
 
-#include "idgenerator.h"
+#include "idgen.h"
 
 // TODO: Optimize the methods 'optimizeNext' and 'optimize'
 // TODO: Merge RemoveOps and WriteOps to decrease the num of operations
@@ -34,8 +34,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                                    StackBuffer(uint32 objSize, uint32 objCapacity);
-                                    virtual ~StackBuffer() = default;
+            StackBuffer( uint32 objSize, uint32 objCapacity );
+            virtual ~StackBuffer() = default;
 
     uint32                                      object_size() const;
     uint32                                      object_capacity() const;
@@ -45,29 +45,29 @@ public:
     void                                        commit_remove();
 
     uint32                                      num_objects();
-    bool                                        contains(weak<StackBufferToken> token);
+    bool                                        contains( weak<StackBufferToken> token );
 
-    weak<StackBufferToken>                      write(vector<T> objects);
-    void                                        remove(weak<StackBufferToken> token);
+    weak<StackBufferToken>                      write( vector<T> objects );
+    void                                        remove( weak<StackBufferToken> token );
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    void                            set_atom_capacity(uint32 newAtomCapacity);
+    void                            set_atom_capacity( uint32 newAtomCapacity );
 
-    void                            commit_write(vector<T> objects, weak<StackBufferToken> commit_token);
-    void                            commit_remove(weak<StackBufferToken> token);
-        
+    void                            commit_write( vector<T> objects, weak<StackBufferToken> commit_token );
+    void                            commit_remove( weak<StackBufferToken> token );
+
     // Final-Implementation
-    virtual void                    native_write(uint32 index, vector<T> objects) = 0;
-    virtual void                    native_resize(uint32 oldCapacity, uint32 newCapacity) = 0;
-    virtual void                    native_copy(uint32 srcIndex, uint32 destIndex, uint32 length) = 0;
+    virtual void                    native_write( uint32 index, vector<T> objects ) = 0;
+    virtual void                    native_resize( uint32 oldCapacity, uint32 newCapacity ) = 0;
+    virtual void                    native_copy( uint32 srcIndex, uint32 destIndex, uint32 length ) = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            weak<StackBufferToken>    get_token_by_range_id(uint32 rangeId);
+    weak<StackBufferToken>    get_token_by_range_id( uint32 rangeId );
 
 
     Range                     _freeRange;
@@ -99,44 +99,44 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-StackBuffer<T>::StackBuffer(uint32 objSize, uint32 objCapacity)
+StackBuffer<T>::StackBuffer( uint32 objSize, uint32 objCapacity )
 {
     _numObjects = 0;
     _atomCapacity = objSize * objCapacity;
     _objectSize = objSize;
 
     // 1# Create initial range
-    _freeRange = Range(0, atom_capacity());
-    LOGGER.log(Level::DEBUG) << "CREATE [" << _freeRange.index() << "," << _freeRange.length()-1 << "], OBJ SIZE: " << object_size()  << endl;
+    _freeRange = Range( 0, atom_capacity() );
+    LOGGER.log( Level::DEBUG ) << "CREATE [" << _freeRange.index() << "," << _freeRange.length() - 1 << "], OBJ SIZE: " << object_size() << endl;
 
     // X# Contract Post
     Ensures( _freeRange.length() == atom_capacity() );
 }
 
 template<class T>
-weak<StackBufferToken> StackBuffer<T>::write(vector<T> objects)
+weak<StackBufferToken> StackBuffer<T>::write( vector<T> objects )
 {
     // 1# Guards
-    Requires(!objects.empty());
+    Requires( !objects.empty() );
 
     // 2# Create token
-    owner<StackBufferToken> token    = make_owner<StackBufferToken>( _tokenIDGen.new_id(), this);
+    owner<StackBufferToken> token = make_owner<StackBufferToken>( _tokenIDGen.new_id(), this );
     weak<StackBufferToken>  nonOwnerToken = token.get_non_owner();
 
     // 3# Store in write bucket
-    _writeBucket.emplace( nonOwnerToken, std::move( objects ));
-    _tokens.emplace_back( std::move( token ));
+    _writeBucket.emplace( nonOwnerToken, std::move( objects ) );
+    _tokens.emplace_back( std::move( token ) );
 
     // 4# Return token
     return nonOwnerToken;
 }
 
 template<class T>
-void StackBuffer<T>::remove(weak<StackBufferToken> wToken)
+void StackBuffer<T>::remove( weak<StackBufferToken> wToken )
 {
     // 0# Contract pre
     Requires( wToken.ptr_is_valid() );
-    Requires( wToken != nullptr);
+    Requires( wToken != nullptr );
 
     // 1# Check if token is invalid, and if it is remove corresponding writeops ...
     if ( !wToken->valid() ) {
@@ -154,7 +154,7 @@ void StackBuffer<T>::remove(weak<StackBufferToken> wToken)
 template<class T>
 void StackBuffer<T>::commit_write() {
     // 1# Do WriteOps
-    for (auto pair = _writeBucket.begin(); pair != _writeBucket.end(); ++pair) {
+    for ( auto pair = _writeBucket.begin(); pair != _writeBucket.end(); ++pair ) {
         auto writeToken = pair->first;
         commit_write( std::move( pair->second ), writeToken );
         _numObjects += writeToken->object_range().length();
@@ -168,7 +168,7 @@ void StackBuffer<T>::commit_write() {
 template<class T>
 void StackBuffer<T>::commit_remove() {
     // 1# Do RemoveOps
-    for (auto removeToken : _removeBucket) {
+    for ( auto removeToken : _removeBucket ) {
         commit_remove( removeToken );
         _numObjects -= removeToken->object_range().length();
 
@@ -188,13 +188,13 @@ uint32 StackBuffer<T>::num_objects()
 }
 
 template<class T>
-bool StackBuffer<T>::contains(weak<StackBufferToken> token)
+bool StackBuffer<T>::contains( weak<StackBufferToken> token )
 {
     return contains_owner( _tokens, token );
 }
 
 template <class T>
-void StackBuffer<T>::set_atom_capacity(uint32 newAtomCapacity)
+void StackBuffer<T>::set_atom_capacity( uint32 newAtomCapacity )
 {
     _atomCapacity = newAtomCapacity;
 }
@@ -222,7 +222,7 @@ inline uint32 StackBuffer<T>::atom_capacity() const
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void StackBuffer<T>::commit_write(vector<T> objects, weak<StackBufferToken> token)
+void StackBuffer<T>::commit_write( vector<T> objects, weak<StackBufferToken> token )
 {
     // 0# Contract Pre
     Requires( objects.size() > 0 );
@@ -231,39 +231,39 @@ void StackBuffer<T>::commit_write(vector<T> objects, weak<StackBufferToken> toke
 
     // 1# Check if freerange is large enough
     uint32 neededSize = (uint32_t)objects.size() * object_size();
-    
-    if (_freeRange.length() < neededSize) {
+
+    if ( _freeRange.length() < neededSize ) {
         // ... we need to grow the buffer
         uint32 oldAtomCapacity = atom_capacity();
         uint32 newAtomCapacity = oldAtomCapacity + neededSize;
         uint32 diffAtomCapacity = newAtomCapacity - oldAtomCapacity;
 
-        native_resize(oldAtomCapacity, newAtomCapacity);
-        LOGGER.log(Level::DEBUG) << "RESIZE FROM [" << oldAtomCapacity << "] TO [" << newAtomCapacity << "]" << endl;
-        set_atom_capacity(newAtomCapacity);
-        
-        _freeRange = Range(_freeRange.index(), 
-                           _freeRange.index() + diffAtomCapacity);
-        LOGGER.log(Level::DEBUG) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
+        native_resize( oldAtomCapacity, newAtomCapacity );
+        LOGGER.log( Level::DEBUG ) << "RESIZE FROM [" << oldAtomCapacity << "] TO [" << newAtomCapacity << "]" << endl;
+        set_atom_capacity( newAtomCapacity );
+
+        _freeRange = Range( _freeRange.index(),
+            _freeRange.index() + diffAtomCapacity );
+        LOGGER.log( Level::DEBUG ) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
     }
 
     // 2# Split of range of 'free range'
     uint32 usedRangeId = _rangeIDGen.new_id();
-    Range usedRange = Range(_freeRange.index(), neededSize);
-    _freeRange = Range(usedRange.index() + usedRange.length(), _freeRange.length() - usedRange.length());
+    Range usedRange = Range( _freeRange.index(), neededSize );
+    _freeRange = Range( usedRange.index() + usedRange.length(), _freeRange.length() - usedRange.length() );
 
     // 2#  Write
-    LOGGER.log(Level::DEBUG) << "WRITE " << objects.size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]" << endl;
-    LOGGER.log(Level::DEBUG) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
+    LOGGER.log( Level::DEBUG ) << "WRITE " << objects.size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]" << endl;
+    LOGGER.log( Level::DEBUG ) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
 
-    native_write(usedRange.index(), std::move(objects));
+    native_write( usedRange.index(), std::move( objects ) );
 
     _usedRanges[usedRangeId] = usedRange;
 
     // 3# Update and validate the token
-    token->set_range_id(usedRangeId);
-    token->set_atom_range(usedRange);
-    token->set_object_size(object_size());
+    token->set_range_id( usedRangeId );
+    token->set_atom_range( usedRange );
+    token->set_object_size( object_size() );
     token->validate();
 
     // X# Contract Post
@@ -271,7 +271,7 @@ void StackBuffer<T>::commit_write(vector<T> objects, weak<StackBufferToken> toke
 }
 
 template<class T>
-void StackBuffer<T>::commit_remove(weak<StackBufferToken> token)
+void StackBuffer<T>::commit_remove( weak<StackBufferToken> token )
 {
     Requires( token.ptr_is_valid() );
     Requires( token != nullptr );
@@ -280,10 +280,10 @@ void StackBuffer<T>::commit_remove(weak<StackBufferToken> token)
     uint32 rangeId = token->range_id();
 
     if ( _usedRanges.count( rangeId ) == 0 ) {
-        LOGGER.log(Level::DEBUG) << "Attempting to remove unkown range with id: " << rangeId << "\n";
+        LOGGER.log( Level::DEBUG ) << "Attempting to remove unkown range with id: " << rangeId << "\n";
         return;
     }
-    
+
     Range range = _usedRanges[rangeId];
 
     // 2# Remove range
@@ -301,32 +301,32 @@ void StackBuffer<T>::commit_remove(weak<StackBufferToken> token)
     uint32 copyDestLength = (copyDestLast - copyDestFirst) + 1;
 
     uint32 freeRangeFirst = copyDestLast + 1;
-    uint32 freeRangeLast = atom_capacity()-1;
+    uint32 freeRangeLast = atom_capacity() - 1;
     uint32 freeRangeLength = (freeRangeLast - freeRangeFirst) + 1;
 
     uint32 moveDistance = copyDestFirst - copySourceFirst;
 
-    Assert(copyDestFirst <= copySourceFirst);
-    Assert(copySourceLength == copyDestLength);
+    Assert( copyDestFirst <= copySourceFirst );
+    Assert( copySourceLength == copyDestLength );
 
     // 2.2# Copy data
-    native_copy(copySourceFirst, copyDestFirst, copySourceLength);
-    LOGGER.log(Level::DEBUG) << "COPY [" << copySourceFirst << ", " << copySourceLast << "] TO [" << copyDestFirst << ", " << copyDestLast << "]" << endl;
+    native_copy( copySourceFirst, copyDestFirst, copySourceLength );
+    LOGGER.log( Level::DEBUG ) << "COPY [" << copySourceFirst << ", " << copySourceLast << "] TO [" << copyDestFirst << ", " << copyDestLast << "]" << endl;
 
-    _usedRanges.erase(rangeId);
-    _freeRange = Range(freeRangeFirst, freeRangeLength);
+    _usedRanges.erase( rangeId );
+    _freeRange = Range( freeRangeFirst, freeRangeLength );
 
     // 2.4# Update all ranges
-    for (auto pair = _usedRanges.begin(); pair != _usedRanges.end(); ++pair) {
+    for ( auto pair = _usedRanges.begin(); pair != _usedRanges.end(); ++pair ) {
         uint32 id = pair->first;
         Range  range = pair->second;
 
         // Determine if range is affected by deletion
-        if (range.index() > delRangeLast) {
+        if ( range.index() > delRangeLast ) {
             // Update Range
             range.move( moveDistance );
 
-            _usedRanges[ id ] = range;
+            _usedRanges[id] = range;
 
             // Update Token
             auto token = get_token_by_range_id( id );
@@ -341,11 +341,11 @@ void StackBuffer<T>::commit_remove(weak<StackBufferToken> token)
 }
 
 template<class T>
-weak<StackBufferToken> StackBuffer<T>::get_token_by_range_id(uint32 rangeId)
+weak<StackBufferToken> StackBuffer<T>::get_token_by_range_id( uint32 rangeId )
 {
     // 1# Search in tokens
-    for (auto token = _tokens.begin(); token != _tokens.end(); ++token) {
-        if (token->get()->range_id() == rangeId) {
+    for ( auto token = _tokens.begin(); token != _tokens.end(); ++token ) {
+        if ( token->get()->range_id() == rangeId ) {
             return token->get_non_owner();
         }
     }
@@ -358,6 +358,6 @@ weak<StackBufferToken> StackBuffer<T>::get_token_by_range_id(uint32 rangeId)
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-Logger StackBuffer<T>::LOGGER = Logger("StackBuffer<>", Level::WARN);
+Logger StackBuffer<T>::LOGGER = Logger( "StackBuffer<>", Level::WARN );
 
 ENGINE_NAMESPACE_END

@@ -63,7 +63,7 @@ vector<weak<GameObject>> GameState::get_gameobjects()
  */
 owner<GameState>    GameState::take_next_gamestate()
 {
-    return move( _nextGameState );
+    return std::move( _nextGameState );
 }
 
 /**
@@ -71,7 +71,7 @@ owner<GameState>    GameState::take_next_gamestate()
  */
 void                GameState::give_next_gamestate(owner<GameState> next)
 {
-    _nextGameState = move( next );
+    _nextGameState = std::move( next );
 }
 
 /**
@@ -80,7 +80,7 @@ void                GameState::give_next_gamestate(owner<GameState> next)
  */
 RenderEngine*   GameState::get_renderengine()
 {
-    return move( _renderEngine );
+    return std::move( _renderEngine );
 }
 
 /**

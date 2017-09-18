@@ -25,19 +25,19 @@ private:
     vector<VertexComponent> _components;
 
 public:
-    VertexLayout() { }
+            VertexLayout() { }
 
-    VertexLayout(vector<VertexComponent> comps) : _components(comps) {
-        _numComps = 0;
-        _bytesize = 0;
+            VertexLayout( vector<VertexComponent> comps ) : _components( comps ) {
+                _numComps = 0;
+                _bytesize = 0;
 
-        for (VertexComponent component : _components) {
-            _numComps += component.num_components();
-            _bytesize += component.bytesize();
-        }
-    }
+                for ( VertexComponent component : _components ) {
+                    _numComps += component.num_components();
+                    _bytesize += component.bytesize();
+                }
+            }
 
-    ~VertexLayout() = default;
+            ~VertexLayout() = default;
 
     vector<VertexComponent> components() const {
         return _components;
@@ -51,8 +51,8 @@ public:
         return _bytesize;
     }
 
-    bool operator==(const VertexLayout& o) const { return _components == o._components; }
-    bool operator!=(const VertexLayout& o) const { return !(*this == o); }
+    bool operator==( const VertexLayout& o ) const { return _components == o._components; }
+    bool operator!=( const VertexLayout& o ) const { return !(*this == o); }
 
 };
 

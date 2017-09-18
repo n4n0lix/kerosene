@@ -30,7 +30,7 @@ public:
             TextureOptions();
             ~TextureOptions() = default;
 
-    TextureOptions&  filtering(TextureFiltering filtering);
+    TextureOptions&  filtering( TextureFiltering filtering );
     TextureFiltering filtering();
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

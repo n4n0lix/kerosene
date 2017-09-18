@@ -31,12 +31,12 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-				IDGen();
-                ~IDGen() = default;
-			
-	uint32	new_id();
-	void    put(uint32 id);
-	void    release_id(uint32 id);
+            IDGen();
+            ~IDGen() = default;
+
+    uint32	new_id();
+    void    put( uint32 id );
+    void    release_id( uint32 id );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -44,7 +44,7 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     vector<uint32>			_usedIds;
-	std::mt19937			_rng;
+    std::mt19937			_rng;
 };
 
 ENGINE_NAMESPACE_END
