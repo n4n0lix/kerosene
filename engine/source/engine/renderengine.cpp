@@ -93,9 +93,9 @@ void RenderEngine::on_render( vector<weak<GameObject>> gameObjects )
 
 		if (component != nullptr) {
 			if (!component->is_initialized())
-				component->init(this);
+				component->init( get_non_owner() );
 
-			component->render();
+			component->render( Transform() );
 		}
 	}
 

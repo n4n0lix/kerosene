@@ -24,14 +24,14 @@ RenderComponent::RenderComponent() : _initialized(false) {
 /*                        Private                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void RenderComponent::init(RenderEngine* engine)
+void RenderComponent::init( weak<RenderEngine> engine)
 {
 	_renderEngine = engine;
 	on_init();
 	_initialized = true;
 }
 
-void RenderComponent::render()
+void RenderComponent::render( Transform transform )
 {
 	on_render();
 }
@@ -47,7 +47,7 @@ bool RenderComponent::is_initialized()
 	return _initialized;
 }
 
-RenderEngine* RenderComponent::get_renderengine()
+weak<RenderEngine> RenderComponent::get_renderengine()
 {
 	return _renderEngine;
 }

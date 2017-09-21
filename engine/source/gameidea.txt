@@ -44,3 +44,10 @@
 
 Names:
  - Tormen
+
+
+ =======================
+
+ Mythical Creatues:
+  - Chimera
+  - Dark Souls: Man with Goat Head

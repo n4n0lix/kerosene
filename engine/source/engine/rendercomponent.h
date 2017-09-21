@@ -30,8 +30,8 @@ public:
             RenderComponent();
             virtual ~RenderComponent() = default;
 
-    void init( RenderEngine* engine );
-    void render();
+    void init( weak<RenderEngine> engine );
+    void render( Transform transform );
     void deinit();
 
     bool is_initialized();
@@ -45,15 +45,15 @@ protected:
     virtual void on_render() = 0;
     virtual void on_deinit() = 0;
 
-    RenderEngine* get_renderengine();
+    weak<RenderEngine> get_renderengine();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    bool			_initialized;
-    RenderEngine*	_renderEngine;
+    bool			    _initialized;
+    weak<RenderEngine>  _renderEngine;
 
 };
 

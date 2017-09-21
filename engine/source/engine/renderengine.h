@@ -42,7 +42,7 @@ ENGINE_NAMESPACE_BEGIN
 class Camera;
 class GameObject;
 
-class RenderEngine
+class RenderEngine : public enable_weak_from_this<RenderEngine>
 {
 public:
 
@@ -52,8 +52,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            RenderEngine() = default;
-            virtual ~RenderEngine() = default;
+            RenderEngine() {}
+            ~RenderEngine() {}
 
     // GENERAL
     void on_start( weak<InputEngine> input );

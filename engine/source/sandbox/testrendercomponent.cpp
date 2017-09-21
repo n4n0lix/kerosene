@@ -13,7 +13,7 @@ ENGINE_NAMESPACE_BEGIN
 
 void TestRenderComponent::on_init()
 {
-    RenderEngine* engine = get_renderengine();
+    weak<RenderEngine> engine = get_renderengine();
 
     weak<Shader>   s_diffuse = engine->get_shader( "builtin_diffuse" );
     weak<Shader>   s_texture = engine->get_shader( "builtin_texture" );

@@ -121,8 +121,6 @@ void Engine::update_gamestate()
     // End Gamestate
 	if (_gameState != nullptr && _gameState->get_status() == FINISHED) {
 		_gameState->end();
-        _gameState->set_renderengine( nullptr );
-
 		_gameState = _gameState->take_next_gamestate();
 	}
 

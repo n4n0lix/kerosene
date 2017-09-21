@@ -9,6 +9,8 @@
 
 // Std-Includes
 #include <utility>
+#include <type_traits>
+#include <typeinfo>
 
 #ifdef  OWNER_VECTOR_EXT
     #include <vector>
@@ -39,22 +41,19 @@ class weak
 {
     template<typename T>             friend class owner;
     template<typename T, typename U> friend weak<T> static_weak_cast(weak<U> u);
-
+    template<typename T>             friend class enable_weak_from_this;
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     // Constructor
-    weak() : weak(nullptr) {}
+    weak() : weak(nullptr) { }
 
     // Constructor
-    weak(std::nullptr_t null) {
+    weak(std::nullptr_t) {
         // Create state
-        _ptr = nullptr;
-        _ptrValid = nullptr;
-        _ptrRefCounter = nullptr;
-        _isNullPtr = true;
+        make_null();
     }
 
     // Copy-Constructor
@@ -63,7 +62,6 @@ public:
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
-        _isNullPtr = _ptr == nullptr;
 
         // Increase ref counter
         ref_count_inc();
@@ -75,13 +73,9 @@ public:
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
-        _isNullPtr = _ptr == nullptr;
 
         // Initialize orig to nullptr
-        orig._ptr = nullptr;
-        orig._ptr = nullptr;
-        orig._ptrRefCounter = nullptr;
-        orig._isNullPtr = true;
+        orig.make_null();
     }
 
     // Destructor
@@ -91,11 +85,13 @@ public:
 
     // Copy assignment
     weak<T>&       operator=(const weak<T>& orig) {
+        // Clear state
+        destroy();
+
         // Copy state
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
-        _isNullPtr = _ptr == nullptr;
 
         // Increase ref counter
         ref_count_inc();
@@ -106,37 +102,36 @@ public:
     // Move assignment
     template<typename U> // needed for move assign inherent types
     weak<T>&       operator=(weak<U>&& orig) {
+        // Clear state
+        destroy();
+
         // Move state
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
-        _isNullPtr = _ptr == nullptr;
 
         // Initialize orig to nullptr
-        orig._ptr = nullptr;
-        orig._ptr = nullptr;
-        orig._ptrRefCounter = nullptr;
-        orig._isNullPtr = true;
+        orig.make_null();
 
         return *this;
     }
 
-    inline T*      operator->() const { return _ptr; }
-    inline T*      get()        const { return _ptr; }
+    inline T*   operator->() const { return _ptr; }
+    inline T*   get()        const { return _ptr; }
 
-    bool operator== (const weak &y) const { return _ptr == y._ptr; }
-    bool operator!= (const weak &y) const { return !(_ptr == y._ptr); }
-
-    template<typename U>
-    bool operator== (const owner<U> &y) const { return _ptr == y.get(); }
+    inline bool operator== (const weak &y) const { return _ptr == y._ptr; }
+    inline bool operator!= (const weak &y) const { return !(_ptr == y._ptr); }
 
     template<typename U>
-    bool operator!= (const owner<U> &y) const { return !(_ptr == y.get()); }
+    inline bool operator== (const owner<U> &y) const { return _ptr == y.get(); }
+
+    template<typename U>
+    inline bool operator!= (const owner<U> &y) const { return !(_ptr == y.get()); }
 
     // Determines if it's safe to use the ptr retrieved from get(). Does not ensure that the ptr is not null!
     inline bool ptr_is_valid() const
     {
-        return _isNullPtr ? true : (*_ptrValid);
+        return (_ptr == nullptr) ? true : (*_ptrValid);
     }
 
 private:
@@ -149,36 +144,38 @@ private:
         _ptr = ptr;
         _ptrValid = ptrValid;
         _ptrRefCounter = ptrInsCounter;
-        _isNullPtr = false;
 
         // Increase ref counter
         ref_count_inc();
     }
 
-    void make_null() {
+    inline void make_null() {
+        _ptr = nullptr;
+        _ptrValid = nullptr;
+        _ptrRefCounter = nullptr;
+    }
+
+    inline void destroy() {
         // Decrease ref counter
         ref_count_dec();
 
         // Delete state
-        _ptr = nullptr;
-        _ptrValid = nullptr;
-        _ptrRefCounter = nullptr;
-        _isNullPtr = true;
+        make_null();
     }
 
     inline uint32_t ref_count()
     {
-        return _isNullPtr ? 1 : *_ptrRefCounter;
+        return (_ptr == nullptr) ? 1 : *_ptrRefCounter;
     }
 
     inline void ref_count_inc() {
-        if (_isNullPtr) return;
+        if ( _ptr == nullptr ) return;
 
         (*_ptrRefCounter)++;
     }
 
     inline void ref_count_dec() {
-        if (_isNullPtr) return;
+        if ( _ptr == nullptr ) return;
 
         (*_ptrRefCounter)--;
         if ((*_ptrRefCounter) == 0) {
@@ -191,7 +188,48 @@ private:
     bool*       _ptrValid;
     uint32_t*   _ptrRefCounter;
 
-    bool _isNullPtr;
+};
+
+
+//
+// enable weak from this
+/////////////////////////////////////////////////////////////////
+
+template<typename T>
+class enable_weak_from_this {
+public:
+    void __enable_weak_from_this( bool* ptrValid, uint32_t* ptrRefCounter ) {
+        _ptrValid = ptrValid;
+        _ptrRefCounter = ptrRefCounter;
+    }
+
+protected:
+    // Constructor
+    enable_weak_from_this() : _ptrValid(nullptr), _ptrRefCounter(nullptr) { }
+
+    // Destructor
+    ~enable_weak_from_this() { }
+
+    // Copy-Constructor
+    enable_weak_from_this( enable_weak_from_this const &orig ) { }
+
+    enable_weak_from_this& operator=( enable_weak_from_this const & ) {
+        return *this;
+    }
+
+    inline weak<T> get_non_owner() {
+        if ( _ptrValid != nullptr ) {
+            return weak<T>( (T*)this, _ptrValid, _ptrRefCounter );
+        }
+        else {
+            return weak<T>(nullptr);
+        }
+        
+    }
+
+private:
+    bool*       _ptrValid;
+    uint32_t*   _ptrRefCounter;
 };
 
 //
@@ -210,25 +248,27 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     // Constructor
-    owner() : owner(nullptr) {} // TODO: Investigate if owner(T*) or owner(nullptr_t) is called
+    owner() : owner(nullptr) {}
 
-                                // Constructor
-    explicit owner(T* ptr) {
-        // Create new State
-        _ptr = ptr;
-        _ptrValid = new bool(true);
-        _ptrRefCounter = new uint32_t(0);
-
-        // Increase ref counter
-        ref_count_inc();
+    owner(std::nullptr_t) {
+        // Nullpointer State
+        make_null();
     }
 
     // Constructor
-    owner(nullptr_t null) {
-        // Nullpointer State
-        _ptr = nullptr;
-        _ptrValid = nullptr;
-        _ptrRefCounter = nullptr;
+    explicit owner( T* ptr ) {
+        // Create new State
+        _ptr = ptr;
+        _ptrValid = new bool( true );
+        _ptrRefCounter = new uint32_t( 0 );
+
+        // Increase ref counter
+        ref_count_inc();
+
+        //
+        if ( std::is_base_of<enable_weak_from_this<T>, T>::value ) {
+            ((enable_weak_from_this<T>*)_ptr)->__enable_weak_from_this( _ptrValid, _ptrRefCounter );
+        }
     }
 
     // Copy-Constructor
@@ -243,18 +283,12 @@ public:
         _ptrRefCounter = orig._ptrRefCounter;
 
         // Initialize orig to nullptr
-        orig._ptr = nullptr;
-        orig._ptrValid = nullptr;
-        orig._ptrRefCounter = nullptr;
+        orig.make_null();
     }
 
     // Destructor
     ~owner() {
-        if (_ptr != nullptr) {
-            invalidate_pointer();
-            ref_count_dec();
-            delete _ptr;
-        }
+        destroy();
     }
 
     inline T* operator->() const { return _ptr; }
@@ -262,50 +296,44 @@ public:
     T* release() {
         T* oldPtr = _ptr;
 
-        if (_ptr != nullptr) {
-            invalidate_pointer();
-            ref_count_dec();
-        }
-
-        _ptr = nullptr;
-        _ptrValid = nullptr;
-        _ptrRefCounter = nullptr;
+        destroy();
 
         return oldPtr;
     }
 
     void destroy() {
-        if (_ptr != nullptr) {
+        if ( _ptr != nullptr ) {
             invalidate_pointer();
             ref_count_dec();
             delete _ptr;
-
-            _ptr = nullptr;
-            _ptrValid = nullptr;
-            _ptrRefCounter = nullptr;
         }
+
+        make_null();
     }
 
     // Copy Assignment
     owner<T>&       operator=(const owner<T>& orig) = delete;
 
-    owner<T>&       operator=(const nullptr_t& orig ) {
+    owner<T>&       operator=(const std::nullptr_t&) {
+        // Clear this state
         destroy();
+
         return *this;
     }
 
     // Move assignment
     template<typename U> // needed for move assign inherent types
     owner<T>&       operator=(owner<U>&& orig) {
+        // Clear this state
+        destroy();
+
         // Move state
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
 
         // Initialize orig to nullptr
-        orig._ptr = nullptr;
-        orig._ptrValid = nullptr;
-        orig._ptrRefCounter = nullptr;
+        orig.make_null();
 
         return *this;
     }
@@ -319,8 +347,8 @@ public:
     bool            operator== (const owner& other) const { return (_ptr == other._ptr); }
     bool            operator!= (const owner& other) const { return !(this == other); }
 
-    bool            operator== (const nullptr_t &other) const { return (_ptr == other); }
-    bool            operator!= (const nullptr_t &other) const { return !(this == other); }
+    bool            operator== (const std::nullptr_t) const { return _ptr == nullptr; }
+    bool            operator!= (const std::nullptr_t) const { return _ptr != nullptr; }
 
     inline weak<T>  get_non_owner() {
         if (_ptr == nullptr)
@@ -338,13 +366,15 @@ private:
     template <typename U>  friend class owner; // needed for move assign inherent types
 
     inline void invalidate_pointer() {
-        (*_ptrValid) = false;
+        if ( _ptrValid != nullptr ) {
+            (*_ptrValid) = false;
+        }
     }
 
     inline void ref_count_dec() {
         (*_ptrRefCounter)--;
-
-        if ((*_ptrRefCounter) == 0) {
+        
+        if ( (*_ptrRefCounter) == 0 ) {
             delete _ptrValid;
             delete _ptrRefCounter;
         }
@@ -354,6 +384,11 @@ private:
         (*_ptrRefCounter)++;
     }
 
+    inline void make_null() {
+        _ptr = nullptr;
+        _ptrValid = nullptr;
+        _ptrRefCounter = nullptr;
+    }
 
     T*          _ptr;
     bool*       _ptrValid;
@@ -366,8 +401,8 @@ private:
 /////////////////////////////////////////////////////////////////
 
 template<typename T, typename... Args>
-owner<T> make_owner(Args&&... args) {
-    return owner<T>(new T(std::forward<Args>(args)...));
+owner<T> make_owner( Args&&... args ) {
+    return owner<T>( new T( std::forward<Args>( args )... ) );
 }
 
 template<typename T, typename U>
