@@ -9,42 +9,28 @@
 // Other Includes
 
 // Internal Includes
+#include "_gl.h"
 #include "_global.h"
-#include "idgen.h"
+#include "matrix4f.h"
+#include "logger.h"
 
-#include "transform.h"
 
-#include "rendercomponent.h"
-#include "logiccomponent.h"
-
+ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-ENGINE_NAMESPACE_BEGIN
-
-class RenderComponent;
-
-class GameObject
+class ICamera
 {
+public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-public:
-            GameObject();
-            ~GameObject();
+              ICamera() {};
+              virtual ~ICamera() = default;
 
-	void			        set_rendercomponent(owner<RenderComponent> comp);
-	weak<RenderComponent>   get_rendercomponent();
-
-	void	destroy_at_tick_end();
-	bool    shall_be_destroyed_at_tick_end();
-
-    Transform transform;
-    Transform lastTransform;
-
-    Transform globalTransform;
-    Transform lastGlobalTransform;
+    virtual void        set_as_active() = 0;
+    virtual Matrix4f    view_matrix() = 0;
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -56,14 +42,18 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	uint32					_id;	
-	bool					_destroyAtTickEnd;
-
-    owner<LogicComponent>  _logic;     // Owned by this
-    owner<RenderComponent> _render;    // Owned by this
-
-	static IDGen ID_GENERATOR;
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                     Private Static                     */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 };
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                        Public                          */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*                     Private Static                     */
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 ENGINE_NAMESPACE_END

@@ -13,87 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\engine">
-      <UniqueIdentifier>{a64f1020-16ff-49be-987a-bfbb7e99232e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine">
-      <UniqueIdentifier>{5016da1a-9c17-4291-9936-36d7dcf179b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\sandbox">
-      <UniqueIdentifier>{8ba0dead-327b-4c07-a37d-f53282dcfc96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\sandbox">
-      <UniqueIdentifier>{1d40fbcd-ae7a-4759-bdaa-3823c0b5c246}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\core">
-      <UniqueIdentifier>{8dd0950e-1f28-4856-9b7b-0e679398cec7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\core">
-      <UniqueIdentifier>{b9b60c3c-0f24-4899-a322-d15bdb37c489}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\input">
-      <UniqueIdentifier>{496c5a2c-402e-452f-a546-081e06e1475b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\input">
-      <UniqueIdentifier>{9b7d9985-3538-4795-b625-9b74d6499dc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\logic">
-      <UniqueIdentifier>{081d0d88-1695-4290-80b9-363611244739}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\logic">
-      <UniqueIdentifier>{c55873ec-5a61-416f-b963-5b98493c4b5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\math">
-      <UniqueIdentifier>{ecaeb8c1-fa07-48bd-b0fe-2906f7f708c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\math">
-      <UniqueIdentifier>{0b47d091-5742-4b32-a137-d2d59b832f77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\network">
-      <UniqueIdentifier>{56f7a72a-cdb8-4744-9a18-3fe809cae4f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\network">
-      <UniqueIdentifier>{205b73f9-1ccd-447b-9f69-0dc9823e2bb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\physics">
-      <UniqueIdentifier>{b12e8a4f-1932-4985-a1ba-24c98e80eb9d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\physics">
-      <UniqueIdentifier>{cf04273d-8b0f-416c-a67a-e385a4b815b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\render">
-      <UniqueIdentifier>{e33bb130-6150-43be-9444-4d1c2c55fad3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\render\vertices">
-      <UniqueIdentifier>{df9369d3-febe-49ad-b816-745540eb7fdd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\render">
-      <UniqueIdentifier>{d6141db6-6826-493b-92c4-4cd912f671ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\render\vertices">
-      <UniqueIdentifier>{ec21642d-f793-42f9-9d4c-63250f5559b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\utils">
-      <UniqueIdentifier>{314cf35f-37e0-47e5-93be-ba46afc92fb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\utils">
-      <UniqueIdentifier>{65298077-da02-4069-aa5a-790fe5d80ddb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\render\opengl">
-      <UniqueIdentifier>{3ff7dc69-9b6e-49ae-9958-77ea179bf655}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\render\opengl">
-      <UniqueIdentifier>{0c53617e-9d48-44a0-b0dc-f330566a4396}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\utils\buffer">
-      <UniqueIdentifier>{b091b1fa-d3d6-42bf-b1d2-5dfe37805b0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Quelldateien\engine\utils\buffer">
-      <UniqueIdentifier>{ad01befc-a0e2-456e-a3d5-6ff45fd0202e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\engine\utils\sorting">
-      <UniqueIdentifier>{c2c054c6-9d53-46c4-bf61-42c0afa17f64}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -102,325 +21,328 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\engine\_global.h">
-      <Filter>Headerdateien\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\_renderdefs.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\glwindow.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\shader.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\shaderbuilder.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\staticmesh.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\texture.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\primitivetype.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\material.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\batch.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertex_pc.h">
-      <Filter>Headerdateien\engine\render\vertices</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertex.h">
-      <Filter>Headerdateien\engine\render\vertices</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector4f.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\matrix4f.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector2f.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector3.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector3f.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\decimal32.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\_mathdefs.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\logger.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\engine.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\gamestate.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\sandbox\testgamestate.h">
-      <Filter>Headerdateien\sandbox</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexarray.h">
-      <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexbuffer.h">
-      <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\_gl.h">
-      <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexlayout.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexcomponent.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\uniform.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\indexbuffer.h">
-      <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\stackbuffer.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\nullable.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\range.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\stackbuffertoken.h">
-      <Filter>Headerdateien\engine\utils\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertextoken.h">
-      <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\imageutils.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertex_pt.h">
-      <Filter>Headerdateien\engine\render\vertices</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\textureslot.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\camera.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\uniformtemplate.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\textureslottemplate.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\textureoptions.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\stringutils.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\viewport4.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\gameobject.h">
-      <Filter>Headerdateien\engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\quaternion4f.h">
-      <Filter>Headerdateien\engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\transform.h">
-      <Filter>Headerdateien\engine\math</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\component.h">
-      <Filter>Headerdateien\engine\core</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\sandbox\testrendercomponent.h">
-      <Filter>Headerdateien\sandbox</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\renderengine.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\rendercomponent.h">
-      <Filter>Headerdateien\engine\render</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\logiccomponent.h">
-      <Filter>Headerdateien\engine\logic</Filter>
+    <ClInclude Include="source\engine\engine.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\engineconfiguration.h">
-      <Filter>Headerdateien\engine\core</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\physicsengine.h">
-      <Filter>Headerdateien\engine\physics</Filter>
+    <ClInclude Include="source\engine\gameobject.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\networkengine.h">
-      <Filter>Headerdateien\engine\network</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\inputengine.h">
-      <Filter>Headerdateien\engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\logicengine.h">
-      <Filter>Headerdateien\engine\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexbuffertoken.h">
-      <Filter>Headerdateien\engine\render\opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\owner.h">
-      <Filter>Headerdateien\engine\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\_stdext.h">
-      <Filter>Headerdateien\engine</Filter>
+    <ClInclude Include="source\engine\gamestate.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\idgen.h">
-      <Filter>Headerdateien\engine\utils</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\keyevent.h">
-      <Filter>Headerdateien\engine\input</Filter>
+    <ClInclude Include="source\engine\imageutils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\indexbuffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logger.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\networkengine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\nullable.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\owner.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\physicsengine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stackbuffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stackbuffertoken.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stringutils.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertexarray.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertexbuffer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertexbuffertoken.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertextoken.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\viewport4.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\_global.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\_mathdefs.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\_renderdefs.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\_stdext.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\batch.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\camera2d.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\camera3d.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\charevent.h">
-      <Filter>Headerdateien\engine\input</Filter>
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\decimal32.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\glwindow.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\inputengine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\keyevent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logiccomponent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logicengine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\material.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\matrix4f.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\mouseevent.h">
-      <Filter>Headerdateien\engine\input</Filter>
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\primitivetype.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\quaternion4f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\range.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\rendercomponent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\renderengine.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\shader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\staticmesh.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\texture.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\textureoptions.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\textureslot.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\transform.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\uniform.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector2f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector3.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector3f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector4f.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertex.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertex_pc.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertex_pt.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertexcomponent.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vertexlayout.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\scene.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\icamera.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\sandbox\testgamestate.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\sandbox\testrendercomponent.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\engine\texture.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\shaderbuilder.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\shader.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\glwindow.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertex_pc.cpp">
-      <Filter>Quelldateien\engine\render\vertices</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\gamestate.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
+    <ClCompile Include="source\engine\component.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\engine.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\engineconfiguration.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\quaterion4f.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vector2f.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vector3f.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vector4f.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\matrix4f.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\decimal32.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\material.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\sandbox\main.cpp">
-      <Filter>Quelldateien\sandbox</Filter>
-    </ClCompile>
-    <ClCompile Include="source\sandbox\testgamestate.cpp">
-      <Filter>Quelldateien\sandbox</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\_gl.cpp">
-      <Filter>Quelldateien\engine\render\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\indexbuffer.cpp">
-      <Filter>Quelldateien\engine\render\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\range.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\stackbuffertoken.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertextoken.cpp">
-      <Filter>Quelldateien\engine\render\opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\imageutils.cpp">
-      <Filter>Quelldateien\engine\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertex_pt.cpp">
-      <Filter>Quelldateien\engine\render\vertices</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\uniformtemplate.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\textureslottemplate.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\camera.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\textureoptions.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\stringutils.cpp">
-      <Filter>Quelldateien\engine\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\transform.cpp">
-      <Filter>Quelldateien\engine\math</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\gameobject.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
+      <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\idgenerator.cpp">
-      <Filter>Quelldateien\engine\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="source\sandbox\testrendercomponent.cpp">
-      <Filter>Quelldateien\sandbox</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\component.cpp">
-      <Filter>Quelldateien\engine\core</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\renderengine.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\rendercomponent.cpp">
-      <Filter>Quelldateien\engine\render</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\logiccomponent.cpp">
-      <Filter>Quelldateien\engine\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\physicsengine.cpp">
-      <Filter>Quelldateien\engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\networkengine.cpp">
-      <Filter>Quelldateien\engine\network</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\logicengine.cpp">
-      <Filter>Quelldateien\engine\logic</Filter>
+    <ClCompile Include="source\engine\gamestate.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\inputengine.cpp">
-      <Filter>Quelldateien\engine\input</Filter>
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\logiccomponent.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\logicengine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\_gl.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\indexbuffer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertextoken.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertex_pc.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertex_pt.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\camera2d.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\glwindow.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\material.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\rendercomponent.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\renderengine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\shader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\texture.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\textureoptions.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\textureslot.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stackbuffertoken.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\vertexbuffertoken.cpp">
-      <Filter>Quelldateien\engine\utils\buffer</Filter>
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\idgenerator.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\imageutils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stringutils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\camera3d.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\uniform.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\scene.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sandbox\testrendercomponent.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sandbox\testgamestate.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sandbox\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\decimal32.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\matrix4f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\quaterion4f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\range.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\transform.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vector2f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vector3f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vector4f.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\networkengine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\physicsengine.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

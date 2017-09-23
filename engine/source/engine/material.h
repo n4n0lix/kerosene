@@ -12,7 +12,6 @@
 #include "_global.h"
 #include "shader.h"
 #include "texture.h"
-#include "textureslottemplate.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

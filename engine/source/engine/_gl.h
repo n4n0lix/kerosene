@@ -119,6 +119,28 @@
 #endif
 
 // C
+// glClear
+#ifdef GL_DEBUG
+    #undef glClear
+    #define glClear(...) \
+    glClear(__VA_ARGS__); \
+    printGLErrors(glClear)
+#elif GL_MOCK
+    #undef glClear
+    #define glClear(...) GLMock::invoking("glClear")
+#endif
+
+// glClearColor
+#ifdef GL_DEBUG
+    #undef glClearColor
+    #define glClearColor(...) \
+    glClearColor(__VA_ARGS__); \
+    printGLErrors(glClearColor)
+#elif GL_MOCK
+    #undef glClearColor
+    #define glClearColor(...) GLMock::invoking("glClearColor")
+#endif
+
 // glCopyBufferSubData
 #ifdef GL_DEBUG
     #undef glCopyBufferSubData

@@ -1,5 +1,4 @@
-#ifndef TESTGAMESTATE_H
-#define TESTGAMESTATE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
@@ -10,7 +9,6 @@
 
 // Other Includes
 #include "gamestate.h"
-#include "gameobject.h"
 #include "testrendercomponent.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -31,5 +29,3 @@ protected:
     virtual void on_update();
     virtual void on_end();
 };
-
-#endif // TESTGAMESTATE_H

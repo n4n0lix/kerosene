@@ -10,6 +10,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "_gl.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

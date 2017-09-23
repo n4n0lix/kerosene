@@ -26,13 +26,16 @@
     <Text Include="source\gameidea.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\engine\icamera.h" />
     <ClInclude Include="source\engine\charevent.h" />
     <ClInclude Include="source\engine\keyevent.h" />
     <ClInclude Include="source\engine\mouseevent.h" />
+    <ClInclude Include="source\engine\camera2d.h" />
     <ClInclude Include="source\engine\owner.h" />
+    <ClInclude Include="source\engine\scene.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
-    <ClInclude Include="source\engine\camera.h" />
+    <ClInclude Include="source\engine\camera3d.h" />
     <ClInclude Include="source\engine\component.h" />
     <ClInclude Include="source\engine\engineconfiguration.h" />
     <ClInclude Include="source\engine\gameobject.h" />
@@ -47,9 +50,7 @@
     <ClInclude Include="source\engine\stringutils.h" />
     <ClInclude Include="source\engine\textureoptions.h" />
     <ClInclude Include="source\engine\textureslot.h" />
-    <ClInclude Include="source\engine\textureslottemplate.h" />
     <ClInclude Include="source\engine\transform.h" />
-    <ClInclude Include="source\engine\uniformtemplate.h" />
     <ClInclude Include="source\engine\range.h" />
     <ClInclude Include="source\engine\decimal32.h" />
     <ClInclude Include="source\engine\renderengine.h" />
@@ -66,7 +67,6 @@
     <ClInclude Include="source\engine\primitivetype.h" />
     <ClInclude Include="source\engine\quaternion4f.h" />
     <ClInclude Include="source\engine\shader.h" />
-    <ClInclude Include="source\engine\shaderbuilder.h" />
     <ClInclude Include="source\engine\staticmesh.h" />
     <ClInclude Include="source\engine\texture.h" />
     <ClInclude Include="source\engine\uniform.h" />
@@ -92,8 +92,11 @@
     <ClInclude Include="source\sandbox\testrendercomponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\engine\camera2d.cpp" />
+    <ClCompile Include="source\engine\scene.cpp" />
+    <ClCompile Include="source\engine\uniform.cpp" />
     <ClCompile Include="source\engine\vertexbuffertoken.cpp" />
-    <ClCompile Include="source\engine\camera.cpp" />
+    <ClCompile Include="source\engine\camera3d.cpp" />
     <ClCompile Include="source\engine\component.cpp" />
     <ClCompile Include="source\engine\decimal32.cpp" />
     <ClCompile Include="source\engine\renderengine.cpp" />
@@ -115,15 +118,13 @@
     <ClCompile Include="source\engine\quaterion4f.cpp" />
     <ClCompile Include="source\engine\rendercomponent.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
-    <ClCompile Include="source\engine\shaderbuilder.cpp" />
     <ClCompile Include="source\engine\range.cpp" />
     <ClCompile Include="source\engine\stackbuffertoken.cpp" />
     <ClCompile Include="source\engine\stringutils.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
     <ClCompile Include="source\engine\textureoptions.cpp" />
-    <ClCompile Include="source\engine\textureslottemplate.cpp" />
+    <ClCompile Include="source\engine\textureslot.cpp" />
     <ClCompile Include="source\engine\transform.cpp" />
-    <ClCompile Include="source\engine\uniformtemplate.cpp" />
     <ClCompile Include="source\engine\vector2f.cpp" />
     <ClCompile Include="source\engine\vector3f.cpp" />
     <ClCompile Include="source\engine\vector4f.cpp" />

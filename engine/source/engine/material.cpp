@@ -27,7 +27,7 @@ void Material::bind() const {
         _shader->bind();
         if (_textureDiffuse != nullptr) {
             // TEXTURE_DIFFUSE
-            TextureSlot slot0 = _shader->frag_texture_slot(TextureSlotTemplate::TEXTURE_DIFFUSE.name).get();
+            TextureSlot slot0 = _shader->frag_texture_slot(TextureSlot::TEXTURE_DIFFUSE.name).get();
             glUniform1i(slot0.location, slot0.slot);
             glActiveTexture(slot0.glTextureSlot);
             glBindTexture(GL_TEXTURE_2D, _textureDiffuse->id());

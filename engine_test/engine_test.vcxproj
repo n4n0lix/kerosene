@@ -23,7 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\source\engine\batch.h" />
-    <ClInclude Include="..\engine\source\engine\camera.h" />
+    <ClInclude Include="..\engine\source\engine\camera2d.h" />
+    <ClInclude Include="..\engine\source\engine\camera3d.h" />
+    <ClInclude Include="..\engine\source\engine\charevent.h" />
     <ClInclude Include="..\engine\source\engine\component.h" />
     <ClInclude Include="..\engine\source\engine\decimal32.h" />
     <ClInclude Include="..\engine\source\engine\engine.h" />
@@ -31,40 +33,38 @@
     <ClInclude Include="..\engine\source\engine\gameobject.h" />
     <ClInclude Include="..\engine\source\engine\gamestate.h" />
     <ClInclude Include="..\engine\source\engine\glwindow.h" />
-    <ClInclude Include="..\engine\source\engine\idgenerator.h" />
+    <ClInclude Include="..\engine\source\engine\icamera.h" />
+    <ClInclude Include="..\engine\source\engine\idgen.h" />
     <ClInclude Include="..\engine\source\engine\imageutils.h" />
     <ClInclude Include="..\engine\source\engine\indexbuffer.h" />
     <ClInclude Include="..\engine\source\engine\inputengine.h" />
+    <ClInclude Include="..\engine\source\engine\keyevent.h" />
     <ClInclude Include="..\engine\source\engine\logger.h" />
     <ClInclude Include="..\engine\source\engine\logiccomponent.h" />
     <ClInclude Include="..\engine\source\engine\logicengine.h" />
     <ClInclude Include="..\engine\source\engine\material.h" />
     <ClInclude Include="..\engine\source\engine\matrix4f.h" />
+    <ClInclude Include="..\engine\source\engine\mouseevent.h" />
     <ClInclude Include="..\engine\source\engine\networkengine.h" />
-    <ClInclude Include="..\engine\source\engine\non_null.h" />
     <ClInclude Include="..\engine\source\engine\nullable.h" />
+    <ClInclude Include="..\engine\source\engine\owner.h" />
     <ClInclude Include="..\engine\source\engine\physicsengine.h" />
     <ClInclude Include="..\engine\source\engine\primitivetype.h" />
     <ClInclude Include="..\engine\source\engine\quaternion4f.h" />
     <ClInclude Include="..\engine\source\engine\range.h" />
     <ClInclude Include="..\engine\source\engine\rendercomponent.h" />
     <ClInclude Include="..\engine\source\engine\renderengine.h" />
+    <ClInclude Include="..\engine\source\engine\scene.h" />
     <ClInclude Include="..\engine\source\engine\shader.h" />
-    <ClInclude Include="..\engine\source\engine\shaderbuilder.h" />
     <ClInclude Include="..\engine\source\engine\stackbuffer.h" />
     <ClInclude Include="..\engine\source\engine\stackbuffertoken.h" />
     <ClInclude Include="..\engine\source\engine\staticmesh.h" />
     <ClInclude Include="..\engine\source\engine\stringutils.h" />
-    <ClInclude Include="..\engine\source\engine\tb_removeop.h" />
-    <ClInclude Include="..\engine\source\engine\tb_writeop.h" />
     <ClInclude Include="..\engine\source\engine\texture.h" />
     <ClInclude Include="..\engine\source\engine\textureoptions.h" />
     <ClInclude Include="..\engine\source\engine\textureslot.h" />
-    <ClInclude Include="..\engine\source\engine\textureslottemplate.h" />
-    <ClInclude Include="..\engine\source\engine\transactionalbuffer.h" />
     <ClInclude Include="..\engine\source\engine\transform.h" />
     <ClInclude Include="..\engine\source\engine\uniform.h" />
-    <ClInclude Include="..\engine\source\engine\uniformtemplate.h" />
     <ClInclude Include="..\engine\source\engine\vector2f.h" />
     <ClInclude Include="..\engine\source\engine\vector3.h" />
     <ClInclude Include="..\engine\source\engine\vector3f.h" />
@@ -83,10 +83,12 @@
     <ClInclude Include="..\engine\source\engine\_global.h" />
     <ClInclude Include="..\engine\source\engine\_mathdefs.h" />
     <ClInclude Include="..\engine\source\engine\_renderdefs.h" />
+    <ClInclude Include="..\engine\source\engine\_stdext.h" />
     <ClInclude Include="source\catch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\engine\source\engine\camera.cpp" />
+    <ClCompile Include="..\engine\source\engine\camera2d.cpp" />
+    <ClCompile Include="..\engine\source\engine\camera3d.cpp" />
     <ClCompile Include="..\engine\source\engine\component.cpp" />
     <ClCompile Include="..\engine\source\engine\decimal32.cpp" />
     <ClCompile Include="..\engine\source\engine\engine.cpp" />
@@ -108,15 +110,15 @@
     <ClCompile Include="..\engine\source\engine\range.cpp" />
     <ClCompile Include="..\engine\source\engine\rendercomponent.cpp" />
     <ClCompile Include="..\engine\source\engine\renderengine.cpp" />
+    <ClCompile Include="..\engine\source\engine\scene.cpp" />
     <ClCompile Include="..\engine\source\engine\shader.cpp" />
-    <ClCompile Include="..\engine\source\engine\shaderbuilder.cpp" />
     <ClCompile Include="..\engine\source\engine\stackbuffertoken.cpp" />
     <ClCompile Include="..\engine\source\engine\stringutils.cpp" />
     <ClCompile Include="..\engine\source\engine\texture.cpp" />
     <ClCompile Include="..\engine\source\engine\textureoptions.cpp" />
-    <ClCompile Include="..\engine\source\engine\textureslottemplate.cpp" />
+    <ClCompile Include="..\engine\source\engine\textureslot.cpp" />
     <ClCompile Include="..\engine\source\engine\transform.cpp" />
-    <ClCompile Include="..\engine\source\engine\uniformtemplate.cpp" />
+    <ClCompile Include="..\engine\source\engine\uniform.cpp" />
     <ClCompile Include="..\engine\source\engine\vector2f.cpp" />
     <ClCompile Include="..\engine\source\engine\vector3f.cpp" />
     <ClCompile Include="..\engine\source\engine\vector4f.cpp" />
@@ -127,6 +129,7 @@
     <ClCompile Include="..\engine\source\engine\_gl.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\test_owner.cpp" />
+    <ClCompile Include="source\test_scene.cpp" />
     <ClCompile Include="source\test_vertexbuffer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -201,7 +204,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\source\engine;$(SolutionDir)engine\libs\cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\libs\cross;$(SolutionDir)engine\source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_MOCK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
@@ -220,7 +223,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\source\engine;$(SolutionDir)engine\libs\cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\libs\cross;$(SolutionDir)engine\source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_MOCK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
@@ -241,7 +244,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\source\engine;$(SolutionDir)engine\libs\cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\libs\cross;$(SolutionDir)engine\source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GL_MOCK;CONTRACTS_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessToFile>false</PreprocessToFile>
@@ -265,7 +268,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\source\engine;$(SolutionDir)engine\libs\cross;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)engine\libs\windows$(PlatformArchitecture);$(SolutionDir)engine\libs\cross;$(SolutionDir)engine\source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GL_MOCK;CONTRACTS_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessToFile>false</PreprocessToFile>

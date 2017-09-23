@@ -10,41 +10,35 @@
 
 // Internal Includes
 #include "_global.h"
-#include "idgen.h"
-
-#include "transform.h"
-
-#include "rendercomponent.h"
-#include "logiccomponent.h"
-
+#include "icamera.h"
+#include "gameobject.h"
+#include "batch.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class RenderComponent;
+class GameObject;
 
-class GameObject
+class Scene
 {
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-            GameObject();
-            ~GameObject();
+                Scene() = default;
+                ~Scene() = default;
 
-	void			        set_rendercomponent(owner<RenderComponent> comp);
-	weak<RenderComponent>   get_rendercomponent();
 
-	void	destroy_at_tick_end();
-	bool    shall_be_destroyed_at_tick_end();
-
-    Transform transform;
-    Transform lastTransform;
-
-    Transform globalTransform;
-    Transform lastGlobalTransform;
+    void                      add_camera( weak<ICamera> cam );
+    void                      remove_camera( weak<ICamera> cam );
+    
+    void                      add_gameobject( weak<GameObject> gameobject );
+    void                      remove_gameobject( weak<GameObject> gameobject );
+    
+    vector<weak<ICamera>>&    get_cameras();
+    vector<weak<GameObject>>& get_gameobjects();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -56,14 +50,9 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	uint32					_id;	
-	bool					_destroyAtTickEnd;
-
-    owner<LogicComponent>  _logic;     // Owned by this
-    owner<RenderComponent> _render;    // Owned by this
-
-	static IDGen ID_GENERATOR;
-
+    vector<weak<ICamera>>                                    _cameras;
+    vector<weak<GameObject>>                                 _gameObjects;
+    map<weak<Material>, owner<IBatch>, weak_less<Material>>  _batches;
 };
 
 ENGINE_NAMESPACE_END

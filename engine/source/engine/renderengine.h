@@ -19,7 +19,8 @@
 
 // Testing Includes (temporary)
 #include "primitivetype.h"
-#include "camera.h"
+#include "camera3d.h"
+#include "camera2d.h"
 
 #include "texture.h"
 #include "shader.h"
@@ -28,19 +29,20 @@
 
 #include "vertex_pc.h"
 #include "vertex_pt.h"
-#include "shaderbuilder.h"
 #include "textureslot.h"
 
 #include "imageutils.h"
 #include "stringutils.h"
+
+#include "scene.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class Camera;
 class GameObject;
+class Scene;
 
 class RenderEngine : public enable_weak_from_this<RenderEngine>
 {
@@ -80,6 +82,10 @@ public:
     weak<Material>      get_material( string name );
     bool                has_material( string name );
 
+    void                add_scene( weak<Scene> scene );
+    void                remove_scene( weak<Scene> scene );
+
+    void                unload_everything();
 
     // RENDERING
     template<class VERTEX>
@@ -96,10 +102,12 @@ private:
     void init_context_and_window();
     void setup_builtin_shaders();
 
-    owner<GLWindow>    _mainWindow;
+    owner<GLWindow> _mainWindow;
 
     // Test
-    owner<Camera> _camera;
+    owner<Camera2D> _camera;
+
+    vector<weak<Scene>>                                         _scenes;
 
     map< string, owner<Texture> >	                            _textures;
     map< string, owner<Shader> >	                            _shaders;

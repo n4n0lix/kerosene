@@ -22,7 +22,7 @@ void RenderEngine::on_start( weak<InputEngine> input )
 
 	setup_builtin_shaders();
 
-	_camera = make_owner<Camera>();
+	_camera = make_owner<Camera2D>();
 
     // 2# Setup callbacks
     if ( input.ptr_is_valid() && input != nullptr ) {
@@ -85,7 +85,7 @@ void RenderEngine::on_render( vector<weak<GameObject>> gameObjects )
     _mainWindow->make_current();
 
 	_camera->set_viewport(0, 0, _mainWindow->get_renderwidth(), _mainWindow->get_renderheight());
-	_camera->make_current();
+	_camera->set_as_active();
 
 	// #2 Update Rendercomponents
 	for (weak<GameObject> gameObject : gameObjects) {
@@ -112,12 +112,7 @@ void RenderEngine::on_render( vector<weak<GameObject>> gameObjects )
 void RenderEngine::on_shutdown()
 {
 	// Release OPEN GL Resources
-    _shaders.clear();
-    _textures.clear();
-    _materials.clear();
-    _batches.clear();
-
-    _batchTokenLookup.clear();
+    unload_everything();
 
     _mainWindow.destroy();
 
@@ -248,6 +243,30 @@ bool RenderEngine::has_material(string name) {
     return _materials.count(name) == 1;
 }
 
+void RenderEngine::add_scene( weak<Scene> scene )
+{
+    if ( std::find( _scenes.begin(), _scenes.end(), scene ) != _scenes.end() ) {
+        return;
+    }
+
+    _scenes.push_back( scene );
+}
+
+void RenderEngine::remove_scene( weak<Scene> scene )
+{
+    _scenes.erase( std::remove( _scenes.begin(), _scenes.end(), scene ));
+}
+
+void RenderEngine::unload_everything()
+{
+    _shaders.clear();
+    _textures.clear();
+    _materials.clear();
+    _batches.clear();
+
+    _batchTokenLookup.clear();
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -263,14 +282,10 @@ void RenderEngine::init_context_and_window()
 
 void RenderEngine::setup_builtin_shaders()
 {
-	// VERTEX LAYOUTS
-	VertexLayout pcLayout = Vertex_pc().layout();
-	VertexLayout ptLayout = Vertex_pt().layout();
-
 	// SETUP BUILT-IN SHADER
 	// COLOR SHADER
 	///////////
-	ostringstream csVertexShader;
+	std::ostringstream csVertexShader;
 	csVertexShader
 		<< "out vec4 fs_color;\n"
 		<< "\n"
@@ -279,7 +294,7 @@ void RenderEngine::setup_builtin_shaders()
 		<< "    fs_color = color;\n"
 		<< "}\n";
 
-	ostringstream csFragmentShader;
+    std::ostringstream csFragmentShader;
 	csFragmentShader
 		<< "in vec4 fs_color;\n"
 		<< "\n"
@@ -289,18 +304,21 @@ void RenderEngine::setup_builtin_shaders()
 		<< "    out_color = fs_color;\n"
 		<< "}\n";
 
-	owner<Shader> colorShader = ShaderBuilder()
-		.vertex_uniform("mat4", "uni_wvp")
-		.vertexlayout(pcLayout)
-		.vertex_source(csVertexShader.str())
-		.frag_source(csFragmentShader.str())
-		.build();
+    owner<Shader> colorShader = owner<Shader>(new Shader( 
+                  /* VertexLayout  */   Vertex_pc().layout(),
+                  /* VertexUniform */   { Uniform( "mat4","uni_wvp" ) }, 
+                  /* FragUniform   */   {}, 
+                  /* Texture Slots */   {}, 
+                  /* Vertex Shader */   csVertexShader.str(), 
+                  /* Frag Shader   */   csFragmentShader.str()
+                                ));
+
 
 	add_shader("builtin_diffuse", std::move( colorShader ));
 
 	// TEXTURE SHADER
 	///////////
-	ostringstream tsVertexShader;
+    std::ostringstream tsVertexShader;
 	tsVertexShader
 		<< "out vec2 fs_texcoords;\n"
 		<< "\n"
@@ -309,23 +327,24 @@ void RenderEngine::setup_builtin_shaders()
 		<< "    fs_texcoords = texcoords;\n"
 		<< "}\n";
 
-	ostringstream tsFragmentShader;
+    std::ostringstream tsFragmentShader;
 	tsFragmentShader
 		<< "in vec2 fs_texcoords;\n"
 		<< "\n"
 		<< "out vec4 out_color;\n"
 		<< "\n"
 		<< "void main() {\n"
-		<< "    out_color = texture(" << TextureSlotTemplate::TEXTURE_DIFFUSE.name << ", fs_texcoords);\n"
+		<< "    out_color = texture(" << TextureSlot::TEXTURE_DIFFUSE.name << ", fs_texcoords);\n"
 		<< "}\n";
 
-	owner<Shader> texShader = ShaderBuilder()
-		.vertex_uniform("mat4", "uni_wvp")
-		.frag_texture_slot(TextureSlotTemplate::TEXTURE_DIFFUSE)
-		.vertexlayout(ptLayout)
-		.vertex_source(tsVertexShader.str())
-		.frag_source(tsFragmentShader.str())
-		.build();
+    owner<Shader> texShader = owner<Shader>( new Shader(
+        /* VertexLayout  */   Vertex_pt().layout(),
+        /* VertexUniform */   { Uniform( "mat4","uni_wvp" ) },
+        /* FragUniform   */   {},
+        /* Texture Slots */   { TextureSlot::TEXTURE_DIFFUSE },
+        /* Vertex Shader */   tsVertexShader.str(),
+        /* Frag Shader   */   tsFragmentShader.str()
+    ) );
 
 	add_shader("builtin_texture", std::move( texShader ));
 }
