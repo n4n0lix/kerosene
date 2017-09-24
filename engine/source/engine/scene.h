@@ -10,16 +10,17 @@
 
 // Internal Includes
 #include "_global.h"
-#include "icamera.h"
+#include "camera.h"
 #include "gameobject.h"
 #include "batch.h"
+#include "renderer.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class GameObject;
+class Renderer;
 
 class Scene
 {
@@ -31,14 +32,16 @@ public:
                 ~Scene() = default;
 
 
-    void                      add_camera( weak<ICamera> cam );
-    void                      remove_camera( weak<ICamera> cam );
+    void                      add_camera( weak<Camera> cam );
+    void                      remove_camera( weak<Camera> cam );
     
-    void                      add_gameobject( weak<GameObject> gameobject );
-    void                      remove_gameobject( weak<GameObject> gameobject );
+    weak<Renderer>            add_renderer( owner<Renderer> gameobject );
+    owner<Renderer>           remove_renderer( weak<Renderer> gameobject );
     
-    vector<weak<ICamera>>&    get_cameras();
-    vector<weak<GameObject>>& get_gameobjects();
+    vector<weak<Camera>>&     get_cameras();
+
+    void                      render(weak<RenderEngine> render);
+    void                      cleanup();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -50,9 +53,12 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    vector<weak<ICamera>>                                    _cameras;
-    vector<weak<GameObject>>                                 _gameObjects;
-    map<weak<Material>, owner<IBatch>, weak_less<Material>>  _batches;
+    vector<weak<Camera>>     _cameras;
+
+    vector<owner<Renderer>>  _ownerRenderers;
+    vector<weak<Renderer>>   _uninitRenderers;
+    vector<weak<Renderer>>   _renderers;
+
 };
 
 ENGINE_NAMESPACE_END

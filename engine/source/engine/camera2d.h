@@ -16,20 +16,20 @@
 #include "matrix4f.h"
 #include "viewport4.h"
 #include "logger.h"
-#include "icamera.h"
+#include "camera.h"
 
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-class Camera2D : public ICamera
+class Camera2D : public Camera
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-               Camera2D() : ICamera() {}
+               Camera2D() : Camera() {}
               ~Camera2D() = default;
 
             void        set_target( Vector3f target );
@@ -39,7 +39,7 @@ public:
             Vector4f    get_clear_color();
 
             void        set_viewport( Viewport4i viewport );
-            void        set_viewport( int32 x, int32 y, int32 w, int32 h );
+    virtual void        set_viewport( int32 x, int32 y, int32 w, int32 h );
             Viewport4i  get_viewport();
 
     virtual void        set_as_active();

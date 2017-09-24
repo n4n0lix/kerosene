@@ -94,33 +94,32 @@ void Engine::mainloop() {
         {
             _input->on_update();
 
-            update_gamestate();
-            if ( _gameState == nullptr ) return;
-
-            _logic->on_update();
-            _physics->on_update();
+            if ( !update_gamestate() ) return;
 
             lag -= _tickTime;
         }
 
         // 2# Rendering
-        _render->set_interpolation( (float)((double)lag / (double)_tickTime) ); // Add '+ 1' to switch to extrapolation
-        _render->on_render( _gameState->get_gameobjects() );
+        _gameState->on_frame_start();
 
-        if ( _render->is_exit_requested() ) return;
+        _render->set_interpolation( (float)((double)lag / (double)_tickTime) ); // Add '+ 1' to switch to extrapolation
+        _render->on_render();
+
+        _gameState->on_frame_end();
     }
 }
 
-void Engine::update_gamestate()
+bool Engine::update_gamestate()
 {
     // Update Gamestate
     if (_gameState != nullptr && _gameState->get_status() == RUNNING) {
-        _gameState->update();
+        _gameState->on_update();
     }	
 
     // End Gamestate
 	if (_gameState != nullptr && _gameState->get_status() == FINISHED) {
 		_gameState->end();
+        _render->on_gamestate_end();
 		_gameState = _gameState->take_next_gamestate();
 	}
 
@@ -131,6 +130,8 @@ void Engine::update_gamestate()
 
 		_gameState->start();
 	}
+
+    return _gameState != nullptr;
 }
 
 uint64_t Engine::get_current_ms()

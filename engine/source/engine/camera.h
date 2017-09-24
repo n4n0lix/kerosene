@@ -20,17 +20,18 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-class ICamera
+class Camera
 {
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-              ICamera() {};
-              virtual ~ICamera() = default;
+              Camera() {};
+              virtual ~Camera() = default;
 
     virtual void        set_as_active() = 0;
     virtual Matrix4f    view_matrix() = 0;
+    virtual void        set_viewport(int32, int32, int32, int32) = 0;
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

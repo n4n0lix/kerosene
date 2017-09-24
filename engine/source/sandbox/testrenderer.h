@@ -1,77 +1,70 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                        Includes                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
-#include <assert.h>
-#include <chrono>
 
 // Other Includes
 
 // Internal Includes
 #include "_global.h"
-#include "renderengine.h"
-#include "logicengine.h"
-#include "inputengine.h"
-#include "networkengine.h"
-#include "physicsengine.h"
-#include "engineconfiguration.h"
-#include "gamestate.h"
+
+#include "scene.h"
+#include "renderer.h"
+#include "vertextoken.h"
+#include "material.h"
+#include "batch.h"
+
+
+#include "owner.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-/**
- * The main engine object.
- */
-class Engine
+class TestRenderer : public Renderer
 {
-
 public:
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    const string  ENGINE_NAME       = "KerosineEngine";
-    const string  ENGINE_VERSION    = "v0.0.1-indev";
-
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+			TestRenderer() = default;
+            virtual ~TestRenderer() = default;
+protected:
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	/*                       Protected                        */
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-            explicit Engine(EngineConfiguration& config);
-            ~Engine() = default;
+	virtual void on_init();
+	virtual void on_render();
+	virtual void on_cleanup();
 
-    int run();
+	using Renderer::get_renderengine;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    /*  METHODS */
-    void mainloop();
-    bool update_gamestate();
-    uint64 get_current_ms();
+    weak<Material> _materialDiff;
+    weak<Material> _materialTex;
 
-    /*  VARIABLES */
-    uint64 _tickTime;
-    
-    owner<RenderEngine>  _render;
-    owner<LogicEngine>   _logic;
-    owner<InputEngine>   _input;
-    owner<NetworkEngine> _network;
-    owner<PhysicsEngine> _physics;
+	owner<VertexToken> _tokenTriangle1;
+    owner<VertexToken> _tokenTriangle2;
+    owner<VertexToken> _tokenTriangle3;
+    owner<VertexToken> _tokenTriangle4;
 
-    owner<GameState>     _gameState;
-
+    owner<Batch<Vertex_pc>> _batch_pc;
+    owner<Batch<Vertex_pt>> _batch_pt;
 };
 
 ENGINE_NAMESPACE_END
-#endif // ENGINE_H
+

@@ -14,7 +14,6 @@
 
 #include "transform.h"
 
-#include "rendercomponent.h"
 #include "logiccomponent.h"
 
 
@@ -22,8 +21,6 @@
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
-
-class RenderComponent;
 
 class GameObject
 {
@@ -33,9 +30,6 @@ class GameObject
 public:
             GameObject();
             ~GameObject();
-
-	void			        set_rendercomponent(owner<RenderComponent> comp);
-	weak<RenderComponent>   get_rendercomponent();
 
 	void	destroy_at_tick_end();
 	bool    shall_be_destroyed_at_tick_end();
@@ -60,7 +54,6 @@ private:
 	bool					_destroyAtTickEnd;
 
     owner<LogicComponent>  _logic;     // Owned by this
-    owner<RenderComponent> _render;    // Owned by this
 
 	static IDGen ID_GENERATOR;
 

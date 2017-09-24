@@ -79,29 +79,15 @@ void RenderEngine::on_start( weak<InputEngine> input )
     
 }
 
-void RenderEngine::on_render( vector<weak<GameObject>> gameObjects )
+void RenderEngine::on_render()
 {
 	// 1# Setup rendering
     _mainWindow->make_current();
 
-	_camera->set_viewport(0, 0, _mainWindow->get_renderwidth(), _mainWindow->get_renderheight());
-	_camera->set_as_active();
-
-	// #2 Update Rendercomponents
-	for (weak<GameObject> gameObject : gameObjects) {
-		weak<RenderComponent> component = gameObject->get_rendercomponent();
-
-		if (component != nullptr) {
-			if (!component->is_initialized())
-				component->init( get_non_owner() );
-
-			component->render( Transform() );
-		}
-	}
-
-	// #3 Render batches
-    for (auto it = _batches.begin(); it != _batches.end(); ++it)
-        it->second->render();	
+    // TODO: Sort scenes
+    for ( weak<Scene> scene : _scenes ) {
+        scene->render( this->get_non_owner() );
+    }
 
     _mainWindow->swap_buffers();
 
@@ -137,38 +123,6 @@ bool RenderEngine::is_exit_requested()
 void RenderEngine::hide_cursor( bool hideCursor )
 {
     glfwSetInputMode( _mainWindow->get_handle(), GLFW_CURSOR, hideCursor ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_NORMAL );
-}
-
-// VERTICES
-void RenderEngine::remove_vertices(owner<VertexToken> token)
-{
-	weak<IBatch> batch = _batchTokenLookup[token.get_non_owner()];
-
-	if (batch != nullptr) {
-		batch->remove_vertices(std::move( token ));
-	}
-}
-
-void RenderEngine::add_render(weak<VertexToken> token)
-{
-    Guard( token.ptr_is_valid() ) return;
-
-    weak<IBatch> batch = _batchTokenLookup[token];
-
-	if (batch != nullptr) {
-		batch->add_render(token);
-	}
-}
-
-void RenderEngine::remove_render(weak<VertexToken> token)
-{
-    Guard(token.ptr_is_valid()) return;
-
-    weak<IBatch> batch = _batchTokenLookup[token];
-
-	if (batch != nullptr) {
-		batch->remove_render(token);
-	}
 }
 
 // TEXTURE
@@ -262,9 +216,12 @@ void RenderEngine::unload_everything()
     _shaders.clear();
     _textures.clear();
     _materials.clear();
-    _batches.clear();
+    _scenes.clear();
+}
 
-    _batchTokenLookup.clear();
+void RenderEngine::on_gamestate_end()
+{
+    _scenes.clear();
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

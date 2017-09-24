@@ -32,12 +32,14 @@ class GameState
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
             explicit GameState();
-            ~GameState() = default;
+            virtual ~GameState() = default;
 
     void start();
-    void update();
-    void finish();
     void end();
+
+    virtual void    on_update() {}
+    virtual void    on_frame_start() {}
+    virtual void    on_frame_end() {}
 
     GameStateStatus             get_status() const;
 
@@ -59,9 +61,8 @@ protected:
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    virtual void on_start() = 0;
-    virtual void on_update() = 0;
-    virtual void on_end() = 0;
+    virtual void on_start()       {}
+    virtual void on_end()         {}
 
     void set_status( GameStateStatus status );
 

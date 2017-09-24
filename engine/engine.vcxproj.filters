@@ -147,9 +147,6 @@
     <ClInclude Include="source\engine\range.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\rendercomponent.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\renderengine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -204,13 +201,19 @@
     <ClInclude Include="source\engine\scene.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\icamera.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\sandbox\testgamestate.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\sandbox\testrendercomponent.h">
+    <ClInclude Include="source\engine\renderer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\sandbox\testrenderer.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\camera.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\spriterenderer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -263,9 +266,6 @@
     <ClCompile Include="source\engine\material.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\rendercomponent.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\renderengine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -305,9 +305,6 @@
     <ClCompile Include="source\engine\scene.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\sandbox\testrendercomponent.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\sandbox\testgamestate.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -342,6 +339,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\physicsengine.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\renderer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sandbox\testrenderer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\spriterenderer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,54 +11,50 @@
 // Internal Includes
 #include "_global.h"
 
-#include "rendercomponent.h"
-#include "vertextoken.h"
-#include "material.h"
-
-#include "owner.h"
+#include "component.h"
+#include "renderengine.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class TestRenderComponent : public RenderComponent
+class RenderEngine;
+
+class Renderer
 {
-public:
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-			TestRenderComponent() = default;
-            virtual ~TestRenderComponent() = default;
+public:
+            Renderer();
+            virtual ~Renderer() = default;
+
+    void init( weak<RenderEngine> engine );
+    void render();
+    void cleanup();
+
+    bool is_initialized();
+
 protected:
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	/*                       Protected                        */
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*                       Protected                        */
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	virtual void on_init();
-	virtual void on_render();
-	virtual void on_deinit();
+    virtual void on_init() = 0;
+    virtual void on_render() = 0;
+    virtual void on_cleanup() = 0;
 
-	using RenderComponent::get_renderengine;
+    weak<RenderEngine> get_renderengine();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    weak<Material> _materialDiff;
-    weak<Material> _materialTex;
+    bool			    _initialized;
+    weak<RenderEngine>  _renderEngine;
 
-	owner<VertexToken> _tokenTriangle1;
-    owner<VertexToken> _tokenTriangle2;
-    owner<VertexToken> _tokenTriangle3;
-    owner<VertexToken> _tokenTriangle4;
 };
 
 ENGINE_NAMESPACE_END
-

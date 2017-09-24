@@ -128,6 +128,11 @@ public:
     template<typename U>
     inline bool operator!= (const owner<U> &y) const { return !(_ptr == y.get()); }
 
+    inline bool ptr_is_usable() const
+    {
+        return (_ptr == nullptr) ? false : (*_ptrValid);
+    }
+
     // Determines if it's safe to use the ptr retrieved from get(). Does not ensure that the ptr is not null!
     inline bool ptr_is_valid() const
     {

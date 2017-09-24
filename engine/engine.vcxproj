@@ -26,13 +26,14 @@
     <Text Include="source\gameidea.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\engine\icamera.h" />
+    <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\charevent.h" />
     <ClInclude Include="source\engine\keyevent.h" />
     <ClInclude Include="source\engine\mouseevent.h" />
     <ClInclude Include="source\engine\camera2d.h" />
     <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\scene.h" />
+    <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera3d.h" />
@@ -43,7 +44,7 @@
     <ClInclude Include="source\engine\logiccomponent.h" />
     <ClInclude Include="source\engine\imageutils.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
-    <ClInclude Include="source\engine\rendercomponent.h" />
+    <ClInclude Include="source\engine\renderer.h" />
     <ClInclude Include="source\engine\nullable.h" />
     <ClInclude Include="source\engine\stackbuffer.h" />
     <ClInclude Include="source\engine\stackbuffertoken.h" />
@@ -89,11 +90,12 @@
     <ClInclude Include="source\engine\_renderdefs.h" />
     <ClInclude Include="source\engine\_stdext.h" />
     <ClInclude Include="source\sandbox\testgamestate.h" />
-    <ClInclude Include="source\sandbox\testrendercomponent.h" />
+    <ClInclude Include="source\sandbox\testrenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\camera2d.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />
+    <ClCompile Include="source\engine\spriterenderer.cpp" />
     <ClCompile Include="source\engine\uniform.cpp" />
     <ClCompile Include="source\engine\vertexbuffertoken.cpp" />
     <ClCompile Include="source\engine\camera3d.cpp" />
@@ -116,7 +118,7 @@
     <ClCompile Include="source\engine\material.cpp" />
     <ClCompile Include="source\engine\matrix4f.cpp" />
     <ClCompile Include="source\engine\quaterion4f.cpp" />
-    <ClCompile Include="source\engine\rendercomponent.cpp" />
+    <ClCompile Include="source\engine\renderer.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
     <ClCompile Include="source\engine\range.cpp" />
     <ClCompile Include="source\engine\stackbuffertoken.cpp" />
@@ -134,7 +136,7 @@
     <ClCompile Include="source\engine\_gl.cpp" />
     <ClCompile Include="source\sandbox\main.cpp" />
     <ClCompile Include="source\sandbox\testgamestate.cpp" />
-    <ClCompile Include="source\sandbox\testrendercomponent.cpp" />
+    <ClCompile Include="source\sandbox\testrenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>

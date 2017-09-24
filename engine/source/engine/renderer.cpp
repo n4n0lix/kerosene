@@ -1,5 +1,5 @@
 // Header
-#include "rendercomponent.h"
+#include "renderer.h"
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -12,7 +12,7 @@ ENGINE_NAMESPACE_BEGIN
 /*                        Public                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-RenderComponent::RenderComponent() : _initialized(false) {
+Renderer::Renderer() : _initialized(false) {
 
 }
 
@@ -24,30 +24,30 @@ RenderComponent::RenderComponent() : _initialized(false) {
 /*                        Private                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void RenderComponent::init( weak<RenderEngine> engine)
+void Renderer::init( weak<RenderEngine> engine)
 {
 	_renderEngine = engine;
 	on_init();
 	_initialized = true;
 }
 
-void RenderComponent::render( Transform transform )
+void Renderer::render()
 {
 	on_render();
 }
 
-void RenderComponent::deinit()
+void Renderer::cleanup()
 {
-	on_deinit();
+	on_cleanup();
 	_initialized = false;
 }
 
-bool RenderComponent::is_initialized()
+bool Renderer::is_initialized()
 {
 	return _initialized;
 }
 
-weak<RenderEngine> RenderComponent::get_renderengine()
+weak<RenderEngine> Renderer::get_renderengine()
 {
 	return _renderEngine;
 }

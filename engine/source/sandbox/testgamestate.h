@@ -9,7 +9,8 @@
 
 // Other Includes
 #include "gamestate.h"
-#include "testrendercomponent.h"
+#include "testrenderer.h"
+#include "camera.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -22,10 +23,15 @@ class TestGameState : public GameState
 
 public:
             TestGameState() = default;
-            virtual ~TestGameState() = default;
+            virtual ~TestGameState();
 
 protected:
-    virtual void on_start();
-    virtual void on_update();
-    virtual void on_end();
+    void on_start()         override;
+    void on_update()        override;
+    void on_frame_start()   override;
+    void on_end()           override;
+
+private:
+    owner<Scene>  _scene;
+    owner<Camera> _camera;
 };

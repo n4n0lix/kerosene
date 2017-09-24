@@ -12,18 +12,18 @@ SCENARIO("gameobjects can be added and removed from the scene", "[scene]") {
         owner<GameObject>  object2 = make_owner<GameObject>();
         owner<GameObject>  object3 = make_owner<GameObject>();
 
-        REQUIRE(scene.get_gameobjects().size() == 0);
+        REQUIRE(scene.get_renderers().size() == 0);
 
         WHEN("gameobjects are added") {
-            scene.add_gameobject( object1.get_non_owner() );
-            scene.add_gameobject( object2.get_non_owner() );
-            scene.add_gameobject( object3.get_non_owner() );
+            scene.add_renderer( object1.get_non_owner() );
+            scene.add_renderer( object2.get_non_owner() );
+            scene.add_renderer( object3.get_non_owner() );
 
             THEN("they are in the scene") {
-                REQUIRE( scene.get_gameobjects().size() == 3 );
+                REQUIRE( scene.get_renderers().size() == 3 );
 
-                auto itBegin = scene.get_gameobjects().begin();
-                auto itEnd   = scene.get_gameobjects().end();
+                auto itBegin = scene.get_renderers().begin();
+                auto itEnd   = scene.get_renderers().end();
 
                 REQUIRE( std::find( itBegin, itEnd, object1.get_non_owner() ) != itEnd );
                 REQUIRE( std::find( itBegin, itEnd, object2.get_non_owner() ) != itEnd );
@@ -32,15 +32,15 @@ SCENARIO("gameobjects can be added and removed from the scene", "[scene]") {
         }
 
         WHEN( "the same gameobject is added multiple times" ) {
-            scene.add_gameobject( object1.get_non_owner() );
-            scene.add_gameobject( object1.get_non_owner() );
-            scene.add_gameobject( object1.get_non_owner() );
+            scene.add_renderer( object1.get_non_owner() );
+            scene.add_renderer( object1.get_non_owner() );
+            scene.add_renderer( object1.get_non_owner() );
 
             THEN( "its only one time in the scene" ) {
-                REQUIRE( scene.get_gameobjects().size() == 1 );
+                REQUIRE( scene.get_renderers().size() == 1 );
 
-                auto itBegin = scene.get_gameobjects().begin();
-                auto itEnd = scene.get_gameobjects().end();
+                auto itBegin = scene.get_renderers().begin();
+                auto itEnd = scene.get_renderers().end();
 
                 REQUIRE( std::find( itBegin, itEnd, object1.get_non_owner() ) != itEnd );
             }
@@ -53,22 +53,22 @@ SCENARIO("gameobjects can be added and removed from the scene", "[scene]") {
         owner<GameObject>  object2 = make_owner<GameObject>();
         owner<GameObject>  object3 = make_owner<GameObject>();
 
-        scene.add_gameobject( object1.get_non_owner() );
-        scene.add_gameobject( object2.get_non_owner() );
-        scene.add_gameobject( object3.get_non_owner() );
+        scene.add_renderer( object1.get_non_owner() );
+        scene.add_renderer( object2.get_non_owner() );
+        scene.add_renderer( object3.get_non_owner() );
 
-        REQUIRE( scene.get_gameobjects().size() == 3 );
+        REQUIRE( scene.get_renderers().size() == 3 );
 
         WHEN( "gameobjects are removed" ) {
-            scene.remove_gameobject( object1.get_non_owner() );
-            scene.remove_gameobject( object2.get_non_owner() );
-            scene.remove_gameobject( object3.get_non_owner() );
+            scene.remove_renderer( object1.get_non_owner() );
+            scene.remove_renderer( object2.get_non_owner() );
+            scene.remove_renderer( object3.get_non_owner() );
 
             THEN( "they are not in the scene anymore" ) {
-                REQUIRE( scene.get_gameobjects().size() == 0 );
+                REQUIRE( scene.get_renderers().size() == 0 );
 
-                auto itBegin = scene.get_gameobjects().begin();
-                auto itEnd = scene.get_gameobjects().end();
+                auto itBegin = scene.get_renderers().begin();
+                auto itEnd = scene.get_renderers().end();
 
                 REQUIRE( std::find( itBegin, itEnd, object1.get_non_owner() ) == itEnd );
                 REQUIRE( std::find( itBegin, itEnd, object2.get_non_owner() ) == itEnd );

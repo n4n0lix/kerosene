@@ -17,16 +17,6 @@ void GameState::start()
     on_start();
 }
 
-void GameState::update()
-{
-    on_update();
-}
-
-void GameState::finish()
-{
-    _status = FINISHED;
-}
-
 void GameState::end()
 {
     on_end();
