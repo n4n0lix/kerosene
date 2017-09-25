@@ -2,7 +2,7 @@
 - gameengine
 - c++
 - cross-platform (linux/windows)(x86/x64)
-- opengl 3.3
+- opengl 3.3+
 
 ## 1. introduction
 #### building
@@ -15,6 +15,10 @@ use the provided solution `engine.sln`.
 
 #### rules of contribution
 - PR musn't create memory leaks
+
+#### 3rd party software used
+- zlib 1.2.8
+- libpng 1.6.23
 
 ## 2. code
 ### 2.1 contract
