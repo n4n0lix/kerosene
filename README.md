@@ -13,8 +13,9 @@ use the provided solution `engine.sln`.
 ##### linux
 * todo
 
-#### rules of contribution
-- PR musn't create memory leaks
+#### ontribution
+- PRs musn't create memory leaks
+- trello http://trello.com/b/WejibOAw/engine
 
 #### 3rd party software used
 - zlib 1.2.8
