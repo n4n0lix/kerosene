@@ -12,11 +12,14 @@
 #include "_gl.h"
 #include "_global.h"
 #include "renderer.h"
-
+#include "vertexarray.h"
+#include "matrix4f.h"
+#include "transform.h"
+#include "shader.h"
+#include "material.h"
+#include "texture.h"
 
 ENGINE_NAMESPACE_BEGIN
-
-class World;
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -27,8 +30,10 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-              SpriteRenderer(weak<Texture> texture);
+              SpriteRenderer();
               virtual ~SpriteRenderer() = default;
+
+    void    set_gameobject( weak<GameObject> gameobject );
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -36,13 +41,22 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     virtual void on_init();
-    virtual void on_render();
+    virtual void on_render( weak<Camera> cam, Matrix4f proj_view );
     virtual void on_cleanup();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+    weak<Shader>                    _shader;
+    weak<Texture>                   _texture;
+    weak<Material>                  _material;
+
+    owner<VertexArray<Vertex_pt>>   _vao;
+    owner<VertexToken>              _token;
+
+    weak<GameObject>                _gameObject;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

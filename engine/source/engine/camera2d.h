@@ -43,7 +43,7 @@ public:
             Viewport4i  get_viewport();
 
     virtual void        set_as_active();
-    virtual Matrix4f    view_matrix();
+    virtual Matrix4f    proj_view_matrix();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -55,8 +55,8 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    bool        _matrixChanged;
-    Matrix4f    _viewMatrix;
+    bool        _projViewMatrixChanged;
+    Matrix4f    _projViewMatrix;
 
     bool        _viewportChanged;
     Viewport4i  _viewport;

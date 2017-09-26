@@ -27,7 +27,7 @@ public:
     /*                     Public Static                      */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    static const Uniform VIEW_MATRIX;
+    static const Uniform WORLD_VIEW_PROJ_MATRIX;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */

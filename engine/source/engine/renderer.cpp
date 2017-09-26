@@ -31,9 +31,9 @@ void Renderer::init( weak<RenderEngine> engine)
 	_initialized = true;
 }
 
-void Renderer::render()
+void Renderer::render( weak<Camera> cam, Matrix4f view_proj )
 {
-	on_render();
+    on_render( cam, view_proj );
 }
 
 void Renderer::cleanup()

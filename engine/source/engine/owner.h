@@ -427,7 +427,7 @@ struct weak_less {
 
 #ifdef  OWNER_VECTOR_EXT
 template<typename T>
-owner<T> extract_owner(std::vector<owner<T>>& vec, weak<T> ptr) {
+owner<T>&& extract_owner(std::vector<owner<T>>& vec, weak<T> ptr) {
     auto it = vec.begin();
     for (; it != vec.end(); ++it) {
         if (it->get() == ptr.get()) break;
@@ -439,7 +439,7 @@ owner<T> extract_owner(std::vector<owner<T>>& vec, weak<T> ptr) {
         return std::move(retval);
     }
 
-    return nullptr;
+    return std::move( owner<T>( nullptr ) );
 }
 
 template<typename T>

@@ -2,25 +2,23 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-void Scene::add_camera( weak<Camera> cam )
+weak<Camera> Scene::add_camera( owner<Camera> cam )
 {
-    if ( std::find( _cameras.begin(), _cameras.end(), cam ) != _cameras.end() ) {
-        return;
-    }
-
-    _cameras.push_back( cam );
+    weak<Camera> weak = cam.get_non_owner();
+    _cameras.emplace_back( std::move( cam ) );
+    return weak;
 }
 
-void Scene::remove_camera( weak<Camera> cam )
+owner<Camera>&& Scene::remove_camera( weak<Camera> cam )
 {
-    _cameras.erase( std::remove( _cameras.begin(), _cameras.end(), cam ));
+    return extract_owner( _cameras, cam );
 }
 
 weak<Renderer> Scene::add_renderer( owner<Renderer> renderer )
 {
     weak<Renderer> weakRenderer = renderer.get_non_owner();
     _ownerRenderers.emplace_back( std::move( renderer ) );
-   
+
     if ( !weakRenderer->is_initialized() ) {
         _uninitRenderers.push_back( weakRenderer );
     }
@@ -31,20 +29,15 @@ weak<Renderer> Scene::add_renderer( owner<Renderer> renderer )
     return weakRenderer;
 }
 
-owner<Renderer> Scene::remove_renderer( weak<Renderer> renderer )
+owner<Renderer>&& Scene::remove_renderer( weak<Renderer> renderer )
 {
     if ( contains_owner( _ownerRenderers, renderer ) ) {
         _renderers.erase( std::remove( _renderers.begin(), _renderers.end(), renderer ) );
         _uninitRenderers.erase( std::remove( _uninitRenderers.begin(), _uninitRenderers.end(), renderer ) );
-        return std::move( extract_owner( _ownerRenderers, renderer ));
+        return extract_owner( _ownerRenderers, renderer );
     }
 
-    return nullptr;
-}
-
-vector<weak<Camera>>& Scene::get_cameras()
-{
-    return _cameras;
+    return std::move(owner<Renderer>(nullptr));
 }
 
 void  Scene::render( weak<RenderEngine> render ) {
@@ -60,14 +53,16 @@ void  Scene::render( weak<RenderEngine> render ) {
     }
 
     // 2# Render Scene
-    for ( weak<Camera> camera : _cameras ) {
-
+    for ( auto it = _cameras.begin(); it != _cameras.end(); ++it) {
+        auto camera = it->get_non_owner();
         camera->set_as_active();
+        Matrix4f projViewMatrix = camera->proj_view_matrix();
 
         for ( weak<Renderer> renderer : _renderers ) {
-            renderer->render();
+            renderer->render( camera, projViewMatrix );
         }
     }
+
 }
 
 void Scene::cleanup()

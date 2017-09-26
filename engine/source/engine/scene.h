@@ -21,6 +21,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 class Renderer;
+class RenderEngine;
 
 class Scene
 {
@@ -32,13 +33,11 @@ public:
                 ~Scene() = default;
 
 
-    void                      add_camera( weak<Camera> cam );
-    void                      remove_camera( weak<Camera> cam );
+    weak<Camera>              add_camera( owner<Camera> cam );
+    owner<Camera>&&           remove_camera( weak<Camera> cam );
     
     weak<Renderer>            add_renderer( owner<Renderer> gameobject );
-    owner<Renderer>           remove_renderer( weak<Renderer> gameobject );
-    
-    vector<weak<Camera>>&     get_cameras();
+    owner<Renderer>&&         remove_renderer( weak<Renderer> gameobject );
 
     void                      render(weak<RenderEngine> render);
     void                      cleanup();
@@ -53,7 +52,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    vector<weak<Camera>>     _cameras;
+    vector<owner<Camera>>     _cameras;
 
     vector<owner<Renderer>>  _ownerRenderers;
     vector<weak<Renderer>>   _uninitRenderers;

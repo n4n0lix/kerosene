@@ -30,7 +30,7 @@ public:
               virtual ~Camera() = default;
 
     virtual void        set_as_active() = 0;
-    virtual Matrix4f    view_matrix() = 0;
+    virtual Matrix4f    proj_view_matrix() = 0;
     virtual void        set_viewport(int32, int32, int32, int32) = 0;
 
 protected:

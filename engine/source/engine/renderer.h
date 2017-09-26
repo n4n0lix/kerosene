@@ -31,7 +31,7 @@ public:
             virtual ~Renderer() = default;
 
     void init( weak<RenderEngine> engine );
-    void render();
+    void render( weak<Camera> cam, Matrix4f view_proj);
     void cleanup();
 
     bool is_initialized();
@@ -42,7 +42,7 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     virtual void on_init() = 0;
-    virtual void on_render() = 0;
+    virtual void on_render( weak<Camera> cam, Matrix4f view_proj ) = 0;
     virtual void on_cleanup() = 0;
 
     weak<RenderEngine> get_renderengine();

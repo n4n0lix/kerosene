@@ -11,7 +11,6 @@
 // Other Includes
 
 // Internal Includes
-#include "_global.h"
 #include "_mathdefs.h"
 #include "vector3f.h"
 #include "vector4f.h"
@@ -35,19 +34,9 @@ public:
     static Matrix4f ZERO;
     static Matrix4f IDENTITY;
 
-    static bool is_zero(const Matrix4f& m) {
-        return m.m00 == 0.0f && m.m01 == 0.0f && m.m02 == 0.0f && m.m03 == 0.0f
-            && m.m10 == 0.0f && m.m11 == 0.0f && m.m12 == 0.0f && m.m13 == 0.0f
-            && m.m20 == 0.0f && m.m21 == 0.0f && m.m22 == 0.0f && m.m23 == 0.0f
-            && m.m30 == 0.0f && m.m31 == 0.0f && m.m32 == 0.0f && m.m33 == 0.0f;
-    }
+    static bool is_zero( const Matrix4f& m );
 
-    static bool is_identity(const Matrix4f& m) {
-        return m.m00 == 1.0f && m.m01 == 0.0f && m.m02 == 0.0f && m.m03 == 0.0f
-            && m.m10 == 0.0f && m.m11 == 1.0f && m.m12 == 0.0f && m.m13 == 0.0f
-            && m.m20 == 0.0f && m.m21 == 0.0f && m.m22 == 1.0f && m.m23 == 0.0f
-            && m.m30 == 0.0f && m.m31 == 0.0f && m.m32 == 0.0f && m.m33 == 1.0f;
-    }
+    static bool is_identity( const Matrix4f& m );
 
     static Matrix4f rotation_axis( const float& angle, const Vector3f& axis );
 
@@ -70,10 +59,10 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             Matrix4f();
             Matrix4f(Matrix4f& copy);
-            Matrix4f(float v00, float v01, float v02, float v03,
-                     float v10, float v11, float v12, float v13,
-                     float v20, float v21, float v22, float v23,
-                     float v30, float v31, float v32, float v33);
+            Matrix4f( float v00, float v01, float v02, float v03,
+                      float v10, float v11, float v12, float v13,
+                      float v20, float v21, float v22, float v23,
+                      float v30, float v31, float v32, float v33 );
             explicit Matrix4f(float diagonal);
             ~Matrix4f() = default;
 
@@ -87,7 +76,6 @@ public:
     Matrix4f operator+(Matrix4f o) const;
     Matrix4f operator-(Matrix4f o) const;
     Matrix4f operator*(Matrix4f o) const;
-
 
     Vector4f /*Quaternion4f*/ to_quaternion_4f();
 

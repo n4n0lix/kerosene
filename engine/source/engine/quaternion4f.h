@@ -38,7 +38,7 @@ public:
             return Quaternion4f(axis.x * s, axis.y * s, axis.z * s, (float)cos(angle / 2));
     }
 
-    static Matrix4f toRotationMatrix4f(Quaternion4f q) {
+    static Matrix4f to_rotation_mat4f(Quaternion4f q) {
         Matrix4f out(0.0f);
 
         float xx = q.x * q.x;

@@ -85,8 +85,8 @@ void RenderEngine::on_render()
     _mainWindow->make_current();
 
     // TODO: Sort scenes
-    for ( weak<Scene> scene : _scenes ) {
-        scene->render( this->get_non_owner() );
+    for ( auto it = _scenes.begin(); it != _scenes.end(); ++it ) {
+        it->get()->render( this->get_non_owner() );
     }
 
     _mainWindow->swap_buffers();
@@ -138,19 +138,26 @@ owner<Texture> RenderEngine::load_texture(string filename, TextureOptions option
     return make_owner<Texture>(image.get(), options);
 }
 
-weak<Texture> RenderEngine::add_texture(string name, owner<Texture> texture)
+weak<Texture> RenderEngine::add_texture(string filename, owner<Texture> texture)
 {
-    _textures.emplace(name, std::move(texture) );
-    return _textures[name].get_non_owner();
+    _textures.emplace( filename, std::move(texture) );
+    return _textures[filename].get_non_owner();
 }
 
-weak<Texture> RenderEngine::get_texture(string name)
+weak<Texture> RenderEngine::get_texture(string filename )
 {
-    if (_textures.count(name) == 1) {
-        return _textures[name].get_non_owner();
+    if (_textures.count( filename ) == 1) {
+        return _textures[filename].get_non_owner();
     }
 
-    return nullptr;
+    owner<Texture> oTex = load_texture( filename );
+    weak<Texture>  wTex = oTex.get_non_owner();
+
+    if ( oTex != nullptr ) {
+        _textures.emplace( filename, std::move( oTex ) );
+    }
+
+    return wTex;
 }
 
 bool RenderEngine::has_texture(string name) {
@@ -197,18 +204,16 @@ bool RenderEngine::has_material(string name) {
     return _materials.count(name) == 1;
 }
 
-void RenderEngine::add_scene( weak<Scene> scene )
+weak<Scene> RenderEngine::add_scene( owner<Scene> scene )
 {
-    if ( std::find( _scenes.begin(), _scenes.end(), scene ) != _scenes.end() ) {
-        return;
-    }
-
-    _scenes.push_back( scene );
+    weak<Scene> weak = scene.get_non_owner();
+    _scenes.emplace_back( std::move( scene ));
+    return weak;
 }
 
-void RenderEngine::remove_scene( weak<Scene> scene )
+owner<Scene>&& RenderEngine::remove_scene( weak<Scene> scene )
 {
-    _scenes.erase( std::remove( _scenes.begin(), _scenes.end(), scene ));
+    return extract_owner( _scenes, scene );
 }
 
 void RenderEngine::unload_everything()
@@ -263,7 +268,7 @@ void RenderEngine::setup_builtin_shaders()
 
     owner<Shader> colorShader = owner<Shader>(new Shader( 
                   /* VertexLayout  */   Vertex_pc().layout(),
-                  /* VertexUniform */   { Uniform( "mat4","uni_wvp" ) }, 
+                  /* VertexUniform */   { Uniform::WORLD_VIEW_PROJ_MATRIX }, 
                   /* FragUniform   */   {}, 
                   /* Texture Slots */   {}, 
                   /* Vertex Shader */   csVertexShader.str(), 
@@ -280,7 +285,7 @@ void RenderEngine::setup_builtin_shaders()
 		<< "out vec2 fs_texcoords;\n"
 		<< "\n"
 		<< "void main() {\n"
-		<< "    gl_Position = vec4(position, 1.0);\n"
+		<< "    gl_Position = vec4(position, 1.0) * " << Uniform::WORLD_VIEW_PROJ_MATRIX.gl_varname() << ";\n"
 		<< "    fs_texcoords = texcoords;\n"
 		<< "}\n";
 
@@ -296,7 +301,7 @@ void RenderEngine::setup_builtin_shaders()
 
     owner<Shader> texShader = owner<Shader>( new Shader(
         /* VertexLayout  */   Vertex_pt().layout(),
-        /* VertexUniform */   { Uniform( "mat4","uni_wvp" ) },
+        /* VertexUniform */   { Uniform::WORLD_VIEW_PROJ_MATRIX },
         /* FragUniform   */   {},
         /* Texture Slots */   { TextureSlot::TEXTURE_DIFFUSE },
         /* Vertex Shader */   tsVertexShader.str(),

@@ -48,7 +48,7 @@ public:
             Viewport4i  get_viewport();
 
     virtual void        set_as_active();
-    virtual Matrix4f    view_matrix();
+    virtual Matrix4f    proj_view_matrix();
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

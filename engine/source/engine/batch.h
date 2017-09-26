@@ -36,7 +36,7 @@ public:
     virtual void                    add_render( weak<VertexToken> token ) = 0;
     virtual void                    remove_render( weak<VertexToken> token ) = 0;
 
-    virtual void                    set_view_matrix( Matrix4f viewMatrix ) = 0;
+    virtual void                    set_wvp_matrix( Matrix4f wvpMatrix ) = 0;
 
     virtual void                    render() = 0;
 };
@@ -57,7 +57,7 @@ public:
     virtual void           add_render( weak<VertexToken> token );
     virtual void           remove_render( weak<VertexToken> token );
 
-    virtual void           set_view_matrix( Matrix4f viewMatrix );
+    virtual void           set_wvp_matrix( Matrix4f viewMatrix );
 
     virtual void           render();
 
@@ -74,6 +74,7 @@ private:
     owner<VertexArray<VERTEX>> _vao;
 
     weak<Material> _material;
+    Matrix4f       _wvp;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -118,8 +119,9 @@ void Batch<VERTEX>::remove_render( weak<VertexToken> token )
 }
 
 template<class VERTEX>
-inline void Batch<VERTEX>::set_view_matrix( Matrix4f viewMatrix )
+inline void Batch<VERTEX>::set_wvp_matrix( Matrix4f worldViewProj )
 {
+    _wvp = worldViewProj;
 }
 
 template<class VERTEX>
@@ -127,6 +129,7 @@ void Batch<VERTEX>::render()
 {
     if ( _material.ptr_is_valid() ) {
         _material->bind();
+        //_material->get_shader()->set_vertex_uniform( Uniform::WORLD_VIEW_PROJ_MATRIX, _wvp );
     }
 
     _vao->render();

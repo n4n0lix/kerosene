@@ -62,7 +62,7 @@ Viewport4i Camera3D::get_viewport()
     return _viewport;
 }
 
-Matrix4f Camera3D::view_matrix()
+Matrix4f Camera3D::proj_view_matrix()
 {
     return Matrix4f::look_at_lh(_eye, _target, Vector3f::Y_AXIS);
 }

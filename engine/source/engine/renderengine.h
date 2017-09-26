@@ -71,19 +71,19 @@ public:
 
     // RESOURCES
     weak<Texture>       add_texture( string filename, owner<Texture> texture );
-    weak<Texture>       get_texture( string name );
-    bool                has_texture( string name );
+    weak<Texture>       get_texture( string filename );
+    bool                has_texture( string filename );
 
-    weak<Shader>        add_shader( string name, owner<Shader> shader );
-    weak<Shader>        get_shader( string name );
-    bool                has_shader( string name );
+    weak<Shader>        add_shader( string filename, owner<Shader> shader );
+    weak<Shader>        get_shader( string filename );
+    bool                has_shader( string filename );
 
-    weak<Material>      add_material( string name, owner<Material> material );
-    weak<Material>      get_material( string name );
-    bool                has_material( string name );
+    weak<Material>      add_material( string filename, owner<Material> material );
+    weak<Material>      get_material( string filename );
+    bool                has_material( string filename );
 
-    void                add_scene( weak<Scene> scene );
-    void                remove_scene( weak<Scene> scene );
+    weak<Scene>         add_scene( owner<Scene> scene );
+    owner<Scene>&&      remove_scene( weak<Scene> scene );
 
     void                unload_everything();
     void                on_gamestate_end();
@@ -100,8 +100,7 @@ private:
     // Test
     owner<Camera2D> _camera;
 
-    vector<weak<Scene>>                                         _scenes;
-
+    vector<owner<Scene>>                                        _scenes;
     map< string, owner<Texture> >	                            _textures;
     map< string, owner<Shader> >	                            _shaders;
     map< string, owner<Material> >                              _materials;

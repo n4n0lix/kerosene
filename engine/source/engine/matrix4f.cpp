@@ -9,22 +9,37 @@ ENGINE_NAMESPACE_BEGIN
 Matrix4f Matrix4f::ZERO     = Matrix4f(0.0f);
 Matrix4f Matrix4f::IDENTITY = Matrix4f(1.0f);
 
+bool Matrix4f::is_zero( const Matrix4f& m ) {
+    return m.m00 == 0.0f && m.m01 == 0.0f && m.m02 == 0.0f && m.m03 == 0.0f
+        && m.m10 == 0.0f && m.m11 == 0.0f && m.m12 == 0.0f && m.m13 == 0.0f
+        && m.m20 == 0.0f && m.m21 == 0.0f && m.m22 == 0.0f && m.m23 == 0.0f
+        && m.m30 == 0.0f && m.m31 == 0.0f && m.m32 == 0.0f && m.m33 == 0.0f;
+}
+
+bool Matrix4f::is_identity( const Matrix4f& m ) {
+    return m.m00 == 1.0f && m.m01 == 0.0f && m.m02 == 0.0f && m.m03 == 0.0f
+        && m.m10 == 0.0f && m.m11 == 1.0f && m.m12 == 0.0f && m.m13 == 0.0f
+        && m.m20 == 0.0f && m.m21 == 0.0f && m.m22 == 1.0f && m.m23 == 0.0f
+        && m.m30 == 0.0f && m.m31 == 0.0f && m.m32 == 0.0f && m.m33 == 1.0f;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Matrix4f::Matrix4f(float v00, float v01, float v02, float v03, 
-                   float v10, float v11, float v12, float v13,
-                   float v20, float v21, float v22, float v23,
-                   float v30, float v31, float v32, float v33)
-    : m00(v00), m01(v01), m02(v02), m03(v03),
-      m10(v10), m11(v11), m12(v12), m13(v13),
-      m20(v20), m21(v21), m22(v22), m23(v23),
-      m30(v30), m31(v31), m32(v32), m33(v33)
+
+Matrix4f::Matrix4f( float v00, float v01, float v02, float v03,
+                    float v10, float v11, float v12, float v13,
+                    float v20, float v21, float v22, float v23,
+                    float v30, float v31, float v32, float v33 ) 
+    : m00( v00 ), m01( v01 ), m02( v02 ), m03( v03 ),
+      m10( v10 ), m11( v11 ), m12( v12 ), m13( v13 ),
+      m20( v20 ), m21( v21 ), m22( v22 ), m23( v23 ),
+      m30( v30 ), m31( v31 ), m32( v32 ), m33( v33 )
 {
 }
 
-Matrix4f::Matrix4f(float diagonal)
+Matrix4f::Matrix4f( float diagonal )
 {
     m00 = diagonal; m01 = 0.0f;     m02 = 0.0f;     m03 = 0.0f;
     m10 = 0.0f;     m11 = diagonal; m12 = 0.0f;     m13 = 0.0f;
@@ -56,18 +71,18 @@ Matrix4f Matrix4f::rotation_axis( const float& angle, const Vector3f& axis )
     float f21 = (yz * oneMinusC) - xs;
     float f22 = (axis.z * axis.z * oneMinusC) + c;
 
-    return Matrix4f( f00, f01, f02, 0.0f,
-        f10, f11, f12, 0.0f,
-        f20, f21, f22, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f );
+    return Matrix4f( f00, f01, f02, 0,
+                     f10, f11, f12, 0,
+                     f20, f21, f22, 0,
+                       0,   0,   0, 1 );
 }
 
 Matrix4f Matrix4f::translation( const Vector3f& v )
 {
-    return Matrix4f( 0, 0, 0, v.x,
-                     0, 0, 0, v.y,
-                     0, 0, 0, v.z,
-                     0, 0, 0, 0 );
+    return Matrix4f( 1, 0, 0, v.x,
+                     0, 1, 0, v.y,
+                     0, 0, 1, v.z,
+                     0, 0, 0, 1 );
 }
 
 Matrix4f Matrix4f::scaling( const Vector3f& v )
@@ -75,7 +90,7 @@ Matrix4f Matrix4f::scaling( const Vector3f& v )
     return Matrix4f( v.x,   0,   0, 0,
                        0, v.y,   0, 0,
                        0,   0, v.z, 0,
-                       0,   0,   0, 0 );
+                       0,   0,   0, 1 );
 }
 
 Matrix4f Matrix4f::frustum( const float& left, const float& right, const float& bottom, const float& top, const float& znear, const float& zfar )

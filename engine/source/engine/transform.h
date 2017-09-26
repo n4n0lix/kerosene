@@ -29,7 +29,7 @@ public:
             Transform();
             ~Transform() = default;
 
-    Matrix4f toMatrix4f();
+    Matrix4f to_mat4f();
 
     Vector3f        position;
     Vector3f        scale;

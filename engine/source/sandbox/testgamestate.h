@@ -10,6 +10,7 @@
 // Other Includes
 #include "gamestate.h"
 #include "testrenderer.h"
+#include "spriterenderer.h"
 #include "camera.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -32,6 +33,12 @@ protected:
     void on_end()           override;
 
 private:
-    owner<Scene>  _scene;
-    owner<Camera> _camera;
+    weak<Scene>         _scene;
+    weak<Camera>        _camera;
+    owner<GameObject>   _gameObject;
+
+    bool _aDown;
+    bool _dDown;
+    bool _sDown;
+    bool _wDown;
 };

@@ -16,7 +16,7 @@ void Camera2D::set_as_active()
 
 void Camera2D::set_target(Vector3f target)
 {
-    _matrixChanged = true;
+    _projViewMatrixChanged = true;
     _target = target;
 }
 
@@ -51,9 +51,12 @@ Viewport4i Camera2D::get_viewport()
     return _viewport;
 }
 
-Matrix4f Camera2D::view_matrix()
+Matrix4f Camera2D::proj_view_matrix()
 {
-    return Matrix4f::ortho2D( -1.0f, 1.0f, 1.0f, -1.0f );
+    if ( _projViewMatrixChanged ) {
+        _projViewMatrix = Matrix4f::ortho2D( -1.0f, 1.0f, 1.0f, -1.0f );
+    }
+    return Matrix4f::IDENTITY;// _projViewMatrix;
 }
 
 Logger Camera2D::LOGGER = Logger("Camera2D", Level::DEBUG);

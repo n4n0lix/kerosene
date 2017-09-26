@@ -137,7 +137,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     vector<png_bytep> rows;
     rows.resize( imgHeight, 0 );
     uint8* row_address = &imgData[0];
-    for (int32 i = 0; i < imgHeight; i++) {
+    for (uint32 i = 0; i < imgHeight; i++) {
         rows[i] = row_address;
         row_address += imgWidth * imgBpp;
     }
