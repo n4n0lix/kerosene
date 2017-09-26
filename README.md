@@ -13,7 +13,7 @@ use the provided solution `engine.sln`.
 ##### linux
 * todo
 
-#### ontribution
+#### contribution
 - PRs musn't create memory leaks
 - [trello board](http://trello.com/b/WejibOAw/engine)
 
