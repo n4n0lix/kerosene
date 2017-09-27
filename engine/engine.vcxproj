@@ -32,6 +32,7 @@
     <ClInclude Include="source\engine\mouseevent.h" />
     <ClInclude Include="source\engine\camera2d.h" />
     <ClInclude Include="source\engine\owner.h" />
+    <ClInclude Include="source\engine\perfstats.h" />
     <ClInclude Include="source\engine\scene.h" />
     <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
@@ -94,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\camera2d.cpp" />
+    <ClCompile Include="source\engine\perfstats.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />
     <ClCompile Include="source\engine\spriterenderer.cpp" />
     <ClCompile Include="source\engine\uniform.cpp" />

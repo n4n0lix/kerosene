@@ -81,12 +81,16 @@ Shader::Shader( VertexLayout pLayout, vector<Uniform> pVUniforms, vector<Uniform
     _vertexUniforms = process_uniforms( pVUniforms );
     _fragUniforms   = process_uniforms( pFUniforms );
     _fragTextureSlots = process_textureslots( pTexSlots );
+
+    LOGGER.log( Level::DEBUG, _id ) << "CREATE" << endl;
+    PerfStats::instance().frame_load_shader();
 }
 
 Shader::~Shader()
 {
     LOGGER.log(Level::DEBUG, _id) << "DELETE" << endl;
     glDeleteProgram( _id );
+    PerfStats::instance().frame_unload_shader();
 }
 
 GLuint Shader::create_vertex_shader( VertexLayout pLayout, vector<Uniform> pVUniforms, string pVertexSrc )

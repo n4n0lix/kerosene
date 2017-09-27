@@ -14,6 +14,7 @@
 #include "_stdext.h"
 #include "_renderdefs.h"
 #include "_gl.h"
+#include "perfstats.h"
 
 #include "vertexlayout.h"
 #include "vertexbuffer.h"
@@ -204,6 +205,8 @@ void VertexArray<VERTEX>::native_render() {
     glBindVertexArray( _vaoId );
     glDrawElements( PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET( 0 ) );
     glBindVertexArray( 0 );
+
+    PerfStats::instance().frame_draw_call( _indexBuffer->num_objects() / 3 );
 }
 
 template<class VERTEX>

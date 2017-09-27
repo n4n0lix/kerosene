@@ -20,6 +20,7 @@
 #include "physicsengine.h"
 #include "engineconfiguration.h"
 #include "gamestate.h"
+#include "perfstats.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

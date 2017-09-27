@@ -11,6 +11,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "perfstats.h"
 #include "imageutils.h"
 #include "textureoptions.h"
 

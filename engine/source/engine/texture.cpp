@@ -40,12 +40,14 @@ Texture::Texture(Image* image, TextureOptions options)
     glGenerateMipmap( GL_TEXTURE_2D );
 
     LOGGER.log(Level::DEBUG, _id) << "CREATE" << endl;
+    PerfStats::instance().frame_load_texture();
 }
 
 Texture::~Texture()
 {
     LOGGER.log(Level::DEBUG, _id) << "DELETE" << endl;
     glDeleteTextures( 1, &_id );
+    PerfStats::instance().frame_unload_texture();
 }
 
 GLuint Texture::id() {

@@ -13,6 +13,9 @@
 // Internal Includes
 #include "nullable.h"
 
+#include "_global.h"
+#include "perfstats.h"
+
 #include "_gl.h"
 #include "uniform.h"
 #include "textureslot.h"

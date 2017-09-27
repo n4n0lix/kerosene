@@ -65,9 +65,9 @@ private:
 
     static string get_log_level_name( Level level ) {
         switch ( level ) {
-        case Level::DEBUG:       return "DEBUG";
-        case Level::INFO:        return "INFO";
-        case Level::ERROR:       return "ERROR";
+            case Level::DEBUG:       return "DEBUG";
+            case Level::INFO:        return "INFO";
+            case Level::ERROR:       return "ERROR";
         }
 
         return "--";

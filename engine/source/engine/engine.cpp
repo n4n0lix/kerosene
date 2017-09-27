@@ -92,20 +92,24 @@ void Engine::mainloop() {
         // 1# Logic
         while ( lag >= _tickTime )
         {
+            PerfStats::instance().tick_start();
             _input->on_update();
 
             if ( !update_gamestate() ) return;
 
             lag -= _tickTime;
+            PerfStats::instance().tick_end();
         }
 
         // 2# Rendering
+        PerfStats::instance().frame_start();
         _gameState->on_frame_start();
 
         _render->set_interpolation( (float)((double)lag / (double)_tickTime) ); // Add '+ 1' to switch to extrapolation
         _render->on_render();
 
         _gameState->on_frame_end();
+        PerfStats::instance().frame_end();
     }
 }
 
@@ -134,7 +138,7 @@ bool Engine::update_gamestate()
     return _gameState != nullptr;
 }
 
-uint64_t Engine::get_current_ms()
+uint64 Engine::get_current_ms()
 {
     return std::chrono::duration_cast< std::chrono::milliseconds >(
         std::chrono::system_clock::now().time_since_epoch()

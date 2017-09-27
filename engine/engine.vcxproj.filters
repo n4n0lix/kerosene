@@ -216,6 +216,9 @@
     <ClInclude Include="source\engine\spriterenderer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\perfstats.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\component.cpp">
@@ -348,6 +351,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\spriterenderer.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\perfstats.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
