@@ -31,7 +31,12 @@ Entity::~Entity()
 
 }
 
-void Entity::create_full_snapshot( vector<byte>& v, NetVarType type )
+void Entity::on_update()
+{
+    lastTransform = transform;
+}
+
+void Entity::create_full_snapshot( vector<byte>& v, NetVarType pType )
 {
     // SHARED
     __net_write( v, NetVarID::Entity_uid );
@@ -41,7 +46,7 @@ void Entity::create_full_snapshot( vector<byte>& v, NetVarType type )
     __net_write( v, transform.position );
 
     // SELF
-    if ( type == SELF ) {
+    if ( pType == SELF ) {
 
     }
 }

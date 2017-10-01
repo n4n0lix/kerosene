@@ -19,15 +19,18 @@ void LogicEngine::on_start()
 
 void LogicEngine::on_update()
 {
-    // 1# Count ticks
+    // Count ticks
     _lastTick = _tick;
     _tick++;
 
-    // 2# Take a snapshot
     _snapshot.clear();
     for ( auto entity : _entities ) {
+        // Take snapshot for networking and history
         Entity copy = *(entity.get());
         _snapshot.push_back( std::move( copy ) );
+
+        // Update the entity
+        entity->on_update();
     }
 
     // Entities get copied here, which means if the copy gets destructed,

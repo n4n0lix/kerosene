@@ -79,7 +79,7 @@ void Engine::mainloop() {
     uint64_t tickPrevious = get_current_ms();
     uint64_t tickDuration = 0;
     uint64_t lag          = 0;
-    float    extrapolation = 0;
+    float    interpolation = 0;
 
     // Mainloop
     while (1)
@@ -95,7 +95,8 @@ void Engine::mainloop() {
         {
             PerfStats::instance().tick_start();
             _input->on_update();
-            //_logic->on_update();
+            _logic->on_update();
+
             if ( !update_gamestate() ) return;
 
             lag -= _tickTime;
@@ -106,8 +107,8 @@ void Engine::mainloop() {
         PerfStats::instance().frame_start();
         _gameState->on_frame_start();
 
-        extrapolation = (float)((double)lag / (double)_tickTime) + 1; // +1 for extrapolation
-        _render->on_render( extrapolation );
+        interpolation = (float)((double)lag / (double)_tickTime);   // For interpolating the rendering positon, as we are right now
+        _render->on_render( interpolation );                        // between 'last computed tick' and 'future tick'
 
         _gameState->on_frame_end();
         PerfStats::instance().frame_end();

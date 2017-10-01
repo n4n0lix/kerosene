@@ -38,7 +38,7 @@ public:
             void        set_clear_color( Vector4f color );
             Vector4f    get_clear_color();
 
-            void        set_viewport( Viewport4i viewport );
+            void        set_viewport( Viewport4i );
     virtual void        set_viewport( int32 x, int32 y, int32 w, int32 h );
             Viewport4i  get_viewport();
 

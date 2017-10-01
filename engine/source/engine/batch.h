@@ -95,33 +95,33 @@ Batch<VERTEX>::Batch( weak<Material> material ) {
 }
 
 template<class VERTEX>
-owner<VertexToken> Batch<VERTEX>::add_vertices( vector<VERTEX>&& vertices )
+owner<VertexToken> Batch<VERTEX>::add_vertices( vector<VERTEX>&& pVertices )
 {
-    return _vao->add_vertices( std::forward<vector<VERTEX>>( vertices ) );
+    return _vao->add_vertices( std::forward<vector<VERTEX>>( pVertices ) );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_vertices( owner<VertexToken> token )
+void Batch<VERTEX>::remove_vertices( owner<VertexToken> pToken )
 {
-    _vao->remove_vertices( std::move( token ) );
+    _vao->remove_vertices( std::move( pToken ) );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::add_render( weak<VertexToken> token )
+void Batch<VERTEX>::add_render( weak<VertexToken> pToken )
 {
-    _vao->add_render_static( token );
+    _vao->add_render_static( pToken );
 }
 
 template<class VERTEX>
-void Batch<VERTEX>::remove_render( weak<VertexToken> token )
+void Batch<VERTEX>::remove_render( weak<VertexToken> pToken )
 {
-    _vao->remove_render_static( token );
+    _vao->remove_render_static( pToken );
 }
 
 template<class VERTEX>
-inline void Batch<VERTEX>::set_wvp_matrix( Matrix4f worldViewProj )
+inline void Batch<VERTEX>::set_wvp_matrix( Matrix4f pWorldViewProj )
 {
-    _wvp = worldViewProj;
+    _wvp = pWorldViewProj;
 }
 
 template<class VERTEX>
@@ -129,7 +129,7 @@ void Batch<VERTEX>::render()
 {
     if ( _material.ptr_is_valid() ) {
         _material->bind();
-        //_material->get_shader()->set_vertex_uniform( Uniform::WORLD_VIEW_PROJ_MATRIX, _wvp );
+        _material->get_shader()->set_vertex_uniform( Uniform::WORLD_VIEW_PROJ_MATRIX, _wvp );
     }
 
     _vao->render();

@@ -30,9 +30,9 @@ void Renderer::init( RenderEngine& engine )
 	_initialized = true;
 }
 
-void Renderer::render( RenderEngine& engine, Camera& cam, Matrix4f& view_proj, float delta )
+void Renderer::render( RenderEngine& engine, Camera& cam, Matrix4f& view_proj, float interpolation )
 {
-    on_render( engine, cam, view_proj, delta );
+    on_render( engine, cam, view_proj, interpolation );
 }
 
 void Renderer::cleanup( RenderEngine& engine )

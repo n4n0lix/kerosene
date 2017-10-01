@@ -35,15 +35,13 @@ public:
 
     void    set_entity( weak<Entity> );
 
-    bool    extrapolation;
-
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     virtual void on_init( RenderEngine& );
-    virtual void on_render( RenderEngine&, Camera& , Matrix4f&, float );
+    virtual void on_render( RenderEngine&, Camera& , Matrix4f& pProjViewMat, float pInterpolation );
     virtual void on_cleanup( RenderEngine& );
 
 private:
@@ -61,7 +59,6 @@ private:
     owner<VertexToken>              _token;
 
     weak<Entity>                    _entity;
-    Transform                       _lastTransform;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

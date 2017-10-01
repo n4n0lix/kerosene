@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Quelldateien\sandbox">
-      <UniqueIdentifier>{0a35ca31-6671-4d84-90d9-7df0f5cdddef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\network">
-      <UniqueIdentifier>{38a45cb7-853c-440a-b0ff-ed10227df883}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -216,12 +210,6 @@
     <ClInclude Include="source\engine\controller.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\nethelper.h">
-      <Filter>Headerdateien\network</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\netvar.h">
-      <Filter>Headerdateien\network</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\creature.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -229,6 +217,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\_meta.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\nethelper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\netvar.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

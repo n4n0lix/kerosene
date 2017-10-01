@@ -55,10 +55,6 @@ void TestGameState::on_update()
                 set_status( GameStateStatus::FINISHED );
             }
 
-            if ( evt.key() == Key::E ) {
-                _renderer->extrapolation = !_renderer->extrapolation;
-            }
-
             if ( evt.key() == Key::W ) {
                 _wDown = evt.action() == GLFW_PRESS || evt.action() == GLFW_REPEAT;
             }
@@ -79,16 +75,16 @@ void TestGameState::on_update()
 
     // LOGIC
     if ( _aDown )
-        _entity->transform.position.x -= 0.01f;
+        _entity->transform.position.x -= 0.1f;
 
     if ( _dDown )
-        _entity->transform.position.x += 0.01f;
+        _entity->transform.position.x += 0.1f;
 
     if ( _wDown )
-        _entity->transform.position.y += 0.01f;
+        _entity->transform.position.y += 0.1f;
 
     if ( _sDown )
-        _entity->transform.position.y -= 0.01f;
+        _entity->transform.position.y -= 0.1f;
 }
 
 void TestGameState::on_frame_start() {

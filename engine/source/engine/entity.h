@@ -39,6 +39,8 @@ public:
                     Entity();
     virtual         ~Entity();
 
+    virtual void    on_update();
+
     virtual void    create_full_snapshot(  vector<byte>&, NetVarType );
     virtual void    create_delta_snapshot( vector<byte>&, Entity&, NetVarType );
     virtual void    update_from_snapshot( map<int32, vector<byte>> );
@@ -47,9 +49,11 @@ public:
     uint32    uid;
     Transform transform;
 
+
     // SELF-VARS
 
-    // SERVER-VARS
+    // LOCAL-VARS
+    Transform lastTransform;
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

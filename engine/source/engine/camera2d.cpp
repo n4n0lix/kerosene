@@ -41,9 +41,9 @@ void Camera2D::set_viewport( Viewport4i viewport )
     _viewportChanged = true;
 }
 
-void Camera2D::set_viewport(int32 x, int32 y, int32 w, int32 h)
+void Camera2D::set_viewport(int32 pX, int32 pY, int32 pWidth, int32 pHeight)
 {
-    set_viewport( Viewport4i(x, y, w, h) );
+    set_viewport( Viewport4i(pX, pY, pWidth, pHeight) );
 }
 
 Viewport4i Camera2D::get_viewport()
@@ -54,9 +54,9 @@ Viewport4i Camera2D::get_viewport()
 Matrix4f Camera2D::proj_view_matrix()
 {
     if ( _projViewMatrixChanged ) {
-        _projViewMatrix = Matrix4f::ortho2D( -1.0f, 1.0f, 1.0f, -1.0f );
+        _projViewMatrix = Matrix4f::ortho2D( -1, 1, -1, 1 );
     }
-    return Matrix4f::IDENTITY;// _projViewMatrix;
+    return _projViewMatrix;
 }
 
 Logger Camera2D::LOGGER = Logger("Camera2D", Level::DEBUG);

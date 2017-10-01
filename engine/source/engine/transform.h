@@ -23,12 +23,12 @@ ENGINE_NAMESPACE_BEGIN
 class Transform
 {
 public:
-    static inline Transform lerp( const Transform& t0, const Transform& t1, float amount )
+    static inline Transform lerp( const Transform& pTrans0, const Transform& pTrans1, float pLerpAmount )
     {
         Transform result;
-        result.position = Vector3f::lerp( t0.position, t1.position, amount );
-        result.scale = Vector3f::lerp( t0.scale, t1.scale, amount );
-        result.rotation = Quaternion4f::slerp( t0.rotation, t1.rotation, amount );
+        result.position = Vector3f::lerp( pTrans0.position, pTrans1.position, pLerpAmount );
+        result.scale    = Vector3f::lerp( pTrans0.scale, pTrans1.scale, pLerpAmount );
+        result.rotation = Quaternion4f::slerp( pTrans0.rotation, pTrans1.rotation, pLerpAmount );
         return result;
     }
 

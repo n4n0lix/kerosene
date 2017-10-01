@@ -11,53 +11,45 @@ SpriteRenderer::SpriteRenderer() : Renderer()
 
 }
 
-void SpriteRenderer::set_entity( weak<Entity> entity )
+void SpriteRenderer::set_entity( weak<Entity> pEntity )
 {
-    _entity = entity;
+    _entity = pEntity;
 }
 
-void SpriteRenderer::on_init( RenderEngine& engine )
+void SpriteRenderer::on_init( RenderEngine& pRenderEngine )
 {
-    _shader    = engine.get_shader( "builtin_texture" );
-    _texture   = engine.get_texture( "res/textures/dev/128.png" );
-    _material  = engine.add_material( "sprite_test_material", make_owner<Material>( _shader, _texture ) );
+    _shader    = pRenderEngine.get_shader( "builtin_texture" );
+    _texture   = pRenderEngine.get_texture( "res/textures/dev/128.png" );
+    _material  = pRenderEngine.add_material( "sprite_test_material", make_owner<Material>( _shader, _texture ) );
 
     _vao = make_owner<VertexArray<Vertex_pt>>();
     
     vector<Vertex_pt> vertices = vector<Vertex_pt>();
-    vertices.push_back( Vertex_pt( Vector3f( 1, 0, -.5 ), Vector2f( 1.0f, 1.0f ) ) );
-    vertices.push_back( Vertex_pt( Vector3f( 0, 0, -.5 ), Vector2f( 0.0f, 1.0f ) ) );
-    vertices.push_back( Vertex_pt( Vector3f( 1, 1, -.5 ), Vector2f( 1.0f, 0.0f ) ) );
-    vertices.push_back( Vertex_pt( Vector3f( 0, 0, -.5 ), Vector2f( 0.0f, 1.0f ) ) );
-    vertices.push_back( Vertex_pt( Vector3f( 1, 1, -.5 ), Vector2f( 1.0f, 0.0f ) ) );
-    vertices.push_back( Vertex_pt( Vector3f( 0, 1, -.5 ), Vector2f( 0.0f, 0.0f ) ) );
+    vertices.push_back( Vertex_pt( { 1, 0, -0.5 },  { 1, 1 } ) );
+    vertices.push_back( Vertex_pt( { 0, 0, -0.5 },  { 0, 1 } ) );
+    vertices.push_back( Vertex_pt( { 1, 1, -0.5 },  { 1, 0 } ) );
+    vertices.push_back( Vertex_pt( { 0, 0, -0.5 },  { 0, 1 } ) );
+    vertices.push_back( Vertex_pt( { 1, 1, -0.5 },  { 1, 0 } ) );
+    vertices.push_back( Vertex_pt( { 0, 1, -0.5 },  { 0, 0 } ) );
 
     _token = _vao->add_vertices( std::move( vertices ) );
     _vao->add_render_static( _token.get_non_owner() );
 }
 
-void SpriteRenderer::on_render( RenderEngine& engine, Camera& cam, Matrix4f& proj_view, float amount )
+void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Matrix4f& pProjViewMat, float pInterpolation )
 {
-    Transform curTransform = _entity->transform;
-    Transform lastTransform = _lastTransform;
-    Transform transform;
-    if ( extrapolation ) {
-        transform = Transform::lerp( lastTransform, curTransform, amount );
-    }
-    else {
-        transform = _entity->transform;
-    }
+    // Interpolate transform, as we are between a calculated tick and a future tick
+    Transform transform = Transform::lerp( _entity->lastTransform, _entity->transform, pInterpolation );
 
-
-    Matrix4f wvp = proj_view * transform.to_mat4f();
+    // Set the world x view x projection matrix
+    Matrix4f wvp = pProjViewMat * transform.to_mat4f();
     _material->get_shader()->set_vertex_uniform( Uniform::WORLD_VIEW_PROJ_MATRIX, wvp );
+
     _material->bind();
     _vao->render();
-
-    _lastTransform = curTransform;
 }
 
-void SpriteRenderer::on_cleanup( RenderEngine& engine )
+void SpriteRenderer::on_cleanup( RenderEngine& pRenderEngine )
 {
     _vao.destroy();
     _token.destroy();
