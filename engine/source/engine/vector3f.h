@@ -38,9 +38,18 @@ public:
     static Vector3f zero() { return std::move( Vector3f(0.0f, 0.0f, 0.0f) ); }
     static Vector3f unit() { return std::move( Vector3f(1.0f, 1.0f, 1.0f) ); }
 
-    static Vector3f lerp(const Vector3f source, const Vector3f target, const float amount);
-    static float    angleBetween(const Vector3f vector1, const Vector3f vector2);
-    static float    distanceBetween(const Vector3f vector1, const Vector3f vector2);
+    static inline Vector3f lerp( const Vector3f& source, const Vector3f& target, const float& amount )
+    {
+        Vector3f result;
+        float _1_amount = 1.0f - amount;
+        result.x = source.x * _1_amount + target.x * amount;
+        result.y = source.y * _1_amount + target.y * amount;
+        result.z = source.z * _1_amount + target.z * amount;
+        return result;
+    }
+
+    static float    angle_between(const Vector3f& vector1, const Vector3f& vector2 );
+    static float    distance_between(const Vector3f& vector1, const Vector3f& vector2 );
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */

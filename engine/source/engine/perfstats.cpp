@@ -14,34 +14,43 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 PerfStats::PerfStats() {
-    _clockStart = std::chrono::high_resolution_clock::now();
+    _clockStart = clock_t::now();
 }
 
 void PerfStats::check_if_second_is_over() {
-    auto now = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> timeSpan = now - _clockStart;
+    auto now = clock_t::now();
+    auto timeSpan = now - _clockStart;
 
-    if ( timeSpan.count() > 1000 ) {
+    if ( timeSpan > 1000ms ) {
         _clockStart = now;
 
-        //_numTPS = _counterTPS;
+        _numTPS = _counterTPS;
+        _avgTickTime = _counterAvgTickTime / _numTPS;
+
         _numFPS = _counterFPS;
         _avgFrameTime = _counterAvgFrameTime / _numFPS;
 
-        //_counterTPS = 0;
         _counterFPS = 0;
         _counterPolygons = 0;
         _counterDrawCalls = 0;
-        _counterAvgFrameTime = std::chrono::milliseconds{ 0 };
+        _counterAvgFrameTime = 0ms;
 
-        cout << "RenderStats\n"
+        _counterTPS = 0;
+        _counterAvgTickTime = 0ms;
+
+        cout << "Perf Stats\n"
              << "------------------------------\n"
-             << "Frames per sec.:   " << _numFPS << "\n"
-             << "Avg. Frame Time:   " << _avgFrameTime.count() << "ms\n"
-             << "Polygons in scene: " << _numPolygons << "\n"
-             << "Draw calls:        " << _numDrawCalls << "\n"
-             << "Loaded Textures:  " << _numLoadedTextures << "\n"
-             << "Loaded  Shaders:  " << _numLoadedShaders << "\n"
+             << "RENDER"
+             << "\tFrames per sec.:   " << _numFPS << "\n"
+             << "\tAvg. Frame Time:   " << _avgFrameTime.count() << "ms\n"
+             << "\tPolygons in scene: " << _numPolygons << "\n"
+             << "\tDraw calls:        " << _numDrawCalls << "\n"
+             << "\tLoaded  Shaders:   " << _numLoadedShaders << "\n"
+             << "\tLoaded Textures:   " << _numLoadedTextures << " (" << (_numLoadedTexturesBytes / 1024) << " kb)\n"
+             << "------------------------------\n"
+             << "LOGIC"
+             << "\tTicks per sec.:    " << _numTPS << "\n"
+             << "\tAvg. Tick Time:    " << _avgTickTime.count() << "ms\n"
              << "==============================\n\n";
     }
 }

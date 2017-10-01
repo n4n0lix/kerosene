@@ -35,7 +35,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit VertexArray( VertexLayout layout );
+    explicit VertexArray();
     ~VertexArray();
 
     owner<VertexToken>					add_vertices( vector<VERTEX>&& vertices );
@@ -85,8 +85,15 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-VertexArray<VERTEX>::VertexArray( VertexLayout layout ) : _vertexTokenNextId( 0 ), _layout( layout )
+VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 )
 {
+    if ( !std::is_base_of<Vertex, VERTEX>::value ) {
+        throw std::exception( "Template parameter is not a Vertex type!" );
+    }
+
+    VERTEX v;
+    _layout = v.layout();
+
     // #1 Create VAO
     glGenVertexArrays( 1, &_vaoId );
     LOGGER.log( Level::DEBUG, _vaoId ) << "CREATE" << endl;

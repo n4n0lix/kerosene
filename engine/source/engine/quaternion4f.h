@@ -32,51 +32,15 @@ public:
     static Quaternion4f Z_AXIS;
     static Quaternion4f W_AXIS;
 
-    static Quaternion4f rotationAxis(Vector3f axis, float angle) {
-            float s = (float)sin(angle / 2);
+    static Quaternion4f slerp( const Quaternion4f&, const Quaternion4f&, float amount );
 
-            return Quaternion4f(axis.x * s, axis.y * s, axis.z * s, (float)cos(angle / 2));
-    }
+    static Quaternion4f rotation_axis( const Vector3f& , float );
 
-    static Matrix4f to_rotation_mat4f(Quaternion4f q) {
-        Matrix4f out(0.0f);
-
-        float xx = q.x * q.x;
-        float xy = q.x * q.y;
-        float xz = q.x * q.z;
-        float xw = q.x * q.w;
-
-        float yy = q.y * q.y;
-        float yz = q.y * q.z;
-        float yw = q.y * q.w;
-
-        float zz = q.z * q.z;
-        float zw = q.z * q.w;
-
-        out.m00 = 1.0f - 2.0f * (yy + zz);
-        out.m01 = 2.0f * (xy - zw);
-        out.m02 = 2.0f * (xz + yw);
-        out.m03 = 0.0f;
-
-        out.m10 = 2.0f * (xy + zw);
-        out.m11 = 1.0f - 2.0f * (xx + zz);
-        out.m12 = 2.0f * (yz - xw);
-        out.m13 = 0.0f;
-
-        out.m20 = 2.0f * (xz - yw);
-        out.m21 = 2.0f * (yz + xw);
-        out.m22 = 1.0f - 2.0f * (xx + yy);
-        out.m23 = 0.0f;
-
-        out.m30 = 0.0f;
-        out.m31 = 0.0f;
-        out.m32 = 0.0f;
-        out.m33 = 1.0f;
-
-        return out;
-    }
+    static Matrix4f to_rotation_mat4f( const Quaternion4f& q );
 
     static Quaternion4f rotationIdentity() { return std::move( Quaternion4f(0.0f, 0.0f, 0.0f, 1.0f) ); }
+
+    static inline float dot_product( const Quaternion4f&, const Quaternion4f& );
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
@@ -90,24 +54,20 @@ public:
 
     Quaternion4f operator-() const;
 
-    Quaternion4f operator+(const float o) const;
-    Quaternion4f operator-(const float o) const;
     Quaternion4f operator*(const float o) const;
 
     Quaternion4f operator+(const Quaternion4f o) const;
     Quaternion4f operator-(const Quaternion4f o) const;
     Quaternion4f operator*(const Quaternion4f o) const;
 
-    Quaternion4f& operator+=(const float o);
-    Quaternion4f& operator-=(const float o);
     Quaternion4f& operator*=(const float o);
 
     Quaternion4f& operator+=(const Quaternion4f o);
     Quaternion4f& operator-=(const Quaternion4f o);
     Quaternion4f& operator*=(const Quaternion4f o);
 
-    float         length();
-    Quaternion4f  normalized();
+    float         length() const;
+    Quaternion4f  normalized() const;
 
     float x;
     float y;
@@ -119,5 +79,7 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 };
+
+inline Quaternion4f operator*( const float& a, const Quaternion4f& b ) { return b * a; }
 
 ENGINE_NAMESPACE_END

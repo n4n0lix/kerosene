@@ -135,10 +135,16 @@
         using std::uint32_t; typedef uint32_t uint32;
         using std::int64_t;  typedef int64_t  int64;
         using std::uint64_t; typedef uint64_t uint64;
-        typedef char16_t char16;
-        typedef char32_t char32;
 
+        typedef unsigned char byte;
+        typedef char16_t      char16;
+        typedef char32_t      char32;
 
+#include <chrono>
+using namespace std::chrono_literals;
+
+        typedef std::chrono::milliseconds milliseconds;
+        typedef std::chrono::seconds      seconds;
 
 // Using cout
 #include <iostream>

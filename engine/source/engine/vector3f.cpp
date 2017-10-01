@@ -10,18 +10,7 @@ const Vector3f Vector3f::X_AXIS = Vector3f(1, 0, 0);
 const Vector3f Vector3f::Y_AXIS = Vector3f(0, 1, 0);
 const Vector3f Vector3f::Z_AXIS = Vector3f(0, 0, 1);
 
-Vector3f Vector3f::lerp(const Vector3f source, const Vector3f target, const float amount)
-{
-    Vector3f result;
-    float _1_amount = 1.0f - amount;
-    result.x = source.x * _1_amount + target.x * amount;
-    result.y = source.y * _1_amount + target.y * amount;
-    result.z = source.z * _1_amount + target.z * amount;
-    return result;
-}
-
-
-float Vector3f::angleBetween(const Vector3f vector1, const Vector3f vector2)
+float Vector3f::angle_between(const Vector3f& vector1, const Vector3f& vector2)
 {
     float dls = vector1.dot(vector2) / (vector1.length() * vector2.length());
 
@@ -34,7 +23,7 @@ float Vector3f::angleBetween(const Vector3f vector1, const Vector3f vector2)
     return (float) std::acos(dls);
 }
 
-float Vector3f::distanceBetween(const Vector3f vector1, const Vector3f vector2)
+float Vector3f::distance_between(const Vector3f& vector1, const Vector3f& vector2)
 {
     return (vector1 - vector2).length();
 }

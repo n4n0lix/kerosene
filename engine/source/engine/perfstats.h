@@ -19,39 +19,13 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-enum PerfType {
-    TEXTURE_LOADED,
-    SHADER_LOADED,
-    VERTICES_LOADED,
-    DRAW_CALL
-};
-
-struct FrameStats {
-    // Meta
-    uint64 time;
-
-    // General
-    uint32 numDrawCalls;
-    uint32 numGPUCalls;
-    uint64 duration;
-    uint32 amountBytesSend;
-};
-
-struct TickStats {
-    // Meta
-    uint64 time;
-
-    // General
-    uint64 duration;
-};
-
 class PerfStats
 {
-public:
 
-    typedef std::chrono::milliseconds                     milliseconds_t;
     typedef std::chrono::high_resolution_clock            clock_t;
-    typedef std::chrono::duration<double, milliseconds_t> duration_t;
+    typedef std::chrono::duration<double, milliseconds>   duration_t;
+
+public:
 
     static PerfStats& instance() {
         static PerfStats INSTANCE;
@@ -65,16 +39,21 @@ public:
 
     // TICK
     inline void tick_start() {
-
+        _tickClockStart = clock_t::now();
     }
 
     inline void tick_end() {
+        check_if_second_is_over();
 
+        _counterTPS++;
+
+        milliseconds timeSpan = std::chrono::duration_cast<milliseconds>(clock_t::now() - _frameClockStart);
+        _counterAvgTickTime += timeSpan;
     }
 
     // FRAME
     inline void frame_start() {
-        _frameClockStart = std::chrono::high_resolution_clock::now();
+        _frameClockStart = clock_t::now();
         _numPolygons = _counterPolygons;
         _numDrawCalls = _counterDrawCalls;
         _counterPolygons = 0;
@@ -82,7 +61,7 @@ public:
     }
 
     inline void frame_gpu_call() {
-        _curFrameStat.numGPUCalls += 1;
+
     }
 
     inline void frame_draw_call(uint32 numPolygons) {
@@ -90,16 +69,18 @@ public:
         _counterPolygons += numPolygons;
     }
 
-    inline void frame_load_texture() {
+    inline void frame_load_texture(uint32 imgDataBytes) {
         _numLoadedTextures++;
+        _numLoadedTexturesBytes += imgDataBytes;
     }
 
     inline void frame_load_shader() {
         _numLoadedShaders++;
     }
 
-    inline void frame_unload_texture() {
+    inline void frame_unload_texture( uint32 imgDataBytes ) {
         _numLoadedTextures--;
+        _numLoadedTexturesBytes -= imgDataBytes;
     }
 
     inline void frame_unload_shader() {
@@ -109,10 +90,9 @@ public:
     inline void frame_end() {
         check_if_second_is_over();
 
-        _lastFrameStat = _curFrameStat;
         _counterFPS++;
 
-        milliseconds_t timeSpan = std::chrono::duration_cast<milliseconds_t>(clock_t::now() - _frameClockStart);
+        milliseconds timeSpan = std::chrono::duration_cast<milliseconds>(clock_t::now() - _frameClockStart);
         _counterAvgFrameTime += timeSpan;
     }
 
@@ -129,11 +109,9 @@ private:
 
             void   check_if_second_is_over();
 
-    FrameStats          _curFrameStat;
-    FrameStats          _lastFrameStat;
-
-    uint32              _numLoadedShaders;
-    uint32              _numLoadedTextures;
+    uint32 _numLoadedShaders;
+    uint32 _numLoadedTextures;
+    uint32 _numLoadedTexturesBytes;
 
     uint32 _numFPS;
     uint32 _counterFPS;
@@ -144,11 +122,17 @@ private:
     uint32 _numDrawCalls;
     uint32 _counterDrawCalls;
 
-    std::chrono::milliseconds _avgFrameTime;
-    std::chrono::milliseconds _counterAvgFrameTime;
+    uint32 _numTPS;
+    uint32 _counterTPS;
+
+    milliseconds _avgFrameTime;
+    milliseconds _counterAvgFrameTime;
+    milliseconds _avgTickTime;
+    milliseconds _counterAvgTickTime;
 
     std::chrono::high_resolution_clock::time_point _clockStart;
     std::chrono::high_resolution_clock::time_point _frameClockStart;
+    std::chrono::high_resolution_clock::time_point _tickClockStart;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

@@ -11,7 +11,6 @@
 // Internal Includes
 #include "_global.h"
 
-#include "component.h"
 #include "renderengine.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -30,9 +29,9 @@ public:
             Renderer();
             virtual ~Renderer() = default;
 
-    void init( weak<RenderEngine> engine );
-    void render( weak<Camera> cam, Matrix4f view_proj);
-    void cleanup();
+    void init( RenderEngine& );
+    void render( RenderEngine& , Camera& , Matrix4f&, float );
+    void cleanup( RenderEngine& );
 
     bool is_initialized();
 
@@ -41,11 +40,9 @@ protected:
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    virtual void on_init() = 0;
-    virtual void on_render( weak<Camera> cam, Matrix4f view_proj ) = 0;
-    virtual void on_cleanup() = 0;
-
-    weak<RenderEngine> get_renderengine();
+    virtual void on_init( RenderEngine& ) = 0;
+    virtual void on_render( RenderEngine&, Camera& , Matrix4f&, float ) = 0;
+    virtual void on_cleanup( RenderEngine& ) = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -53,7 +50,6 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     bool			    _initialized;
-    weak<RenderEngine>  _renderEngine;
 
 };
 

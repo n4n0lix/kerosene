@@ -28,9 +28,13 @@
   <ItemGroup>
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\charevent.h" />
+    <ClInclude Include="source\engine\controller.h" />
+    <ClInclude Include="source\engine\creature.h" />
     <ClInclude Include="source\engine\keyevent.h" />
     <ClInclude Include="source\engine\mouseevent.h" />
     <ClInclude Include="source\engine\camera2d.h" />
+    <ClInclude Include="source\engine\nethelper.h" />
+    <ClInclude Include="source\engine\netvar.h" />
     <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\perfstats.h" />
     <ClInclude Include="source\engine\scene.h" />
@@ -38,11 +42,9 @@
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera3d.h" />
-    <ClInclude Include="source\engine\component.h" />
     <ClInclude Include="source\engine\engineconfiguration.h" />
-    <ClInclude Include="source\engine\gameobject.h" />
+    <ClInclude Include="source\engine\entity.h" />
     <ClInclude Include="source\engine\idgen.h" />
-    <ClInclude Include="source\engine\logiccomponent.h" />
     <ClInclude Include="source\engine\imageutils.h" />
     <ClInclude Include="source\engine\indexbuffer.h" />
     <ClInclude Include="source\engine\renderer.h" />
@@ -88,20 +90,21 @@
     <ClInclude Include="source\engine\_gl.h" />
     <ClInclude Include="source\engine\_global.h" />
     <ClInclude Include="source\engine\_mathdefs.h" />
+    <ClInclude Include="source\engine\_meta.h" />
     <ClInclude Include="source\engine\_renderdefs.h" />
     <ClInclude Include="source\engine\_stdext.h" />
     <ClInclude Include="source\sandbox\testgamestate.h" />
-    <ClInclude Include="source\sandbox\testrenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\camera2d.cpp" />
+    <ClCompile Include="source\engine\creature.cpp" />
+    <ClCompile Include="source\engine\netvar.cpp" />
     <ClCompile Include="source\engine\perfstats.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />
     <ClCompile Include="source\engine\spriterenderer.cpp" />
     <ClCompile Include="source\engine\uniform.cpp" />
     <ClCompile Include="source\engine\vertexbuffertoken.cpp" />
     <ClCompile Include="source\engine\camera3d.cpp" />
-    <ClCompile Include="source\engine\component.cpp" />
     <ClCompile Include="source\engine\decimal32.cpp" />
     <ClCompile Include="source\engine\renderengine.cpp" />
     <ClCompile Include="source\engine\inputengine.cpp" />
@@ -110,13 +113,12 @@
     <ClCompile Include="source\engine\physicsengine.cpp" />
     <ClCompile Include="source\engine\engine.cpp" />
     <ClCompile Include="source\engine\engineconfiguration.cpp" />
-    <ClCompile Include="source\engine\gameobject.cpp" />
+    <ClCompile Include="source\engine\entity.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
     <ClCompile Include="source\engine\idgenerator.cpp" />
     <ClCompile Include="source\engine\imageutils.cpp" />
     <ClCompile Include="source\engine\indexbuffer.cpp" />
-    <ClCompile Include="source\engine\logiccomponent.cpp" />
     <ClCompile Include="source\engine\material.cpp" />
     <ClCompile Include="source\engine\matrix4f.cpp" />
     <ClCompile Include="source\engine\quaterion4f.cpp" />
@@ -136,9 +138,9 @@
     <ClCompile Include="source\engine\vertex_pc.cpp" />
     <ClCompile Include="source\engine\vertex_pt.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />
+    <ClCompile Include="source\engine\_meta.cpp" />
     <ClCompile Include="source\sandbox\main.cpp" />
     <ClCompile Include="source\sandbox\testgamestate.cpp" />
-    <ClCompile Include="source\sandbox\testrenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>

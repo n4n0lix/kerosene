@@ -14,7 +14,7 @@
 #include "_gl.h"
 #include "_global.h"
 #include "glwindow.h"
-#include "gameobject.h"
+#include "entity.h"
 #include "inputengine.h"
 
 // Testing Includes (temporary)
@@ -41,7 +41,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class GameObject;
+class Entity;
 class Scene;
 
 class RenderEngine : public enable_weak_from_this<RenderEngine>
@@ -59,13 +59,15 @@ public:
 
     // GENERAL
     void on_start( weak<InputEngine> input );
-    void on_render();
+    void on_render( float extrapolation );
     void on_shutdown();
-    bool is_exit_requested();
-    void hide_cursor(bool hideCursor);
+    void unload_everything();
+    void on_gamestate_end();
 
     // UTILITY
     void                set_interpolation( float interpol );
+    bool                is_exit_requested();
+    void                hide_cursor( bool hideCursor );
     weak<GLWindow>      get_window();
     owner<Texture>      load_texture( string filename, TextureOptions options = TextureOptions() );
 
@@ -84,9 +86,6 @@ public:
 
     weak<Scene>         add_scene( owner<Scene> scene );
     owner<Scene>&&      remove_scene( weak<Scene> scene );
-
-    void                unload_everything();
-    void                on_gamestate_end();
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

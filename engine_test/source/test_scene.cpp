@@ -8,9 +8,9 @@ ENGINE_NAMESPACE_BEGIN
 SCENARIO("gameobjects can be added and removed from the scene", "[scene]") {
     GIVEN("A scene and several gameobjects") {
         Scene       scene;
-        owner<GameObject>  object1 = make_owner<GameObject>();
-        owner<GameObject>  object2 = make_owner<GameObject>();
-        owner<GameObject>  object3 = make_owner<GameObject>();
+        owner<Entity>  object1 = make_owner<Entity>();
+        owner<Entity>  object2 = make_owner<Entity>();
+        owner<Entity>  object3 = make_owner<Entity>();
 
         REQUIRE(scene.get_renderers().size() == 0);
 
@@ -49,9 +49,9 @@ SCENARIO("gameobjects can be added and removed from the scene", "[scene]") {
 
     GIVEN( "A scene with several gameobjects" ) {
         Scene       scene;
-        owner<GameObject>  object1 = make_owner<GameObject>();
-        owner<GameObject>  object2 = make_owner<GameObject>();
-        owner<GameObject>  object3 = make_owner<GameObject>();
+        owner<Entity>  object1 = make_owner<Entity>();
+        owner<Entity>  object2 = make_owner<Entity>();
+        owner<Entity>  object3 = make_owner<Entity>();
 
         scene.add_renderer( object1.get_non_owner() );
         scene.add_renderer( object2.get_non_owner() );

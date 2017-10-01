@@ -24,21 +24,20 @@ Renderer::Renderer() : _initialized(false) {
 /*                        Private                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-void Renderer::init( weak<RenderEngine> engine)
+void Renderer::init( RenderEngine& engine )
 {
-	_renderEngine = engine;
-	on_init();
+	on_init( engine );
 	_initialized = true;
 }
 
-void Renderer::render( weak<Camera> cam, Matrix4f view_proj )
+void Renderer::render( RenderEngine& engine, Camera& cam, Matrix4f& view_proj, float delta )
 {
-    on_render( cam, view_proj );
+    on_render( engine, cam, view_proj, delta );
 }
 
-void Renderer::cleanup()
+void Renderer::cleanup( RenderEngine& engine )
 {
-	on_cleanup();
+	on_cleanup( engine );
 	_initialized = false;
 }
 
@@ -47,14 +46,8 @@ bool Renderer::is_initialized()
 	return _initialized;
 }
 
-weak<RenderEngine> Renderer::get_renderengine()
-{
-	return _renderEngine;
-}
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                     Private Static                     */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 
 ENGINE_NAMESPACE_END

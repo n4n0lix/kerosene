@@ -91,7 +91,7 @@ Batch<VERTEX>::Batch( weak<Material> material ) {
     if ( !material.ptr_is_valid() || material == nullptr ) throw std::exception( "Material is null!" );
 
     _material = material;
-    _vao = make_owner<VertexArray<VERTEX>>( material->get_shader()->get_vertex_layout() );
+    _vao = make_owner<VertexArray<VERTEX>>();
 }
 
 template<class VERTEX>

@@ -14,6 +14,7 @@ Texture::Texture(Image* image, TextureOptions options)
     // 1# 
     _width = image->width;
     _height = image->height;
+    _bpp = image->bpp;
 
     // 2# Configure texture object
     glGenTextures(1, &_id);
@@ -40,14 +41,14 @@ Texture::Texture(Image* image, TextureOptions options)
     glGenerateMipmap( GL_TEXTURE_2D );
 
     LOGGER.log(Level::DEBUG, _id) << "CREATE" << endl;
-    PerfStats::instance().frame_load_texture();
+    PerfStats::instance().frame_load_texture( _width * _height * _bpp);
 }
 
 Texture::~Texture()
 {
     LOGGER.log(Level::DEBUG, _id) << "DELETE" << endl;
     glDeleteTextures( 1, &_id );
-    PerfStats::instance().frame_unload_texture();
+    PerfStats::instance().frame_unload_texture( _width * _height * _bpp );
 }
 
 GLuint Texture::id() {

@@ -1,3 +1,25 @@
+// MIT License
+// 
+// Copyright (c) 2017 Sebastian Timo Funck
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #pragma once
 
 #define OWNER_MEM_LEAK_DET
@@ -36,10 +58,13 @@ template<typename T> class owner;
 //   weak
 ////////////////////////////////////////////////////////////////
 
+class weak_t { };
+
 template<typename T>
-class weak
+class weak : public weak_t
 {
     template<typename T>             friend class owner;
+    template<typename U>             friend class weak;
     template<typename T, typename U> friend weak<T> static_weak_cast(weak<U> u);
     template<typename T>             friend class enable_weak_from_this;
 public:
@@ -106,7 +131,7 @@ public:
         destroy();
 
         // Move state
-        _ptr = orig._ptr;
+        _ptr = (T*)orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
 
@@ -116,6 +141,7 @@ public:
         return *this;
     }
 
+    inline T&   operator *() const { return *ptr; }
     inline T*   operator->() const { return _ptr; }
     inline T*   get()        const { return _ptr; }
 
@@ -241,8 +267,10 @@ private:
 //   owner
 ////////////////////////////////////////////////////////////////
 
+class owner_t {};
+
 template<typename T>
-class owner
+class owner : public owner_t
 {
     template<typename T> friend owner<T> make_owner(T* ptr);
 
@@ -296,6 +324,7 @@ public:
         destroy();
     }
 
+    inline T& operator *() const { return *ptr; }
     inline T* operator->() const { return _ptr; }
     inline T* get() const { return _ptr; }
     T* release() {

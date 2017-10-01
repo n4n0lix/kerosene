@@ -79,14 +79,14 @@ void RenderEngine::on_start( weak<InputEngine> input )
     
 }
 
-void RenderEngine::on_render()
+void RenderEngine::on_render( float extrapolation )
 {
 	// 1# Setup rendering
     _mainWindow->make_current();
 
     // TODO: Sort scenes
     for ( auto it = _scenes.begin(); it != _scenes.end(); ++it ) {
-        it->get()->render( this->get_non_owner() );
+        it->get()->render( *this, extrapolation );
     }
 
     _mainWindow->swap_buffers();
@@ -221,11 +221,20 @@ void RenderEngine::unload_everything()
     _shaders.clear();
     _textures.clear();
     _materials.clear();
+
+    // TODO: Duplicate code with unload_everything()
+    for ( auto it = _scenes.begin(); it != _scenes.end(); ++it ) {
+        it->get()->cleanup( *this );
+    }
     _scenes.clear();
 }
 
 void RenderEngine::on_gamestate_end()
 {
+    // TODO: Duplicate code with unload_everything()
+    for ( auto it = _scenes.begin(); it != _scenes.end(); ++it ) {
+        it->get()->cleanup( *this );
+    }
     _scenes.clear();
 }
 

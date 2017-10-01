@@ -26,10 +26,14 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Texture( Image* image, TextureOptions options = TextureOptions() );
+            explicit Texture( Image* image, TextureOptions options = TextureOptions() ); // TODO: Replace raw pointer with owner/weak
             ~Texture();
 
     GLuint id();
+
+    uint32 get_width();
+    uint32 get_height();
+    uint32 get_bpp();
 
     bool operator==( const Texture& o ) const;
     bool operator!=( const Texture& o ) const;
@@ -44,6 +48,7 @@ private:
     GLuint _id;
     uint32 _width;
     uint32 _height;
+    uint32 _bpp;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

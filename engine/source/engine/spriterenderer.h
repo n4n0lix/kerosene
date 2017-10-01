@@ -33,21 +33,25 @@ public:
               SpriteRenderer();
               virtual ~SpriteRenderer() = default;
 
-    void    set_gameobject( weak<GameObject> gameobject );
+    void    set_entity( weak<Entity> );
+
+    bool    extrapolation;
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-    virtual void on_init();
-    virtual void on_render( weak<Camera> cam, Matrix4f proj_view );
-    virtual void on_cleanup();
+    virtual void on_init( RenderEngine& );
+    virtual void on_render( RenderEngine&, Camera& , Matrix4f&, float );
+    virtual void on_cleanup( RenderEngine& );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+
 
     weak<Shader>                    _shader;
     weak<Texture>                   _texture;
@@ -56,7 +60,8 @@ private:
     owner<VertexArray<Vertex_pt>>   _vao;
     owner<VertexToken>              _token;
 
-    weak<GameObject>                _gameObject;
+    weak<Entity>                    _entity;
+    Transform                       _lastTransform;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

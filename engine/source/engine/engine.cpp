@@ -79,6 +79,7 @@ void Engine::mainloop() {
     uint64_t tickPrevious = get_current_ms();
     uint64_t tickDuration = 0;
     uint64_t lag          = 0;
+    float    extrapolation = 0;
 
     // Mainloop
     while (1)
@@ -94,7 +95,7 @@ void Engine::mainloop() {
         {
             PerfStats::instance().tick_start();
             _input->on_update();
-
+            //_logic->on_update();
             if ( !update_gamestate() ) return;
 
             lag -= _tickTime;
@@ -105,8 +106,8 @@ void Engine::mainloop() {
         PerfStats::instance().frame_start();
         _gameState->on_frame_start();
 
-        _render->set_interpolation( (float)((double)lag / (double)_tickTime) ); // Add '+ 1' to switch to extrapolation
-        _render->on_render();
+        extrapolation = (float)((double)lag / (double)_tickTime) + 1; // +1 for extrapolation
+        _render->on_render( extrapolation );
 
         _gameState->on_frame_end();
         PerfStats::instance().frame_end();
@@ -124,6 +125,7 @@ bool Engine::update_gamestate()
 	if (_gameState != nullptr && _gameState->get_status() == FINISHED) {
 		_gameState->end();
         _render->on_gamestate_end();
+        _logic->on_gamestate_end();
 		_gameState = _gameState->take_next_gamestate();
 	}
 
@@ -131,6 +133,7 @@ bool Engine::update_gamestate()
 	if (_gameState != nullptr && _gameState->get_status() == READY) {
         _gameState->set_renderengine( _render.get_non_owner() );
         _gameState->set_inputengine( _input.get_non_owner() );
+        _gameState->set_logicengine( _logic.get_non_owner() );
 
 		_gameState->start();
 	}

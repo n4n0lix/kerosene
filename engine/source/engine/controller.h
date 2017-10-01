@@ -10,32 +10,28 @@
 
 // Internal Includes
 #include "_global.h"
-
-#include "component.h"
-#include "logicengine.h"
+#include "entity.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class LogicComponent : public Component
+class PlayerController
 {
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-            explicit LogicComponent();
-            virtual ~LogicComponent() = default;
+            PlayerController();
+            virtual ~PlayerController();
 
+            void set_entity( weak<Entity> );
+            void set_input_queue();
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-	virtual void onInitialize(LogicEngine* engine) = 0;
-	virtual void onRender(LogicEngine* engine) = 0;
-	virtual void onDeinitialize(LogicEngine* engine) = 0;
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

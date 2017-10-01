@@ -10,9 +10,11 @@
 
 // Internal Includes
 #include "_global.h"
-#include "gameobject.h"
+#include "entity.h"
 
 #include "renderengine.h"
+#include "inputengine.h"
+#include "logicengine.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -43,18 +45,17 @@ public:
 
     GameStateStatus             get_status() const;
 
-	void				        add_gameobject(owner<GameObject> gameObject);
-    owner<GameObject>           remove_gameobject(weak<GameObject> gameObject);
-    vector<weak<GameObject>>    get_gameobjects();
-
     owner<GameState>            take_next_gamestate();
-    void                        give_next_gamestate(owner<GameState> next);
+    void                        give_next_gamestate( owner<GameState>);
 
     weak<RenderEngine>          get_renderengine();
-    void                        set_renderengine(weak<RenderEngine> render);
+    void                        set_renderengine( weak<RenderEngine> );
 
     weak<InputEngine>           get_inputengine();
-    void                        set_inputengine( weak<InputEngine> input );
+    void                        set_inputengine( weak<InputEngine> );
+
+    weak<LogicEngine>           get_logicengine();
+    void                        set_logicengine( weak<LogicEngine> );
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -74,11 +75,10 @@ private:
     GameStateStatus				_status;
 
     owner<GameState>			_nextGameState;
-    vector<owner<GameObject>>   _gameObjectsOwners;
-    vector<weak<GameObject>>	_gameObjects;
 
     weak<RenderEngine>          _renderEngine;
     weak<InputEngine>           _inputEngine;
+    weak<LogicEngine>           _logicEngine;
 };
 
 ENGINE_NAMESPACE_END

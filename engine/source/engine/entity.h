@@ -10,35 +10,46 @@
 
 // Internal Includes
 #include "_global.h"
+#include "_meta.h"
+
 #include "idgen.h"
+#include "netvar.h"
+#include "nethelper.h"
 
 #include "transform.h"
-
-#include "logiccomponent.h"
-
+#include "owner.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class GameObject
+extern bool __Entity_Register();
+
+class Entity
 {
+    META_CLASS
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
-            GameObject();
-            ~GameObject();
+    // TODO: Register into a name->class lookup
 
-	void	destroy_at_tick_end();
-	bool    shall_be_destroyed_at_tick_end();
+                    Entity();
+    virtual         ~Entity();
 
+    virtual void    create_full_snapshot(  vector<byte>&, NetVarType );
+    virtual void    create_delta_snapshot( vector<byte>&, Entity&, NetVarType );
+    virtual void    update_from_snapshot( map<int32, vector<byte>> );
+
+    // SHARED-VARS
+    uint32    uid;
     Transform transform;
-    Transform lastTransform;
 
-    Transform globalTransform;
-    Transform lastGlobalTransform;
+    // SELF-VARS
+
+    // SERVER-VARS
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -50,13 +61,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-	uint32					_id;	
-	bool					_destroyAtTickEnd;
-
-    owner<LogicComponent>  _logic;     // Owned by this
-
-	static IDGen ID_GENERATOR;
-
 };
+
 
 ENGINE_NAMESPACE_END

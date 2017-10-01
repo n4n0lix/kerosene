@@ -28,26 +28,6 @@ GameStateStatus GameState::get_status() const
     return _status;
 }
 
-void GameState::add_gameobject(owner<GameObject> gameObject)
-{
-	_gameObjects.push_back( gameObject.get_non_owner() );
-    _gameObjectsOwners.push_back( std::move( gameObject ) );
-}
-
-owner<GameObject> GameState::remove_gameobject(weak<GameObject> gameObject)
-{
-    std::remove( _gameObjects.begin(), _gameObjects.end(), gameObject );
-	return extract_owner( _gameObjectsOwners, gameObject );
-}
-
-/**
- * Returns all gameobjects of this gamestate.
- */
-vector<weak<GameObject>> GameState::get_gameobjects()
-{
-	return _gameObjects;
-}
-
 /**
  * Gives ownership over the next gamestate.
  */
@@ -81,6 +61,16 @@ weak<RenderEngine> GameState::get_renderengine()
  void GameState::set_inputengine( weak<InputEngine> input )
  {
      _inputEngine = input;
+ }
+
+ weak<LogicEngine> GameState::get_logicengine()
+ {
+     return _logicEngine;
+ }
+
+ void GameState::set_logicengine( weak<LogicEngine> logic )
+ {
+     _logicEngine = logic;
  }
 
  void GameState::set_status( GameStateStatus status )

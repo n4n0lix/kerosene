@@ -37,15 +37,15 @@ owner<Renderer>&& Scene::remove_renderer( weak<Renderer> renderer )
         return extract_owner( _ownerRenderers, renderer );
     }
 
-    return std::move(owner<Renderer>(nullptr));
+    return std::move( owner<Renderer>( nullptr ) );
 }
 
-void  Scene::render( weak<RenderEngine> render ) {
+void  Scene::render( RenderEngine& engine, float extrapolation ) {
 
     // 1# Initialze renderers if needed
     if ( _uninitRenderers.size() > 0 ) {
         for ( weak<Renderer> renderer : _uninitRenderers ) {
-            renderer->init( render );
+            renderer->init( engine );
             _renderers.push_back( renderer );
         }
 
@@ -54,21 +54,21 @@ void  Scene::render( weak<RenderEngine> render ) {
 
     // 2# Render Scene
     for ( auto it = _cameras.begin(); it != _cameras.end(); ++it) {
-        auto camera = it->get_non_owner();
-        camera->set_as_active();
-        Matrix4f projViewMatrix = camera->proj_view_matrix();
+        Camera& camera = *(it->get());
+        camera.set_as_active();
+        Matrix4f projViewMatrix = camera.proj_view_matrix();
 
         for ( weak<Renderer> renderer : _renderers ) {
-            renderer->render( camera, projViewMatrix );
+            renderer->render( engine, camera, projViewMatrix, extrapolation );
         }
     }
 
 }
 
-void Scene::cleanup()
+void Scene::cleanup( RenderEngine& engine )
 {
     for ( weak<Renderer> renderer : _renderers ) {
-        renderer->cleanup();
+        renderer->cleanup( engine );
     }
 }
 

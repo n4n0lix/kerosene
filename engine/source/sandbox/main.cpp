@@ -14,22 +14,14 @@ using namespace ENGINE_NAMESPACE;
 
 int main(int argc, char *argv[])
 {
-
     #ifdef ENGINE_DEBUG
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     #endif
 
+   EngineConfiguration& config = EngineConfiguration();
+   config.tickrate(30)
+       .gamestate(make_owner<TestGameState>());
 
-    int result = 0;
-
-    {
-        EngineConfiguration& config = EngineConfiguration();
-        config.tickrate(100)
-            .gamestate(make_owner<TestGameState>());
-
-        Engine engine(config);
-        result = engine.run();
-    }
-
-    return result;
+   Engine engine(config);
+   return engine.run();
 }

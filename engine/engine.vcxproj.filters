@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\sandbox">
+      <UniqueIdentifier>{0a35ca31-6671-4d84-90d9-7df0f5cdddef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\network">
+      <UniqueIdentifier>{38a45cb7-853c-440a-b0ff-ed10227df883}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -24,16 +30,10 @@
     <ClInclude Include="source\engine\_gl.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\component.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\engine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\engineconfiguration.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\gameobject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\gamestate.h">
@@ -123,9 +123,6 @@
     <ClInclude Include="source\engine\keyevent.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\logiccomponent.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\logicengine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -207,9 +204,6 @@
     <ClInclude Include="source\engine\renderer.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\sandbox\testrenderer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\camera.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -219,27 +213,36 @@
     <ClInclude Include="source\engine\perfstats.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\controller.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\nethelper.h">
+      <Filter>Headerdateien\network</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\netvar.h">
+      <Filter>Headerdateien\network</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\creature.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\entity.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\_meta.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\engine\component.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\engine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\engineconfiguration.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\gameobject.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\gamestate.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\inputengine.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\logiccomponent.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\logicengine.cpp">
@@ -347,13 +350,22 @@
     <ClCompile Include="source\engine\renderer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\sandbox\testrenderer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\spriterenderer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\perfstats.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\netvar.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\creature.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\entity.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\_meta.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

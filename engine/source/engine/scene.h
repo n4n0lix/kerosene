@@ -11,7 +11,7 @@
 // Internal Includes
 #include "_global.h"
 #include "camera.h"
-#include "gameobject.h"
+#include "entity.h"
 #include "batch.h"
 #include "renderer.h"
 
@@ -33,14 +33,14 @@ public:
                 ~Scene() = default;
 
 
-    weak<Camera>              add_camera( owner<Camera> cam );
-    owner<Camera>&&           remove_camera( weak<Camera> cam );
+    weak<Camera>              add_camera( owner<Camera> );
+    owner<Camera>&&           remove_camera( weak<Camera> );
     
-    weak<Renderer>            add_renderer( owner<Renderer> gameobject );
-    owner<Renderer>&&         remove_renderer( weak<Renderer> gameobject );
+    weak<Renderer>            add_renderer( owner<Renderer> );
+    owner<Renderer>&&         remove_renderer( weak<Renderer> );
 
-    void                      render(weak<RenderEngine> render);
-    void                      cleanup();
+    void                      render( RenderEngine&, float extrapolation );
+    void                      cleanup( RenderEngine& );
 
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

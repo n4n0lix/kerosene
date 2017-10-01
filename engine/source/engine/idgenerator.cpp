@@ -32,7 +32,7 @@ void IDGen::put(uint32 id) {
 }
 
 void IDGen::release_id(uint32 id) {
-    std::remove( _usedIds.begin(), _usedIds.end(), id );
+    _usedIds.erase( std::remove( _usedIds.begin(), _usedIds.end(), id ));
 }
 
 
