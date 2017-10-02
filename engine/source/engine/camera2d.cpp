@@ -55,6 +55,7 @@ Matrix4f Camera2D::proj_view_matrix()
 {
     if ( _projViewMatrixChanged ) {
         _projViewMatrix = Matrix4f::ortho2D( -1, 1, -1, 1 );
+        _projViewMatrixChanged = false;
     }
     return _projViewMatrix;
 }
