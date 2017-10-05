@@ -276,7 +276,7 @@ void RenderEngine::setup_builtin_shaders()
 		<< "}\n";
 
     owner<Shader> colorShader = owner<Shader>(new Shader( 
-                  /* VertexLayout  */   Vertex_pc().layout(),
+                  /* VertexLayout  */   Vertex_pc().layout,
                   /* VertexUniform */   { Uniform::WORLD_VIEW_PROJ_MATRIX }, 
                   /* FragUniform   */   {}, 
                   /* Texture Slots */   {}, 
@@ -309,7 +309,7 @@ void RenderEngine::setup_builtin_shaders()
 		<< "}\n";
 
     owner<Shader> texShader = owner<Shader>( new Shader(
-        /* VertexLayout  */   Vertex_pt().layout(),
+        /* VertexLayout  */   Vertex_pt().layout,
         /* VertexUniform */   { Uniform::WORLD_VIEW_PROJ_MATRIX },
         /* FragUniform   */   {},
         /* Texture Slots */   { TextureSlot::TEXTURE_DIFFUSE },

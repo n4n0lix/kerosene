@@ -82,7 +82,6 @@ private:
 
     uint32                _vboId;
     uint32                _numVertices;
-    uint32                _capacity;
     uint32                _atomCapacity;
 
     VertexLayout          _layout;
@@ -330,13 +329,13 @@ void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> t
         data.insert(data.end(), vertexData.begin(), vertexData.end());
 
         std::ostringstream debugMsg;
-        debugMsg << "WRITE VERTEX ["; for (float flt : vertexData) { debugMsg << flt << " "; } debugMsg << "]";
+        debugMsg << "WRITE VERTEX ["; for (float flt : vertexData ) { debugMsg << flt << " "; } debugMsg << "]";
         LOGGER.log(Level::DEBUG) << debugMsg.str() << endl;
     }
 
     // 3# Write
     LOGGER.log(Level::DEBUG) << "WRITE " << vertices.size() << " AT [" << freeRange.index() << ", " << freeRange.last_index() << "]" << endl;
-    native_write_at(freeRange.index(), move( data ));
+    native_write_at(freeRange.index(), std::move( data ));
 
     // 4# Update and validate the token
     token->set_range_id(freeRangeId);

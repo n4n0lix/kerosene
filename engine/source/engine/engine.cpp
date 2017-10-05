@@ -94,8 +94,9 @@ void Engine::mainloop() {
         while ( lag >= _tickTime )
         {
             PerfStats::instance().tick_start();
+            _logic->on_tick_start();
+
             _input->on_update();
-            _logic->on_update();
 
             if ( !update_gamestate() ) return;
 
@@ -108,7 +109,7 @@ void Engine::mainloop() {
         _gameState->on_frame_start();
 
         interpolation = (float)((double)lag / (double)_tickTime);   // For interpolating the rendering positon, as we are right now
-        _render->on_render( interpolation );                        // between 'last computed tick' and 'future tick'
+        _render->on_render( interpolation );                        // somewhere between 'last computed tick' and 'future tick'
 
         _gameState->on_frame_end();
         PerfStats::instance().frame_end();

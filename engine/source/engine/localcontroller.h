@@ -10,32 +10,20 @@
 
 // Internal Includes
 #include "_global.h"
-#include "vertex.h"
-#include "shader.h"
-#include "vector2f.h"
-#include "vector3f.h"
-#include "vector4f.h"
+#include "entity.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-/**
- * layout:
- *     vec3 position;
- *     vec4 color;
- */
-struct Vertex_pc : Vertex
+class LocalController
 {
+public:
+                    LocalController();
+    virtual         ~LocalController();
 
-                    Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
-                    virtual ~Vertex_pc() = default;
-
-    virtual vector<float>   data()     const;
-
-    Vector3f position;
-    Vector4f color;
+            void    set_entity( weak<Entity> );
 
 };
 

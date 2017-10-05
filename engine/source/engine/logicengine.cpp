@@ -17,7 +17,7 @@ void LogicEngine::on_start()
     _lastTick = 0;
 }
 
-void LogicEngine::on_update()
+void LogicEngine::on_tick_start()
 {
     // Count ticks
     _lastTick = _tick;
@@ -30,12 +30,8 @@ void LogicEngine::on_update()
         _snapshot.push_back( std::move( copy ) );
 
         // Update the entity
-        entity->on_update();
+        entity->lastTransform = entity->transform;
     }
-
-    // Entities get copied here, which means if the copy gets destructed,
-    // the uid gets released, although there is still a valid entity existing (the original)
-    // This can be fixed by giving custom destructor to owner
 }
 
 void LogicEngine::on_shutdown()
@@ -73,7 +69,6 @@ owner<Entity> LogicEngine::remove_entity( weak<Entity> wEntity )
 
     owner<Entity> oEntity = extract_owner( _entityOwners, wEntity );
     _entities.erase( std::remove( _entities.begin(), _entities.end(), wEntity ) );
-    ENTITY_ID_GENERATOR.release_id( oEntity->uid );
     
     return oEntity;
 }

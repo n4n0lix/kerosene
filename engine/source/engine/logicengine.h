@@ -33,7 +33,7 @@ public:
             ~LogicEngine() = default;
 
     void on_start();
-    void on_update();
+    void on_tick_start();
     void on_shutdown();
 
     void on_gamestate_end();

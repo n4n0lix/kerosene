@@ -8,6 +8,10 @@ ENGINE_NAMESPACE_BEGIN
 
 
 
+void Creature::on_update()
+{
+}
+
 void Creature::create_full_snapshot( vector<byte>& v, NetVarType type )
 {
     Entity::create_full_snapshot( v, type );
@@ -27,6 +31,10 @@ void Creature::create_full_snapshot( vector<byte>& v, NetVarType type )
 }
 
 void Creature::create_delta_snapshot( vector<byte>&, Entity &, NetVarType )
+{
+}
+
+void Creature::update_from_snapshot( map<int32, vector<byte>> )
 {
 }
 

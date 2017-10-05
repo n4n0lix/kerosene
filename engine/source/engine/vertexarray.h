@@ -92,7 +92,7 @@ VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 )
     }
 
     VERTEX v;
-    _layout = v.layout();
+    _layout = v.layout;
 
     // #1 Create VAO
     glGenVertexArrays( 1, &_vaoId );

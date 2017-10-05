@@ -6,20 +6,6 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-META_CLASS_REGISTER(0, Entity)
-
-//bool __Entity_Register() {
-//    MetaObject mobj = MetaObject();
-//    mobj.id = 0;
-//    mobj.name = "Entity";
-//    function<void*(void)> _new = []() { return new Entity(); };
-//    mobj.newInstance = _new;
-//    Meta::instance().register_meta(mobj);
-//    return true;
-//}
-//bool  Entity::__meta_reg = __Entity_Register();
-//string Entity::__meta_name() { return "Entity"; }
-
 Entity::Entity()
 {
     uid = 0;

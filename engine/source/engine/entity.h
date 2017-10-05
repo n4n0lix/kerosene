@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 
 // Other Includes
@@ -19,51 +15,32 @@
 #include "transform.h"
 #include "owner.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#define NET_GLOBAL_VARS public
+#define NET_PLAYER_VARS public
+#define LOCAL_VARS public
+
+
 ENGINE_NAMESPACE_BEGIN
 
-extern bool __Entity_Register();
-
-class Entity
+struct Entity
 {
-    META_CLASS
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-public:
-    // TODO: Register into a name->class lookup
-
                     Entity();
     virtual         ~Entity();
 
     virtual void    on_update();
 
-    virtual void    create_full_snapshot(  vector<byte>&, NetVarType );
+    virtual void    create_full_snapshot( vector<byte>&, NetVarType );
     virtual void    create_delta_snapshot( vector<byte>&, Entity&, NetVarType );
     virtual void    update_from_snapshot( map<int32, vector<byte>> );
 
-    // SHARED-VARS
+NET_GLOBAL_VARS:
     uint32    uid;
     Transform transform;
+    
+NET_PLAYER_VARS:
 
-
-    // SELF-VARS
-
-    // LOCAL-VARS
+LOCAL_VARS:
     Transform lastTransform;
-
-protected:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                       Protected                        */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 };
 

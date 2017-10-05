@@ -41,7 +41,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-class Entity;
+struct Entity;
 class Scene;
 
 class RenderEngine : public enable_weak_from_this<RenderEngine>

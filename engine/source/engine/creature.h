@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 
 // Other Includes
@@ -12,44 +8,30 @@
 #include "_global.h"
 #include "entity.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 ENGINE_NAMESPACE_BEGIN
 
-class Creature : public Entity
+struct Creature : Entity
 {
 public:
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
                     Creature() = default;
     virtual         ~Creature() = default;
+
+    virtual void    on_update();
 
     virtual void    create_full_snapshot( vector<byte>&, NetVarType ) override;
     virtual void    create_delta_snapshot( vector<byte>&, Entity&, NetVarType ) override;
     virtual void    update_from_snapshot( map<int32, vector<byte>> ) override;
 
-    // SHARED-VARS
+NET_GLOBAL_VARS:
     int32 health;
     string name;
 
-    // SELF-VARS
+NET_PLAYER_VARS:
     int32 stamina;
 
-    // SERVER-VARS
-
-
-private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+LOCAL_VARS:
 
 };
 

@@ -28,7 +28,7 @@
   <ItemGroup>
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\charevent.h" />
-    <ClInclude Include="source\engine\controller.h" />
+    <ClInclude Include="source\engine\localcontroller.h" />
     <ClInclude Include="source\engine\creature.h" />
     <ClInclude Include="source\engine\keyevent.h" />
     <ClInclude Include="source\engine\mouseevent.h" />
@@ -96,6 +96,7 @@
     <ClInclude Include="source\sandbox\testgamestate.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\engine\camera.cpp" />
     <ClCompile Include="source\engine\camera2d.cpp" />
     <ClCompile Include="source\engine\creature.cpp" />
     <ClCompile Include="source\engine\netvar.cpp" />
@@ -116,7 +117,6 @@
     <ClCompile Include="source\engine\entity.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
-    <ClCompile Include="source\engine\idgenerator.cpp" />
     <ClCompile Include="source\engine\imageutils.cpp" />
     <ClCompile Include="source\engine\indexbuffer.cpp" />
     <ClCompile Include="source\engine\material.cpp" />
