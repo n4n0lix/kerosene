@@ -325,11 +325,10 @@ void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> t
     // 2# Bring data into native format
     vector<float> data;
     for (T vertex : vertices) {
-        vector<float> vertexData = vertex.data();
-        data.insert(data.end(), vertexData.begin(), vertexData.end());
+        data.insert(data.end(), vertex.data.begin(), vertex.data.end());
 
         std::ostringstream debugMsg;
-        debugMsg << "WRITE VERTEX ["; for (float flt : vertexData ) { debugMsg << flt << " "; } debugMsg << "]";
+        debugMsg << "WRITE VERTEX ["; for (float flt : vertex.data ) { debugMsg << flt << " "; } debugMsg << "]";
         LOGGER.log(Level::DEBUG) << debugMsg.str() << endl;
     }
 

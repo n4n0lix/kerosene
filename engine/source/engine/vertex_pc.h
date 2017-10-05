@@ -28,11 +28,8 @@ ENGINE_NAMESPACE_BEGIN
  */
 struct Vertex_pc : Vertex
 {
-
-                    Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
-                    virtual ~Vertex_pc() = default;
-
-    virtual vector<float>   data()     const;
+              Vertex_pc(Vector3f position = Vector3f(0, 0, 0), Vector4f color = Vector4f(1, 1, 1, 1));
+    virtual  ~Vertex_pc() = default;
 
     Vector3f position;
     Vector4f color;

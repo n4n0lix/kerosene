@@ -31,10 +31,8 @@ struct Vertex_pt : Vertex
 {
 public:
 
-                    Vertex_pt(Vector3f position = Vector3f(0, 0, 0), Vector2f texcoords = Vector2f(0, 0));
-                    virtual ~Vertex_pt() = default;
-
-    virtual vector<float>   data()     const;
+                Vertex_pt(Vector3f position = Vector3f(0, 0, 0), Vector2f texcoords = Vector2f(0, 0));
+    virtual     ~Vertex_pt() = default;
 
     Vector3f position;
     Vector2f texcoords;
