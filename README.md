@@ -39,19 +39,6 @@ raw pointers are strictly forbidden! use either `owner<T>/weak<T>` for single ow
 
 ## 3. design
 ### 3.1 utils
-#### buffer<T>
-a basic interface for buffers. it contains a *write* and *remove* method for manipulation. the *BufferToken* provided by the *write* method is later used to refer to the data written in the buffer so it can be removed or modified.
-
-#### transactionalbuffer<T>
-a transactional extension to the *buffer<T>* interface. it enables the support of buffering *write* and *remove* actions and execute them in one bulk.
-
-todo: this could be improved if an interface is provided so actual write operations could be bulked together, now every *write* call generates a buffer-operation on *commit_write()*.
-
-#### arraybuffer<T>
-random access memory implementation of *transactionalbuffer<T>*
-
-todo: improve description
-
 #### stackbuffer<T>
 makes sure that active data is always continously aligned to the front of the buffer.
 
