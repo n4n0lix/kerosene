@@ -1,8 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
 
@@ -11,12 +8,11 @@
 // Internal Includes
 #include "_global.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
+
 class MouseEvent {};
+
 
 class MoveEvent : public MouseEvent {
 public:
@@ -29,6 +25,7 @@ private:
     double _x;
     double _y;
 };
+
 
 class ClickEvent : public MouseEvent {
 public:
@@ -49,16 +46,19 @@ private:
     int32  _mods;
 };
 
+
 class LeaveEvent : public MouseEvent {
 public:
     LeaveEvent() {}
 
 };
 
+
 class EnterEvent : public MouseEvent {
 public:
     EnterEvent() {}
 };
+
 
 class ScrollEvent : public MouseEvent {
 public:

@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 
 // Other Includes
@@ -13,14 +9,12 @@
 #include "_global.h"
 #include "logger.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
 enum class ImageFormat {
     UNKOWN, GREY, GREYA, RGB, RGBA
 };
+
 
 class Image {
 public:
@@ -43,17 +37,11 @@ public:
 
 class ImageUtils {
 public:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                      Public Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     static owner<Image>		 load_png( string file );
     static void              flip_y( Image* image );
 
 private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                      Private Static                    */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     ImageUtils() = default;
     ~ImageUtils() = default;
 

@@ -1,9 +1,4 @@
-#ifndef ENGINE_H
-#define ENGINE_H
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+#pragma once
 
 // Std-Includes
 #include <assert.h>
@@ -22,9 +17,6 @@
 #include "gamestate.h"
 #include "perfstats.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
 /**
@@ -32,19 +24,11 @@ ENGINE_NAMESPACE_BEGIN
  */
 class Engine
 {
-
 public:
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     const string  ENGINE_NAME       = "KerosineEngine";
     const string  ENGINE_VERSION    = "v0.0.1-indev";
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
             explicit Engine(EngineConfiguration& config);
             ~Engine() = default;
@@ -52,9 +36,6 @@ public:
     int run();
 
 private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     /*  METHODS */
     void mainloop();
@@ -75,4 +56,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-#endif // ENGINE_H

@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 #include <cmath>
 #include <algorithm>
@@ -15,9 +11,6 @@
 #include "vector3f.h"
 #include "vector4f.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
 /**
@@ -26,11 +19,6 @@ ENGINE_NAMESPACE_BEGIN
 class Matrix4f
 {
 public:
-    
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
     static Matrix4f ZERO;
     static Matrix4f IDENTITY;
 
@@ -54,9 +42,7 @@ public:
 
     static Matrix4f look_at_lh( const Vector3f& eye, const Vector3f& target, const Vector3f& up );
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
             Matrix4f();
             Matrix4f(Matrix4f& copy);
             Matrix4f( float v00, float v01, float v02, float v03,

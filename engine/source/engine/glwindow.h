@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 
 // Other Includes
@@ -12,9 +8,7 @@
 // Internal Includes
 #include "_global.h"
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 ENGINE_NAMESPACE_BEGIN
 
 struct GLFWwindowDestroyer {
@@ -28,9 +22,7 @@ struct GLFWwindowDestroyer {
 class GLWindow
 {
 public:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
             explicit GLWindow( const string title = "Kerosine Engine", const int32_t width = 800, const int32_t height = 600 );
             ~GLWindow();
 
@@ -38,19 +30,19 @@ public:
     void        show();
     void        hide();
 
-    void        set_title( string title );
+    void        set_title( string );
     string      get_title();
 
-    void        set_width( int32_t width );
+    void        set_width( int32_t );
     int32       get_width();
 
-    void        set_height( int32_t height );
+    void        set_height( int32_t );
     int32       get_height();
 
-    void        set_x( int32_t x );
+    void        set_x( int32_t );
     int32       get_x();
 
-    void        set_y( int32_t y );
+    void        set_y( int32_t );
     int32       get_y();
 
     int32       get_renderwidth();
@@ -83,19 +75,11 @@ public:
 
 
 private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+            GLFWwindow* _handle;
+            string      _title;
 
-    GLFWwindow* _handle;
 
-    string _title;
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    static GLFWwindow* CURRENT_CONTEXT;
+    static  GLFWwindow* CURRENT_CONTEXT;
 };
 
 ENGINE_NAMESPACE_END

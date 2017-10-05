@@ -27,10 +27,6 @@ class decimal32
 public:
     friend std::ostream & operator<<(std::ostream &os, const decimal32& dec) { os << dec.to_string(); return os; }
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
     // SIGN | INTEGRAL                 |FRACTION
     //     0|010 1010 1101 0101 0101 01|01 0111 0101
     // 1-bit| 21-bit                   |10-bit
@@ -77,9 +73,7 @@ public:
     static decimal32 acos(const decimal32& d);
     static decimal32 atan(const decimal32& d);
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
             decimal32()                     { value = 0; }
             decimal32(const decimal32& d)   { value = d.value; }
             ~decimal32()                    { }
