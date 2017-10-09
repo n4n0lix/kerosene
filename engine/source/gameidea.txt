@@ -1,3 +1,32 @@
+Races
+
+# Human
+	- *Civilized*: owns a house (depending on origin) from beginning on (except if begger or whore)
+
+# Orc
+	- *Warclan*: starts fairly trained in combat, because trained in combat from childhood on
+
+==========================
+Orc Classes
+
+# Ranger
+	- Trapper ( lawful )
+			~ Traps and catches animals alive (ravens, that are used for sending packages)
+	- Manhunter ( evil )
+			~ Traps and catches humans alive to make them slaves or sell
+	- Hunter ( lawful )
+			~ Read animal tracks and hunt them down for resources
+
+# Faithworker
+	- Necromancer ( evil )
+		. for small fee can do a resurrect-contract (+15 dark faith for resurrected)
+		. blood magic
+	- Shaman ( neutral )
+		. nature magic
+		. can control animals while being in stasis
+
+==========================
+Human Classes
 
 # Ranger
 	- Trapper ( lawful )
@@ -12,7 +41,6 @@
 		. Have land with crops/trees, tender for peasents to collect the crops and give them a small margin
 	- Peasent ( lawful )
 		. Sign up at farms for field work and get a small margin for delivered products
-
 
 # Faithworker
 	- Priest ( lawful )

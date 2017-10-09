@@ -114,8 +114,12 @@
 #include <memory>
         using std::shared_ptr;
         using std::make_shared;
+        using std::make_unique;
         using std::dynamic_pointer_cast;
         using std::static_pointer_cast;
+
+        template <typename T>
+        using unique = std::unique_ptr<T>;
 
         template <typename T> 
         using shared = std::shared_ptr<T>;

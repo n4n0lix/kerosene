@@ -11,7 +11,6 @@
 
 // Internal Includes
 #include "_global.h"
-#include "transform.h"
 #include "vector2f.h"
 #include "vector3f.h"
 #include "vector4f.h"
@@ -115,12 +114,6 @@ inline void __net_write( vector<byte>& v, string str ) {
     for ( auto chr : str.substr( 0, length - 1 ) ) {
         __net_write( v, chr );
     }
-}
-
-inline void __net_write( vector<byte>& v, Transform trans ) {
-    __net_write( v, trans.position );
-    __net_write( v, trans.rotation );
-    __net_write( v, trans.scale );
 }
 
 enum NetVarType {

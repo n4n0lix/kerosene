@@ -7,26 +7,20 @@
 
 // Internal Includes
 #include "_global.h"
-#include "entity.h"
+#include "idgen.h"
+#include "entitysystem.h"
+#include "creaturesystem.h"
 
 
 ENGINE_NAMESPACE_BEGIN
 
-
-enum EntityClass {
-    clEntity = 0,
-    clCreature   = 1
-};
-
 class LogicEngine
 {
-
 public:
-			LogicEngine();
-            ~LogicEngine() = default;
 
     void on_start();
     void on_tick_start();
+    void on_update();
     void on_shutdown();
 
     void on_gamestate_end();
@@ -35,13 +29,10 @@ public:
     owner<Entity>           remove_entity( weak<Entity> );
     vector<weak<Entity>>&   get_entities();
 
-    uint64 current_tick();
-    uint64 ticks_elapsed_since( uint64 );
-
-
 private:
-    uint64 _tick;
-    uint64 _lastTick;
+    // Systems
+    EntitySystem    entitySys;
+    CreatureSystem  creatureSys;
 
     // Current Snapshot
     vector<owner<Entity>> _entityOwners;
@@ -49,7 +40,6 @@ private:
 
     // Snapshot History
     vector<Entity>        _snapshot;
-
 
     static IDGen ENTITY_ID_GENERATOR;
 };

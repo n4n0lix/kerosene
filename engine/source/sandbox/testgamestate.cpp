@@ -55,36 +55,35 @@ void TestGameState::on_update()
                 set_status( GameStateStatus::FINISHED );
             }
 
-            if ( evt.key() == Key::W ) {
-                _wDown = evt.action() == GLFW_PRESS || evt.action() == GLFW_REPEAT;
+            if ( evt.key() == Key::W && (evt.pressed() || evt.released())) {
+                unique<CmdMove> cmd = make_unique<CmdMove>();
+                cmd->type = MOVE_UP;
+                cmd->started = evt.pressed();
+                _entity->creature.commandQ.emplace_back( std::move( cmd ) );
             }
 
-            if ( evt.key() == Key::S ) {
-                _sDown = evt.action() == GLFW_PRESS || evt.action() == GLFW_REPEAT;
+            if ( evt.key() == Key::S && (evt.pressed() || evt.released()) ) {
+                unique<CmdMove> cmd = make_unique<CmdMove>();
+                cmd->type = MOVE_DOWN;
+                cmd->started = evt.pressed();
+                _entity->creature.commandQ.emplace_back( std::move( cmd ) );
             }
 
-            if ( evt.key() == Key::A ) {
-                _aDown = evt.action() == GLFW_PRESS || evt.action() == GLFW_REPEAT;
+            if ( evt.key() == Key::A && (evt.pressed() || evt.released()) ) {
+                unique<CmdMove> cmd = make_unique<CmdMove>();
+                cmd->type = MOVE_LEFT;
+                cmd->started = evt.pressed();
+                _entity->creature.commandQ.emplace_back( std::move( cmd ) );
             }
 
-            if ( evt.key() == Key::D ) {
-                _dDown = evt.action() == GLFW_PRESS || evt.action() == GLFW_REPEAT;
+            if ( evt.key() == Key::D && (evt.pressed() || evt.released()) ) {
+                unique<CmdMove> cmd = make_unique<CmdMove>();
+                cmd->type = MOVE_RIGHT;
+                cmd->started = evt.pressed();
+                _entity->creature.commandQ.emplace_back( std::move( cmd ) );
             }
         }
     }
-
-    // LOGIC
-    if ( _aDown )
-        _entity->transform.position.x -= 0.1f;
-
-    if ( _dDown )
-        _entity->transform.position.x += 0.1f;
-
-    if ( _wDown )
-        _entity->transform.position.y += 0.1f;
-
-    if ( _sDown )
-        _entity->transform.position.y -= 0.1f;
 }
 
 void TestGameState::on_frame_start() {

@@ -27,15 +27,15 @@ private:
 public:
             VertexLayout() { }
 
-            VertexLayout( vector<VertexComponent> comps ) : _components( comps ) {
-                _numComps = 0;
-                _bytesize = 0;
+    explicit VertexLayout( vector<VertexComponent> comps ) : _components( comps ) {
+        _numComps = 0;
+        _bytesize = 0;
 
-                for ( VertexComponent component : _components ) {
-                    _numComps += component.num_components();
-                    _bytesize += component.bytesize();
-                }
-            }
+        for ( VertexComponent component : _components ) {
+            _numComps += component.num_components();
+            _bytesize += component.bytesize();
+        }
+    }
 
             ~VertexLayout() = default;
 

@@ -6,33 +6,61 @@
 
 // Internal Includes
 #include "_global.h"
-#include "entity.h"
+#define GLOBAL_VARS public
+#define PLAYER_VARS public
+#define LOCAL_VARS  public
 
 
 ENGINE_NAMESPACE_BEGIN
 
-struct Creature : Entity
+enum CmdType {
+    // Meta
+    UNKOWN,
+
+    // Creature - Movement
+    MOVE_UP, MOVE_DOWN, MOVE_RIGHT, MOVE_LEFT,
+    TURN_TO_TARGET,
+
+    // Chat
+    CHAT_MSG,
+
+    // UI
+    UI_OPEN_INVENTORY
+};
+
+struct Command
 {
-public:
+    Command();
 
-                    Creature() = default;
-    virtual         ~Creature() = default;
+    CmdType  type;
+    bool     consumed;
+};
 
-    virtual void    on_update();
+struct CmdMove : Command {
+    CmdMove();
 
-    virtual void    create_full_snapshot( vector<byte>&, NetVarType ) override;
-    virtual void    create_delta_snapshot( vector<byte>&, Entity&, NetVarType ) override;
-    virtual void    update_from_snapshot( map<int32, vector<byte>> ) override;
+    bool started;
+};
 
-NET_GLOBAL_VARS:
-    int32 health;
-    string name;
+struct Creature
+{
+    Creature();
 
-NET_PLAYER_VARS:
-    int32 stamina;
+GLOBAL_VARS:
+    int32           health;
+    int32           stamina;
+    string          name;
+    float           moveSpeed;
+
+PLAYER_VARS:
 
 LOCAL_VARS:
+    bool moveUp;
+    bool moveDown;
+    bool moveLeft;
+    bool moveRight;
 
+    vector<unique<Command>> commandQ;
 };
 
 ENGINE_NAMESPACE_END

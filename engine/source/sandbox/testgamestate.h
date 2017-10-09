@@ -36,9 +36,4 @@ private:
     weak<Camera>   _camera;
     weak<Entity>   _entity;
     weak<SpriteRenderer> _renderer;
-
-    bool _aDown;
-    bool _dDown;
-    bool _sDown;
-    bool _wDown;
 };

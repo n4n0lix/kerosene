@@ -16,7 +16,7 @@ ENGINE_NAMESPACE_BEGIN
 class Camera
 {
 public:
-                        Camera() {};
+                        Camera() : _viewport(Viewport4i()), _viewportChanged(true), _clearColor(Vector4f()) {};
     virtual             ~Camera() = default;
 
 

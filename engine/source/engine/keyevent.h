@@ -25,6 +25,8 @@ public:
     inline bool alt()   { return _mods & GLFW_MOD_ALT; }
     inline bool super() { return _mods & GLFW_MOD_SUPER; }
 
+    inline bool pressed() { return _action == GLFW_PRESS; }
+    inline bool released() { return _action == GLFW_RELEASE; }
 
 private:
 

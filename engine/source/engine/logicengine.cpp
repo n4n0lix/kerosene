@@ -6,42 +6,38 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-LogicEngine::LogicEngine()
-{
-
-}
-
 void LogicEngine::on_start()
 {
-    _tick = 0;
-    _lastTick = 0;
+
 }
 
 void LogicEngine::on_tick_start()
 {
-    // Count ticks
-    _lastTick = _tick;
-    _tick++;
-
     _snapshot.clear();
-    for ( auto entity : _entities ) {
-        // Take snapshot for networking and history
-        Entity copy = *(entity.get());
-        _snapshot.push_back( std::move( copy ) );
+    for ( auto e : _entities ) {
+        Entity& entity = *e;
 
-        // Update the entity
-        entity->lastTransform = entity->transform;
+        // Take snapshot for networking and history
+        Entity copy     = entitySys.create_snapshot_full( entity );
+        copy.creature   = creatureSys.create_snapshot_full( entity.creature );
+
+        _snapshot.emplace_back( std::move( copy ) );
+    }
+}
+
+void LogicEngine::on_update()
+{
+    for ( auto e : _entities ) {
+        Entity& entity = *e;
+
+        entitySys.update( entity );
+        creatureSys.update( entity, entity.creature );
     }
 }
 
 void LogicEngine::on_shutdown()
 {
 
-}
-
-uint64 LogicEngine::current_tick()
-{
-    return _tick;
 }
 
 void LogicEngine::on_gamestate_end()
@@ -58,7 +54,7 @@ weak<Entity>  LogicEngine::add_entity( owner<Entity> oEntity )
 
     _entities.push_back( wEntity );
     _entityOwners.emplace_back( std::move( oEntity ) );
-    wEntity->uid = ENTITY_ID_GENERATOR.new_id();
+    wEntity->id = ENTITY_ID_GENERATOR.new_id();
 
     return wEntity;
 }
@@ -78,20 +74,20 @@ vector<weak<Entity>>& LogicEngine::get_entities()
     return _entities;
 }
 
-uint64 LogicEngine::ticks_elapsed_since( uint64 t )
-{
-    // 1# No overflow
-    if ( _tick > _lastTick ) {
-        return _tick - _lastTick;
-    }
-    // 2# Overflow
-    else {
-        //   (Dist from WRAP to _tick) 
-        // + (Dist from WRAP to _lasttick) 
-        // + 1 (for the WRAP)
-        return _tick + (MAX( _tick ) - _lastTick) + 1;
-    }
-}
+//uint64 LogicEngine::ticks_elapsed_since( uint64 t )
+//{
+//    // 1# No overflow
+//    if ( _tick > _lastTick ) {
+//        return _tick - _lastTick;
+//    }
+//    // 2# Overflow
+//    else {
+//        //   (Dist from WRAP to _tick) 
+//        // + (Dist from WRAP to _lasttick) 
+//        // + 1 (for the WRAP)
+//        return _tick + (MAX( _tick ) - _lastTick) + 1;
+//    }
+//}
 
 
 

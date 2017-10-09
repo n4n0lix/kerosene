@@ -5,6 +5,7 @@ ENGINE_NAMESPACE_BEGIN
 class IDGen
 {
 public:
+    IDGen() = default;
     inline uint32 new_id() { return ++_nextId; }
 
 private:
@@ -12,4 +13,3 @@ private:
 };
 
 ENGINE_NAMESPACE_END
-

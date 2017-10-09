@@ -113,18 +113,13 @@ static Logger LOGGER;
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) {
-    // 1# Set members
-    _layout = layout;
-    _numVertices = 0;
-    _atomCapacity = layout.bytesize() * initCapacity;
-
-    // 2# Buffer Mgmt
+VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) : _layout(layout), _numVertices(0), _atomCapacity(layout.bytesize() * initCapacity) {
+    // 1# Buffer Mgmt
     auto initialRange = Range(0, _atomCapacity);
     _freeRanges[ _rangeIDGen.new_id() ] = initialRange;
     LOGGER.log(Level::DEBUG) << "CREATE [" << initialRange.index() << "," << initialRange.last_index() << "], OBJ SIZE: " << object_size() << "\n";
 
-    // 3# OpenGL
+    // 2# OpenGL
     _vboId = createVBO(_atomCapacity);
     LOGGER.log(Level::DEBUG, _vboId) << "CREATE" << endl;
 

@@ -73,7 +73,7 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     // Constructor
-    weak() : weak(nullptr) { }
+    weak() : _ptr(nullptr), _ptrValid(nullptr), _ptrRefCounter(nullptr) { }
 
     // Constructor
     weak(std::nullptr_t) {
@@ -141,7 +141,7 @@ public:
         return *this;
     }
 
-    inline T&   operator *() const { return *ptr; }
+    inline T&   operator *() const { return *_ptr; }
     inline T*   operator->() const { return _ptr; }
     inline T*   get()        const { return _ptr; }
 

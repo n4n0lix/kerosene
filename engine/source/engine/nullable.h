@@ -28,8 +28,8 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            Nullable() : _isNull( true ) { };
-            Nullable( T value ) : _isNull( false ) { _value = value; };
+             Nullable() : _isNull( true ) { };
+    explicit Nullable( T value ) : _isNull( false ) { _value = value; };
 
     Nullable<T>& operator=( T value );
     Nullable<T>& make_null();

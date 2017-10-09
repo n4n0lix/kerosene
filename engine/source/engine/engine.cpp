@@ -75,18 +75,15 @@ int Engine::run() {
 void Engine::mainloop() {
 
     // Init mainloop
-    uint64_t tickCurrent  = get_current_ms();
-    uint64_t tickPrevious = get_current_ms();
-    uint64_t tickDuration = 0;
-    uint64_t lag          = 0;
-    float    interpolation = 0;
+    uint64 tickPrevious  = get_current_ms();
+    uint64 lag           = 0;
 
     // Mainloop
     while (1)
     {
         // Calculate the tick rate
-        tickCurrent  = get_current_ms();
-        tickDuration = tickCurrent - tickPrevious;
+        uint64 tickCurrent  = get_current_ms();
+        uint64 tickDuration = tickCurrent - tickPrevious;
         tickPrevious = tickCurrent;
         lag          += tickDuration;
 
@@ -97,6 +94,7 @@ void Engine::mainloop() {
             _logic->on_tick_start();
 
             _input->on_update();
+            _logic->on_update();
 
             if ( !update_gamestate() ) return;
 
@@ -108,8 +106,11 @@ void Engine::mainloop() {
         PerfStats::instance().frame_start();
         _gameState->on_frame_start();
 
-        interpolation = (float)((double)lag / (double)_tickTime);   // For interpolating the rendering positon, as we are right now
-        _render->on_render( interpolation );                        // somewhere between 'last computed tick' and 'future tick'
+        // A float number between [0,1] that tells us how far inbetween ticks we are
+        // (0: just had tick update, 0.5 halfway between ticks, 1: new tick is immeninet)
+        float interpolation = ((float)lag / (float)_tickTime);
+
+        _render->on_render( interpolation );                              
 
         _gameState->on_frame_end();
         PerfStats::instance().frame_end();

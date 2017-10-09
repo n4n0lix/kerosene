@@ -14,7 +14,6 @@
 #include "_gl.h"
 #include "_global.h"
 #include "glwindow.h"
-#include "entity.h"
 #include "inputengine.h"
 
 // Testing Includes (temporary)

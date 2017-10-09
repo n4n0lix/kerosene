@@ -11,7 +11,7 @@
 // Internal Includes
 #include "_global.h"
 #include "camera.h"
-#include "entity.h"
+#include "entitysystem.h"
 #include "batch.h"
 #include "renderer.h"
 

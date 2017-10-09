@@ -13,7 +13,6 @@
 #include "_global.h"
 #include "nethelper.h"
 
-#include "transform.h"
 #include "vector2f.h"
 #include "vector3f.h"
 #include "vector4f.h"
@@ -44,6 +43,7 @@ public:
     template<typename T>
     inline BaseNetVar& operator=( const T& other ) { 
         value = other; 
+        return *this;
     }
 
     virtual void write( vector<byte>& ) = 0;
@@ -125,23 +125,6 @@ public:
         for ( auto chr : value.substr( 0, length - 1 ) ) {
             __net_write( v, chr );
         }
-    };
-};
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Class                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-template<>
-class NetVar<Transform> : public BaseNetVar<Transform> {
-public:
-    NetVar( Transform aTrans ) : BaseNetVar( aTrans ) {}
-
-    virtual void write( vector<byte>& v ) override {
-        __net_write( v, id );
-        __net_write( v, value.position );
-        __net_write( v, value.rotation );
-        __net_write( v, value.scale );
     };
 };
 

@@ -31,7 +31,7 @@ void SpriteRenderer::on_init( RenderEngine& pRenderEngine )
     vertices.push_back( Vertex_pt( { 0, 0, -0.5 },  { 0, 1 } ) );
     vertices.push_back( Vertex_pt( { 1, 1, -0.5 },  { 1, 0 } ) );
     vertices.push_back( Vertex_pt( { 0, 1, -0.5 },  { 0, 0 } ) );
-
+    
     _token = _vao->add_vertices( std::move( vertices ) );
     _vao->add_render_static( _token.get_non_owner() );
 }
@@ -39,10 +39,18 @@ void SpriteRenderer::on_init( RenderEngine& pRenderEngine )
 void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Matrix4f& pProjViewMat, float pInterpolation )
 {
     // Interpolate transform, as we are between a calculated tick and a future tick
-    Transform transform = Transform::lerp( _entity->lastTransform, _entity->transform, pInterpolation );
+    Vector3f        position = Vector3f::lerp( _entity->lastPosition, _entity->position, pInterpolation );
+    Vector3f        scale    = Vector3f::lerp( _entity->lastScale, _entity->scale, pInterpolation );
+    Quaternion4f    rotation = Quaternion4f::slerp( _entity->lastRotation, _entity->rotation, pInterpolation );
+
+    Matrix4f        matPos      = Matrix4f::translation( position );
+    Matrix4f        matScale    = Matrix4f::scaling( scale );
+    Matrix4f        matRot      = Quaternion4f::to_rotation_mat4f( rotation );
+
+    Matrix4f        world = (matScale * matRot) * matPos;
 
     // Set the world x view x projection matrix
-    Matrix4f wvp = pProjViewMat * transform.to_mat4f();
+    Matrix4f wvp = pProjViewMat * world;
     _material->get_shader()->set_vertex_uniform( Uniform::WORLD_VIEW_PROJ_MATRIX, wvp );
 
     _material->bind();
