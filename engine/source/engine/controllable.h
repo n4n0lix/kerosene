@@ -6,9 +6,7 @@
 
 // Internal Includes
 #include "_global.h"
-#define GLOBAL_VARS public
-#define PLAYER_VARS public
-#define LOCAL_VARS  public
+#include "component.h"
 
 
 ENGINE_NAMESPACE_BEGIN
@@ -42,9 +40,9 @@ struct CmdMove : Command {
     bool started;
 };
 
-struct Creature
+struct Controllable : Component
 {
-    Creature();
+    Controllable();
 
 GLOBAL_VARS:
     int32           health;

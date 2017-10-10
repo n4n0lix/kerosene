@@ -1,37 +1,17 @@
-#include "creaturesystem.h"
+#include "controllablesystem.h"
 ENGINE_NAMESPACE_BEGIN
 
 //
 // SYSTEM
 ////////////////////////////////////////
 
-void CreatureSystem::process_cmds( Creature& creature)
+void ControllableSystem::update( Entity& entity )
 {
-    for ( auto& command : creature.commandQ )
-        if ( !(command->consumed) ) {
-            if ( command->type == MOVE_UP ) {
-                unique<CmdMove>& cmd = (unique<CmdMove>&) command;
-                creature.moveUp = cmd->started;
-            }
-            if ( command->type == MOVE_DOWN ) {
-                unique<CmdMove>& cmd = (unique<CmdMove>&) command;
-                creature.moveDown = cmd->started;
-            }
-            if ( command->type == MOVE_LEFT ) {
-                unique<CmdMove>& cmd = (unique<CmdMove>&) command;
-                creature.moveLeft = cmd->started;
-            }
-            if ( command->type == MOVE_RIGHT ) {
-                unique<CmdMove>& cmd = (unique<CmdMove>&) command;
-                creature.moveRight = cmd->started;
-            }
-    }
+    if ( !entity.has_component( ctype_Controllable ) )
+        return;
 
-    creature.commandQ.clear();
-}
+    Controllable& creature = (Controllable&) entity.get_component( ctype_Controllable );
 
-void CreatureSystem::update( Entity& entity, Creature& creature )
-{
     process_cmds( creature );
 
     if ( creature.moveUp    ) 
@@ -44,16 +24,44 @@ void CreatureSystem::update( Entity& entity, Creature& creature )
         entity.position.x += creature.moveSpeed;
 }
 
-Creature CreatureSystem::create_snapshot_full( Creature& orig )
+void ControllableSystem::create_snapshot_full( Entity& dest, Entity& src)
 {
-    Creature snapshot;
+    // 1# Find Component
+    if ( !src.has_component( ctype_Controllable ) )
+        return;
 
-    snapshot.health     = orig.health;
-    snapshot.stamina    = orig.stamina;
-    snapshot.name       = orig.name;
-    snapshot.moveSpeed  = orig.moveSpeed;
+    Controllable& cSrc = (Controllable&) src.get_component( ctype_Controllable );
 
-    return std::move( snapshot );
+    // 2# Create Snapshot
+    unique<Controllable> cDest = make_unique<Controllable>();
+
+    cDest->health     = cSrc.health;
+    cDest->stamina    = cSrc.stamina;
+    cDest->name       = cSrc.name;
+    cDest->moveSpeed  = cSrc.moveSpeed;
+
+    dest.add_component( std::move( cDest ) );
+}
+
+void ControllableSystem::process_cmds( Controllable& controlable )
+{
+    for ( auto& command : controlable.commandQ )
+        if ( !(command->consumed) ) {
+            if ( command->type == MOVE_UP ) {
+                controlable.moveUp = ((unique<CmdMove>&) command)->started;
+            }
+            if ( command->type == MOVE_DOWN ) {
+                controlable.moveDown = ((unique<CmdMove>&) command)->started;
+            }
+            if ( command->type == MOVE_LEFT ) {
+                controlable.moveLeft = ((unique<CmdMove>&) command)->started;
+            }
+            if ( command->type == MOVE_RIGHT ) {
+                controlable.moveRight = ((unique<CmdMove>&) command)->started;
+            }
+        }
+
+    controlable.commandQ.clear();
 }
 
 //

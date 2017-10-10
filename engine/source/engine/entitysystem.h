@@ -8,22 +8,14 @@
 #include "_global.h"
 #include "entity.h"
 
-//
-// COMPONENT
-////////////////////////////////////////
-
 ENGINE_NAMESPACE_BEGIN
-
-//
-// SYSTEM
-////////////////////////////////////////
 
 struct EntitySystem
 {
     void update( Entity& transform );
 
-    Entity create_snapshot_full( Entity& );
-    //Entity create_snapshot_delta( Entity& prev, Entity& src );
+    void create_snapshot_full( Entity&, Entity& );
+
 };
 
 ENGINE_NAMESPACE_END

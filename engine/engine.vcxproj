@@ -30,8 +30,8 @@
     <ClInclude Include="source\engine\charevent.h" />
     <ClInclude Include="source\engine\cmd.h" />
     <ClInclude Include="source\engine\component.h" />
-    <ClInclude Include="source\engine\creature.h" />
-    <ClInclude Include="source\engine\creaturesystem.h" />
+    <ClInclude Include="source\engine\controllable.h" />
+    <ClInclude Include="source\engine\controllablesystem.h" />
     <ClInclude Include="source\engine\entity.h" />
     <ClInclude Include="source\engine\keystate.h" />
     <ClInclude Include="source\engine\localcontroller.h" />
@@ -103,8 +103,10 @@
     <ClCompile Include="source\engine\camera.cpp" />
     <ClCompile Include="source\engine\camera2d.cpp" />
     <ClCompile Include="source\engine\cmd.cpp" />
-    <ClCompile Include="source\engine\creature.cpp" />
+    <ClCompile Include="source\engine\component.cpp" />
+    <ClCompile Include="source\engine\controllable.cpp" />
     <ClCompile Include="source\engine\creaturesystem.cpp" />
+    <ClCompile Include="source\engine\entity.cpp" />
     <ClCompile Include="source\engine\netvar.cpp" />
     <ClCompile Include="source\engine\perfstats.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />

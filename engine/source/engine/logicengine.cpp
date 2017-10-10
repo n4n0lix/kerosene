@@ -14,12 +14,11 @@ void LogicEngine::on_start()
 void LogicEngine::on_tick_start()
 {
     _snapshot.clear();
-    for ( auto e : _entities ) {
-        Entity& entity = *e;
+    for ( auto entity : _entities ) {
+        unique<Entity>  copy = make_unique<Entity>();
 
-        // Take snapshot for networking and history
-        Entity copy     = entitySys.create_snapshot_full( entity );
-        copy.creature   = creatureSys.create_snapshot_full( entity.creature );
+        entitySys.create_snapshot_full( *copy, *entity );
+        controllableSys.create_snapshot_full( *copy, *entity );
 
         _snapshot.emplace_back( std::move( copy ) );
     }
@@ -31,13 +30,13 @@ void LogicEngine::on_update()
         Entity& entity = *e;
 
         entitySys.update( entity );
-        creatureSys.update( entity, entity.creature );
+        controllableSys.update( entity );
     }
 }
 
 void LogicEngine::on_shutdown()
 {
-
+    _snapshot.clear();
 }
 
 void LogicEngine::on_gamestate_end()

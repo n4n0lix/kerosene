@@ -13,4 +13,17 @@ ENGINE_NAMESPACE_BEGIN
 #define PLAYER_VARS public
 #define LOCAL_VARS public
 
+enum ComponentType : uint32 {
+    ctype_Unkown,
+    ctype_Entity, 
+    ctype_Controllable
+};
+
+struct Component {
+    Component( ComponentType type );
+    virtual ~Component() = default;
+
+    ComponentType type;
+};
+
 ENGINE_NAMESPACE_END

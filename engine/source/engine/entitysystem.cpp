@@ -2,10 +2,6 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-Entity::Entity() : position( Vector3f( 0, 0, 0 ) ), scale( Vector3f( 1, 1, 1 ) ), rotation( Quaternion4f( 0, 0, 0, 1 ) )
-{
-}
-
 void EntitySystem::update( Entity& entity )
 {
     entity.lastPosition  = entity.position;
@@ -13,16 +9,12 @@ void EntitySystem::update( Entity& entity )
     entity.lastRotation  = entity.rotation;
 }
 
-Entity EntitySystem::create_snapshot_full( Entity& entity )
+void EntitySystem::create_snapshot_full( Entity& dest, Entity& src )
 {
-    Entity snapshot;
-
-    snapshot.id = entity.id;
-    snapshot.position = entity.position;
-    snapshot.scale    = entity.scale;
-    snapshot.rotation = entity.rotation;
-
-    return std::move( snapshot );
+    dest.id = src.id;
+    dest.position = src.position;
+    dest.scale    = src.scale;
+    dest.rotation = src.rotation;
 }
 
 ENGINE_NAMESPACE_END

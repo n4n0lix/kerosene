@@ -9,7 +9,7 @@ weak<Camera> Scene::add_camera( owner<Camera> cam )
     return weak;
 }
 
-owner<Camera>&& Scene::remove_camera( weak<Camera> cam )
+owner<Camera> Scene::remove_camera( weak<Camera> cam )
 {
     return extract_owner( _cameras, cam );
 }

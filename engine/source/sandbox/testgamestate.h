@@ -11,6 +11,7 @@
 #include "gamestate.h"
 #include "spriterenderer.h"
 #include "camera.h"
+#include "controllable.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

@@ -34,10 +34,18 @@ public:
 
 
     weak<Camera>              add_camera( owner<Camera> );
-    owner<Camera>&&           remove_camera( weak<Camera> );
+    owner<Camera>             remove_camera( weak<Camera> );
     
+    template<typename T>
+    weak<Camera>              add_camera() { return add_camera( make_owner<T>() ); }
+
+
     weak<Renderer>            add_renderer( owner<Renderer> );
     owner<Renderer>&&         remove_renderer( weak<Renderer> );
+
+
+    template<typename T>
+    weak<Renderer>            add_renderer() { return add_renderer( make_owner<T>() ); }
 
     void                      render( RenderEngine&, float extrapolation );
     void                      cleanup( RenderEngine& );

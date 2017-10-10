@@ -86,6 +86,9 @@ public:
     weak<Scene>         add_scene( owner<Scene> scene );
     owner<Scene>&&      remove_scene( weak<Scene> scene );
 
+    template<typename T>
+    weak<Scene>         add_scene();
+
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
@@ -111,4 +114,11 @@ private:
 
 };
 
+template<typename T>
+inline weak<Scene> RenderEngine::add_scene()
+{
+    return add_scene( make_owner<T>() );
+}
+
 ENGINE_NAMESPACE_END
+

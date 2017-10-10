@@ -9,7 +9,7 @@
 #include "_global.h"
 #include "idgen.h"
 #include "entitysystem.h"
-#include "creaturesystem.h"
+#include "controllablesystem.h"
 
 
 ENGINE_NAMESPACE_BEGIN
@@ -31,15 +31,15 @@ public:
 
 private:
     // Systems
-    EntitySystem    entitySys;
-    CreatureSystem  creatureSys;
+    EntitySystem        entitySys;
+    ControllableSystem  controllableSys;
 
     // Current Snapshot
     vector<owner<Entity>> _entityOwners;
     vector<weak<Entity>>  _entities;
 
     // Snapshot History
-    vector<Entity>        _snapshot;
+    vector<unique<Entity>> _snapshot;
 
     static IDGen ENTITY_ID_GENERATOR;
 };
