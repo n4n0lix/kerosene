@@ -1,10 +1,10 @@
 #pragma once
 
+// Other Includes
+
 // Std-Includes
 #include <algorithm>
 using std::transform;
-
-// Other Includes
 
 // Internal Includes
 #include "_gl.h"
@@ -65,7 +65,7 @@ private:
 
 template<class VERTEX>
 Batch<VERTEX>::Batch( weak<Material> material ) {
-    if ( !material.ptr_is_valid() || material == nullptr ) throw std::exception( "Material is null!" );
+    if ( !material.is_ptr_valid() || material == nullptr ) throw std::exception( "Material is null!" );
 
     _material = material;
     _vao = make_owner<VertexArray<VERTEX>>();
@@ -104,7 +104,7 @@ inline void Batch<VERTEX>::set_wvp_matrix( Matrix4f pWorldViewProj )
 template<class VERTEX>
 void Batch<VERTEX>::render()
 {
-    if ( _material.ptr_is_valid() ) {
+    if ( _material.is_ptr_valid() ) {
         _material->bind();
         _material->get_shader()->set_vertex_uniform( Uniform::WORLD_VIEW_PROJ_MATRIX, _wvp );
     }

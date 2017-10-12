@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "renderengine.h"
 
 ENGINE_NAMESPACE_BEGIN
@@ -25,7 +25,7 @@ void RenderEngine::on_start( weak<InputEngine> input )
 	_camera = make_owner<Camera2D>();
 
     // 2# Setup callbacks
-    if ( input.ptr_is_valid() && input != nullptr ) {
+    if ( input.is_ptr_valid() && input != nullptr ) {
         glfwSetWindowUserPointer( _mainWindow->get_handle(), input.get() );
 
         // 2.1# Key callback

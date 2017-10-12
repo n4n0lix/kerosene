@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "textureoptions.h"
 
 ENGINE_NAMESPACE_BEGIN

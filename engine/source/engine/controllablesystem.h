@@ -21,7 +21,8 @@ struct Entity;
 struct ControllableSystem
 {
 
-    void update( Entity& );
+    void update( Entity&, float delta );
+
     void create_snapshot_full( Entity& dest, Entity& );
     void create_snapshot_delta( Entity& dest, Entity& prev, Entity& src );
 

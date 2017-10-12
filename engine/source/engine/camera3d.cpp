@@ -1,11 +1,23 @@
+#include "stdafx.h"
 #include "camera3d.h"
 
 ENGINE_NAMESPACE_BEGIN
 
+Camera3D::Camera3D()
+{
+    HandleViewportChange = make_owner<Consumer<Viewport4i>>(
+        [&]( Viewport4i viewport )
+    {
+        update_proj_view_mat();
+    } );
+
+    OnViewportChanged += HandleViewportChange.get_non_owner();
+}
+
 void Camera3D::set_eye(Vector3f eye)
 {
     _eye = eye;
-    _matrixChanged = true;
+    update_proj_view_mat();
 }
 
 Vector3f Camera3D::get_eye()
@@ -16,7 +28,7 @@ Vector3f Camera3D::get_eye()
 void Camera3D::set_target(Vector3f target)
 {
     _target = target;
-    _matrixChanged = true;
+    update_proj_view_mat();
 }
 
 Vector3f Camera3D::get_target()
@@ -24,11 +36,9 @@ Vector3f Camera3D::get_target()
     return _target;
 }
 
-Matrix4f Camera3D::proj_view_matrix()
+void Camera3D::update_proj_view_mat()
 {
-    return Matrix4f::look_at_lh(_eye, _target, Vector3f::Y_AXIS);
+    proj_view_mat4() = Matrix4f::look_at_lh( _eye, _target, Vector3f::Y_AXIS );
 }
-
-Logger Camera3D::LOGGER = Logger("Camera3D", Level::DEBUG);
 
 ENGINE_NAMESPACE_END

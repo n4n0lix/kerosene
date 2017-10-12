@@ -41,7 +41,7 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
     virtual void on_init( RenderEngine& ) = 0;
-    virtual void on_render( RenderEngine&, Camera& , Matrix4f&, float ) = 0;
+    virtual void on_render( RenderEngine&, Camera&, Matrix4f&, float ) = 0;
     virtual void on_cleanup( RenderEngine& ) = 0;
 
 private:

@@ -152,7 +152,7 @@ template<class VERTEX>
 void VertexArray<VERTEX>::add_render_static( weak<VertexToken> token )
 {
     // 0# Contract Pre
-    Requires( token.ptr_is_valid() )
+    Requires( token.is_ptr_valid() )
         Requires( token != nullptr );
     Requires( token->vertexbuffer_token() != nullptr );
 
@@ -167,7 +167,7 @@ template<class VERTEX>
 void VertexArray<VERTEX>::remove_render_static( weak<VertexToken> token )
 {
     // 0# Contract Pre
-    Requires( token.ptr_is_valid() )
+    Requires( token.is_ptr_valid() )
         Requires( token != nullptr );
     Requires( _indexBuffer->contains( token->indexbuffer_token() )
         || ext::contains( _toAddToIndexBuffer, token ) );

@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "perfstats.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -25,7 +27,7 @@ void PerfStats::check_if_second_is_over() {
         _clockStart = now;
 
         _numTPS = _counterTPS;
-        _avgTickTime = _counterAvgTickTime / _numTPS;
+        _avgTickTime = (_numTPS > 0) ? (_counterAvgTickTime / _numTPS) : (-1ms);
 
         _numFPS = _counterFPS;
         _avgFrameTime = _counterAvgFrameTime / _numFPS;

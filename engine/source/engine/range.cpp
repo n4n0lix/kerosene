@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "range.h"
 
 ENGINE_NAMESPACE_BEGIN

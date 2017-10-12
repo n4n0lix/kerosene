@@ -135,7 +135,7 @@ template<class T>
 void StackBuffer<T>::remove( weak<StackBufferToken> wToken )
 {
     // 0# Contract pre
-    Requires( wToken.ptr_is_valid() );
+    Requires( wToken.is_ptr_valid() );
     Requires( wToken != nullptr );
 
     // 1# Check if token is invalid, and if it is remove corresponding writeops ...
@@ -226,7 +226,7 @@ void StackBuffer<T>::commit_write( vector<T> objects, weak<StackBufferToken> tok
 {
     // 0# Contract Pre
     Requires( objects.size() > 0 );
-    Requires( token.ptr_is_valid() );
+    Requires( token.is_ptr_valid() );
     Requires( token != nullptr );
 
     // 1# Check if freerange is large enough
@@ -273,7 +273,7 @@ void StackBuffer<T>::commit_write( vector<T> objects, weak<StackBufferToken> tok
 template<class T>
 void StackBuffer<T>::commit_remove( weak<StackBufferToken> token )
 {
-    Requires( token.ptr_is_valid() );
+    Requires( token.is_ptr_valid() );
     Requires( token != nullptr );
 
     // 1# Get used range

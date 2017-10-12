@@ -1,11 +1,13 @@
+#include "stdafx.h"
 #include "controllablesystem.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 //
 // SYSTEM
 ////////////////////////////////////////
 
-void ControllableSystem::update( Entity& entity )
+void ControllableSystem::update( Entity& entity, float delta )
 {
     if ( !entity.has_component( ctype_Controllable ) )
         return;
@@ -15,13 +17,13 @@ void ControllableSystem::update( Entity& entity )
     process_cmds( creature );
 
     if ( creature.moveUp    ) 
-        entity.position.y += creature.moveSpeed;
+        entity.position.y += creature.moveSpeed * delta;
     if ( creature.moveDown  ) 
-        entity.position.y -= creature.moveSpeed;
+        entity.position.y -= creature.moveSpeed * delta;
     if ( creature.moveLeft  ) 
-        entity.position.x -= creature.moveSpeed;
+        entity.position.x -= creature.moveSpeed * delta;
     if ( creature.moveRight ) 
-        entity.position.x += creature.moveSpeed;
+        entity.position.x += creature.moveSpeed * delta;
 }
 
 void ControllableSystem::create_snapshot_full( Entity& dest, Entity& src)

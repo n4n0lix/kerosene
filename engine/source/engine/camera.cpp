@@ -1,11 +1,18 @@
+#include "stdafx.h"
 #include "camera.h"
 
 ENGINE_NAMESPACE_BEGIN
+
+Matrix4f& Camera::proj_view_mat4()
+{
+    return _projViewMatrix;
+}
 
 void Camera::set_as_active()
 {
     if ( _viewportChanged ) {
         glViewport( _viewport.x, _viewport.y, _viewport.w, _viewport.h );
+        OnViewportChanged( _viewport );
         _viewportChanged = false;
     }
 
@@ -25,8 +32,8 @@ Vector4f Camera::get_clear_color()
 
 void Camera::set_viewport( Viewport4i viewport )
 {
+    _viewportChanged = (_viewport != viewport);
     _viewport = viewport;
-    _viewportChanged = true;
 }
 
 void Camera::set_viewport( int32 pX, int32 pY, int32 pWidth, int32 pHeight )

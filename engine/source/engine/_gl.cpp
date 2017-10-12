@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "_gl.h"
 
 #ifdef GL_DEBUG

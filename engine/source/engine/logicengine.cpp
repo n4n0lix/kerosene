@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "logicengine.h"
 ENGINE_NAMESPACE_BEGIN
 
@@ -24,13 +24,13 @@ void LogicEngine::on_tick_start()
     }
 }
 
-void LogicEngine::on_update()
+void LogicEngine::on_update( float delta )
 {
     for ( auto e : _entities ) {
         Entity& entity = *e;
 
         entitySys.update( entity );
-        controllableSys.update( entity );
+        controllableSys.update( entity, delta );
     }
 }
 
@@ -60,7 +60,7 @@ weak<Entity>  LogicEngine::add_entity( owner<Entity> oEntity )
 
 owner<Entity> LogicEngine::remove_entity( weak<Entity> wEntity )
 {
-    Guard( wEntity.ptr_is_usable() ) return nullptr;
+    Guard( wEntity.is_ptr_usable() ) return nullptr;
 
     owner<Entity> oEntity = extract_owner( _entityOwners, wEntity );
     _entities.erase( std::remove( _entities.begin(), _entities.end(), wEntity ) );

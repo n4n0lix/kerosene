@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "uniform.h"
 
 ENGINE_NAMESPACE_BEGIN

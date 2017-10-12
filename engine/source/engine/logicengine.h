@@ -20,7 +20,7 @@ public:
 
     void on_start();
     void on_tick_start();
-    void on_update();
+    void on_update(float delta);
     void on_shutdown();
 
     void on_gamestate_end();

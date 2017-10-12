@@ -16,14 +16,20 @@
     <Filter Include="Headerdateien\logic">
       <UniqueIdentifier>{6c4895c8-78a9-4b33-8d22-3662658e1a9d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\renderer">
-      <UniqueIdentifier>{bdb8dae8-df01-4e7e-a748-87e667beeaf1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Quelldateien\logic">
       <UniqueIdentifier>{83968955-fbfd-48a1-917c-b6532bc468fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\renderer">
+    <Filter Include="Headerdateien\rendering">
+      <UniqueIdentifier>{bdb8dae8-df01-4e7e-a748-87e667beeaf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\rendering">
       <UniqueIdentifier>{0c116e42-1090-4caf-8258-b9fc36b94207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\util">
+      <UniqueIdentifier>{b10d853e-2a2e-4990-a12b-630d3c5f37a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\gl">
+      <UniqueIdentifier>{6354d782-070a-4eb8-a911-d82e1eea3fdb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,12 +64,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\networkengine.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\nullable.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\owner.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\physicsengine.h">
@@ -106,12 +106,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\batch.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\camera2d.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\camera3d.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\charevent.h">
@@ -201,13 +195,7 @@
     <ClInclude Include="source\sandbox\testgamestate.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\camera.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\perfstats.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\_meta.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\nethelper.h">
@@ -226,10 +214,10 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\renderer.h">
-      <Filter>Headerdateien\renderer</Filter>
+      <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\spriterenderer.h">
-      <Filter>Headerdateien\renderer</Filter>
+      <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\entitysystem.h">
       <Filter>Headerdateien\logic</Filter>
@@ -249,6 +237,30 @@
     <ClInclude Include="source\engine\controllablesystem.h">
       <Filter>Headerdateien\logic</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\camera2d.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\camera3d.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\camera.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\owner.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\nullable.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\events.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stdafx.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\object.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\engine.cpp">
@@ -263,9 +275,6 @@
     <ClCompile Include="source\engine\inputengine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\_gl.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\indexbuffer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -276,12 +285,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\vertex_pt.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\camera2d.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\glwindow.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\material.cpp">
@@ -312,9 +315,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\stringutils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\camera3d.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\uniform.cpp">
@@ -362,20 +362,11 @@
     <ClCompile Include="source\engine\perfstats.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\netvar.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\camera.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\cmd.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\spriterenderer.cpp">
-      <Filter>Quelldateien\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\creaturesystem.cpp">
-      <Filter>Quelldateien\logic</Filter>
+      <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\entitysystem.cpp">
       <Filter>Quelldateien\logic</Filter>
@@ -391,6 +382,27 @@
     </ClCompile>
     <ClCompile Include="source\engine\controllable.cpp">
       <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\controllablesystem.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\camera2d.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\camera3d.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\camera.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\_gl.cpp">
+      <Filter>Quelldateien\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\glwindow.cpp">
+      <Filter>Quelldateien\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stdafx.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

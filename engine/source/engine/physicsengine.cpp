@@ -1,5 +1,6 @@
-// Header
+#include "stdafx.h"
 #include "physicsengine.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

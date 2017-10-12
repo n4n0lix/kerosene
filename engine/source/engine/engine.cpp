@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "engine.h"
 ENGINE_NAMESPACE_BEGIN
 
@@ -74,9 +74,16 @@ int Engine::run() {
 
 void Engine::mainloop() {
 
-    // Init mainloop
+    // Contains the timestamp in ms of the last calculated tick
     uint64 tickPrevious  = get_current_ms();
-    uint64 lag           = 0;
+
+    // If lag is larger than ticktime its time to calculate a new tick. In case
+    // lags keeps growing we are lagging, cpu can't keep up with the load.
+    uint64 lag           = 0;          
+
+    // Multiply to values like   pos.x += speed * delta;   to use tickrate
+    // independent values in _speed_
+    float  delta         = _tickTime * 0.001f;
 
     // Mainloop
     while (1)
@@ -94,7 +101,7 @@ void Engine::mainloop() {
             _logic->on_tick_start();
 
             _input->on_update();
-            _logic->on_update();
+            _logic->on_update( delta );
 
             if ( !update_gamestate() ) return;
 

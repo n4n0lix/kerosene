@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "vertextoken.h"
 
 ENGINE_NAMESPACE_BEGIN

@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "testgamestate.h"
 
 using namespace ENGINE_NAMESPACE;
@@ -24,10 +24,13 @@ void TestGameState::on_start()
 
     // LOGIC
     _entity = logicengine->add_entity( make_owner<Entity>() );
-    _entity->add_component( make_unique<Controllable>() );
+
+    auto ctrl = make_unique<Controllable>();
+    ctrl->moveSpeed = 2;
+    _entity->add_component( std::move( ctrl ) );
 
     // RENDER
-    if ( renderengine.ptr_is_usable() ) {
+    if ( renderengine.is_ptr_usable() ) {
         renderengine->get_window()->set_title( "kerosene - Test" );
 
         _scene  = renderengine->add_scene<Scene>();
@@ -43,7 +46,7 @@ void TestGameState::on_update()
     auto inputengine = get_inputengine();
 
     // INPUT
-    if ( inputengine.ptr_is_usable() ) {
+    if ( inputengine.is_ptr_usable() ) {
         queue<KeyEvent> keys = get_inputengine()->get_keyevents();
 
         if ( _entity->has_component( ctype_Controllable ) ) {
@@ -92,8 +95,9 @@ void TestGameState::on_frame_start() {
     // RENDER
     auto renderengine = get_renderengine();
 
-    if ( renderengine.ptr_is_usable() ) {
+    if ( renderengine.is_ptr_usable() ) {
         auto window = renderengine->get_window();
+
         _camera->set_viewport( 0, 0, window->get_renderwidth(), window->get_renderheight() );
 
         if ( window->close_requested() ) {

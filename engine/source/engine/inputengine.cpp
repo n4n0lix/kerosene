@@ -1,5 +1,6 @@
-// Header
+#include "stdafx.h"
 #include "inputengine.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

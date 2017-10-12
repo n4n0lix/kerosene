@@ -34,7 +34,7 @@ protected:
 
 private:
     weak<Scene>    _scene;
-    weak<Camera>   _camera;
+    weak<Camera2D> _camera;
     weak<Entity>   _entity;
     weak<SpriteRenderer> _renderer;
 };

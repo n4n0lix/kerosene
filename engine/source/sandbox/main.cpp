@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "engine.h"
 #include "engineconfiguration.h"
 

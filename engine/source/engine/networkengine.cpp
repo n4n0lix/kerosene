@@ -1,5 +1,6 @@
-// Header
+#include "stdafx.h"
 #include "networkengine.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

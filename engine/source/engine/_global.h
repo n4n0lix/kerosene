@@ -229,6 +229,8 @@ inline T __max_of( T& val ) {
     return std::numeric_limits<T>::max();
 }
 
+
+
 // MEMORY LEAK DETECTION
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>

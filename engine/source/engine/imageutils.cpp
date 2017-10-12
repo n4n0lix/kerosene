@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "imageutils.h"
 
 ENGINE_NAMESPACE_BEGIN

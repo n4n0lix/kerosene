@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "scene.h"
 
 ENGINE_NAMESPACE_BEGIN
@@ -56,7 +57,7 @@ void  Scene::render( RenderEngine& engine, float extrapolation ) {
     for ( auto it = _cameras.begin(); it != _cameras.end(); ++it) {
         Camera& camera = *(it->get());
         camera.set_as_active();
-        Matrix4f projViewMatrix = camera.proj_view_matrix();
+        Matrix4f projViewMatrix = camera.proj_view_mat4();
 
         for ( weak<Renderer> renderer : _renderers ) {
             renderer->render( engine, camera, projViewMatrix, extrapolation );

@@ -19,28 +19,23 @@ ENGINE_NAMESPACE_BEGIN
 class Camera3D : public Camera
 {
 public:
-              Camera3D() : Camera() {}
-    virtual   ~Camera3D() = default;
+            Camera3D();
 
+    void        set_eye( Vector3f eye );
+    Vector3f    get_eye();
 
-    virtual Matrix4f    proj_view_matrix();
+    void        set_target( Vector3f target );
+    Vector3f    get_target();
 
-            void        set_eye( Vector3f eye );
-            Vector3f    get_eye();
+    Vector3f    _eye;
+    Vector3f    _target;
 
-            void        set_target( Vector3f target );
-            Vector3f    get_target();
-
-
-            bool        _matrixChanged;
-            Matrix4f    _viewMatrix;
-
-            Vector3f    _eye;
-            Vector3f    _target;
-
+CONSUMER:
+    owner<Consumer<Viewport4i>> HandleViewportChange;
 
 private:
-    static  Logger      LOGGER;
+    void    update_proj_view_mat();
+
 };
 
 ENGINE_NAMESPACE_END

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "controllable.h"
 
 ENGINE_NAMESPACE_BEGIN
@@ -7,7 +8,7 @@ Controllable::Controllable() :
     health( 0 ), 
     stamina( 0 ), 
     name( "Unnamed" ), 
-    moveSpeed( 0.01f ), 
+    moveSpeed( 1 ), 
     moveUp( false ), 
     moveDown( false ), 
     moveLeft( false ), 

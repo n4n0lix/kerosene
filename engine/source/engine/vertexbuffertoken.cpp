@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "vertexbuffertoken.h"
 
 ENGINE_NAMESPACE_BEGIN

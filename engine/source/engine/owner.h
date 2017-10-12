@@ -143,7 +143,10 @@ public:
 
     inline T&   operator *() const { return *_ptr; }
     inline T*   operator->() const { return _ptr; }
-    inline T*   get()        const { return _ptr; }
+    inline T*   get()              const { return _ptr; }
+
+    template<typename... Args>
+    void operator()( Args ... ) { _ptr->operator()( Args... ); }
 
     inline bool operator== (const weak &y) const { return _ptr == y._ptr; }
     inline bool operator!= (const weak &y) const { return !(_ptr == y._ptr); }
@@ -154,13 +157,13 @@ public:
     template<typename U>
     inline bool operator!= (const owner<U> &y) const { return !(_ptr == y.get()); }
 
-    inline bool ptr_is_usable() const
+    inline bool is_ptr_usable() const
     {
         return (_ptr == nullptr) ? false : (*_ptrValid);
     }
 
     // Determines if it's safe to use the ptr retrieved from get(). Does not ensure that the ptr is not null!
-    inline bool ptr_is_valid() const
+    inline bool is_ptr_valid() const
     {
         return (_ptr == nullptr) ? true : (*_ptrValid);
     }

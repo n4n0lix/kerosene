@@ -1,4 +1,6 @@
+#include "stdafx.h"
 #include "stringutils.h"
+
 ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                      Public Static                     */

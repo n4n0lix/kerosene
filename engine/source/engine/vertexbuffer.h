@@ -164,7 +164,7 @@ void VertexBuffer<T>::remove_vertices(weak<VertexBufferToken> wToken)
 {
     // 0# Contract pre
     Requires( wToken != nullptr );
-    Requires( wToken.ptr_is_valid() );
+    Requires( wToken.is_ptr_valid() );
 
     // 1# If token is not valid yet, remove it from the 'to write' bucket
     if (!wToken->valid()) {
@@ -306,7 +306,7 @@ void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> t
     Guard(vertices.size() > 0) return;
 
     Requires( token != nullptr );
-    Requires( token.ptr_is_valid() );
+    Requires( token.is_ptr_valid() );
 
     // 1# Get free range
     uint32_t size = (uint32_t)vertices.size() * object_size();
@@ -345,7 +345,7 @@ template<class T>
 void VertexBuffer<T>::commit_remove(weak<VertexBufferToken> token)
 {
     // 0# Contract Pre
-    Requires( token.ptr_is_valid() );
+    Requires( token.is_ptr_valid() );
     Requires( token != nullptr );
 
     // 1# Get used range

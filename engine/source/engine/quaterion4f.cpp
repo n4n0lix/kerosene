@@ -1,5 +1,6 @@
-// Header
+#include "stdafx.h"
 #include "quaternion4f.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

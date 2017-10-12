@@ -1,4 +1,4 @@
-// Header
+#include "stdafx.h"
 #include "vertex_pt.h"
 
 ENGINE_NAMESPACE_BEGIN

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "entitysystem.h"
 
 ENGINE_NAMESPACE_BEGIN

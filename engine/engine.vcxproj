@@ -32,6 +32,7 @@
     <ClInclude Include="source\engine\component.h" />
     <ClInclude Include="source\engine\controllable.h" />
     <ClInclude Include="source\engine\controllablesystem.h" />
+    <ClInclude Include="source\engine\events.h" />
     <ClInclude Include="source\engine\entity.h" />
     <ClInclude Include="source\engine\keystate.h" />
     <ClInclude Include="source\engine\localcontroller.h" />
@@ -40,11 +41,13 @@
     <ClInclude Include="source\engine\camera2d.h" />
     <ClInclude Include="source\engine\nethelper.h" />
     <ClInclude Include="source\engine\netvar.h" />
+    <ClInclude Include="source\engine\object.h" />
     <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\perfstats.h" />
     <ClInclude Include="source\engine\scene.h" />
     <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\entitysystem.h" />
+    <ClInclude Include="source\engine\stdafx.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera3d.h" />
@@ -94,7 +97,6 @@
     <ClInclude Include="source\engine\_gl.h" />
     <ClInclude Include="source\engine\_global.h" />
     <ClInclude Include="source\engine\_mathdefs.h" />
-    <ClInclude Include="source\engine\_meta.h" />
     <ClInclude Include="source\engine\_renderdefs.h" />
     <ClInclude Include="source\engine\_stdext.h" />
     <ClInclude Include="source\sandbox\testgamestate.h" />
@@ -105,13 +107,18 @@
     <ClCompile Include="source\engine\cmd.cpp" />
     <ClCompile Include="source\engine\component.cpp" />
     <ClCompile Include="source\engine\controllable.cpp" />
-    <ClCompile Include="source\engine\creaturesystem.cpp" />
+    <ClCompile Include="source\engine\controllablesystem.cpp" />
     <ClCompile Include="source\engine\entity.cpp" />
-    <ClCompile Include="source\engine\netvar.cpp" />
     <ClCompile Include="source\engine\perfstats.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />
     <ClCompile Include="source\engine\spriterenderer.cpp" />
     <ClCompile Include="source\engine\entitysystem.cpp" />
+    <ClCompile Include="source\engine\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="source\engine\uniform.cpp" />
     <ClCompile Include="source\engine\vertexbuffertoken.cpp" />
     <ClCompile Include="source\engine\camera3d.cpp" />
@@ -223,6 +230,8 @@
       <AdditionalIncludeDirectories>D:\kerosene\engine\libs\cross;$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -243,6 +252,8 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <AdditionalIncludeDirectories>D:\kerosene\engine\libs\cross;$(ProjectDir)libs\windows$(PlatformArchitecture);$(ProjectDir)source\engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CONTRACTS_ENABLED;GL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -266,6 +277,8 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessToFile>false</PreprocessToFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -291,6 +304,8 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PreprocessToFile>false</PreprocessToFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

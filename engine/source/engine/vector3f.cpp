@@ -1,5 +1,6 @@
-// Header
+#include "stdafx.h"
 #include "vector3f.h"
+
 ENGINE_NAMESPACE_BEGIN
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
