@@ -6,9 +6,9 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-GameState::GameState()
+GameState::GameState() : _status(READY)
 {
-    _status = READY;
+
 }
 
 void GameState::start()

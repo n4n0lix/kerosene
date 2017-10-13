@@ -20,14 +20,13 @@ ENGINE_NAMESPACE_BEGIN
 
 class RenderEngine;
 
-class Renderer
+class Renderer : public Object
 {
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
             Renderer();
-            virtual ~Renderer() = default;
 
     void init( RenderEngine& );
     void render( RenderEngine& , Camera& , Matrix4f&, float );

@@ -6,6 +6,8 @@
 
 // Internal Includes
 #include "_global.h"
+#include "object.h"
+
 #include "entitysystem.h"
 
 #include "renderengine.h"
@@ -21,11 +23,10 @@ enum GameStateStatus {
     FINISHED    /* Running, but finished */
 };
 
-class GameState
+class GameState : public Object
 {
 public:
-            explicit GameState();
-            virtual ~GameState() = default;
+            GameState();
 
     void start();
     void end();

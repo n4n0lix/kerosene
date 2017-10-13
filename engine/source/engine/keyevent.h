@@ -14,7 +14,8 @@ class KeyEvent
 {
 public:
             KeyEvent( int32 key, int32 scancode, int32 action, int32 mods )
-                : _key( key ), _scancode( scancode ), _action( action ), _mods( mods ) { }
+                : _key( key ), _scancode( scancode ), _action( action ), _mods( mods ),
+                  _consumed(false) { }
 
     inline int32 key()      { return _key; }
     inline int32 scancode() { return _scancode; }
@@ -27,6 +28,11 @@ public:
 
     inline bool pressed() { return _action == GLFW_PRESS; }
     inline bool released() { return _action == GLFW_RELEASE; }
+    inline bool state_switched() { return pressed() || released(); }
+
+    inline bool is_consumed() { return _consumed; }
+    inline bool is_not_consumed() { return !_consumed; }
+    inline void consume() { _consumed = true; }
 
 private:
 
@@ -34,6 +40,7 @@ private:
     int32  _scancode;
     int32  _action;
     int32  _mods;
+    bool   _consumed;
 };
 
 

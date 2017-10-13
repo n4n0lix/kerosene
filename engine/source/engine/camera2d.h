@@ -25,8 +25,14 @@ public:
     void        set_target( Vector3f target );
     Vector3f    get_target();
 
+    void        set_zoom( float zoom );
+    float       get_zoom();
+
 CONSUMER:
     owner<Consumer<Viewport4i>> HandleViewportChange;
+
+private:
+    float   _zoom;
 
 };
 

@@ -18,6 +18,8 @@
 #include "charevent.h"
 #include "mouseevent.h"
 
+#include "localcontroller.h"
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -34,6 +36,8 @@ public:
     void on_update();
     void on_shutdown();
 
+    void add_local_controller( uint32 priority, owner<LocalController> );
+
     // INPUT
     void add_keyevent( KeyEvent keyEvent );
     void add_charevent( CharEvent charEvent );
@@ -42,24 +46,26 @@ public:
     void set_mouse_position( double mx, double my );
 
     // OUTPUT
-    queue<KeyEvent>    get_keyevents();
-    queue<CharEvent>   get_charevents();
-    queue<MouseEvent>  get_mouseevents();
+    vector<KeyEvent>&    get_keyevents();
+    vector<CharEvent>&   get_charevents();
+    vector<MouseEvent>&  get_mouseevents();
 
     double get_mouse_x();
     double get_mouse_y();
 
 private:
-    queue<KeyEvent>         _keyQueue;
-    queue<KeyEvent>         _keyGLFWQueue;
+    map<uint32, owner<LocalController>> _localControllers;
+
+    vector<KeyEvent>        _keyQueue;
+    vector<KeyEvent>        _keyGLFWQueue;
     std::mutex              _keyGLFWQueueMutex;
 
-    queue<CharEvent>        _charQueue;
-    queue<CharEvent>        _charGLFWQueue;
+    vector<CharEvent>       _charQueue;
+    vector<CharEvent>       _charGLFWQueue;
     std::mutex              _charGLFWQueueMutex;
 
-    queue<MouseEvent>       _mouseQueue;
-    queue<MouseEvent>       _mouseGLFWQueue;
+    vector<MouseEvent>      _mouseQueue;
+    vector<MouseEvent>      _mouseGLFWQueue;
     std::mutex              _mouseGLFWQueueMutex;
 
     double                  _mx;

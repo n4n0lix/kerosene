@@ -110,7 +110,10 @@
 // Preprocessor
 #define STRINGIFY(x) #x
 
-// Using std smart pointers
+
+// Ownership management
+#include "object.h"
+#include "owner.h"
 #include <memory>
         using std::shared_ptr;
         using std::make_shared;
@@ -123,10 +126,6 @@
 
         template <typename T> 
         using shared = std::shared_ptr<T>;
-
-
-
-#include "owner.h"
 
 // Using std primitives
 #include <cstdint>
@@ -228,8 +227,6 @@ template<typename T>
 inline T __max_of( T& val ) {
     return std::numeric_limits<T>::max();
 }
-
-
 
 // MEMORY LEAK DETECTION
 #define _CRTDBG_MAP_ALLOC

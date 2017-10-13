@@ -12,7 +12,7 @@ bool Entity::has_component( ComponentType compType )
     return _components.count( compType ) > 0;
 }
 
-void Entity::add_component( unique<Component> component )
+void Entity::add_component( owner<Component> component )
 {
     if ( has_component( component->type ) )
         _components.erase( component->type );

@@ -7,6 +7,11 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+SpriteRenderer::SpriteRenderer( weak<Entity> entity ) : _entity(entity)
+{
+
+}
+
 void SpriteRenderer::set_entity( weak<Entity> pEntity )
 {
     _entity = pEntity;

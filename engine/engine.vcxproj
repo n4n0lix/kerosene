@@ -44,6 +44,7 @@
     <ClInclude Include="source\engine\object.h" />
     <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\perfstats.h" />
+    <ClInclude Include="source\engine\playercontroller.h" />
     <ClInclude Include="source\engine\scene.h" />
     <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\entitysystem.h" />
@@ -109,7 +110,9 @@
     <ClCompile Include="source\engine\controllable.cpp" />
     <ClCompile Include="source\engine\controllablesystem.cpp" />
     <ClCompile Include="source\engine\entity.cpp" />
+    <ClCompile Include="source\engine\localcontroller.cpp" />
     <ClCompile Include="source\engine\perfstats.cpp" />
+    <ClCompile Include="source\engine\playercontroller.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />
     <ClCompile Include="source\engine\spriterenderer.cpp" />
     <ClCompile Include="source\engine\entitysystem.cpp" />

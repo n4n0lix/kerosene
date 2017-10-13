@@ -18,27 +18,17 @@ TestGameState::~TestGameState()
 
 void TestGameState::on_start()
 {
-    auto renderengine = get_renderengine();
-    auto inputengine = get_inputengine();
-    auto logicengine = get_logicengine();
-
-    // LOGIC
-    _entity = logicengine->add_entity( make_owner<Entity>() );
-
-    auto ctrl = make_unique<Controllable>();
-    ctrl->moveSpeed = 2;
-    _entity->add_component( std::move( ctrl ) );
+    auto rendering = get_renderengine();
 
     // RENDER
-    if ( renderengine.is_ptr_usable() ) {
-        renderengine->get_window()->set_title( "kerosene - Test" );
+    if ( rendering.is_ptr_usable() ) {
+        rendering->get_window()->set_title( "kerosene - Test" );
 
-        _scene  = renderengine->add_scene<Scene>();
-        _camera = _scene->add_camera<Camera2D>();
-
-        _renderer = _scene->add_renderer<SpriteRenderer>();
-        _renderer->set_entity( _entity );
+        _mainScene  = rendering->add_scene<Scene>();
+        _mainCamera = _mainScene->add_camera<Camera2D>();
     }
+
+    _player = spawn_player( _mainScene );
 }
 
 void TestGameState::on_update()
@@ -47,45 +37,14 @@ void TestGameState::on_update()
 
     // INPUT
     if ( inputengine.is_ptr_usable() ) {
-        queue<KeyEvent> keys = get_inputengine()->get_keyevents();
+        vector<KeyEvent>& keys = get_inputengine()->get_keyevents();
 
-        if ( _entity->has_component( ctype_Controllable ) ) {
-            Controllable& creature = (Controllable&)_entity->get_component( ctype_Controllable );
+        for ( auto& event : keys) {
+            if ( event.is_consumed() ) continue;
 
-            for ( ; !keys.empty(); keys.pop() )
-            {
-                KeyEvent evt = keys.front();
-                if ( evt.key() == Key::ESCAPE ) {
-                    set_status( GameStateStatus::FINISHED );
-                }
-
-                if ( evt.key() == Key::W && (evt.pressed() || evt.released()) ) {
-                    unique<CmdMove> cmd = make_unique<CmdMove>();
-                    cmd->type = MOVE_UP;
-                    cmd->started = evt.pressed();
-                    creature.commandQ.emplace_back( std::move( cmd ) );
-                }
-
-                if ( evt.key() == Key::S && (evt.pressed() || evt.released()) ) {
-                    unique<CmdMove> cmd = make_unique<CmdMove>();
-                    cmd->type = MOVE_DOWN;
-                    cmd->started = evt.pressed();
-                    creature.commandQ.emplace_back( std::move( cmd ) );
-                }
-
-                if ( evt.key() == Key::A && (evt.pressed() || evt.released()) ) {
-                    unique<CmdMove> cmd = make_unique<CmdMove>();
-                    cmd->type = MOVE_LEFT;
-                    cmd->started = evt.pressed();
-                    creature.commandQ.emplace_back( std::move( cmd ) );
-                }
-
-                if ( evt.key() == Key::D && (evt.pressed() || evt.released()) ) {
-                    unique<CmdMove> cmd = make_unique<CmdMove>();
-                    cmd->type = MOVE_RIGHT;
-                    cmd->started = evt.pressed();
-                    creature.commandQ.emplace_back( std::move( cmd ) );
-                }
+            if ( event.key() == Key::ESCAPE ) {
+                set_status( GameStateStatus::FINISHED );
+                event.consume();
             }
         }
     }
@@ -98,7 +57,10 @@ void TestGameState::on_frame_start() {
     if ( renderengine.is_ptr_usable() ) {
         auto window = renderengine->get_window();
 
-        _camera->set_viewport( 0, 0, window->get_renderwidth(), window->get_renderheight() );
+        if ( _mainCamera != nullptr ) {
+            _mainCamera->set_viewport( 0, 0, window->get_renderwidth(), window->get_renderheight() );
+        }
+        
 
         if ( window->close_requested() ) {
             set_status( GameStateStatus::FINISHED );
@@ -109,6 +71,32 @@ void TestGameState::on_frame_start() {
 void TestGameState::on_end()
 {
 
+}
+
+weak<Entity> TestGameState::spawn_player( weak<Scene> scene )
+{
+    auto rendering  = get_renderengine();
+    auto input      = get_inputengine();
+    auto logic      = get_logicengine();
+
+    weak<Entity> entity = nullptr;
+
+    // LOGIC
+    if ( logic.is_ptr_usable() ) {
+        entity = logic->add_entity( make_owner<Entity>() );
+        entity->add_component( make_owner<Controllable>() );
+
+        // INPUT
+        if ( input.is_ptr_usable() ) {
+            input->add_local_controller( 10, make_owner<PlayerController>( entity ) );
+        }
+
+        if ( scene.is_ptr_usable() ) {
+            scene->add_renderer( make_owner<SpriteRenderer>( entity ) );
+        }
+    }
+
+    return entity;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

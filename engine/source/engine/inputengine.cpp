@@ -23,7 +23,7 @@ void InputEngine::on_update()
     // 1.1# Key events
     _keyGLFWQueueMutex.lock(); 
     {
-        _keyQueue = queue<KeyEvent>();
+        _keyQueue = vector<KeyEvent>();
         _keyQueue.swap( _keyGLFWQueue );
     } 
     _keyGLFWQueueMutex.unlock();
@@ -31,7 +31,7 @@ void InputEngine::on_update()
     // 1.2# Char events
     _charGLFWQueueMutex.lock();
     {
-        _charQueue = queue<CharEvent>();
+        _charQueue = vector<CharEvent>();
         _charQueue.swap( _charGLFWQueue );
     }
     _charGLFWQueueMutex.unlock();
@@ -39,35 +39,46 @@ void InputEngine::on_update()
     // 1.3# Mouse events
     _mouseGLFWQueueMutex.lock();
     {
-        _mouseQueue = queue<MouseEvent>();
+        _mouseQueue = vector<MouseEvent>();
         _mouseQueue.swap( _mouseGLFWQueue );
     }
     _mouseGLFWQueueMutex.unlock();
+
+
+    for ( auto& pair : _localControllers ) {
+        auto& controller = pair.second;
+        controller->update( _keyQueue, _charQueue, _mouseQueue );
+    }
 }
 
 void InputEngine::on_shutdown()
 {
+    _localControllers.clear();
+}
 
+void InputEngine::add_local_controller( uint32 priority, owner<LocalController> controller )
+{
+    _localControllers.emplace( priority, std::move( controller ) );
 }
 
 void InputEngine::add_keyevent( KeyEvent key )
 {
     _keyGLFWQueueMutex.lock();
-    _keyGLFWQueue.push( key );
+    _keyGLFWQueue.push_back( key );
     _keyGLFWQueueMutex.unlock();
 }
 
 void InputEngine::add_charevent( CharEvent chr )
 {
     _charGLFWQueueMutex.lock();
-    _charGLFWQueue.push( chr );
+    _charGLFWQueue.push_back( chr );
     _charGLFWQueueMutex.unlock();
 }
 
 void InputEngine::add_mouseevent( MouseEvent mouseEvent )
 {
     _mouseGLFWQueueMutex.lock();
-    _mouseGLFWQueue.push( mouseEvent );
+    _mouseGLFWQueue.push_back( mouseEvent );
     _mouseGLFWQueueMutex.unlock();
 }
 
@@ -77,17 +88,17 @@ void InputEngine::set_mouse_position( double mx, double my )
     _my = my;
 }
 
-queue<KeyEvent> InputEngine::get_keyevents()
+vector<KeyEvent>& InputEngine::get_keyevents()
 {
     return _keyQueue;
 }
 
-queue<CharEvent> InputEngine::get_charevents()
+vector<CharEvent>& InputEngine::get_charevents()
 {
     return _charQueue;
 }
 
-queue<MouseEvent> InputEngine::get_mouseevents()
+vector<MouseEvent>& InputEngine::get_mouseevents()
 {
     return _mouseQueue;
 }

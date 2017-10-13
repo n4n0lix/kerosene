@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 #include <iostream>
 
@@ -12,6 +8,7 @@
 #include "spriterenderer.h"
 #include "camera.h"
 #include "controllable.h"
+#include "playercontroller.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -33,8 +30,14 @@ protected:
     void on_end()           override;
 
 private:
-    weak<Scene>    _scene;
-    weak<Camera2D> _camera;
-    weak<Entity>   _entity;
-    weak<SpriteRenderer> _renderer;
+    weak<Entity>    spawn_player( weak<Scene> );
+
+
+    weak<Scene>    _mainScene;
+    weak<Camera2D> _mainCamera;
+
+    weak<Scene>    _uiScene;
+    weak<Camera2D> _uiCamera;
+
+    weak<Entity>   _player;
 };

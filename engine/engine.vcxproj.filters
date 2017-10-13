@@ -31,6 +31,15 @@
     <Filter Include="Quelldateien\gl">
       <UniqueIdentifier>{6354d782-070a-4eb8-a911-d82e1eea3fdb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\math">
+      <UniqueIdentifier>{aea6defe-b538-4ba2-8472-4418e960c753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\math">
+      <UniqueIdentifier>{e77d2079-0493-4bcd-9f44-4d245cb8878c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\util">
+      <UniqueIdentifier>{9ed28d0c-49ac-45c5-af60-41375900be0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
@@ -48,19 +57,10 @@
     <ClInclude Include="source\engine\engineconfiguration.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\gamestate.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\idgen.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\imageutils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\indexbuffer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\logger.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\networkengine.h">
@@ -73,9 +73,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\stackbuffertoken.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\stringutils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\vertexarray.h">
@@ -111,13 +108,7 @@
     <ClInclude Include="source\engine\charevent.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\decimal32.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\glwindow.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\inputengine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\keyevent.h">
@@ -126,16 +117,10 @@
     <ClInclude Include="source\engine\material.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\matrix4f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\mouseevent.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\primitivetype.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\quaternion4f.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\range.h">
@@ -162,18 +147,6 @@
     <ClInclude Include="source\engine\uniform.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\vector2f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector3.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector3f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vector4f.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\vertex.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -189,22 +162,13 @@
     <ClInclude Include="source\engine\vertexlayout.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\scene.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\sandbox\testgamestate.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\perfstats.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\nethelper.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\netvar.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\localcontroller.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\keystate.h">
@@ -261,18 +225,60 @@
     <ClInclude Include="source\engine\object.h">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\localcontroller.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\inputengine.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\playercontroller.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\gamestate.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\idgen.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logger.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\matrix4f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\decimal32.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\scene.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector4f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector2f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector3.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\vector3f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\quaternion4f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\perfstats.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stringutils.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\engine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\engineconfiguration.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\gamestate.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\inputengine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\indexbuffer.cpp">
@@ -311,16 +317,7 @@
     <ClCompile Include="source\engine\vertexbuffertoken.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\imageutils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\stringutils.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\uniform.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\scene.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\sandbox\testgamestate.cpp">
@@ -329,25 +326,7 @@
     <ClCompile Include="source\sandbox\main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\decimal32.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\matrix4f.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\quaterion4f.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\range.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vector2f.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vector3f.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vector4f.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\networkengine.cpp">
@@ -357,9 +336,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\renderer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\perfstats.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\cmd.cpp">
@@ -403,6 +379,48 @@
     </ClCompile>
     <ClCompile Include="source\engine\stdafx.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\inputengine.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\localcontroller.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\playercontroller.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\gamestate.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vector2f.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vector3f.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vector4f.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\quaterion4f.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stringutils.cpp">
+      <Filter>Quelldateien\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\decimal32.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\perfstats.cpp">
+      <Filter>Quelldateien\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\imageutils.cpp">
+      <Filter>Quelldateien\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\matrix4f.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\scene.cpp">
+      <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -35,12 +35,23 @@ LOCAL_VARS:
 
 public:
     bool        has_component( ComponentType );
-    void        add_component( unique<Component> );
+    void        add_component( owner<Component> );
     Component&  get_component( ComponentType );
 
+    template<typename T>
+    void        add_component();
+
 private:
-    map<ComponentType, unique<Component>>   _components;
+    map<ComponentType, owner<Component>>   _components;
 
 };
 
+template<typename T>
+void Entity::add_component()
+{
+    add_component( make_owner<Component>() );
+}
+
+
 ENGINE_NAMESPACE_END
+

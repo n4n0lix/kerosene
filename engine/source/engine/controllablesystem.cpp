@@ -35,7 +35,7 @@ void ControllableSystem::create_snapshot_full( Entity& dest, Entity& src)
     Controllable& cSrc = (Controllable&) src.get_component( ctype_Controllable );
 
     // 2# Create Snapshot
-    unique<Controllable> cDest = make_unique<Controllable>();
+    owner<Controllable> cDest = make_owner<Controllable>();
 
     cDest->health     = cSrc.health;
     cDest->stamina    = cSrc.stamina;
