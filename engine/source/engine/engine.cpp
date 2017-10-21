@@ -127,12 +127,12 @@ void Engine::mainloop() {
 bool Engine::update_gamestate()
 {
     // Update Gamestate
-    if (_gameState != nullptr && _gameState->get_status() == RUNNING) {
+    if (_gameState != nullptr && _gameState->get_status() == GameStateStatus::RUNNING) {
         _gameState->on_update();
     }	
 
     // End Gamestate
-	if (_gameState != nullptr && _gameState->get_status() == FINISHED) {
+	if (_gameState != nullptr && _gameState->get_status() == GameStateStatus::FINISHED) {
 		_gameState->end();
         _render->on_gamestate_end();
         _logic->on_gamestate_end();
@@ -140,7 +140,7 @@ bool Engine::update_gamestate()
 	}
 
     // Start Gamestate
-	if (_gameState != nullptr && _gameState->get_status() == READY) {
+	if (_gameState != nullptr && _gameState->get_status() == GameStateStatus::READY) {
         _gameState->set_renderengine( _render.get_non_owner() );
         _gameState->set_inputengine( _input.get_non_owner() );
         _gameState->set_logicengine( _logic.get_non_owner() );

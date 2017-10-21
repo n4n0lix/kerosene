@@ -145,13 +145,23 @@ Matrix4f Matrix4f::ortho2D( const float& left, const float& right, const float& 
 
 Matrix4f Matrix4f::look_at_lh( const Vector3f& eye, const Vector3f& target, const Vector3f& up )
 {
-    Vector3f zaxis = (target - eye).normalized();
-    Vector3f xaxis = up.cross( zaxis ).normalized();
-    Vector3f yaxis = zaxis.cross( xaxis );
+    Vector3f forward = (target - eye).normalized();
+    Vector3f right = up.cross( forward ).normalized();
 
-    return Matrix4f( xaxis.x, xaxis.y, xaxis.z, -xaxis.dot( eye ),
-        yaxis.x, yaxis.y, yaxis.z, -yaxis.dot( eye ),
-        zaxis.x, zaxis.y, zaxis.z, -zaxis.dot( eye ),
+    return Matrix4f(   right.x,   right.y,   right.z,   -right.dot( eye ),
+                          up.x,      up.y,      up.z,      -up.dot( eye ),
+                     forward.x, forward.y, forward.z, -forward.dot( eye ),
+                             0,         0,         0,                   1);
+}
+
+Matrix4f Matrix4f::look_at_rh( const Vector3f & eye, const Vector3f & target, const Vector3f & up )
+{
+    Vector3f forward = (target - eye).normalized();
+    Vector3f right   = up.cross( forward ).normalized();
+
+    return Matrix4f( right.x, right.y, right.z, -right.dot( eye ),
+        up.x, up.y, up.z, -up.dot( eye ),
+        forward.x, forward.y, forward.z, -forward.dot( eye ),
         0, 0, 0, 1 );
 }
 

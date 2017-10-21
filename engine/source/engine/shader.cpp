@@ -3,22 +3,6 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                     Public Static                      */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Public                         */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-void Shader::bind(GLuint shaderId)
-{
-    if (CURRENT_SHADER != shaderId) {
-        glUseProgram(shaderId);
-        CURRENT_SHADER = shaderId;
-    }
-}
-
 bool Shader::operator==(const Shader & o) const
 {
     return _id == o._id;
@@ -34,11 +18,6 @@ bool Shader::operator<(const Shader & o1) const
     return _id < o1._id;
 }
 
-void Shader::bind()
-{
-    Shader::bind(_id);
-}
-
 Uniform Shader::vertex_uniform(string varname)
 {
     return _vertexUniforms[varname];
@@ -49,21 +28,22 @@ Uniform Shader::frag_uniform(string varname )
     return _fragUniforms[varname];
 }
 
-Nullable<TextureSlot> Shader::frag_texture_slot(string name) 
+nullable<TextureSlot> Shader::frag_texture_slot(string name) 
 {
     for (auto slot : _fragTextureSlots) {
         if (slot.name == name) {
-            return Nullable<TextureSlot>(slot);
+            return nullable<TextureSlot>(slot);
         }
     }
 
-    return Nullable<TextureSlot>();
+    return nullable<TextureSlot>();
 }
 
 VertexLayout Shader::get_vertex_layout()
 {
     return _vertexLayout;
 }
+
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */

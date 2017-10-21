@@ -13,10 +13,10 @@ ENGINE_NAMESPACE_BEGIN
 #define PLAYER_VARS public
 #define LOCAL_VARS public
 
-enum ComponentType : uint32 {
-    ctype_Unkown,
-    ctype_Entity, 
-    ctype_Controllable
+enum class ComponentType : uint32 {
+    Unkown,
+    Entity, 
+    Controllable
 };
 
 struct Component {

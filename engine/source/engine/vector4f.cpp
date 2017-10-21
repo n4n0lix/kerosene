@@ -16,12 +16,12 @@ Vector4f Vector4f::W_AXIS = Vector4f(0.0f, 0.0f, 0.0f, 1.0f);
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-bool Vector4f::isUnit()
+bool Vector4f::is_unit()
 {
     return x == 1.0f && y == 1.0f && z == 1.0f && w == 1.0f;
 }
 
-bool Vector4f::isZero()
+bool Vector4f::is_zero()
 {
     return x == 0.0f && y == 0.0f && z == 0.0f && w == 0.0f;
 }

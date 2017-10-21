@@ -31,7 +31,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-enum UniformType {
+enum class UniformType {
     VERTEX,
     FRAGMENT
 };
@@ -39,40 +39,29 @@ enum UniformType {
 class Shader
 {
 public:
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    static void     bind( GLuint shaderId );
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            explicit Shader(VertexLayout layout, vector<Uniform> vUniforms, vector<Uniform> fUniforms, vector<TextureSlot> texSlots, string vertex, string fragment);
+            Shader(VertexLayout layout, vector<Uniform> vUniforms, vector<Uniform> fUniforms, vector<TextureSlot> texSlots, string vertex, string fragment);
             ~Shader();
 
     bool operator==( const Shader& o ) const;
     bool operator!=( const Shader& o ) const;
     
-    // TODO: Find a better way, this doesn't say that this shader is "smaller"
     bool operator<( const Shader& o1 ) const; // To be able to use in map
 
-    void                     bind();
-    Uniform                  vertex_uniform( string name );
-    Uniform                  frag_uniform( string name );
-    Nullable<TextureSlot>    frag_texture_slot( string name );
-    VertexLayout             get_vertex_layout();
+    void                    bind();
+    Uniform                 vertex_uniform( string name );
+    Uniform                 frag_uniform( string name );
+    nullable<TextureSlot>   frag_texture_slot( string name );
+    VertexLayout            get_vertex_layout();
 
-    inline void              set_vertex_uniform( Uniform uniform, const Matrix4f& mat4 ) { set_uniform( uniform, mat4, _vertexUniforms ); }
-    inline void              set_vertex_uniform( Uniform uniform, const Vector2f& vec2 ) { set_uniform( uniform, vec2, _vertexUniforms ); }
-    inline void              set_vertex_uniform( Uniform uniform, const Vector3f& vec3 ) { set_uniform( uniform, vec3, _vertexUniforms ); }
-    inline void              set_vertex_uniform( Uniform uniform, const Vector4f& vec4 ) { set_uniform( uniform, vec4, _vertexUniforms ); }
+    void                    set_vertex_uniform( Uniform uniform, const Matrix4f& mat4 );
+    void                    set_vertex_uniform( Uniform uniform, const Vector2f& vec2 );
+    void                    set_vertex_uniform( Uniform uniform, const Vector3f& vec3 );
+    void                    set_vertex_uniform( Uniform uniform, const Vector4f& vec4 );
 
-    inline void              set_frag_uniform( Uniform uniform, const Matrix4f& mat4 ) { set_uniform( uniform, mat4, _fragUniforms ); }
-    inline void              set_frag_uniform( Uniform uniform, const Vector2f& vec2 ) { set_uniform( uniform, vec2, _fragUniforms ); }
-    inline void              set_frag_uniform( Uniform uniform, const Vector3f& vec3 ) { set_uniform( uniform, vec3, _fragUniforms ); }
-    inline void              set_frag_uniform( Uniform uniform, const Vector4f& vec4 ) { set_uniform( uniform, vec4, _fragUniforms ); }
+    void                    set_frag_uniform( Uniform uniform, const Matrix4f& mat4 );
+    void                    set_frag_uniform( Uniform uniform, const Vector2f& vec2 );
+    void                    set_frag_uniform( Uniform uniform, const Vector3f& vec3 );
+    void                    set_frag_uniform( Uniform uniform, const Vector4f& vec4 );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -85,27 +74,10 @@ private:
             map<string, Uniform>      _fragUniforms;
             vector<TextureSlot>       _fragTextureSlots;
 
-    inline void    set_uniform( Uniform uniform, const Matrix4f& mat4, map<string, Uniform>& uniforms ) {
-        vector<float> matrix = mat4.column_major();
-        uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
-        bind();
-        glUniformMatrix4fv( location, 1, false, matrix.data() );
-    }
-    inline void    set_uniform( Uniform uniform, const Vector2f& vec2, map<string, Uniform>& uniforms ) {
-        uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
-        bind();
-        glUniform2f( location, vec2.x, vec2.y );
-    }
-    inline void    set_uniform( Uniform uniform, const Vector3f& vec3, map<string, Uniform>& uniforms ) {
-        uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
-        bind();
-        glUniform3f( location, vec3.x, vec3.y, vec3.z );
-    }
-    inline void    set_uniform( Uniform uniform, const Vector4f& vec4, map<string, Uniform>& uniforms ) {
-        uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
-        bind();
-        glUniform4f( location, vec4.x, vec4.y, vec4.z, vec4.w );
-    }
+    void    set_uniform( Uniform uniform, const Matrix4f& mat4, map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Vector2f& vec2, map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Vector3f& vec3, map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Vector4f& vec4, map<string, Uniform>& uniforms );
 
     GLuint  create_vertex_shader( VertexLayout pLayout, vector<Uniform> pVUniforms, string pVertexSrc );
     GLuint  create_frag_shader( VertexLayout pLayout, vector<Uniform> pFUniforms, vector<TextureSlot> pTexSlots, string pFragSrc );
@@ -126,4 +98,78 @@ private:
 
     static string GET_SHADER_LOG( GLuint pShaderId );
 };
+
+inline void Shader::bind()
+{
+    if ( CURRENT_SHADER != _id ) {
+        glUseProgram( _id );
+        CURRENT_SHADER = _id;
+    }
+}
+
+inline void Shader::set_vertex_uniform( Uniform uniform, const Matrix4f & mat4 ) 
+{ 
+    set_uniform( uniform, mat4, _vertexUniforms ); 
+}
+
+inline void Shader::set_vertex_uniform( Uniform uniform, const Vector2f& vec2 ) 
+{ 
+    set_uniform( uniform, vec2, _vertexUniforms ); 
+}
+
+inline void Shader::set_vertex_uniform( Uniform uniform, const Vector3f& vec3 ) 
+{ 
+    set_uniform( uniform, vec3, _vertexUniforms ); 
+}
+
+inline void Shader::set_vertex_uniform( Uniform uniform, const Vector4f& vec4 ) 
+{ 
+    set_uniform( uniform, vec4, _vertexUniforms ); 
+}
+
+inline void Shader::set_frag_uniform( Uniform uniform, const Matrix4f& mat4 ) 
+{
+    set_uniform( uniform, mat4, _fragUniforms ); 
+}
+
+inline void Shader::set_frag_uniform( Uniform uniform, const Vector2f& vec2 ) 
+{ 
+    set_uniform( uniform, vec2, _fragUniforms ); 
+}
+
+inline void Shader::set_frag_uniform( Uniform uniform, const Vector3f& vec3 ) 
+{ 
+    set_uniform( uniform, vec3, _fragUniforms ); 
+}
+
+inline void Shader::set_frag_uniform( Uniform uniform, const Vector4f& vec4 ) 
+{
+    set_uniform( uniform, vec4, _fragUniforms ); 
+}
+
+inline void Shader::set_uniform( Uniform uniform, const Matrix4f& mat4, map<string, Uniform>& uniforms ) {
+    vector<float> matrix = mat4.column_major();
+    uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
+    bind();
+    glUniformMatrix4fv( location, 1, false, matrix.data() );
+}
+
+inline void Shader::set_uniform( Uniform uniform, const Vector2f& vec2, map<string, Uniform>& uniforms ) {
+    uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
+    bind();
+    glUniform2f( location, vec2.x, vec2.y );
+}
+
+inline void Shader::set_uniform( Uniform uniform, const Vector3f& vec3, map<string, Uniform>& uniforms ) {
+    uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
+    bind();
+    glUniform3f( location, vec3.x, vec3.y, vec3.z );
+}
+
+inline void Shader::set_uniform( Uniform uniform, const Vector4f& vec4, map<string, Uniform>& uniforms ) {
+    uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
+    bind();
+    glUniform4f( location, vec4.x, vec4.y, vec4.z, vec4.w );
+}
+
 ENGINE_NAMESPACE_END

@@ -64,7 +64,6 @@ public:
     void on_gamestate_end();
 
     // UTILITY
-    void                set_interpolation( float interpol );
     bool                is_exit_requested();
     void                hide_cursor( bool hideCursor );
     weak<GLWindow>      get_window();
@@ -79,15 +78,9 @@ public:
     weak<Shader>        get_shader( string filename );
     bool                has_shader( string filename );
 
-    weak<Material>      add_material( string filename, owner<Material> material );
-    weak<Material>      get_material( string filename );
-    bool                has_material( string filename );
-
-    weak<Scene>         add_scene( owner<Scene> scene );
-    owner<Scene>&&      remove_scene( weak<Scene> scene );
-
     template<typename T>
     weak<Scene>         add_scene();
+    owner<Scene>        remove_scene( weak<Scene> scene );
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -95,16 +88,13 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     void init_context_and_window();
     void setup_builtin_shaders();
+    void destroy_context_and_window();
 
     owner<GLWindow> _mainWindow;
-
-    // Test
-    owner<Camera2D> _camera;
 
     vector<owner<Scene>>                                        _scenes;
     map< string, owner<Texture> >	                            _textures;
     map< string, owner<Shader> >	                            _shaders;
-    map< string, owner<Material> >                              _materials;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -115,10 +105,12 @@ private:
 };
 
 template<typename T>
-inline weak<Scene> RenderEngine::add_scene()
+weak<Scene> RenderEngine::add_scene()
 {
-    return add_scene( make_owner<T>() );
+    owner<Scene> owner = make_owner<T>();
+    weak<Scene> weak = owner.get_non_owner();
+    _scenes.emplace_back( std::move( owner ) );
+    return weak;
 }
 
 ENGINE_NAMESPACE_END
-

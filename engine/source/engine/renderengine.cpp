@@ -22,8 +22,6 @@ void RenderEngine::on_start( weak<InputEngine> input )
 
 	setup_builtin_shaders();
 
-	_camera = make_owner<Camera2D>();
-
     // 2# Setup callbacks
     if ( input.is_ptr_valid() && input != nullptr ) {
         glfwSetWindowUserPointer( _mainWindow->get_handle(), input.get() );
@@ -83,10 +81,10 @@ void RenderEngine::on_render( float extrapolation )
 {
 	// 1# Setup rendering
     _mainWindow->make_current();
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    // TODO: Sort scenes
-    for ( auto it = _scenes.begin(); it != _scenes.end(); ++it ) {
-        it->get()->render( *this, extrapolation );
+    for ( auto& scene : _scenes ) {
+        scene->render( *this, extrapolation );
     }
 
     _mainWindow->swap_buffers();
@@ -97,17 +95,8 @@ void RenderEngine::on_render( float extrapolation )
 
 void RenderEngine::on_shutdown()
 {
-	// Release OPEN GL Resources
     unload_everything();
-
-    _mainWindow.destroy();
-
-	glfwTerminate();
-}
-
-void RenderEngine::set_interpolation(float interpol)
-{
-    // TODO Implement
+    destroy_context_and_window();
 }
 
 weak<GLWindow> RenderEngine::get_window()
@@ -184,34 +173,7 @@ bool RenderEngine::has_shader(string name) {
     return _shaders.count(name) == 1;
 }
 
-// MATERIAL
-weak<Material> RenderEngine::add_material(string name, owner<Material> material)
-{
-    _materials.emplace(name, std::move(material));
-    return _materials[name].get_non_owner();
-}
-
-weak<Material> RenderEngine::get_material(string name)
-{
-    if (_materials.count(name) == 1) {
-        return _materials[name].get_non_owner();
-    }
-
-    return nullptr;
-}
-
-bool RenderEngine::has_material(string name) {
-    return _materials.count(name) == 1;
-}
-
-weak<Scene> RenderEngine::add_scene( owner<Scene> scene )
-{
-    weak<Scene> weak = scene.get_non_owner();
-    _scenes.emplace_back( std::move( scene ));
-    return weak;
-}
-
-owner<Scene>&& RenderEngine::remove_scene( weak<Scene> scene )
+owner<Scene> RenderEngine::remove_scene( weak<Scene> scene )
 {
     return extract_owner( _scenes, scene );
 }
@@ -220,9 +182,7 @@ void RenderEngine::unload_everything()
 {
     _shaders.clear();
     _textures.clear();
-    _materials.clear();
 
-    // TODO: Duplicate code with unload_everything()
     for ( auto it = _scenes.begin(); it != _scenes.end(); ++it ) {
         it->get()->cleanup( *this );
     }
@@ -249,6 +209,10 @@ void RenderEngine::init_context_and_window()
     _mainWindow->set_y(300);
     _mainWindow->make_current();
     std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << std::endl;
+
+    // Enable transparency
+    glEnable( GL_BLEND );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 }
 
 void RenderEngine::setup_builtin_shaders()
@@ -318,6 +282,12 @@ void RenderEngine::setup_builtin_shaders()
     ) );
 
 	add_shader("builtin_texture", std::move( texShader ));
+}
+
+void RenderEngine::destroy_context_and_window()
+{
+    _mainWindow.destroy();
+    glfwTerminate();
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

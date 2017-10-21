@@ -14,8 +14,8 @@ void PlayerController::set_entity( weak<Entity> entity )
 
 void PlayerController::update( vector<KeyEvent>& keys, vector<CharEvent>& chars, vector<MouseEvent>& mouse )
 {
-    if ( _entity.is_ptr_usable() && _entity->has_component( ctype_Controllable ) ) {
-        Controllable& controllable = (Controllable&)_entity->get_component( ctype_Controllable );
+    if ( _entity.is_ptr_usable() && _entity->has_component( ComponentType::Controllable ) ) {
+        Controllable& controllable = (Controllable&)_entity->get_component( ComponentType::Controllable );
 
         for ( auto& event : keys ) {
             if ( event.is_consumed() ) continue;
@@ -27,20 +27,20 @@ void PlayerController::update( vector<KeyEvent>& keys, vector<CharEvent>& chars,
 
 void PlayerController::handleWASD( Controllable& ctrl, KeyEvent& event )
 {
-    if ( !event.state_switched() ) return;
+    if ( !event.state_changed() ) return;
 
-    int32 key = event.key();
+    Key key = event.key();
 
     if ( key == Key::W || key == Key::A || key == Key::S || key == Key::D ) {
         unique<CmdMove> cmd = make_unique<CmdMove>();
         cmd->started = event.pressed();
 
-        switch ( event.key() )
+        switch ( key )
         {
-        case Key::W: cmd->type = MOVE_UP; break;
-        case Key::A: cmd->type = MOVE_LEFT; break;
-        case Key::S: cmd->type = MOVE_DOWN; break;
-        case Key::D: cmd->type = MOVE_RIGHT; break;
+        case Key::W: cmd->type = CmdType::MOVE_UP; break;
+        case Key::A: cmd->type = CmdType::MOVE_LEFT; break;
+        case Key::S: cmd->type = CmdType::MOVE_DOWN; break;
+        case Key::D: cmd->type = CmdType::MOVE_RIGHT; break;
         }
 
         ctrl.commandQ.emplace_back( std::move( cmd ) );

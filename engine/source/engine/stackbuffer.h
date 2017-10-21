@@ -49,6 +49,8 @@ public:
 
     weak<StackBufferToken>                      write( vector<T> objects );
     void                                        remove( weak<StackBufferToken> token );
+    void                                        clear();
+
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -149,6 +151,22 @@ void StackBuffer<T>::remove( weak<StackBufferToken> wToken )
 
     // 2# Create RemoveOp for token
     _removeBucket.push_back( wToken );
+}
+
+template<class T>
+inline void StackBuffer<T>::clear()
+{
+    for ( auto& token : _tokens ) {
+        remove( token.get_non_owner() );
+    }
+    commit_remove();
+
+    _writeBucket.clear();
+    _removeBucket.clear();
+
+    Ensures( num_objects() == 0 );
+    Ensures( _writeBucket.size() == 0 );
+    Ensures( _removeBucket.size() == 0 );
 }
 
 template<class T>

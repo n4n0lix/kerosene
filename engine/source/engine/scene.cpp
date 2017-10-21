@@ -3,34 +3,12 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-weak<Camera> Scene::add_camera( owner<Camera> cam )
-{
-    weak<Camera> weak = cam.get_non_owner();
-    _cameras.emplace_back( std::move( cam ) );
-    return weak;
-}
-
 owner<Camera> Scene::remove_camera( weak<Camera> cam )
 {
     return extract_owner( _cameras, cam );
 }
 
-weak<Renderer> Scene::add_renderer( owner<Renderer> renderer )
-{
-    weak<Renderer> weakRenderer = renderer.get_non_owner();
-    _ownerRenderers.emplace_back( std::move( renderer ) );
-
-    if ( !weakRenderer->is_initialized() ) {
-        _uninitRenderers.push_back( weakRenderer );
-    }
-    else {
-        _renderers.push_back( weakRenderer );
-    }
-
-    return weakRenderer;
-}
-
-owner<Renderer>&& Scene::remove_renderer( weak<Renderer> renderer )
+owner<Renderer> Scene::remove_renderer( weak<Renderer> renderer )
 {
     if ( contains_owner( _ownerRenderers, renderer ) ) {
         _renderers.erase( std::remove( _renderers.begin(), _renderers.end(), renderer ) );
@@ -41,9 +19,28 @@ owner<Renderer>&& Scene::remove_renderer( weak<Renderer> renderer )
     return std::move( owner<Renderer>( nullptr ) );
 }
 
-void  Scene::render( RenderEngine& engine, float extrapolation ) {
+void Scene::cleanup( RenderEngine& engine )
+{
+    for ( weak<Renderer> renderer : _renderers ) {
+        renderer->cleanup( engine );
+    }
+}
 
-    // 1# Initialze renderers if needed
+void Scene::render( RenderEngine& engine, float delta )
+{
+    initialize_renderers( engine );
+
+    for ( auto& camera : _cameras ) {
+        camera->activate( delta );
+        Matrix4f projViewMat4 = camera->proj_view_mat4();
+
+        for ( weak<Renderer> renderer : _renderers ) {
+            renderer->render( engine, *camera, projViewMat4, delta );
+        }
+    }
+}
+
+void Scene::initialize_renderers( RenderEngine& engine ) {
     if ( _uninitRenderers.size() > 0 ) {
         for ( weak<Renderer> renderer : _uninitRenderers ) {
             renderer->init( engine );
@@ -52,27 +49,7 @@ void  Scene::render( RenderEngine& engine, float extrapolation ) {
 
         _uninitRenderers.clear();
     }
-
-    // 2# Render Scene
-    for ( auto it = _cameras.begin(); it != _cameras.end(); ++it) {
-        Camera& camera = *(it->get());
-        camera.set_as_active();
-        Matrix4f projViewMatrix = camera.proj_view_mat4();
-
-        for ( weak<Renderer> renderer : _renderers ) {
-            renderer->render( engine, camera, projViewMatrix, extrapolation );
-        }
-    }
-
 }
-
-void Scene::cleanup( RenderEngine& engine )
-{
-    for ( weak<Renderer> renderer : _renderers ) {
-        renderer->cleanup( engine );
-    }
-}
-
 
 ENGINE_NAMESPACE_END
 

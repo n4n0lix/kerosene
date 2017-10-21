@@ -23,52 +23,43 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 class SpriteRenderer : public Renderer
 {
 public:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    SpriteRenderer( weak<Entity> );
+    struct Config {
+        Vector2f anchor;
+        Vector2f size;
+        weak<Texture> texture;
+        weak<Entity>  entity;
+    };
+
+public:
+    SpriteRenderer();
+    SpriteRenderer( Config config );
 
     void    set_entity( weak<Entity> );
+    void    set_texture( weak<Texture> );
+    void    set_anchor( Vector2f anchor );
+    void    set_size( Vector2f size );
 
 protected:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                       Protected                        */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
     virtual void on_init( RenderEngine& );
-    virtual void on_render( RenderEngine&, Camera& , Matrix4f& pProjViewMat, float pInterpolation );
+    virtual void on_render( RenderEngine&, Camera&, Matrix4f& pProjViewMat, float pInterpolation );
     virtual void on_cleanup( RenderEngine& );
 
 private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    void                init_or_update_vertices();
 
-    weak<Shader>                    _shader;
-    weak<Texture>                   _texture;
-    weak<Material>                  _material;
+    Vector2f                    _size;
+    Vector2f                    _anchor;
+    Material                    _material;
+    VertexArray<Vertex_pt>      _vao;
 
-    owner<VertexArray<Vertex_pt>>   _vao;
-    owner<VertexToken>              _token;
+    owner<VertexToken>          _token;
+    weak<Entity>                _entity;
 
-    weak<Entity>                    _entity;
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Private Static                     */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
- 
     static Logger LOGGER;
 };
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Public                          */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                     Private Static                     */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 ENGINE_NAMESPACE_END

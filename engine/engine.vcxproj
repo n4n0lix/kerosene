@@ -28,10 +28,10 @@
   <ItemGroup>
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\charevent.h" />
-    <ClInclude Include="source\engine\cmd.h" />
     <ClInclude Include="source\engine\component.h" />
     <ClInclude Include="source\engine\controllable.h" />
     <ClInclude Include="source\engine\controllablesystem.h" />
+    <ClInclude Include="source\engine\edge.h" />
     <ClInclude Include="source\engine\events.h" />
     <ClInclude Include="source\engine\entity.h" />
     <ClInclude Include="source\engine\keystate.h" />
@@ -45,10 +45,13 @@
     <ClInclude Include="source\engine\owner.h" />
     <ClInclude Include="source\engine\perfstats.h" />
     <ClInclude Include="source\engine\playercontroller.h" />
+    <ClInclude Include="source\engine\player_spawner.h" />
     <ClInclude Include="source\engine\scene.h" />
     <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\entitysystem.h" />
     <ClInclude Include="source\engine\stdafx.h" />
+    <ClInclude Include="source\engine\triangle.h" />
+    <ClInclude Include="source\engine\value.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\batch.h" />
     <ClInclude Include="source\engine\camera3d.h" />
@@ -105,14 +108,16 @@
   <ItemGroup>
     <ClCompile Include="source\engine\camera.cpp" />
     <ClCompile Include="source\engine\camera2d.cpp" />
-    <ClCompile Include="source\engine\cmd.cpp" />
     <ClCompile Include="source\engine\component.cpp" />
     <ClCompile Include="source\engine\controllable.cpp" />
     <ClCompile Include="source\engine\controllablesystem.cpp" />
+    <ClCompile Include="source\engine\edge.cpp" />
     <ClCompile Include="source\engine\entity.cpp" />
+    <ClCompile Include="source\engine\keyevent.cpp" />
     <ClCompile Include="source\engine\localcontroller.cpp" />
     <ClCompile Include="source\engine\perfstats.cpp" />
     <ClCompile Include="source\engine\playercontroller.cpp" />
+    <ClCompile Include="source\engine\player_spawner.cpp" />
     <ClCompile Include="source\engine\scene.cpp" />
     <ClCompile Include="source\engine\spriterenderer.cpp" />
     <ClCompile Include="source\engine\entitysystem.cpp" />
@@ -235,6 +240,7 @@
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -257,6 +263,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -282,6 +289,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -309,6 +317,7 @@ xcopy /sy "$(ProjectDir)source\*.h" "$(OutDir)include\"</Command>
       <PreprocessToFile>false</PreprocessToFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

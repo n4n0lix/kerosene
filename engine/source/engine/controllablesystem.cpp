@@ -9,10 +9,10 @@ ENGINE_NAMESPACE_BEGIN
 
 void ControllableSystem::update( Entity& entity, float delta )
 {
-    if ( !entity.has_component( ctype_Controllable ) )
+    if ( !entity.has_component( ComponentType::Controllable ) )
         return;
 
-    Controllable& creature = (Controllable&) entity.get_component( ctype_Controllable );
+    Controllable& creature = (Controllable&) entity.get_component( ComponentType::Controllable );
 
     process_cmds( creature );
 
@@ -29,10 +29,10 @@ void ControllableSystem::update( Entity& entity, float delta )
 void ControllableSystem::create_snapshot_full( Entity& dest, Entity& src)
 {
     // 1# Find Component
-    if ( !src.has_component( ctype_Controllable ) )
+    if ( !src.has_component( ComponentType::Controllable ) )
         return;
 
-    Controllable& cSrc = (Controllable&) src.get_component( ctype_Controllable );
+    Controllable& cSrc = (Controllable&) src.get_component( ComponentType::Controllable );
 
     // 2# Create Snapshot
     owner<Controllable> cDest = make_owner<Controllable>();
@@ -49,16 +49,16 @@ void ControllableSystem::process_cmds( Controllable& controlable )
 {
     for ( auto& command : controlable.commandQ )
         if ( !(command->consumed) ) {
-            if ( command->type == MOVE_UP ) {
+            if ( command->type == CmdType::MOVE_UP ) {
                 controlable.moveUp = ((unique<CmdMove>&) command)->started;
             }
-            if ( command->type == MOVE_DOWN ) {
+            if ( command->type == CmdType::MOVE_DOWN ) {
                 controlable.moveDown = ((unique<CmdMove>&) command)->started;
             }
-            if ( command->type == MOVE_LEFT ) {
+            if ( command->type == CmdType::MOVE_LEFT ) {
                 controlable.moveLeft = ((unique<CmdMove>&) command)->started;
             }
-            if ( command->type == MOVE_RIGHT ) {
+            if ( command->type == CmdType::MOVE_RIGHT ) {
                 controlable.moveRight = ((unique<CmdMove>&) command)->started;
             }
         }
@@ -70,7 +70,7 @@ void ControllableSystem::process_cmds( Controllable& controlable )
 // ADDITIONAL
 ////////////////////////////////////////
 
-Command::Command() : type(UNKOWN), consumed(false) {}
+Command::Command() : type(CmdType::UNKOWN), consumed(false) {}
 
 CmdMove::CmdMove() : Command(), started(false) {}
 

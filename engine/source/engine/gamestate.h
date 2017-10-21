@@ -17,7 +17,7 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-enum GameStateStatus {
+enum class GameStateStatus {
     READY,      /* Not Running */
     RUNNING,    /* Running */
     FINISHED    /* Running, but finished */

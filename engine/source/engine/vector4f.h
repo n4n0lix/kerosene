@@ -50,8 +50,8 @@ public:
             Vector4f(const float x, const float y, const float z, const float w);
             ~Vector4f() = default;
 
-    bool     isUnit();
-    bool     isZero();
+    bool     is_unit();
+    bool     is_zero();
     bool operator==(const Vector4f& o) const;
     bool operator!=(const Vector4f& o) const;
 

@@ -31,13 +31,19 @@ protected:
 
 private:
     weak<Entity>    spawn_player( weak<Scene> );
+    weak<Entity>    spawn_ui( weak<Scene> );
 
+    bool moveCamLeft;
+    bool moveCamRight;
+    bool moveCamUp;
+    bool moveCamDown;
 
     weak<Scene>    _mainScene;
     weak<Camera2D> _mainCamera;
+    weak<Entity>   _player;
 
     weak<Scene>    _uiScene;
     weak<Camera2D> _uiCamera;
+    weak<Entity>   _ui;
 
-    weak<Entity>   _player;
 };

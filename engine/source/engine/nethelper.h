@@ -116,13 +116,13 @@ inline void __net_write( vector<byte>& v, string str ) {
     }
 }
 
-enum NetVarType {
+enum class NetVarType {
     SHARED,
     SELF,
     SERVER
 };
 
-enum NetVarID {
+enum class NetVarID {
     Entity_uid          = 0,    // SHARED
     Entity_transform    = 1,    // SHARED
 

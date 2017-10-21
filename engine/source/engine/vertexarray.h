@@ -28,23 +28,27 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class VERTEX>
-class VertexArray
+class VertexArray : public Object
 {
+    static_assert(std::is_base_of<Vertex, VERTEX>::value, "Template parameter is not a Vertex type!");
 
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    explicit VertexArray();
+    VertexArray();
     ~VertexArray();
 
-    owner<VertexToken>					add_vertices( vector<VERTEX>&& vertices );
-    void                                remove_vertices( owner<VertexToken> token );
+    owner<VertexToken>  add_vertices( vector<VERTEX>&& vertices );
+    void                remove_vertices( owner<VertexToken> token );
 
-    void                                add_render_static( weak<VertexToken> token );
-    void                                remove_render_static( weak<VertexToken> token );
+    void                add_render_static( weak<VertexToken> token );
+    void                remove_render_static( weak<VertexToken> token );
+    void                clear();
 
-    void                                render();
+    void                render();
+
+    VertexArray<VERTEX>& operator=( VertexArray<VERTEX>&& orig );
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */
@@ -54,12 +58,12 @@ private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    void                                native_render();
+    void                native_render();
 
-    void                                write_new_indices_into_indexbuffer();
+    void                write_new_indices_into_indexbuffer();
 
-    void                                set_vertexbuffer( owner<VertexBuffer<VERTEX>> vertexbuffer );
-    void                                set_indexbuffer( owner<IndexBuffer> indexbuffer );
+    void                set_vertexbuffer( owner<VertexBuffer<VERTEX>> vertexbuffer );
+    void                set_indexbuffer( owner<IndexBuffer> indexbuffer );
 
     GLuint _vaoId;
 
@@ -67,7 +71,7 @@ private:
     owner<VertexBuffer<VERTEX>>    _vertexBuffer;
     owner<IndexBuffer>             _indexBuffer;
 
-    vector<weak<VertexToken>>       _toAddToIndexBuffer;
+    vector<weak<VertexToken>>      _toAddToIndexBuffer;
 
     uint32 _vertexTokenNextId;
 
@@ -85,12 +89,8 @@ private:
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class VERTEX>
-VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 )
+VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 ), _vertexBuffer(nullptr)
 {
-    if ( !std::is_base_of<Vertex, VERTEX>::value ) {
-        throw std::exception( "Template parameter is not a Vertex type!" );
-    }
-
     VERTEX v;
     _layout = v.layout;
 
@@ -99,7 +99,7 @@ VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 )
     LOGGER.log( Level::DEBUG, _vaoId ) << "CREATE" << endl;
 
     // #2 Create VBO and IxBO
-    set_vertexbuffer( make_owner<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ) );
+    set_vertexbuffer( make_owner<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ));
     set_indexbuffer( make_owner<IndexBuffer>( DEFAULT_INDEXBUFFER_SIZE ) );
 }
 
@@ -188,6 +188,13 @@ void VertexArray<VERTEX>::remove_render_static( weak<VertexToken> token )
 }
 
 template<class VERTEX>
+inline void VertexArray<VERTEX>::clear()
+{
+    _vertexBuffer->clear();
+    _indexBuffer->clear();
+}
+
+template<class VERTEX>
 void VertexArray<VERTEX>::render()
 {
     // 1# Remove old indices
@@ -210,7 +217,7 @@ void VertexArray<VERTEX>::render()
 template<class VERTEX>
 void VertexArray<VERTEX>::native_render() {
     glBindVertexArray( _vaoId );
-    glDrawElements( PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET( 0 ) );
+    glDrawElements( (int32)PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET( 0 ) );
     glBindVertexArray( 0 );
 
     PerfStats::instance().frame_draw_call( _indexBuffer->num_objects() / 3 );
@@ -228,6 +235,28 @@ void VertexArray<VERTEX>::write_new_indices_into_indexbuffer() {
         token->set_indexbuffer_token( indexToken );
     }
     _toAddToIndexBuffer.clear();
+}
+
+template<class VERTEX>
+VertexArray<VERTEX>& VertexArray<VERTEX>::operator=( VertexArray<VERTEX>&& orig )
+{
+    // Move state
+    _vaoId  = orig._vaoId;
+    _layout = orig._layout;
+    _vertexBuffer = std::move( orig._vertexBuffer );
+    _indexBuffer  = std::move( orig._indexBuffer );
+    _toAddToIndexBuffer = std::move( orig._toAddToIndexBuffer );
+    _vertexTokenNextId = orig._vertexTokenNextId;
+
+    // TODO: This will leave it in an invalid state, maybe think about a "nullstate" for vertexarray
+    orig._vaoId = 0;
+    orig._layout = orig._layout;
+    orig._vertexBuffer = nullptr;
+    orig._indexBuffer = nullptr;
+    orig._toAddToIndexBuffer = vector<weak<VertexToken>>();
+    orig._vertexTokenNextId = 0;
+
+    return *this;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

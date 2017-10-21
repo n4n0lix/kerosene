@@ -30,7 +30,7 @@ void PerfStats::check_if_second_is_over() {
         _avgTickTime = (_numTPS > 0) ? (_counterAvgTickTime / _numTPS) : (-1ms);
 
         _numFPS = _counterFPS;
-        _avgFrameTime = _counterAvgFrameTime / _numFPS;
+        _avgFrameTime = (_numFPS > 0) ? (_counterAvgFrameTime / _numFPS) : (-1ms);
 
         _counterFPS = 0;
         _counterPolygons = 0;

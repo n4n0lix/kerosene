@@ -49,7 +49,9 @@ private:
 template<typename T>
 void Entity::add_component()
 {
-    add_component( make_owner<Component>() );
+    static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
+
+    add_component( make_owner<T>() );
 }
 
 

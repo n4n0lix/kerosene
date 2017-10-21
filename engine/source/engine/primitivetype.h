@@ -13,7 +13,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-enum PrimitiveType {
+enum class PrimitiveType {
     POINTS           = GL_POINTS,
     LINE             = GL_LINE,
     LINE_STRIP       = GL_LINE_STRIP,

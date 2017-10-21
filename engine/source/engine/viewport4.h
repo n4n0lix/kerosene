@@ -12,6 +12,7 @@
 // Internal Includes
 #include "vector4f.h"
 #include "_global.h"
+#include "value.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -22,21 +23,12 @@ ENGINE_NAMESPACE_BEGIN
 #define VIEWPORT4I_BYTES      VIEWPORT4I_COMPONENTS * INT32_BYTES
 
 template<class TYPE>
-class Viewport4
+struct Viewport4 : Value
 {
-    StaticAssert((std::is_same<TYPE, float>::value 
-               || std::is_same<TYPE, int32>::value))
+    static_assert(std::is_same<TYPE, float>::value
+               || std::is_same<TYPE, int32>::value, "TYPE must be float or int32");
 
 
-public:
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                     Public Static                      */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             Viewport4();
             Viewport4(const TYPE x, const TYPE y);
             Viewport4(const TYPE x, const TYPE y, const TYPE w);
@@ -56,11 +48,6 @@ public:
     TYPE y;
     TYPE h;
     TYPE w;
-private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 };
 
 typedef Viewport4<int32> Viewport4i;

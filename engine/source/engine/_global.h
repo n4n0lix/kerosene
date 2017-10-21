@@ -127,6 +127,9 @@
         template <typename T> 
         using shared = std::shared_ptr<T>;
 
+#include <optional>
+        using std::optional;
+
 // Using std primitives
 #include <cstdint>
         using std::size_t;
@@ -189,8 +192,6 @@ using namespace std::chrono_literals;
 #include <cassert>
 #include <type_traits>
 
-#define StaticAssert(cond) static_assert(cond, "Static Type Assertion failure at" __FILE__ ": " STRINGIFY(__LINE__));
-
 #if defined(CONTRACTS_ENABLED)
 #   define Requires(cond)  if (!(cond)) \
     throw std::runtime_error("Precondition failure at " __FILE__ ": " STRINGIFY(__LINE__));
@@ -203,6 +204,9 @@ using namespace std::chrono_literals;
 #   define Assert(cond)
 #   define Ensures(cond)           
 #endif 
+
+// This method is frequently executed on the hotpath
+#define HOTPATH
 
 // Define type sizes
 #define FLOAT_BYTES 4

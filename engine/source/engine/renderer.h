@@ -10,7 +10,6 @@
 
 // Internal Includes
 #include "_global.h"
-
 #include "renderengine.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

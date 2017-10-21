@@ -38,12 +38,12 @@ Vector3f::Vector3f(const float x, const float y)                    : x(x), y(y)
 Vector3f::Vector3f(const float x, const float y, const float z)     : x(x), y(y), z(z) { }
 
 
-bool Vector3f::isUnit()
+bool Vector3f::is_unit()
 {
     return x == 1.0f && y == 1.0f && z == 1.0f;
 }
 
-bool Vector3f::isZero()
+bool Vector3f::is_zero()
 {
     return x == 0.0f && y == 0.0f && z == 0.0f;
 }

@@ -4,7 +4,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 Controllable::Controllable() : 
-    Component( ctype_Controllable ),
+    Component( ComponentType::Controllable ),
     health( 0 ), 
     stamina( 0 ), 
     name( "Unnamed" ), 

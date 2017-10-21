@@ -17,7 +17,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class T>
-class Nullable
+class nullable
 {
 public:
 
@@ -28,11 +28,11 @@ public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-             Nullable() : _isNull( true ) { };
-    explicit Nullable( T value ) : _isNull( false ) { _value = value; };
+             nullable() : _isNull( true ) { };
+    explicit nullable( T value ) : _isNull( false ) { _value = value; };
 
-    Nullable<T>& operator=( T value );
-    Nullable<T>& make_null();
+    nullable<T>& operator=( T value );
+    nullable<T>& make_null();
 
     bool         is_null();
     T            get();
@@ -45,7 +45,7 @@ private:
 };
 
 template<class T>
-Nullable<T>& Nullable<T>::operator=( T value )
+nullable<T>& nullable<T>::operator=( T value )
 {
     _value = value;
     _isNull = false;
@@ -53,20 +53,20 @@ Nullable<T>& Nullable<T>::operator=( T value )
 }
 
 template<class T>
-Nullable<T>& Nullable<T>::make_null()
+nullable<T>& nullable<T>::make_null()
 {
     _isNull = true;
     return *this;
 }
 
 template<class T>
-bool Nullable<T>::is_null()
+bool nullable<T>::is_null()
 {
     return _isNull;
 }
 
 template<class T>
-T Nullable<T>::get()
+T nullable<T>::get()
 {
     return _value;
 }

@@ -65,7 +65,6 @@ class weak : public weak_t
 {
     template<typename T>             friend class owner;
     template<typename U>             friend class weak;
-    template<typename T, typename U> friend weak<T> static_weak_cast(weak<U> u);
     template<typename T>             friend class enable_weak_from_this;
 public:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -77,29 +76,24 @@ public:
 
     // Constructor
     weak(std::nullptr_t) {
-        // Create state
         make_null();
     }
 
     // Copy-Constructor
     weak(const weak<T>& orig) {
-        // Copy state
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
 
-        // Increase ref counter
         ref_count_inc();
     }
 
     // Move-Constructor
     weak(weak<T>&& orig) {
-        // Move state
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
 
-        // Initialize orig to nullptr
         orig.make_null();
     }
 
@@ -110,15 +104,12 @@ public:
 
     // Copy assignment
     weak<T>&       operator=(const weak<T>& orig) {
-        // Clear state
         destroy();
 
-        // Copy state
         _ptr = orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
 
-        // Increase ref counter
         ref_count_inc();
 
         return *this;
@@ -127,26 +118,29 @@ public:
     // Move assignment
     template<typename U> // needed for move assign inherent types
     weak<T>&       operator=(weak<U>&& orig) {
-        // Clear state
         destroy();
 
-        // Move state
         _ptr = (T*)orig._ptr;
         _ptrValid = orig._ptrValid;
         _ptrRefCounter = orig._ptrRefCounter;
 
-        // Initialize orig to nullptr
         orig.make_null();
 
         return *this;
     }
 
+    // Casting to inherent type
+    template <typename U, typename std::enable_if<std::is_base_of<U, T>::value>::type* = nullptr>
+    explicit operator weak<U>() const
+    {
+        return weak<U>( (U*) _ptr, _ptrValid, _ptrRefCounter );
+    }
+
     inline T&   operator *() const { return *_ptr; }
     inline T*   operator->() const { return _ptr; }
-    inline T*   get()              const { return _ptr; }
+    inline T*   get()        const { return _ptr; }
 
-    template<typename... Args>
-    void operator()( Args ... ) { _ptr->operator()( Args... ); }
+    inline operator bool() const { return is_ptr_usable(); }
 
     inline bool operator== (const weak &y) const { return _ptr == y._ptr; }
     inline bool operator!= (const weak &y) const { return !(_ptr == y._ptr); }
@@ -199,6 +193,12 @@ private:
 
     inline uint32_t ref_count()
     {
+        // Return 1 in case the pointer is a nullptr, because		
+        // - we never want to try delete NULL, although this should not throw an exception.		
+        // - if a user uses reference count to check if the pointer is usable		
+        // - it should be consistent > 0, as we can only call this function on a pointer that 		
+        //   points to the 'object' and therefore this function never should return 0		
+
         return (_ptr == nullptr) ? 1 : *_ptrRefCounter;
     }
 
@@ -287,21 +287,18 @@ public:
     owner() : owner(nullptr) {}
 
     owner(std::nullptr_t) {
-        // Nullpointer State
         make_null();
     }
 
     // Constructor
     explicit owner( T* ptr ) {
-        // Create new State
         _ptr = ptr;
         _ptrValid = new bool( true );
         _ptrRefCounter = new uint32_t( 0 );
 
-        // Increase ref counter
         ref_count_inc();
 
-        //
+        // support getting weak from `this`
         if ( std::is_base_of<enable_weak_from_this<T>, T>::value ) {
             ((enable_weak_from_this<T>*)_ptr)->__enable_weak_from_this( _ptrValid, _ptrRefCounter );
         }
@@ -327,9 +324,12 @@ public:
         destroy();
     }
 
-    inline T& operator *() const { return *ptr; }
+    inline operator bool() const { return _ptr != nullptr; }
+    inline T& operator *() const { return *_ptr; }
     inline T* operator->() const { return _ptr; }
     inline T* get() const { return _ptr; }
+    
+
     T* release() {
         T* oldPtr = _ptr;
 
@@ -440,14 +440,6 @@ private:
 template<typename T, typename... Args>
 owner<T> make_owner( Args&&... args ) {
     return owner<T>( new T( std::forward<Args>( args )... ) );
-}
-
-template<typename T, typename U>
-weak<T> static_weak_cast(weak<U> u) {
-    if (u.get() == nullptr)
-        return weak<T>(nullptr);
-    else
-        return weak<T>((T*)u._ptr, u._ptrValid, u._ptrRefCounter);
 }
 
 template<typename T>

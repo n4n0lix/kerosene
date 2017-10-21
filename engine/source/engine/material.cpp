@@ -7,10 +7,9 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Material::Material(weak<Shader> shader, weak<Texture> tex)
+void Material::set_shader( weak<Shader> shader )
 {
     _shader = shader;
-    _textureDiffuse = tex;
 }
 
 weak<Shader> Material::get_shader() const
@@ -18,22 +17,15 @@ weak<Shader> Material::get_shader() const
     return _shader;
 }
 
-weak<Texture> Material::get_texture() const
+void Material::set_texture_diffuse( weak<Texture> texture )
 {
-    return _textureDiffuse;
+    _textureDiffuse = texture;
 }
 
-void Material::bind() const {
-    if (_shader.is_ptr_valid() && _shader != nullptr) {
-        _shader->bind();
-        if (_textureDiffuse != nullptr) {
-            // TEXTURE_DIFFUSE
-            TextureSlot slot0 = _shader->frag_texture_slot(TextureSlot::TEXTURE_DIFFUSE.name).get();
-            glUniform1i(slot0.location, slot0.slot);
-            glActiveTexture(slot0.glTextureSlot);
-            glBindTexture(GL_TEXTURE_2D, _textureDiffuse->id());
-        }
-    }
+
+inline weak<Texture> Material::get_texture_diffuse() const
+{
+    return _textureDiffuse;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

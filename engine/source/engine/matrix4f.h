@@ -41,7 +41,7 @@ public:
     static Matrix4f ortho2D( const float& left, const float& right, const float& bottom, const float& top, const float& znear, const float& zfar );
 
     static Matrix4f look_at_lh( const Vector3f& eye, const Vector3f& target, const Vector3f& up );
-
+    static Matrix4f look_at_rh( const Vector3f& eye, const Vector3f& target, const Vector3f& up );
 
             Matrix4f();
             Matrix4f(Matrix4f& copy);

@@ -17,12 +17,12 @@ Vector2f Vector2f::Y_AXIS = Vector2f(0.0f, 1.0f);
 Vector2f::Vector2f() : x(0), y(0) {}
 Vector2f::Vector2f(const float x, const float y) : x(x), y(y) {}
 
-bool Vector2f::isUnit()
+bool Vector2f::is_unit()
 {
     return x == 1.0f && y == 1.0f;
 }
 
-bool Vector2f::isZero()
+bool Vector2f::is_zero()
 {
     return x == 0.0f && y == 0.0f;
 }
@@ -159,6 +159,16 @@ Vector2f& Vector2f::operator/=(const float o)
     x /= o;
     y /= o;
     return *this;
+}
+
+float Vector2f::cross( Vector2f & o )
+{
+    return x * o.y - o.x * y;
+}
+
+float Vector2f::dot( Vector2f& o )
+{
+    return x * o.x + y * o.y;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

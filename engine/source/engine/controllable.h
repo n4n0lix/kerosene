@@ -11,7 +11,7 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-enum CmdType {
+enum class CmdType {
     // Meta
     UNKOWN,
 
@@ -58,7 +58,7 @@ LOCAL_VARS:
     bool moveLeft;
     bool moveRight;
 
-    vector<unique<Command>> commandQ;
+    vector<unique<Command>> commandQ; // TODO: Extract this
 };
 
 ENGINE_NAMESPACE_END

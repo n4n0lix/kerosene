@@ -67,8 +67,8 @@ public:
             Vector3(decimal32 x, decimal32 y, decimal32 z) : x(x), y(y), z(z) { }
             ~Vector3() = default;
 
-    inline bool     isUnit() { return x == 1 && y == 1 && z == 1; }
-    inline bool     isZero() { return x == 0 && y == 0 && z == 0; }
+    inline bool     is_unit() { return x == 1 && y == 1 && z == 1; }
+    inline bool     is_zero() { return x == 0 && y == 0 && z == 0; }
 
     inline bool operator==(Vector3& o) const { return x == o.x && y == o.y && z == o.z; }
     inline bool operator!=(Vector3& o) const { return !(*this == o); }

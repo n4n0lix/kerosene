@@ -59,8 +59,8 @@ public:
             Vector3f(const float x, const float y, const float z);
             ~Vector3f() = default;
 
-    bool     isUnit();
-    bool     isZero();
+    bool     is_unit();
+    bool     is_zero();
     bool operator==(const Vector3f& o) const;
     bool operator!=(const Vector3f& o) const;
 

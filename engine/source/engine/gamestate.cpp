@@ -6,21 +6,21 @@ ENGINE_NAMESPACE_BEGIN
 /*                         Public                         */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-GameState::GameState() : _status(READY)
+GameState::GameState() : _status(GameStateStatus::READY)
 {
 
 }
 
 void GameState::start()
 {
-    _status = RUNNING;
+    _status = GameStateStatus::RUNNING;
     on_start();
 }
 
 void GameState::end()
 {
     on_end();
-    _status = READY;
+    _status = GameStateStatus::READY;
 }
 
 GameStateStatus GameState::get_status() const

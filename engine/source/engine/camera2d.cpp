@@ -3,18 +3,38 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-Camera2D::Camera2D() : _zoom(1)
+Camera2D::Camera2D() : 
+    _target(0,0,1), 
+    _zoom(1)
 {
-    HandleViewportChange = make_owner<Consumer<Viewport4i>>( 
-        [&]( Viewport4i viewport ) 
-        { 
-            float wa = viewport.w * _zoom * 0.001f;
-            float ha = viewport.h * _zoom * 0.001f;
+}
 
-            proj_view_mat4() = Matrix4f::ortho2D( -1 * wa, 1 * wa, -1 * ha, 1 * ha );
-        });
+void Camera2D::activate( float delta )
+{
+    auto viewport = get_viewport();
 
-    OnViewportChanged += HandleViewportChange.get_non_owner();
+    // Projection
+    float right = viewport.w * _zoom * 0.001f;
+    float top   = viewport.h * _zoom * 0.001f;
+    Matrix4f projMatrix = Matrix4f::ortho2D( -right, right, -top, top );
+
+    // View
+    auto eye = Vector3f( _target.x, _target.y, -1 );
+    Matrix4f viewMatrix = Matrix4f::look_at_lh( eye, _target, Vector3f::Y_AXIS );
+
+    proj_view_mat4() = viewMatrix * projMatrix;
+
+    glViewport( viewport.x, viewport.y, viewport.w, viewport.h );
+}
+
+void Camera2D::set_target( Vector3f target )
+{
+    _target = target;
+}
+
+Vector3f Camera2D::get_target()
+{
+    return _target;
 }
 
 void Camera2D::set_zoom( float zoom )

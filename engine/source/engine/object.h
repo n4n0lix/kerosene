@@ -13,6 +13,8 @@
 
 ENGINE_NAMESPACE_BEGIN
 
+// Extend if the class is meant to manage ownership and 
+// therefore trivial copying is not intended.
 struct Object {
     // Enabled:
     Object()                        = default;  // Constructor
