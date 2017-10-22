@@ -24,6 +24,7 @@ SpriteRenderer::SpriteRenderer( Config config ) : SpriteRenderer()
     set_entity( config.entity );
     set_texture( config.texture );
     set_anchor( config.anchor );
+    set_size( config.size );
 }
 
 void SpriteRenderer::set_entity( weak<Entity> pEntity )
@@ -56,6 +57,8 @@ void SpriteRenderer::on_init( RenderEngine& pRenderEngine )
 
 void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Matrix4f& pProjViewMat, float pInterpolation )
 {
+    if ( !_entity ) return; // TODO: Try to remove this
+
     // Interpolate transform, as we are between a calculated tick and a future tick
     Vector3f        position = Vector3f::lerp( _entity->lastPosition, _entity->position, pInterpolation );
     Vector3f        scale    = Vector3f::lerp( _entity->lastScale, _entity->scale, pInterpolation );

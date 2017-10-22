@@ -14,12 +14,14 @@
 #include "scene.h"
 #include "spriterenderer.h"
 
+#include "playercontroller.h"
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 using namespace ENGINE_NAMESPACE;
 
-class Player_Spawner {
+struct Player_Spawner {
     static weak<Entity> Spawn( LogicEngine& logic, weak<RenderEngine> render, weak<InputEngine> input, weak<Scene> mainScene );
 };

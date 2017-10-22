@@ -10,9 +10,9 @@ void EntitySystem::update( Entity& entity )
     entity.lastRotation  = entity.rotation;
 }
 
-void EntitySystem::create_snapshot_full( Entity& dest, Entity& src )
+void EntitySystem::create_snapshot_full( Entity& dest, const Entity& src )
 {
-    dest.id = src.id;
+    dest.id       = src.id;
     dest.position = src.position;
     dest.scale    = src.scale;
     dest.rotation = src.rotation;

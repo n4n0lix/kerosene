@@ -441,7 +441,7 @@
       <Filter>Quelldateien\sandbox</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\player_spawner.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\sandbox</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

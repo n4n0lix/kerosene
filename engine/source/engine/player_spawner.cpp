@@ -10,7 +10,7 @@ weak<Entity> Player_Spawner::Spawn( LogicEngine& logic, weak<RenderEngine> rende
 
     // INPUT
     if ( input ) {
-        //input->add_local_controller( 10, make_owner<PlayerController>( player ) );
+        input->add_local_controller( 10, make_owner<PlayerController>( player ) );
     }
 
     if ( rendering && mainScene ) {

@@ -13,9 +13,7 @@ ENGINE_NAMESPACE_BEGIN
 struct EntitySystem
 {
     void update( Entity& transform );
-
-    void create_snapshot_full( Entity&, Entity& );
-
+    void create_snapshot_full( Entity& dest, const Entity& src );
 };
 
 ENGINE_NAMESPACE_END

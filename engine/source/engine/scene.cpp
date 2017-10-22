@@ -31,9 +31,10 @@ void Scene::render( RenderEngine& engine, float delta )
     initialize_renderers( engine );
 
     for ( auto& camera : _cameras ) {
+        glClear( GL_DEPTH_BUFFER_BIT );
+
         camera->activate( delta );
         Matrix4f projViewMat4 = camera->proj_view_mat4();
-
         for ( weak<Renderer> renderer : _renderers ) {
             renderer->render( engine, *camera, projViewMat4, delta );
         }

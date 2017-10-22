@@ -11,6 +11,9 @@ TestGameState::~TestGameState()
 void TestGameState::on_start()
 {
     auto rendering = get_renderengine();
+    auto logic = get_logicengine();
+    auto input = get_inputengine();
+
 
     // RENDER
     if ( rendering ) {
@@ -19,7 +22,6 @@ void TestGameState::on_start()
         _mainScene  = rendering->add_scene<Scene>();
         _mainCamera = _mainScene->add_camera<Camera2D>();
         _mainCamera->set_zoom( 4 );
-        _player = spawn_player( _mainScene );
 
         _uiScene = rendering->add_scene<Scene>();
         _uiCamera = _uiScene->add_camera<Camera2D>();
@@ -27,7 +29,19 @@ void TestGameState::on_start()
         _ui = spawn_ui( _uiScene );
     }
 
+    if ( logic ) {
+        _player = Player_Spawner::Spawn( *logic, rendering, input, _mainScene );
+    }
 
+
+    //
+    auto ttex = rendering->get_texture( "res/textures/dev/tile.png" );
+    auto tile1 = logic->add_entity(make_owner<Entity>());
+    auto rCfg = SpriteRenderer::Config( { { 0, 0 }, { 0.5f, 0.5f }, ttex, tile1 } );
+    _mainScene->add_renderer<SpriteRenderer>( rCfg );
+    
+    tile1->position.y = -0.25;
+    tile1->position.z = 0.1;
 }
 
 void TestGameState::on_update()
@@ -45,51 +59,12 @@ void TestGameState::on_update()
                 set_status( GameStateStatus::FINISHED );
                 event.consume();
             }
-
-            if ( _player ) {
-                if ( event.key() == Key::Q ) {
-                    _player->scale.x += 0.1f;
-                    event.consume();
-                }
-                else if ( event.key() == Key::E ) {
-                    _player->scale.x -= 0.1f;
-                    event.consume();
-                }
-            }
-
-            if ( _mainCamera && event.state_changed() ) {
-                Vector3f camTarget = _mainCamera->get_target();
-
-                if ( event.key() == Key::W ) {
-                    moveCamUp = event.pressed();
-                    event.consume();
-                }
-                else if ( event.key() == Key::S ) {
-                    moveCamDown = event.pressed();
-                    event.consume();
-                }
-                else if ( event.key() == Key::A ) {
-                    moveCamLeft = event.pressed();
-                    event.consume();
-                }
-                else if ( event.key() == Key::D ) {
-                    moveCamRight  = event.pressed();
-                    event.consume();
-                }
-            }
         }
     }
 
     // Main Camera Update
-    if ( moveCamUp || moveCamDown || moveCamLeft || moveCamRight ) {
-        Vector3f target = _mainCamera->get_target();
-
-        if ( moveCamUp )    target.y += 0.1f;
-        if ( moveCamDown )  target.y -= 0.1f;
-        if ( moveCamLeft )  target.x -= 0.1f;
-        if ( moveCamRight ) target.x += 0.1f;
-
-        _mainCamera->set_target( target );
+    if ( _mainCamera && _player ) {
+        _mainCamera->set_target( _player->position );
     }
 }
 
@@ -126,37 +101,6 @@ void TestGameState::on_frame_start() {
 void TestGameState::on_end()
 {
 
-}
-
-weak<Entity> TestGameState::spawn_player( weak<Scene> scene )
-{
-    auto rendering  = get_renderengine();
-    auto input      = get_inputengine();
-    auto logic      = get_logicengine();
-
-    weak<Entity> player = nullptr;
-
-    // LOGIC
-    if ( logic ) {
-        player = logic->add_entity( make_owner<Entity>() );
-
-        auto ctrl = make_owner<Controllable>();
-        ctrl->moveSpeed = 0.5f;
-        player->add_component( std::move( ctrl ) );
-
-        // INPUT
-        if ( input ) {
-            //input->add_local_controller( 10, make_owner<PlayerController>( player ) );
-        }
-
-        if ( scene ) {
-            auto renderer = scene->add_renderer<SpriteRenderer>();
-            renderer->set_entity( player );
-            renderer->set_texture( rendering->get_texture( "res/textures/dev/test_char.png" ) );
-        }
-    }
-
-    return player;
 }
 
 weak<Entity> TestGameState::spawn_ui( weak<Scene> scene )

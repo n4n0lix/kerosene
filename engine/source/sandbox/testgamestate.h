@@ -9,6 +9,7 @@
 #include "camera.h"
 #include "controllable.h"
 #include "playercontroller.h"
+#include "player_spawner.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -30,7 +31,6 @@ protected:
     void on_end()           override;
 
 private:
-    weak<Entity>    spawn_player( weak<Scene> );
     weak<Entity>    spawn_ui( weak<Scene> );
 
     bool moveCamLeft;

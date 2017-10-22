@@ -10,8 +10,8 @@
 // Other Includes
 
 // Internal Includes
-#include "vector4f.h"
 #include "_global.h"
+#include "vector4f.h"
 #include "value.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

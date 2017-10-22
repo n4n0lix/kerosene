@@ -90,7 +90,8 @@ weak<T> Scene::add_renderer()
 template<typename T, typename ...Arguments>
 weak<T> Scene::add_renderer( Arguments&&... args )
 {
-    return add_renderer<T>( std::forward<Arguments>( args )... );
+    auto renderer = make_owner<T>( std::forward<Arguments>( args )... );
+    return add_renderer<T>( std::move( renderer ) );
 }
 
 template<typename T>
