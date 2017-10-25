@@ -155,7 +155,6 @@ using namespace std::chrono_literals;
 // Using cout
 #include <iostream>
         using std::cout;
-        using std::endl;
 
 // Using std string
 #include <string>

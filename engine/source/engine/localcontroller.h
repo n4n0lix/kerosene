@@ -15,7 +15,7 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-struct LocalController : public Object
+struct LocalController : public noncopyable
 {
     virtual void    update( vector<KeyEvent>&, vector<CharEvent>&, vector<MouseEvent>& ) = 0;
 };

@@ -11,7 +11,6 @@
 #include "entitysystem.h"
 #include "controllablesystem.h"
 
-
 ENGINE_NAMESPACE_BEGIN
 
 class LogicEngine

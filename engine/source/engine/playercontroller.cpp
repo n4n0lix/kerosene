@@ -3,19 +3,19 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-PlayerController::PlayerController( weak<Entity> e ) : _entity(e)
+PlayerController::PlayerController( weak<Entity> e ) : entity(e)
 {
 }
 
 void PlayerController::set_entity( weak<Entity> entity )
 {
-    _entity = entity;
+    entity = entity;
 }
 
 void PlayerController::update( vector<KeyEvent>& keys, vector<CharEvent>& chars, vector<MouseEvent>& mouse )
 {
-    if ( _entity.is_ptr_usable() && _entity->has_component( ComponentType::Controllable ) ) {
-        Controllable& controllable = (Controllable&)_entity->get_component( ComponentType::Controllable );
+    if ( entity.is_ptr_usable() && entity->has_component( ComponentType::Controllable ) ) {
+        Controllable& controllable = (Controllable&)entity->get_component( ComponentType::Controllable );
 
         for ( auto& event : keys ) {
             if ( event.is_consumed() ) continue;

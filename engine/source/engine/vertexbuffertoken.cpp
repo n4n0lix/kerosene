@@ -9,7 +9,7 @@ ENGINE_NAMESPACE_BEGIN
 VertexBufferToken::VertexBufferToken( uint32 uid, void* buffer )
 {
     _buffer = buffer;
-    _id = uid;
+    id = uid;
     _valid = false;
 }
 
@@ -29,7 +29,7 @@ void* VertexBufferToken::get_buffer()
 
 uint32 VertexBufferToken::get_id()
 {
-    return _id;
+    return id;
 }
 
 bool VertexBufferToken::valid()
@@ -75,7 +75,7 @@ vector<uint32> VertexBufferToken::object_indices()
 
 bool VertexBufferToken::operator!=( const VertexBufferToken& o ) const
 {
-    return _id != o._id || _buffer != o._buffer;
+    return id != o.id || _buffer != o._buffer;
 }
 
 bool VertexBufferToken::operator==( const VertexBufferToken& o ) const

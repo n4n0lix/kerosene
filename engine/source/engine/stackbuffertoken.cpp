@@ -9,7 +9,7 @@ ENGINE_NAMESPACE_BEGIN
 StackBufferToken::StackBufferToken(uint32 id, void* buffer)
 {
     _buffer = buffer;
-    _id = id;
+    id = id;
     _valid = false;
 }
 
@@ -29,7 +29,7 @@ void* StackBufferToken::get_buffer()
 
 uint32 StackBufferToken::get_id()
 {
-    return _id;
+    return id;
 }
 
 bool StackBufferToken::valid()
@@ -75,7 +75,7 @@ vector<uint32> StackBufferToken::object_indices()
 
 bool StackBufferToken::operator!=(const StackBufferToken& o) const
 {
-    return _id != o._id || _buffer != o._buffer;
+    return id != o.id || _buffer != o._buffer;
 }
 
 bool StackBufferToken::operator==(const StackBufferToken& o) const

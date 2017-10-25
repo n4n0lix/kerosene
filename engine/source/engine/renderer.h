@@ -19,11 +19,11 @@ ENGINE_NAMESPACE_BEGIN
 
 class RenderEngine;
 
-class Renderer : public Object
+//
+// - Handles ownership of rendering resources
+
+class Renderer : public noncopyable
 {
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 public:
             Renderer();
 
@@ -34,19 +34,11 @@ public:
     bool is_initialized();
 
 protected:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                       Protected                        */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
     virtual void on_init( RenderEngine& ) = 0;
     virtual void on_render( RenderEngine&, Camera&, Matrix4f&, float ) = 0;
     virtual void on_cleanup( RenderEngine& ) = 0;
 
 private:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Private                         */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
     bool			    _initialized;
 
 };

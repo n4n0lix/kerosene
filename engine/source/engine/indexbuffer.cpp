@@ -14,7 +14,7 @@ ENGINE_NAMESPACE_BEGIN
 
 IndexBuffer::IndexBuffer( uint32 initCapacity ) : StackBuffer<uint32>( UINT32_BYTES, initCapacity ) {
     _iboId = createIBO( atom_capacity() );
-    LOGGER.log( Level::DEBUG, _iboId ) << "CREATE [0," << atom_capacity() - 1 << "]" << endl;
+    LOGGER.log( Level::DEBUG, _iboId ) << "CREATE [0," << atom_capacity() - 1 << "]\n";
 }
 
 GLuint IndexBuffer::get_id()
@@ -24,7 +24,7 @@ GLuint IndexBuffer::get_id()
 
 weak<StackBufferToken> IndexBuffer::add_indices( vector<uint32> indices )
 {
-    LOGGER.log( Level::DEBUG, _iboId ) << "ADD " << indices.size() << " indices" << endl;
+    LOGGER.log( Level::DEBUG, _iboId ) << "ADD " << indices.size() << " indices\n";
     return StackBuffer<uint32>::write( std::move( indices ) );
 }
 
@@ -44,7 +44,7 @@ void IndexBuffer::native_write( uint32 index, vector<uint32> indices ) {
     for (uint32 aIndex : indices) {
         debugMsg << aIndex << " ";
     }
-    LOGGER.log( Level::DEBUG ) << debugMsg.str() << "] @ [" << index << "," << indices.size() * UINT32_BYTES << "]" << endl;
+    LOGGER.log( Level::DEBUG ) << debugMsg.str() << "] @ [" << index << "," << indices.size() * UINT32_BYTES << "]\n";
 
     // vector<float> -> gpu-buffer
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _iboId );
@@ -53,7 +53,7 @@ void IndexBuffer::native_write( uint32 index, vector<uint32> indices ) {
 }
 
 void IndexBuffer::native_copy( uint32 srcIndex, uint32 destIndex, uint32 length ) {
-    LOGGER.log( Level::DEBUG, _iboId ) << "COPY [" << srcIndex << "," << srcIndex + length << "] TO [" << destIndex << "," << destIndex + length << "]" << endl;
+    LOGGER.log( Level::DEBUG, _iboId ) << "COPY [" << srcIndex << "," << srcIndex + length << "] TO [" << destIndex << "," << destIndex + length << "]\n";
 
     // 1# Create temporary copy of IBO
     GLuint tempIboId = createIBO( atom_capacity() );

@@ -68,7 +68,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-            GLuint                    _id;
+            GLuint                    id;
             VertexLayout              _vertexLayout;
             map<string, Uniform>      _vertexUniforms;
             map<string, Uniform>      _fragUniforms;
@@ -101,9 +101,9 @@ private:
 
 inline void Shader::bind()
 {
-    if ( CURRENT_SHADER != _id ) {
-        glUseProgram( _id );
-        CURRENT_SHADER = _id;
+    if ( CURRENT_SHADER != id ) {
+        glUseProgram( id );
+        CURRENT_SHADER = id;
     }
 }
 

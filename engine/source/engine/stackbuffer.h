@@ -109,7 +109,7 @@ StackBuffer<T>::StackBuffer( uint32 objSize, uint32 objCapacity )
 
     // 1# Create initial range
     _freeRange = Range( 0, atom_capacity() );
-    LOGGER.log( Level::DEBUG ) << "CREATE [" << _freeRange.index() << "," << _freeRange.length() - 1 << "], OBJ SIZE: " << object_size() << endl;
+    LOGGER.log( Level::DEBUG ) << "CREATE [" << _freeRange.index() << "," << _freeRange.length() - 1 << "], OBJ SIZE: " << object_size() << "\n";
 
     // X# Contract Post
     Ensures( _freeRange.length() == atom_capacity() );
@@ -257,12 +257,12 @@ void StackBuffer<T>::commit_write( vector<T> objects, weak<StackBufferToken> tok
         uint32 diffAtomCapacity = newAtomCapacity - oldAtomCapacity;
 
         native_resize( oldAtomCapacity, newAtomCapacity );
-        LOGGER.log( Level::DEBUG ) << "RESIZE FROM [" << oldAtomCapacity << "] TO [" << newAtomCapacity << "]" << endl;
+        LOGGER.log( Level::DEBUG ) << "RESIZE FROM [" << oldAtomCapacity << "] TO [" << newAtomCapacity << "]\n";
         set_atom_capacity( newAtomCapacity );
 
         _freeRange = Range( _freeRange.index(),
             _freeRange.index() + diffAtomCapacity );
-        LOGGER.log( Level::DEBUG ) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
+        LOGGER.log( Level::DEBUG ) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]\n";
     }
 
     // 2# Split of range of 'free range'
@@ -271,8 +271,8 @@ void StackBuffer<T>::commit_write( vector<T> objects, weak<StackBufferToken> tok
     _freeRange = Range( usedRange.index() + usedRange.length(), _freeRange.length() - usedRange.length() );
 
     // 2#  Write
-    LOGGER.log( Level::DEBUG ) << "WRITE " << objects.size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]" << endl;
-    LOGGER.log( Level::DEBUG ) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]" << endl;
+    LOGGER.log( Level::DEBUG ) << "WRITE " << objects.size() << " AT [" << usedRange.index() << ", " << usedRange.index() + neededSize - 1 << "]\n";
+    LOGGER.log( Level::DEBUG ) << "FREE IS [" << _freeRange.index() << ", " << _freeRange.last_index() << "]\n";
 
     native_write( usedRange.index(), std::move( objects ) );
 
@@ -329,7 +329,7 @@ void StackBuffer<T>::commit_remove( weak<StackBufferToken> token )
 
     // 2.2# Copy data
     native_copy( copySourceFirst, copyDestFirst, copySourceLength );
-    LOGGER.log( Level::DEBUG ) << "COPY [" << copySourceFirst << ", " << copySourceLast << "] TO [" << copyDestFirst << ", " << copyDestLast << "]" << endl;
+    LOGGER.log( Level::DEBUG ) << "COPY [" << copySourceFirst << ", " << copySourceLast << "] TO [" << copyDestFirst << ", " << copyDestLast << "]\n";
 
     _usedRanges.erase( rangeId );
     _freeRange = Range( freeRangeFirst, freeRangeLength );
@@ -350,7 +350,7 @@ void StackBuffer<T>::commit_remove( weak<StackBufferToken> token )
             auto token = get_token_by_range_id( id );
             token->set_atom_range( range );
 
-            LOGGER.log( Level::DEBUG ) << "UPDATE TOKEN" << endl;
+            LOGGER.log( Level::DEBUG ) << "UPDATE TOKEN\n";
         }
     }
 

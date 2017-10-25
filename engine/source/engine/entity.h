@@ -14,13 +14,15 @@
 
 ENGINE_NAMESPACE_BEGIN
 
+typedef uint32 entity_id;
+
 // ENTITY
 struct Entity
 {
     Entity();
 
 GLOBAL_VARS:
-    uint32          id;
+    entity_id       id;
     Vector3f        position;
     Vector3f        scale;
     Quaternion4f    rotation;

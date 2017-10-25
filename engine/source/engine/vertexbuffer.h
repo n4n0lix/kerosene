@@ -122,7 +122,7 @@ VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) : _layou
 
     // 2# OpenGL
     _vboId = createVBO(_atomCapacity);
-    LOGGER.log(Level::DEBUG, _vboId) << "CREATE" << endl;
+    LOGGER.log(Level::DEBUG, _vboId) << "CREATE\n";
 
     // X# Contract Post
     Ensures(!_freeRanges.empty());
@@ -131,7 +131,7 @@ VertexBuffer<T>::VertexBuffer(VertexLayout layout, uint32 initCapacity) : _layou
 template<class T>
 VertexBuffer<T>::~VertexBuffer()
 {
-    LOGGER.log(Level::DEBUG, _vboId) << "DELETE" << endl;
+    LOGGER.log(Level::DEBUG, _vboId) << "DELETE\n";
     glDeleteBuffers(1, &_vboId);
 }
 
@@ -144,7 +144,7 @@ GLuint VertexBuffer<T>::get_id() const
 template<class T>
 weak<VertexBufferToken> VertexBuffer<T>::add_vertices(vector<T> vertices)
 {
-    LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices.size() << " vertices" << endl;
+    LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices.size() << " vertices\n";
     // 1# Guards
     Requires( vertices.size() > 0 );
 
@@ -337,11 +337,11 @@ void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> t
 
         std::ostringstream debugMsg;
         debugMsg << "WRITE VERTEX ["; for (float flt : vertex.data ) { debugMsg << flt << " "; } debugMsg << "]";
-        LOGGER.log(Level::DEBUG) << debugMsg.str() << endl;
+        LOGGER.log(Level::DEBUG) << debugMsg.str() << "\n";
     }
 
     // 3# Write
-    LOGGER.log(Level::DEBUG) << "WRITE " << vertices.size() << " AT [" << freeRange.index() << ", " << freeRange.last_index() << "]" << endl;
+    LOGGER.log(Level::DEBUG) << "WRITE " << vertices.size() << " AT [" << freeRange.index() << ", " << freeRange.last_index() << "]\n";
     native_write_at(freeRange.index(), std::move( data ));
 
     // 4# Update and validate the token
@@ -365,7 +365,7 @@ void VertexBuffer<T>::commit_remove(weak<VertexBufferToken> token)
     uint32 rangeId = token->range_id();
 
     if (_usedRanges.count( rangeId ) == 0) {
-        LOGGER.log(Level::WARN) << "Attempting to remove unkown range with id: " << rangeId << endl;
+        LOGGER.log(Level::WARN) << "Attempting to remove unkown range with id: " << rangeId << "\n";
         return;
     }
 
@@ -435,7 +435,7 @@ void VertexBuffer<T>::merge_free_ranges(uint32 range1Id, uint32 range2Id) {
     Range range2 = _freeRanges[range2Id];
 
     if (range1.index() + range1.length() != range2.index()) {
-        LOGGER.log(Level::WARN) << "Attempting to merge non-adjacent ranges with id: " << range1Id << ", " << range2Id << endl;
+        LOGGER.log(Level::WARN) << "Attempting to merge non-adjacent ranges with id: " << range1Id << ", " << range2Id << "\n";
         return;
     }
 

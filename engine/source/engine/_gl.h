@@ -10,7 +10,7 @@
     #include <string>
     #include <map> 
     #include "logger.h"
-//std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#" << endl;
+//std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#\n";
     std::string gl_err_to_string(GLenum enm);
 
     #define printGLErrors(glFunc)                                                                   \
@@ -18,8 +18,8 @@
           GLenum err;                                                                               \
           err = glGetError();                                                                       \
           if (err != GL_NO_ERROR) {                                                                 \
-            std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#" << ":" << endl;   \
-            std::cout << "    GL ERROR: " << gl_err_to_string(err) << endl;                         \
+            std::cout << __FUNCTION__ << ":" << __LINE__ << "@" << #glFunc << "#" << ":" << "\n";   \
+            std::cout << "    GL ERROR: " << gl_err_to_string(err) << "\n";                         \
             err = glGetError();                                                                     \
             DEBUG_TRIGGER                                                                           \
           }                                                                                         \

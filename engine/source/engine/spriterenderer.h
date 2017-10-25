@@ -1,9 +1,5 @@
 #pragma once
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                        Includes                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 // Std-Includes
 
 // Other Includes
@@ -57,7 +53,7 @@ private:
     VertexArray<Vertex_pt>      _vao;
 
     owner<VertexToken>          _token;
-    weak<Entity>                _entity;
+    weak<Entity>                entity;
 
     static Logger LOGGER;
 };

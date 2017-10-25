@@ -63,7 +63,7 @@ private:
     void                        update();
 
 
-    uint32          _id;
+    uint32          id;
     void*           _buffer;
 
     bool            _valid;

@@ -23,7 +23,7 @@ enum class GameStateStatus {
     FINISHED    /* Running, but finished */
 };
 
-class GameState : public Object
+class GameState : public noncopyable
 {
 public:
             GameState();

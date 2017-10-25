@@ -28,7 +28,7 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class VERTEX>
-class VertexArray : public Object
+class VertexArray : public noncopyable
 {
     static_assert(std::is_base_of<Vertex, VERTEX>::value, "Template parameter is not a Vertex type!");
 
@@ -96,7 +96,7 @@ VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 ), _vertexBuffer(null
 
     // #1 Create VAO
     glGenVertexArrays( 1, &_vaoId );
-    LOGGER.log( Level::DEBUG, _vaoId ) << "CREATE" << endl;
+    LOGGER.log( Level::DEBUG, _vaoId ) << "CREATE\n";
 
     // #2 Create VBO and IxBO
     set_vertexbuffer( make_owner<VertexBuffer<VERTEX>>( _layout, DEFAULT_VERTEXBUFFER_SIZE ));
@@ -106,7 +106,7 @@ VertexArray<VERTEX>::VertexArray() : _vertexTokenNextId( 0 ), _vertexBuffer(null
 template<class VERTEX>
 VertexArray<VERTEX>::~VertexArray()
 {
-    LOGGER.log( Level::DEBUG, _vaoId ) << "DELETE" << endl;
+    LOGGER.log( Level::DEBUG, _vaoId ) << "DELETE" << "\n";
     glDeleteVertexArrays( 1, &_vaoId );
 }
 
@@ -228,7 +228,8 @@ void VertexArray<VERTEX>::write_new_indices_into_indexbuffer() {
     // 1# Add indices to indexbuffer
     for ( auto token : _toAddToIndexBuffer ) {
         if ( !token->vertexbuffer_token()->valid() ) {
-            LOGGER.log( Level::WARN, _vaoId ) << " trying to add indices of invalid vertextoken (vertices not written to vertexbuffer yet -> no indices)!" << endl; continue;
+            LOGGER.log( Level::WARN, _vaoId ) << " trying to add indices of invalid vertextoken (vertices not written to vertexbuffer yet -> no indices)!" << "\n"; 
+            continue;
         }
 
         auto indexToken = _indexBuffer->add_indices( token->vertexbuffer_token()->object_indices() );
@@ -271,7 +272,7 @@ VertexArray<VERTEX>& VertexArray<VERTEX>::operator=( VertexArray<VERTEX>&& orig 
 template<class VERTEX>
 void VertexArray<VERTEX>::set_vertexbuffer( owner<VertexBuffer<VERTEX>> vertexBuffer )
 {
-    LOGGER.log( Level::DEBUG, _vaoId ) << "BIND VBO (id:" << vertexBuffer->get_id() << ")" << endl;
+    LOGGER.log( Level::DEBUG, _vaoId ) << "BIND VBO (id:" << vertexBuffer->get_id() << ")" << "\n";
 
     // #1 Set vertexbuffer
     _vertexBuffer = std::move( vertexBuffer );
@@ -283,7 +284,7 @@ void VertexArray<VERTEX>::set_vertexbuffer( owner<VertexBuffer<VERTEX>> vertexBu
     // #3 Declare VBO Layout
     GLuint offset = 0;
     for ( VertexComponent component : _layout.components() ) {
-        LOGGER.log( Level::DEBUG, _vaoId ) << "ATTR (pos:" << component.position << ", num:" << component.num_components() << ", glt:" << component.gltype() << ", off:" << offset << ")" << endl;
+        LOGGER.log( Level::DEBUG, _vaoId ) << "ATTR (pos:" << component.position << ", num:" << component.num_components() << ", glt:" << component.gltype() << ", off:" << offset << ")\n"  ;
         glEnableVertexAttribArray( component.position );
         glVertexAttribPointer( (GLuint)component.position, (GLuint)component.num_components(), component.gltype(), false, (GLuint)_layout.bytesize(), BUFFER_OFFSET( offset ) );
         offset += (GLuint)component.bytesize();
@@ -297,7 +298,7 @@ void VertexArray<VERTEX>::set_vertexbuffer( owner<VertexBuffer<VERTEX>> vertexBu
 template<class VERTEX>
 void VertexArray<VERTEX>::set_indexbuffer( owner<IndexBuffer> indexBuffer )
 {
-    LOGGER.log( Level::DEBUG, _vaoId ) << "BIND IxBO (id:" << indexBuffer->get_id() << ")" << endl;
+    LOGGER.log( Level::DEBUG, _vaoId ) << "BIND IxBO (id:" << indexBuffer->get_id() << ")\n";
 
     // #1 Set indexbuffer
     _indexBuffer = std::move( indexBuffer );

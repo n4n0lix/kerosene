@@ -122,7 +122,7 @@ owner<Texture> RenderEngine::load_texture(string filename, TextureOptions option
     if (StringUtils::ends_with(filename, ".png"))
         image = ImageUtils::load_png(filename);
     else
-        LOGGER.log(Level::ERROR) << "Unsupported filetype: " << filename << endl;
+        LOGGER.log(Level::ERROR) << "Unsupported filetype: " << filename << "\n";
     
     return make_owner<Texture>(image.get(), options);
 }
@@ -208,7 +208,7 @@ void RenderEngine::init_context_and_window()
     _mainWindow->set_x(800);
     _mainWindow->set_y(300);
     _mainWindow->make_current();
-    std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << "\n";
 
     // Enable transparency
     glEnable( GL_BLEND );

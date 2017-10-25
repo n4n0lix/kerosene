@@ -16,7 +16,7 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-class Camera : public Object
+class Camera : public noncopyable
 {
 public:
     virtual void        activate(float delta) = 0;

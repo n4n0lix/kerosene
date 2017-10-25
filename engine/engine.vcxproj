@@ -50,6 +50,8 @@
     <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\entitysystem.h" />
     <ClInclude Include="source\engine\stdafx.h" />
+    <ClInclude Include="source\engine\tilemaprenderer.h" />
+    <ClInclude Include="source\engine\mixins.h" />
     <ClInclude Include="source\engine\triangle.h" />
     <ClInclude Include="source\engine\value.h" />
     <ClInclude Include="source\engine\vertexbuffertoken.h" />

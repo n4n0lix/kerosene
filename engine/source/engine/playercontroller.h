@@ -27,7 +27,7 @@ private:
 
             void handleWASD( Controllable&, KeyEvent& );
 
-    weak<Entity> _entity;
+    weak<Entity> entity;
 
 };
 

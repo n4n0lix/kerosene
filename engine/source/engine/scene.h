@@ -24,7 +24,7 @@ ENGINE_NAMESPACE_BEGIN
 class Renderer;
 class RenderEngine;
 
-class Scene : public Object
+class Scene : public noncopyable
 {
 public:
     template<typename T>

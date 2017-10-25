@@ -10,7 +10,7 @@ ENGINE_NAMESPACE_BEGIN
 // http://devcry.heiho.net/html/2015/20150517-libpng.html
 owner<Image> ImageUtils::load_png(string filepath)
 {
-    LOGGER.log(Level::DEBUG) << "Load png file '" << filepath.c_str() << "' ..." << endl;
+    LOGGER.log(Level::DEBUG) << "Load png file '" << filepath.c_str() << "' ...\n";
 
     uint32          imgWidth;
     uint32          imgHeight;
@@ -24,10 +24,10 @@ owner<Image> ImageUtils::load_png(string filepath)
     errno_t error = fopen_s(&ptrFile, filepath.c_str(), "rb");
     //owner<FILE> file = owner<FILE>(ptrFile);
 
-    std::cout << filepath << endl;
+    std::cout << filepath << "\n";
 
     if (error) {
-        LOGGER.log(Level::ERROR) << "Couldn't load png file: error (errno:" << error << ") during open file '" << filepath.c_str() << "'!" << endl;
+        LOGGER.log(Level::ERROR) << "Couldn't load png file: error (errno:" << error << ") during open file '" << filepath.c_str() << "'!\n";
         return nullptr;
     }
 
@@ -35,13 +35,13 @@ owner<Image> ImageUtils::load_png(string filepath)
     unsigned char fileSignature[8];
     if (fread(fileSignature, 1, sizeof(fileSignature), ptrFile) < 8) {
         fclose( ptrFile );
-        LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' couldn't be read!" << endl;
+        LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' couldn't be read!\n";
         return nullptr;
     }
 
     if (!png_check_sig(fileSignature, 8)) {
         fclose( ptrFile );
-        LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' is no png file!" << endl;
+        LOGGER.log(Level::ERROR) << "Couldn't load png file: file '" << filepath << "' is no png file!\n";
         return nullptr;
     }
 
@@ -49,7 +49,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     png_structp pngDecoder = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     if (pngDecoder == nullptr) {
         fclose( ptrFile );
-        LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-handle!" << endl;
+        LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-handle!\n";
         return nullptr;
     }
 
@@ -57,7 +57,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     if (pngMetadata == nullptr) {
         png_destroy_read_struct(&pngDecoder, nullptr, nullptr);
         fclose( ptrFile );
-        LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-metadata!" << endl;
+        LOGGER.log(Level::ERROR) << "Couldn't load png file: couldn't create png-metadata!\n";
         return nullptr;
     }
 
@@ -158,7 +158,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     result->data        = move( imgData );
     result->sizeBytes   = imgBytes;
     
-    LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")" << endl;
+    LOGGER.log(Level::DEBUG) << "Png file '" << filepath.c_str() << "' sucessful loaded (" << result->dbg_str() << ")\n";
 
     return std::move( result );
 }

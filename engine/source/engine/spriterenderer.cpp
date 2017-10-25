@@ -12,7 +12,7 @@ SpriteRenderer::SpriteRenderer()
     _material(Material()), 
     //_vao(VertexArray<Vertex_pt>()), 
     _token(nullptr), 
-    _entity(nullptr),
+    entity(nullptr),
     _anchor(Vector2f(0,0)),
     _size(Vector2f(1,1))
 {
@@ -29,7 +29,7 @@ SpriteRenderer::SpriteRenderer( Config config ) : SpriteRenderer()
 
 void SpriteRenderer::set_entity( weak<Entity> pEntity )
 {
-    _entity = pEntity;
+    entity = pEntity;
 }
 
 void SpriteRenderer::set_texture( weak<Texture> texture )
@@ -57,12 +57,12 @@ void SpriteRenderer::on_init( RenderEngine& pRenderEngine )
 
 void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Matrix4f& pProjViewMat, float pInterpolation )
 {
-    if ( !_entity ) return; // TODO: Try to remove this
+    if ( !entity ) return; // TODO: Try to remove this
 
     // Interpolate transform, as we are between a calculated tick and a future tick
-    Vector3f        position = Vector3f::lerp( _entity->lastPosition, _entity->position, pInterpolation );
-    Vector3f        scale    = Vector3f::lerp( _entity->lastScale, _entity->scale, pInterpolation );
-    Quaternion4f    rotation = Quaternion4f::slerp( _entity->lastRotation, _entity->rotation, pInterpolation );
+    Vector3f        position = Vector3f::lerp( entity->lastPosition, entity->position, pInterpolation );
+    Vector3f        scale    = Vector3f::lerp( entity->lastScale, entity->scale, pInterpolation );
+    Quaternion4f    rotation = Quaternion4f::slerp( entity->lastRotation, entity->rotation, pInterpolation );
 
     Matrix4f        matPos   = Matrix4f::translation( position );
     Matrix4f        matScale = Matrix4f::scaling( scale );
