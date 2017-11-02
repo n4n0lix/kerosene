@@ -10,6 +10,9 @@
 #include "controllable.h"
 #include "playercontroller.h"
 #include "player_spawner.h"
+#include "transform.h"
+#include "mixins.h"
+#include "_gamedef.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

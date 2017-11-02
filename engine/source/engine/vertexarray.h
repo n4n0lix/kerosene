@@ -39,7 +39,7 @@ public:
     VertexArray();
     ~VertexArray();
 
-    owner<VertexToken>  add_vertices( vector<VERTEX>&& vertices );
+    owner<VertexToken>  add_vertices( std::vector<VERTEX>&& vertices );
     void                remove_vertices( owner<VertexToken> token );
 
     void                add_render_static( weak<VertexToken> token );
@@ -71,7 +71,7 @@ private:
     owner<VertexBuffer<VERTEX>>    _vertexBuffer;
     owner<IndexBuffer>             _indexBuffer;
 
-    vector<weak<VertexToken>>      _toAddToIndexBuffer;
+    std::vector<weak<VertexToken>> _toAddToIndexBuffer;
 
     uint32 _vertexTokenNextId;
 
@@ -111,9 +111,9 @@ VertexArray<VERTEX>::~VertexArray()
 }
 
 template<class VERTEX>
-owner<VertexToken> VertexArray<VERTEX>::add_vertices( vector<VERTEX>&& vertices ) {
+owner<VertexToken> VertexArray<VERTEX>::add_vertices( std::vector<VERTEX>&& vertices ) {
     // 1# Add vertices
-    weak<VertexBufferToken> vertexBufferToken = _vertexBuffer->add_vertices( std::forward<vector<VERTEX>>( vertices ) );
+    weak<VertexBufferToken> vertexBufferToken = _vertexBuffer->add_vertices( std::forward<std::vector<VERTEX>>( vertices ) );
 
     // 2# Assemble VertexToken
     owner<VertexToken> vertexToken = make_owner<VertexToken>( _vertexTokenNextId++ );
@@ -254,7 +254,7 @@ VertexArray<VERTEX>& VertexArray<VERTEX>::operator=( VertexArray<VERTEX>&& orig 
     orig._layout = orig._layout;
     orig._vertexBuffer = nullptr;
     orig._indexBuffer = nullptr;
-    orig._toAddToIndexBuffer = vector<weak<VertexToken>>();
+    orig._toAddToIndexBuffer = std::vector<weak<VertexToken>>();
     orig._vertexTokenNextId = 0;
 
     return *this;

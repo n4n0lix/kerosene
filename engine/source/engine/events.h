@@ -44,7 +44,7 @@ struct Emitter
     };
 
 private:
-    vector<weak<__Consumer>> _funcs;
+    std::vector<weak<__Consumer>> _funcs;
 };
 
 

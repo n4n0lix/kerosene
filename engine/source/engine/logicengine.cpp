@@ -8,35 +8,36 @@ ENGINE_NAMESPACE_BEGIN
 
 void LogicEngine::on_start()
 {
-
+    mixin::register_type<has_transform>();
+    mixin::register_type<Controllable>();
 }
 
 void LogicEngine::on_tick_start()
 {
-    _snapshot.clear();
-    for ( auto entity : _entities ) {
-        unique<Entity>  copy = make_unique<Entity>();
+    //_snapshot.clear();
+    //for ( auto entity : _entities ) {
+    //    unique<Entity>  copy = make_unique<Entity>();
 
-        entitySys.create_snapshot_full( *copy, *entity );
-        controllableSys.create_snapshot_full( *copy, *entity );
+    //    //entitySys.create_snapshot_full( *copy, *entity );
+    //    //controllableSys.create_snapshot_full( *copy, *entity );
 
-        _snapshot.emplace_back( std::move( copy ) );
-    }
+    //    _snapshot.emplace_back( std::move( copy ) );
+    //}
 }
 
 void LogicEngine::on_update( float delta )
 {
-    for ( auto e : _entities ) {
-        Entity& entity = *e;
+    for ( auto& m : mixin::get_all<has_transform>() )
+        m.update();
 
-        entitySys.update( entity );
-        controllableSys.update( entity, delta );
-    }
+    for ( auto& m : mixin::get_all<Controllable>() )
+        m.update( delta );
 }
 
 void LogicEngine::on_shutdown()
 {
-    _snapshot.clear();
+    mixin::unregister_type<has_transform>();
+    mixin::unregister_type<Controllable>();
 }
 
 void LogicEngine::on_gamestate_end()
@@ -68,7 +69,7 @@ owner<Entity> LogicEngine::remove_entity( weak<Entity> wEntity )
     return oEntity;
 }
 
-vector<weak<Entity>>& LogicEngine::get_entities()
+std::vector<weak<Entity>>& LogicEngine::get_entities()
 {
     return _entities;
 }

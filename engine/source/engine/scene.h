@@ -10,9 +10,8 @@
 
 // Internal Includes
 #include "_global.h"
-#include "object.h"
+#include "noncopyable.h"
 #include "camera.h"
-#include "entitysystem.h"
 #include "batch.h"
 #include "renderer.h"
 
@@ -51,11 +50,11 @@ public:
 private:
     void    initialize_renderers( RenderEngine& engine );
 
-    vector<owner<Camera>>     _cameras;
+    std::vector<owner<Camera>>    _cameras;
 
-    vector<owner<Renderer>>  _ownerRenderers;
-    vector<weak<Renderer>>   _uninitRenderers;
-    vector<weak<Renderer>>   _renderers;
+    std::vector<owner<Renderer>>  _ownerRenderers;
+    std::vector<weak<Renderer>>   _uninitRenderers;
+    std::vector<weak<Renderer>>   _renderers;
 
 };
 

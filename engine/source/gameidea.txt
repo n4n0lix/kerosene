@@ -80,3 +80,7 @@ Names:
   - Chimera
   - Dark Souls: Man with Goat Head
   - Dark Souls: Man with Bull Head
+
+  =====================
+
+  Friend of the Realm

@@ -6,9 +6,7 @@
 
 // Internal Includes
 #include "_global.h"
-#include "object.h"
-
-#include "entitysystem.h"
+#include "noncopyable.h"
 
 #include "renderengine.h"
 #include "inputengine.h"

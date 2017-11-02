@@ -30,9 +30,16 @@ public:
     void        set_zoom( float zoom );
     float       get_zoom();
 
+    void        set_right( float );
+    void        set_top( float );
+
 private:
     float       _zoom;
     Vector3f    _target;
+    Vector3f    _lastTarget;
+
+    float       _right;
+    float       _top;
 };
 
 ENGINE_NAMESPACE_END

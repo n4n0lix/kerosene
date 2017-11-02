@@ -4,7 +4,6 @@
 
 // Std-Includes
 #include <algorithm>
-using std::transform;
 
 // Internal Includes
 #include "_gl.h"
@@ -42,7 +41,7 @@ public:
             explicit Batch( weak<Material> material );
             virtual ~Batch() = default;
 
-    owner<VertexToken>     add_vertices( vector<VERTEX>&& vertices );
+    owner<VertexToken>     add_vertices( std::vector<VERTEX>&& vertices );
     virtual void           remove_vertices( owner<VertexToken> token );
 
     virtual void           add_render( weak<VertexToken> token );
@@ -72,9 +71,9 @@ Batch<VERTEX>::Batch( weak<Material> material ) {
 }
 
 template<class VERTEX>
-owner<VertexToken> Batch<VERTEX>::add_vertices( vector<VERTEX>&& pVertices )
+owner<VertexToken> Batch<VERTEX>::add_vertices( std::vector<VERTEX>&& pVertices )
 {
-    return _vao->add_vertices( std::forward<vector<VERTEX>>( pVertices ) );
+    return _vao->add_vertices( std::forward<std::vector<VERTEX>>( pVertices ) );
 }
 
 template<class VERTEX>

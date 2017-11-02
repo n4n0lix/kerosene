@@ -132,15 +132,15 @@ Matrix4f Matrix4f::ortho2D( const float& left, const float& right, const float& 
     if ( left == right || bottom == top ) {
         return IDENTITY;
     }
-
-    float invZ = 1.0f / (zfar - znear);
-    float invY = 1.0f / (top - bottom);
+    
     float invX = 1.0f / (right - left);
+    float invY = 1.0f / (top - bottom);
+    float invZ = 1.0f / (zfar - znear);
 
-    return Matrix4f(              2 * invX,                      0,                      0, 0,
-                                         0,               2 * invY,                      0, 0,
-                                         0,                      0,              -2 * invZ, 0,
-                    -(right + left) * invX, -(top + bottom) * invY, -(zfar + znear) * invZ, 1 );
+    return Matrix4f( 2 * invX,         0,         0, -(right + left) * invX,
+                             0, 2 * invY,         0, -(top + bottom) * invY,
+                             0,        0, -2 * invZ, -(zfar + znear) * invZ,
+                             0,        0,         0,                      1);
 }
 
 Matrix4f Matrix4f::look_at_lh( const Vector3f& eye, const Vector3f& target, const Vector3f& up )
@@ -154,15 +154,17 @@ Matrix4f Matrix4f::look_at_lh( const Vector3f& eye, const Vector3f& target, cons
                              0,         0,         0,                   1);
 }
 
-Matrix4f Matrix4f::look_at_rh( const Vector3f & eye, const Vector3f & target, const Vector3f & up )
+Matrix4f Matrix4f::look_at_rh( const Vector3f& eye, const Vector3f& target, const Vector3f & up )
 {
-    Vector3f forward = (target - eye).normalized();
-    Vector3f right   = up.cross( forward ).normalized();
+    Vector3f forward = ( eye - target ).normalized();       // The "forward" vector.
+    Vector3f right   = up.cross( forward ).normalized();    // The "right" vector.
 
-    return Matrix4f( right.x, right.y, right.z, -right.dot( eye ),
-        up.x, up.y, up.z, -up.dot( eye ),
-        forward.x, forward.y, forward.z, -forward.dot( eye ),
-        0, 0, 0, 1 );
+    return Matrix4f(
+                  right.x,            up.x,            forward.x, 0,
+                  right.y,            up.y,            forward.y, 0,
+                  right.z,            up.z,            forward.z, 0,
+        -right.dot( eye ), - up.dot( eye ), - forward.dot( eye ), 1 )
+    ;
 }
 
 Matrix4f::Matrix4f() : m00(0), m01(0), m02(0), m03(0),
@@ -419,7 +421,7 @@ Vector4f Matrix4f::to_quaternion_4f()
     return Vector4f( x, y, z, w );
 }
 
-vector<float> Matrix4f::row_major() const
+std::vector<float> Matrix4f::row_major() const
 {
     return { m00, m10, m20, m30,
              m01, m11, m21, m31,
@@ -427,12 +429,19 @@ vector<float> Matrix4f::row_major() const
              m03, m13, m23, m33 };
 }
 
-vector<float> Matrix4f::column_major() const
+std::vector<float> Matrix4f::column_major() const
 {
     return { m00, m01, m02, m03,
              m10, m11, m12, m13,
              m20, m21, m22, m23,
              m30, m31, m32, m33 };
 } 
+
+std::ostream& operator<<( std::ostream &strm, const Matrix4f &m ) {
+            strm << "[ " << m.m00 << ", " << m.m01 << "," << m.m02 << "," << m.m03 << " ]\n";
+            strm << "[ " << m.m10 << ", " << m.m11 << "," << m.m12 << "," << m.m13 << " ]\n";
+            strm << "[ " << m.m20 << ", " << m.m21 << "," << m.m22 << "," << m.m23 << " ]\n";
+    return  strm << "[ " << m.m30 << ", " << m.m31 << "," << m.m32 << "," << m.m33 << " ]\n";
+}
 
 ENGINE_NAMESPACE_END

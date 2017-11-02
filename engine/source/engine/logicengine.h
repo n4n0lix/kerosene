@@ -8,8 +8,11 @@
 // Internal Includes
 #include "_global.h"
 #include "idgen.h"
-#include "entitysystem.h"
-#include "controllablesystem.h"
+
+#include "entity.h"
+#include "mixins.h"
+#include "transform.h"
+#include "controllable.h"
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -24,21 +27,14 @@ public:
 
     void on_gamestate_end();
 
-    weak<Entity>            add_entity( owner<Entity> );
-    owner<Entity>           remove_entity( weak<Entity> );
-    vector<weak<Entity>>&   get_entities();
+    weak<Entity>                add_entity( owner<Entity> );
+    owner<Entity>               remove_entity( weak<Entity> );
+    std::vector<weak<Entity>>&  get_entities();
 
 private:
-    // Systems
-    EntitySystem        entitySys;
-    ControllableSystem  controllableSys;
-
     // Current Snapshot
-    vector<owner<Entity>> _entityOwners;
-    vector<weak<Entity>>  _entities;
-
-    // Snapshot History
-    vector<unique<Entity>> _snapshot;
+    std::vector<owner<Entity>> _entityOwners;
+    std::vector<weak<Entity>>  _entities;
 
     static IDGen ENTITY_ID_GENERATOR;
 };

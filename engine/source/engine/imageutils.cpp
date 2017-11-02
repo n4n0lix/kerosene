@@ -12,12 +12,12 @@ owner<Image> ImageUtils::load_png(string filepath)
 {
     LOGGER.log(Level::DEBUG) << "Load png file '" << filepath.c_str() << "' ...\n";
 
-    uint32          imgWidth;
-    uint32          imgHeight;
-    uint32          imgBpp;
-    ImageFormat     imgFormat;
-    uint32          imgBytes;
-    vector<uint8>   imgData;
+    uint32              imgWidth;
+    uint32              imgHeight;
+    uint32              imgBpp;
+    ImageFormat         imgFormat;
+    uint32              imgBytes;
+    std::vector<uint8>  imgData;
 
     // 1# Open file
     FILE* ptrFile;
@@ -135,7 +135,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     // #X Read out image data
     imgData.resize(imgWidth * imgHeight * imgBpp);
 
-    vector<png_bytep> rows;
+    std::vector<png_bytep> rows;
     rows.resize( imgHeight, 0 );
     uint8* row_address = &imgData[0];
     for (uint32 i = 0; i < imgHeight; i++) {

@@ -8,6 +8,7 @@
 #include <ostream>
 #include <stdexcept>
 #include <functional>
+
 // Other Includes
 
 // Std-Extensions
@@ -35,39 +36,32 @@ template<class T>
 class VertexBuffer
 {
 public:
+                VertexBuffer(VertexLayout layout, uint32 initCapacity);
+                ~VertexBuffer();
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-                                    VertexBuffer(VertexLayout layout, uint32 initCapacity);
-                                    ~VertexBuffer();
+            GLuint                      get_id() const;
+            uint32                      object_size() const;
+            uint32                      object_capacity() const;
+            uint32                      atom_capacity() const;
 
-            GLuint                          get_id()            const;
-            uint32                          object_size()       const;
-            uint32                          object_capacity()   const;
-            uint32                          atom_capacity()     const;
+            weak<VertexBufferToken>     add_vertices( std::vector<T> vertices);
+            void                        remove_vertices(weak<VertexBufferToken> token);
+            void                        clear();
 
-            weak<VertexBufferToken>         add_vertices(vector<T> vertices);
-            void                            remove_vertices(weak<VertexBufferToken> token);
-            void                            clear();
+            void                        commit_write();
+            void                        commit_remove();
 
-            void                            commit_write();
-            void                            commit_remove();
-
-            virtual uint32                  num_vertices()      const;
-            bool                            contains(weak<VertexBufferToken> token) const;
+    virtual uint32                      num_vertices() const;
+            bool                        contains(weak<VertexBufferToken> token) const;
 
 protected:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                       Protected                        */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-            void                                    native_remove_at(uint32 index, uint32 length);
-            void                                    native_resize(uint32 oldCapacity, uint32 newCapacity);
+            void                        native_remove_at(uint32 index, uint32 length);
+            void                        native_resize(uint32 oldCapacity, uint32 newCapacity);
             
-            void                                    commit_write(vector<T> objects, weak<VertexBufferToken> token);
-            void                                    commit_remove(weak<VertexBufferToken> token);
+            void                        commit_write( std::vector<T> objects, weak<VertexBufferToken> token);
+            void                        commit_remove(weak<VertexBufferToken> token);
 
-            void                                    native_write_at(uint32 index, vector<float> data);
+            void                        native_write_at(uint32 index, std::vector<float> data);
 
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -90,10 +84,10 @@ private:
     map<uint32, Range>    _freeRanges;
     map<uint32, Range>    _usedRanges;
 
-    map<weak<VertexBufferToken>, vector<T>, weak_less<VertexBufferToken>> _writeBucket;
+    map<weak<VertexBufferToken>, std::vector<T>, weak_less<VertexBufferToken>> _writeBucket;
 
-    vector<weak<VertexBufferToken>>      _removeBucket;
-    vector<owner<VertexBufferToken>>      _tokens;
+    std::vector<weak<VertexBufferToken>>      _removeBucket;
+    std::vector<owner<VertexBufferToken>>      _tokens;
 
     IDGen                 _rangeIDGen;
     IDGen                 _tokenIDGen;
@@ -142,7 +136,7 @@ GLuint VertexBuffer<T>::get_id() const
 }
 
 template<class T>
-weak<VertexBufferToken> VertexBuffer<T>::add_vertices(vector<T> vertices)
+weak<VertexBufferToken> VertexBuffer<T>::add_vertices( std::vector<T> vertices)
 {
     LOGGER.log(Level::DEBUG, _vboId) << "ADD " << vertices.size() << " vertices\n";
     // 1# Guards
@@ -274,7 +268,7 @@ uint32 VertexBuffer<T>::atom_capacity() const
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void VertexBuffer<T>::native_write_at(uint32 index, vector<float> data) {
+void VertexBuffer<T>::native_write_at(uint32 index, std::vector<float> data) {
     glBindBuffer(GL_ARRAY_BUFFER, _vboId);
     glBufferSubData(GL_ARRAY_BUFFER, index, data.size() * FLOAT_BYTES, data.data());
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -313,7 +307,7 @@ void VertexBuffer<T>::native_resize(uint32 oldCapacity, uint32 newCapacity)
 }
 
 template<class T>
-void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> token)
+void VertexBuffer<T>::commit_write( std::vector<T> vertices, weak<VertexBufferToken> token)
 {
     // 0# Contract Pre
     Guard(vertices.size() > 0) return;
@@ -331,7 +325,7 @@ void VertexBuffer<T>::commit_write(vector<T> vertices, weak<VertexBufferToken> t
     _usedRanges[freeRangeId] = freeRange;
 
     // 2# Bring data into native format
-    vector<float> data;
+    std::vector<float> data;
     for (T vertex : vertices) {
         data.insert(data.end(), vertex.data.begin(), vertex.data.end());
 

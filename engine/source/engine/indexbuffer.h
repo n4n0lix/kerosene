@@ -21,11 +21,11 @@ public:
 
     GLuint                      get_id();
 
-    weak<StackBufferToken>      add_indices( vector<uint32> indices );
+    weak<StackBufferToken>      add_indices( std::vector<uint32> indices );
     void                        remove_indices( weak<StackBufferToken> token );
 
 protected:
-    virtual void                        native_write( uint32 index, vector<uint32> vertices );
+    virtual void                        native_write( uint32 index, std::vector<uint32> vertices );
     virtual void                        native_resize( uint32 oldCapacity, uint32 newCapacity );
     virtual void                        native_copy( uint32 srcIndex, uint32 destIndex, uint32 length );
 

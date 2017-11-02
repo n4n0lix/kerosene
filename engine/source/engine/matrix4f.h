@@ -65,8 +65,8 @@ public:
 
     Vector4f /*Quaternion4f*/ to_quaternion_4f();
 
-    vector<float> column_major() const;
-    vector<float> row_major() const;
+    std::vector<float> column_major() const;
+    std::vector<float> row_major() const;
 
     float m00, m01, m02, m03;
     float m10, m11, m12, m13;
@@ -74,7 +74,7 @@ public:
     float m30, m31, m32, m33;
 
 private:
-
+    friend std::ostream& operator<<( std::ostream&, const Matrix4f& );
 };
 
 ENGINE_NAMESPACE_END

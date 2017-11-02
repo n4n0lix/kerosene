@@ -15,6 +15,9 @@ Vector2f Vector2f::Y_AXIS = Vector2f(0.0f, 1.0f);
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 Vector2f::Vector2f() : x(0), y(0) {}
+
+Vector2f::Vector2f( const Vector2f& copy ) : x(copy.x), y(copy.y) {}
+
 Vector2f::Vector2f(const float x, const float y) : x(x), y(y) {}
 
 bool Vector2f::is_unit()
@@ -159,6 +162,24 @@ Vector2f& Vector2f::operator/=(const float o)
     x /= o;
     y /= o;
     return *this;
+}
+
+Vector2f Vector2f::normalized() const
+{
+    Vector2f result = *this;
+    float len = result.length();
+
+    if ( len != 0.0f ) {
+        result.x = result.x / len;
+        result.y = result.y / len;
+    }
+
+    return result;
+}
+
+float Vector2f::length() const
+{
+    return std::sqrt( x*x + y*y);
 }
 
 float Vector2f::cross( Vector2f & o )

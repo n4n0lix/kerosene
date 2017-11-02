@@ -48,16 +48,16 @@ bool Vector3f::is_zero()
     return x == 0.0f && y == 0.0f && z == 0.0f;
 }
 
-bool Vector3f::operator==(const Vector3f& vector) const
+bool Vector3f::operator==(const Vector3f& pVector ) const
 {
-    return x == vector.x
-        && y == vector.y
-        && z == vector.z;
+    return x == pVector.x
+        && y == pVector.y
+        && z == pVector.z;
 }
 
-bool Vector3f::operator!=(const Vector3f& vector) const
+bool Vector3f::operator!=(const Vector3f& pVector) const
 {
-    return !(*this == vector);
+    return !(*this == pVector);
 }
 
 Vector3f Vector3f::operator-() const
@@ -226,8 +226,8 @@ Vector3f Vector3f::cross(Vector3f o) const
     return result;
 }
 
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Private                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+std::ostream& operator<<( std::ostream &strm, const Vector3f &v ) {
+    return strm << "( " << v.x << "f, " << v.y << "f," << v.z << "f )";
+}
 
 ENGINE_NAMESPACE_END

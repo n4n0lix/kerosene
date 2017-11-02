@@ -21,7 +21,7 @@ Vertex_pt::Vertex_pt(Vector3f position, Vector2f texcoords) : Vertex()
                  { "vec2", "texcoords", 2 } } };
 
     // Data Vector
-    data = vector<float>();
+    data = std::vector<float>();
     data.reserve( 5 );
     data.push_back( position.x );
     data.push_back( position.y );

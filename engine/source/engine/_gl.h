@@ -5,6 +5,7 @@
 #include "glew.h"
 #include "glfw3.h"
 
+//#define MAT4_ROW_MAJOR
 
 #ifdef GL_DEBUG
     #include <string>

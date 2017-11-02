@@ -7,7 +7,7 @@
 // Internal Includes
 #include "_gl.h"
 #include "_global.h"
-#include "object.h"
+#include "noncopyable.h"
 #include "events.h"
 
 #include "matrix4f.h"
@@ -21,6 +21,8 @@ class Camera : public noncopyable
 public:
     virtual void        activate(float delta) = 0;
         
+            void        set_viewport( Viewport4i viewport );
+
             Viewport4i& get_viewport();
             Matrix4f&   proj_view_mat4();
 

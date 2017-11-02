@@ -23,9 +23,9 @@ struct Vertex
             Vertex() = default;
             virtual ~Vertex() = default;
 
-            VertexLayout  layout;
-            uint32        bytesize;
-            vector<float> data;
+            VertexLayout        layout;
+            uint32              bytesize;
+            std::vector<float>  data;
 };
 
 ENGINE_NAMESPACE_END

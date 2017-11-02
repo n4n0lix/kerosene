@@ -3,6 +3,14 @@
 
 ENGINE_NAMESPACE_BEGIN
 
+void Camera::set_viewport( Viewport4i viewport )
+{
+    _viewport.x = viewport.x;
+    _viewport.y = viewport.y;
+    _viewport.w = viewport.w;
+    _viewport.h = viewport.h;
+}
+
 Viewport4i& Camera::get_viewport()
 {
     return _viewport;

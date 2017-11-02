@@ -27,7 +27,7 @@ ENGINE_NAMESPACE_BEGIN
 class NetworkVariable {
 public:
     uint32 id;
-    virtual void write( vector<byte>& ) = 0;
+    virtual void write( std::vector<byte>& ) = 0;
 };
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -46,7 +46,7 @@ public:
         return *this;
     }
 
-    virtual void write( vector<byte>& ) = 0;
+    virtual void write( std::vector<byte>& ) = 0;
 
 
     T      value;
@@ -67,7 +67,7 @@ class NetVar<bool> : public BaseNetVar<bool> {
 public:
     NetVar( bool aBool ) : BaseNetVar( aBool ) {}
 
-    virtual void write( vector<byte>& v ) 
+    virtual void write( std::vector<byte>& v )
     {
         __net_write( v, id );
         __net_write( v, value );
@@ -83,7 +83,7 @@ class NetVar<uint32> : public BaseNetVar<uint32> {
 public:
     NetVar( uint32 aUint ) : BaseNetVar( aUint ) {}
 
-    virtual void write( vector<byte>& v ) override 
+    virtual void write( std::vector<byte>& v ) override
     {
         __net_write( v, id );
         __net_write( v, value );
@@ -99,7 +99,7 @@ class NetVar<int32> : public BaseNetVar<int32> {
 public:
     NetVar( int32 aInt ) : BaseNetVar( aInt ) {}
 
-    virtual void write( vector<byte>& v ) override 
+    virtual void write( std::vector<byte>& v ) override
     {
         __net_write( v, id );
         __net_write( v, value );
@@ -115,7 +115,7 @@ class NetVar<string> : public BaseNetVar<string> {
 public:
     NetVar( string aString ) : BaseNetVar( aString ) {}
 
-    virtual void write( vector<byte>& v ) override 
+    virtual void write( std::vector<byte>& v ) override
     {
         uint16 length = (uint16)std::min( value.length(), size_t( 1024 ) ); // 1024 - Max String Length for net packets
 
@@ -137,7 +137,7 @@ class NetVar<Vector3f> : public BaseNetVar<Vector3f> {
 public:
     NetVar( Vector3f aVec3 ) : BaseNetVar( aVec3 ) {}
 
-    virtual void write( vector<byte>& v ) override {
+    virtual void write( std::vector<byte>& v ) override {
         __net_write( v, id );
         __net_write( v, value.x );
         __net_write( v, value.y );

@@ -205,8 +205,6 @@ void RenderEngine::on_gamestate_end()
 void RenderEngine::init_context_and_window()
 {
     _mainWindow = make_owner<GLWindow>("Test", 800, 600);
-    _mainWindow->set_x(800);
-    _mainWindow->set_y(300);
     _mainWindow->make_current();
     std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << "\n";
 
@@ -264,7 +262,11 @@ void RenderEngine::setup_builtin_shaders()
 		<< "out vec2 fs_texcoords;\n"
 		<< "\n"
 		<< "void main() {\n"
-		<< "    gl_Position = vec4(position, 1.0) * " << Uniform::WORLD_VIEW_PROJ_MATRIX.gl_varname() << ";\n"
+//#ifdef MAT4_ROW_MAJOR
+//		<< "    gl_Position = " << Uniform::WORLD_VIEW_PROJ_MATRIX.gl_varname() << " * vec4(position, 1.0);\n"
+//#else
+        << "    gl_Position = vec4(position, 1.0) * " << Uniform::WORLD_VIEW_PROJ_MATRIX.gl_varname() << ";\n"
+//#endif
 		<< "    fs_texcoords = texcoords;\n"
 		<< "}\n";
 

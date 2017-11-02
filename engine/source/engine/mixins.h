@@ -10,96 +10,132 @@
 #include "vector3f.h"
 #include "quaternion4f.h"
 #include "entity.h"
+#include "compact_map.h"
 
-ENGINE_NAMESPACE_BEGIN
+#define MAX_NUM_MIXINS 128
 
-struct MixinInfo {
-    uint8 id;
-};
+#define GLOBAL public
+#define PLAYER public
+#define LOCAL public
 
-struct Mixin {
-    entity_id id;
-};
+namespace ENGINE_NAMESPACE::mixin {
 
-template<typename MIXIN>
-MixinInfo get_mixin_info();
+    struct Mixin {
+        entity_id id;
+    };
 
-template<typename MIXIN>
-class MixinContainer {
-public:
-    vector<MIXIN>&          all_mixins();
-    MixinContainer<MIXIN>   snapshot();
+    template<typename MIXIN>
+    struct MixinInfo {
+        uint32 id;
+    };
 
-private:
-    vector<MIXIN> _mixins;
-};
+    template<typename MIXIN>
+    const MixinInfo<MIXIN>& get_mixin_info();
 
-//
-//typedef uint16 entity_id;
-//typedef uint16 trait_id;
-//
-//template<typename TRAIT>
-//struct MixinInfo {
-//    trait_id                        id;
-//    vector<pair<entity_id,TRAIT>>&  traits;
-//};
-//
-//template<typename TRAIT>
-//trait_info<TRAIT> __trait_info();
-//
-//struct entity {
-//
-//    entity_id id;
-//
-//    template<typename TRAIT>
-//    static vector<TRAIT>& all_instances_of() {
-//        trait_info<TRAIT> info = __trait_info<TRAIT>();
-//        return info.traits;
-//    }
-//
-//    template<typename TRAIT>
-//    bool has() {
-//        trait_info<TRAIT> info = __trait_info<TRAIT>();
-//        return _traitBitSet[info.id];
-//    }
-//
-//    template<typename TRAIT>
-//    entity& add() {
-//        trait_info<TRAIT> info = __trait_info<TRAIT>();
-//
-//        info.traits.push_back( make_pair( id, TRAIT() ));
-//        _traitBitSet[info.id] = true;
-//
-//        return this;
-//    }
-//
-//    template<typename TRAIT>
-//    entity& remove() {
-//        auto traits = __trait_info<TRAIT>().traits;
-//
-//        traits.erase( std::remove_if( traits.begin(), traits.end(), 
-//            [&]( pair<entity_id, TRAIT> trait ) { return trait.first = id; } ));
-//
-//        _traitBitSet[info.id] = false;
-//
-//        return this;
-//    }
-//
-//    template<typename TRAIT>
-//    TRAIT& get() {
-//        auto traits = __trait_info<TRAIT>().traits;
-//
-//        for ( auto& trait : traits ) {
-//            if ( trait.first == id )
-//                return trait.second;
-//        }
-//
-//        throw std::exception("Entity hasn't trait."); 
-//    }
-//
-//private:
-//    std::bitset<MAX_NUM_TRAITS> _traitBitSet;
-//};
+    extern std::vector<compact_map_t*> MIXINS;
 
-ENGINE_NAMESPACE_END
+    template<typename MIXIN>
+    void register_type() {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
 
+        size_t requiredSize = info.id + 1; // We also need a slot for id==0
+
+        if ( requiredSize >= MIXINS.size() ) {
+            MIXINS.resize( requiredSize + 16, nullptr );
+        }
+
+        if ( MIXINS[info.id] == nullptr ) {
+            MIXINS[info.id] = new compact_map<entity_id, MIXIN>();
+        }
+    }
+
+    template<typename MIXIN>
+    void unregister_type() {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+        delete MIXINS[info.id];
+    }
+
+    template<typename MIXIN>
+    MIXIN& add( Entity& pEntity ) {
+        return add<MIXIN>( pEntity.id );
+    }
+
+    template<typename MIXIN>
+    MIXIN& add( entity_id pEntityId ) {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+
+        MIXIN mixn = MIXIN();
+        mixn.id = pEntityId;
+
+        auto* map = (compact_map<entity_id, MIXIN>*) MIXINS[info.id];
+        map->put( pEntityId, std::move( mixn ) );
+
+        return map->access( pEntityId );
+    }
+
+    template<typename MIXIN>
+    void remove( Entity& pEntity ) {
+        remove<MIXIN>( pEntity.id );
+    }
+
+    template<typename MIXIN>
+    void remove( entity_id pEntityId ) {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+
+        auto* map = (compact_map<entity_id, MIXIN>*) MIXINS[info.id];
+
+        map->remove( pEntityId );
+    }
+
+    template<typename MIXIN>
+    bool has( Entity& pEntity ) {
+        return has<MIXIN>( pEntity.id );
+    }
+
+    template<typename MIXIN>
+    bool has( entity_id pEntityId ) {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+
+        auto* map = (compact_map<entity_id, MIXIN>*) MIXINS[info.id];
+
+        return map->contains( pEntityId );
+    }
+
+    template<typename MIXIN>
+    MIXIN& access( Entity& pEntity ) {
+        return access<MIXIN>( pEntity.id );
+    }
+
+    template<typename MIXIN>
+    MIXIN& access( entity_id pEntityId ) {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+
+        auto* map = (compact_map<entity_id, MIXIN>*) MIXINS[info.id];
+
+        return map->access( pEntityId );
+    }
+
+    template<typename MIXIN>
+    std::vector<MIXIN>& get_all() {
+        MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+
+        auto* map = (compact_map<entity_id, MIXIN>*) MIXINS[info.id];
+
+        return map->values();
+    }
+
+
+#define DEFINE_MIXIN(type) \
+extern const mixin::MixinInfo<##type##> MIXIN_INFO_##type##; \
+\
+template<> \
+const mixin::MixinInfo<##type##>& mixin::get_mixin_info();
+
+#define REGISTER_MIXIN(id, type) \
+const mixin::MixinInfo<##type##> MIXIN_INFO_##type = { id }; \
+\
+template<> \
+const mixin::MixinInfo<##type##>& mixin::get_mixin_info() { \
+    return MIXIN_INFO_##type##; }\
+
+}

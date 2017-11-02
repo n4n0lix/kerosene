@@ -6,60 +6,33 @@
 
 // Internal Includes
 #include "_global.h"
-#include "component.h"
-
+#include "mixins.h"
+#include "transform.h"
+#include "vector2f.h"
 
 ENGINE_NAMESPACE_BEGIN
 
-enum class CmdType {
-    // Meta
-    UNKOWN,
-
-    // Creature - Movement
-    MOVE_UP, MOVE_DOWN, MOVE_RIGHT, MOVE_LEFT,
-    TURN_TO_TARGET,
-
-    // Chat
-    CHAT_MSG,
-
-    // UI
-    UI_OPEN_INVENTORY
-};
-
-struct Command
+struct Controllable : mixin::Mixin
 {
-    Command();
+    void update( float delta );
 
-    CmdType  type;
-    bool     consumed;
+GLOBAL:
+    int32   health = 0;
+    int32   stamina = 0;
+    string  name = "Unnamed";
+    float   moveSpeed = 1;
+
+PLAYER:
+
+LOCAL:
+    bool moveUp = false;
+    bool moveDown = false;
+    bool moveLeft = false;
+    bool moveRight = false;
 };
 
-struct CmdMove : Command {
-    CmdMove();
 
-    bool started;
-};
-
-struct Controllable : Component
-{
-    Controllable();
-
-GLOBAL_VARS:
-    int32           health;
-    int32           stamina;
-    string          name;
-    float           moveSpeed;
-
-PLAYER_VARS:
-
-LOCAL_VARS:
-    bool moveUp;
-    bool moveDown;
-    bool moveLeft;
-    bool moveRight;
-
-    vector<unique<Command>> commandQ; // TODO: Extract this
-};
+DEFINE_MIXIN( Controllable );
 
 ENGINE_NAMESPACE_END
 

@@ -112,7 +112,7 @@
 
 
 // Ownership management
-#include "object.h"
+#include "noncopyable.h"
 #include "owner.h"
 #include <memory>
         using std::shared_ptr;
@@ -166,7 +166,6 @@ using namespace std::chrono_literals;
 
 // Using collections
 #include <vector>
-        using std::vector;
 
 #include <queue>
         using std::queue;

@@ -29,6 +29,16 @@ bool Renderer::is_initialized()
 	return _initialized;
 }
 
+weak<Entity> Renderer::get_entity()
+{
+    return _entity;
+}
+
+void Renderer::set_entity( weak<Entity> pEntity )
+{
+    _entity = pEntity;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                     Private Static                     */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

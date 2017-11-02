@@ -23,7 +23,7 @@ void InputEngine::on_update()
     // 1.1# Key events
     _keyGLFWQueueMutex.lock(); 
     {
-        _keyQueue = vector<KeyEvent>();
+        _keyQueue = std::vector<KeyEvent>();
         _keyQueue.swap( _keyGLFWQueue );
     } 
     _keyGLFWQueueMutex.unlock();
@@ -31,7 +31,7 @@ void InputEngine::on_update()
     // 1.2# Char events
     _charGLFWQueueMutex.lock();
     {
-        _charQueue = vector<CharEvent>();
+        _charQueue = std::vector<CharEvent>();
         _charQueue.swap( _charGLFWQueue );
     }
     _charGLFWQueueMutex.unlock();
@@ -39,7 +39,7 @@ void InputEngine::on_update()
     // 1.3# Mouse events
     _mouseGLFWQueueMutex.lock();
     {
-        _mouseQueue = vector<MouseEvent>();
+        _mouseQueue = std::vector<MouseEvent>();
         _mouseQueue.swap( _mouseGLFWQueue );
     }
     _mouseGLFWQueueMutex.unlock();
@@ -88,17 +88,17 @@ void InputEngine::set_mouse_position( double mx, double my )
     _my = my;
 }
 
-vector<KeyEvent>& InputEngine::get_keyevents()
+std::vector<KeyEvent>& InputEngine::get_keyevents()
 {
     return _keyQueue;
 }
 
-vector<CharEvent>& InputEngine::get_charevents()
+std::vector<CharEvent>& InputEngine::get_charevents()
 {
     return _charQueue;
 }
 
-vector<MouseEvent>& InputEngine::get_mouseevents()
+std::vector<MouseEvent>& InputEngine::get_mouseevents()
 {
     return _mouseQueue;
 }

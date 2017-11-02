@@ -15,6 +15,7 @@
 #include "spriterenderer.h"
 
 #include "playercontroller.h"
+#include "mixins.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */

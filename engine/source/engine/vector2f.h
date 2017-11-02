@@ -35,6 +35,7 @@ public:
     /*                        Public                          */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
             Vector2f();
+            Vector2f(const Vector2f& copy);
             Vector2f(const float x, const float y);
             ~Vector2f() = default;
             

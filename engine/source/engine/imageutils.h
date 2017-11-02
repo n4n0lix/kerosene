@@ -21,12 +21,12 @@ public:
             Image() = default;
             ~Image() = default;
 
-    uint32          width;
-    uint32          height;
-    uint32          bpp; // Bytes per pixels
-    ImageFormat     format;
-    vector<uint8>   data;
-    uint32          sizeBytes;
+    uint32              width;
+    uint32              height;
+    uint32              bpp; // Bytes per pixels
+    ImageFormat         format;
+    std::vector<uint8>  data;
+    uint32              sizeBytes;
 
     string          dbg_str() {
         std::ostringstream oss;

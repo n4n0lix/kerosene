@@ -20,7 +20,7 @@ Vertex_pc::Vertex_pc(Vector3f position, Vector4f color) : Vertex()
                  { "vec4", "color",    2 } } };
 
     // Data Vector
-    data = vector<float>();
+    data = std::vector<float>();
     data.reserve( 7 );
     data.push_back( position.x );
     data.push_back( position.y );

@@ -46,9 +46,9 @@ public:
     void set_mouse_position( double mx, double my );
 
     // OUTPUT
-    vector<KeyEvent>&    get_keyevents();
-    vector<CharEvent>&   get_charevents();
-    vector<MouseEvent>&  get_mouseevents();
+    std::vector<KeyEvent>&    get_keyevents();
+    std::vector<CharEvent>&   get_charevents();
+    std::vector<MouseEvent>&  get_mouseevents();
 
     double get_mouse_x();
     double get_mouse_y();
@@ -56,16 +56,16 @@ public:
 private:
     map<uint32, owner<LocalController>> _localControllers;
 
-    vector<KeyEvent>        _keyQueue;
-    vector<KeyEvent>        _keyGLFWQueue;
+    std::vector<KeyEvent>   _keyQueue;
+    std::vector<KeyEvent>   _keyGLFWQueue;
     std::mutex              _keyGLFWQueueMutex;
 
-    vector<CharEvent>       _charQueue;
-    vector<CharEvent>       _charGLFWQueue;
+    std::vector<CharEvent>  _charQueue;
+    std::vector<CharEvent>  _charGLFWQueue;
     std::mutex              _charGLFWQueueMutex;
 
-    vector<MouseEvent>      _mouseQueue;
-    vector<MouseEvent>      _mouseGLFWQueue;
+    std::vector<MouseEvent> _mouseQueue;
+    std::vector<MouseEvent> _mouseGLFWQueue;
     std::mutex              _mouseGLFWQueueMutex;
 
     double                  _mx;

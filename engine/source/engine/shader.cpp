@@ -49,7 +49,8 @@ VertexLayout Shader::get_vertex_layout()
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-Shader::Shader( VertexLayout pLayout, vector<Uniform> pVUniforms, vector<Uniform> pFUniforms, vector<TextureSlot> pTexSlots, string pVertexCode, string pFragCode )
+Shader::Shader( VertexLayout pLayout, std::vector<Uniform> pVUniforms, std::vector<Uniform> pFUniforms, 
+                std::vector<TextureSlot> pTexSlots, string pVertexCode, string pFragCode )
 {
     _vertexLayout = pLayout;
     _fragTextureSlots = pTexSlots;
@@ -74,7 +75,7 @@ Shader::~Shader()
     PerfStats::instance().frame_unload_shader();
 }
 
-GLuint Shader::create_vertex_shader( VertexLayout pLayout, vector<Uniform> pVUniforms, string pVertexSrc )
+GLuint Shader::create_vertex_shader( VertexLayout pLayout, std::vector<Uniform> pVUniforms, string pVertexSrc )
 {
     std::ostringstream vertexCode;
 
@@ -118,7 +119,7 @@ GLuint Shader::create_vertex_shader( VertexLayout pLayout, vector<Uniform> pVUni
     return vertexShaderId;
 }
 
-GLuint Shader::create_frag_shader( VertexLayout pLayout, vector<Uniform> pFUniforms, vector<TextureSlot> pTexSlots, string pFragSrc )
+GLuint Shader::create_frag_shader( VertexLayout pLayout, std::vector<Uniform> pFUniforms, std::vector<TextureSlot> pTexSlots, string pFragSrc )
 {
     std::ostringstream fragCode;
 
@@ -179,7 +180,7 @@ GLuint Shader::link_shader( GLuint pVShaderId, GLuint pFShaderId )
     return shaderId;
 }
 
-map<string, Uniform> Shader::process_uniforms( vector<Uniform> pUniforms )
+map<string, Uniform> Shader::process_uniforms( std::vector<Uniform> pUniforms )
 {
     bind();
 
@@ -193,7 +194,7 @@ map<string, Uniform> Shader::process_uniforms( vector<Uniform> pUniforms )
     return uniformMap;
 }
 
-vector<TextureSlot> Shader::process_textureslots( vector<TextureSlot> pSlots )
+std::vector<TextureSlot> Shader::process_textureslots( std::vector<TextureSlot> pSlots )
 {
     bind();
 

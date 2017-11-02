@@ -92,9 +92,9 @@ private:
 
     owner<GLWindow> _mainWindow;
 
-    vector<owner<Scene>>                                        _scenes;
-    map< string, owner<Texture> >	                            _textures;
-    map< string, owner<Shader> >	                            _shaders;
+    std::vector<owner<Scene>>            _scenes;
+    std::map< string, owner<Texture> >	 _textures;
+    std::map< string, owner<Shader> >	 _shaders;
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */

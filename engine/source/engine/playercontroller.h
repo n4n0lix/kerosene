@@ -21,7 +21,7 @@ public:
         PlayerController( weak<Entity> );
 
             void    set_entity( weak<Entity> );
-    virtual void    update( vector<KeyEvent>&, vector<CharEvent>&, vector<MouseEvent>& ) override;
+    virtual void    update( std::vector<KeyEvent>&, std::vector<CharEvent>&, std::vector<MouseEvent>& ) override;
 
 private:
 

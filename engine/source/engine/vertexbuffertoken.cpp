@@ -60,9 +60,9 @@ uint32 VertexBufferToken::object_size()
     return _objSize;
 }
 
-vector<uint32> VertexBufferToken::object_indices()
+std::vector<uint32> VertexBufferToken::object_indices()
 {
-    vector<uint32> objIndices;
+    std::vector<uint32> objIndices;
 
     if (_objRange.length() > 0) {
         for (uint32 i = _objRange.index(); i <= _objRange.last_index(); i++) {

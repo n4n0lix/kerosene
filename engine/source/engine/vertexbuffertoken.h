@@ -30,7 +30,7 @@ public:
     bool                        valid();            // Returns true as soon as the objects are written in the buffer
 
     Range                       object_range();
-    vector<uint32>              object_indices();
+    std::vector<uint32>         object_indices();
 
     bool                        operator!=(const VertexBufferToken& o) const;
     bool                        operator==(const VertexBufferToken& o) const;

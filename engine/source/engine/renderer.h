@@ -33,6 +33,9 @@ public:
 
     bool is_initialized();
 
+    weak<Entity> get_entity();
+    void         set_entity( weak<Entity> );
+
 protected:
     virtual void on_init( RenderEngine& ) = 0;
     virtual void on_render( RenderEngine&, Camera&, Matrix4f&, float ) = 0;
@@ -40,7 +43,7 @@ protected:
 
 private:
     bool			    _initialized;
-
+    weak<Entity>        _entity;
 };
 
 ENGINE_NAMESPACE_END

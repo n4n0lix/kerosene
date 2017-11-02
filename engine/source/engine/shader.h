@@ -39,7 +39,7 @@ enum class UniformType {
 class Shader
 {
 public:
-            Shader(VertexLayout layout, vector<Uniform> vUniforms, vector<Uniform> fUniforms, vector<TextureSlot> texSlots, string vertex, string fragment);
+            Shader(VertexLayout layout, std::vector<Uniform> vUniforms, std::vector<Uniform> fUniforms, std::vector<TextureSlot> texSlots, string vertex, string fragment);
             ~Shader();
 
     bool operator==( const Shader& o ) const;
@@ -72,18 +72,18 @@ private:
             VertexLayout              _vertexLayout;
             map<string, Uniform>      _vertexUniforms;
             map<string, Uniform>      _fragUniforms;
-            vector<TextureSlot>       _fragTextureSlots;
+            std::vector<TextureSlot>       _fragTextureSlots;
 
-    void    set_uniform( Uniform uniform, const Matrix4f& mat4, map<string, Uniform>& uniforms );
-    void    set_uniform( Uniform uniform, const Vector2f& vec2, map<string, Uniform>& uniforms );
-    void    set_uniform( Uniform uniform, const Vector3f& vec3, map<string, Uniform>& uniforms );
-    void    set_uniform( Uniform uniform, const Vector4f& vec4, map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Matrix4f& mat4, std::map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Vector2f& vec2, std::map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Vector3f& vec3, std::map<string, Uniform>& uniforms );
+    void    set_uniform( Uniform uniform, const Vector4f& vec4, std::map<string, Uniform>& uniforms );
 
-    GLuint  create_vertex_shader( VertexLayout pLayout, vector<Uniform> pVUniforms, string pVertexSrc );
-    GLuint  create_frag_shader( VertexLayout pLayout, vector<Uniform> pFUniforms, vector<TextureSlot> pTexSlots, string pFragSrc );
+    GLuint  create_vertex_shader( VertexLayout pLayout, std::vector<Uniform> pVUniforms, string pVertexSrc );
+    GLuint  create_frag_shader( VertexLayout pLayout, std::vector<Uniform> pFUniforms, std::vector<TextureSlot> pTexSlots, string pFragSrc );
     GLuint  link_shader( GLuint pVShaderId, GLuint pFShaderId );
-    map<string, Uniform> process_uniforms( vector<Uniform> pUniforms );
-    vector<TextureSlot>  process_textureslots( vector<TextureSlot> pSlots );
+    std::map<string, Uniform> process_uniforms( std::vector<Uniform> pUniforms );
+    std::vector<TextureSlot>  process_textureslots( std::vector<TextureSlot> pSlots );
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
@@ -148,10 +148,17 @@ inline void Shader::set_frag_uniform( Uniform uniform, const Vector4f& vec4 )
 }
 
 inline void Shader::set_uniform( Uniform uniform, const Matrix4f& mat4, map<string, Uniform>& uniforms ) {
-    vector<float> matrix = mat4.column_major();
+#ifdef MAT4_ROW_MAJOR
+    std::vector<float> matrix = mat4.row_major();
+    bool transpose = true;
+#else
+    std::vector<float> matrix = mat4.column_major();
+    bool transpose = false;
+#endif
+
     uint32        location = uniforms.find( uniform.gl_varname() )->second.gl_location();
     bind();
-    glUniformMatrix4fv( location, 1, false, matrix.data() );
+    glUniformMatrix4fv( location, 1, transpose, matrix.data() );
 }
 
 inline void Shader::set_uniform( Uniform uniform, const Vector2f& vec2, map<string, Uniform>& uniforms ) {

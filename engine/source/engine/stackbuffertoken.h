@@ -31,7 +31,7 @@ public:
 
     bool                        valid();
     Range                       object_range();
-    vector<uint32>              object_indices();
+    std::vector<uint32>         object_indices();
 
     bool                        operator!=( const StackBufferToken& o ) const;
     bool                        operator==( const StackBufferToken& o ) const;

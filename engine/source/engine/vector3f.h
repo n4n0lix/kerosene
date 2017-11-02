@@ -99,7 +99,7 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
+    friend std::ostream& operator<<( std::ostream&, const Vector3f& );
 };
 
 ENGINE_NAMESPACE_END

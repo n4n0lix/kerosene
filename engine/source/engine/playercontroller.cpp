@@ -7,21 +7,20 @@ PlayerController::PlayerController( weak<Entity> e ) : entity(e)
 {
 }
 
-void PlayerController::set_entity( weak<Entity> entity )
+void PlayerController::set_entity( weak<Entity> pEntity )
 {
-    entity = entity;
+    entity = pEntity;
 }
 
-void PlayerController::update( vector<KeyEvent>& keys, vector<CharEvent>& chars, vector<MouseEvent>& mouse )
+void PlayerController::update( std::vector<KeyEvent>& keys, std::vector<CharEvent>& chars, std::vector<MouseEvent>& mouse )
 {
-    if ( entity.is_ptr_usable() && entity->has_component( ComponentType::Controllable ) ) {
-        Controllable& controllable = (Controllable&)entity->get_component( ComponentType::Controllable );
+    Guard( entity ) return;
+    Guard( entity->has<Controllable>() ) return;
 
-        for ( auto& event : keys ) {
-            if ( event.is_consumed() ) continue;
+    Controllable& ctrl = entity->access<Controllable>();
 
-            handleWASD( controllable, event );
-        }
+    for ( auto& key : keys ) {
+        handleWASD( ctrl, key );
     }
 }
 
@@ -32,18 +31,17 @@ void PlayerController::handleWASD( Controllable& ctrl, KeyEvent& event )
     Key key = event.key();
 
     if ( key == Key::W || key == Key::A || key == Key::S || key == Key::D ) {
-        unique<CmdMove> cmd = make_unique<CmdMove>();
-        cmd->started = event.pressed();
-
+        bool* moveDir = nullptr;
         switch ( key )
-        {
-        case Key::W: cmd->type = CmdType::MOVE_UP; break;
-        case Key::A: cmd->type = CmdType::MOVE_LEFT; break;
-        case Key::S: cmd->type = CmdType::MOVE_DOWN; break;
-        case Key::D: cmd->type = CmdType::MOVE_RIGHT; break;
+        { 
+            case Key::W: moveDir = &ctrl.moveUp;    break;
+            case Key::A: moveDir = &ctrl.moveLeft;  break;
+            case Key::S: moveDir = &ctrl.moveDown;  break;
+            case Key::D: moveDir = &ctrl.moveRight; break;
         }
 
-        ctrl.commandQ.emplace_back( std::move( cmd ) );
+        if (moveDir != nullptr ) 
+            *moveDir = event.pressed();
 
         event.consume();
     }

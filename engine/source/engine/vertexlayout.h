@@ -22,12 +22,12 @@ class VertexLayout {
 private:
     uint32 _numComps;
     uint32 _bytesize;
-    vector<VertexComponent> _components;
+    std::vector<VertexComponent> _components;
 
 public:
             VertexLayout() { }
 
-    explicit VertexLayout( vector<VertexComponent> comps ) : _components( comps ) {
+    explicit VertexLayout( std::vector<VertexComponent> comps ) : _components( comps ) {
         _numComps = 0;
         _bytesize = 0;
 
@@ -39,7 +39,7 @@ public:
 
             ~VertexLayout() = default;
 
-    vector<VertexComponent> components() const {
+    std::vector<VertexComponent> components() const {
         return _components;
     }
 

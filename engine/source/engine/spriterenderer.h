@@ -7,6 +7,8 @@
 // Internal Includes
 #include "_gl.h"
 #include "_global.h"
+#include "mixins.h"
+#include "transform.h"
 #include "renderer.h"
 #include "vertexarray.h"
 #include "matrix4f.h"
@@ -34,7 +36,6 @@ public:
     SpriteRenderer();
     SpriteRenderer( Config config );
 
-    void    set_entity( weak<Entity> );
     void    set_texture( weak<Texture> );
     void    set_anchor( Vector2f anchor );
     void    set_size( Vector2f size );
@@ -53,7 +54,6 @@ private:
     VertexArray<Vertex_pt>      _vao;
 
     owner<VertexToken>          _token;
-    weak<Entity>                entity;
 
     static Logger LOGGER;
 };

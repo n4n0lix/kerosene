@@ -47,7 +47,7 @@ public:
     uint32                                      num_objects();
     bool                                        contains( weak<StackBufferToken> token );
 
-    weak<StackBufferToken>                      write( vector<T> objects );
+    weak<StackBufferToken>                      write( std::vector<T> objects );
     void                                        remove( weak<StackBufferToken> token );
     void                                        clear();
 
@@ -57,11 +57,11 @@ protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     void                            set_atom_capacity( uint32 newAtomCapacity );
 
-    void                            commit_write( vector<T> objects, weak<StackBufferToken> commit_token );
+    void                            commit_write( std::vector<T> objects, weak<StackBufferToken> commit_token );
     void                            commit_remove( weak<StackBufferToken> token );
 
     // Final-Implementation
-    virtual void                    native_write( uint32 index, vector<T> objects ) = 0;
+    virtual void                    native_write( uint32 index, std::vector<T> objects ) = 0;
     virtual void                    native_resize( uint32 oldCapacity, uint32 newCapacity ) = 0;
     virtual void                    native_copy( uint32 srcIndex, uint32 destIndex, uint32 length ) = 0;
 
@@ -79,10 +79,10 @@ private:
     uint32  _objectSize;
     uint32  _atomCapacity;
 
-    map<weak<StackBufferToken>, vector<T>, weak_less<StackBufferToken>> _writeBucket;
+    map<weak<StackBufferToken>, std::vector<T>, weak_less<StackBufferToken>> _writeBucket;
 
-    vector<weak<StackBufferToken>>    _removeBucket;
-    vector<owner<StackBufferToken>>   _tokens;
+    std::vector<weak<StackBufferToken>>    _removeBucket;
+    std::vector<owner<StackBufferToken>>   _tokens;
 
     IDGen   _tokenIDGen;
     IDGen   _writeopIDGen;
@@ -116,7 +116,7 @@ StackBuffer<T>::StackBuffer( uint32 objSize, uint32 objCapacity )
 }
 
 template<class T>
-weak<StackBufferToken> StackBuffer<T>::write( vector<T> objects )
+weak<StackBufferToken> StackBuffer<T>::write( std::vector<T> objects )
 {
     // 1# Guards
     Requires( !objects.empty() );
@@ -240,7 +240,7 @@ inline uint32 StackBuffer<T>::atom_capacity() const
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 template<class T>
-void StackBuffer<T>::commit_write( vector<T> objects, weak<StackBufferToken> token )
+void StackBuffer<T>::commit_write( std::vector<T> objects, weak<StackBufferToken> token )
 {
     // 0# Contract Pre
     Requires( objects.size() > 0 );

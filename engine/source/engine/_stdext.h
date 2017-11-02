@@ -15,16 +15,16 @@
 namespace ext {
 
     template<class T>
-    inline bool contains( vector<T>& vector, const T& val ) {
-        return std::find( vector.begin(), vector.end(), val ) != vector.end();
+    inline bool contains( std::vector<T>& pVector, const T& val ) {
+        return std::find( pVector.begin(), pVector.end(), val ) != pVector.end();
     }
 
     template<class T>
-    inline int32_t index_of( vector<T>& vector, const T& val ) {
-        auto iter = std::find( vector.begin(), vector.end(), val );
+    inline int32_t index_of( std::vector<T>& pVector, const T& val ) {
+        auto iter = std::find( pVector.begin(), pVector.end(), val );
 
-        if ( iter != vector.end() ) {
-            return std::distance( iter, vector.end() );
+        if ( iter != pVector.end() ) {
+            return std::distance( iter, pVector.end() );
         }
         else {
             return -1;

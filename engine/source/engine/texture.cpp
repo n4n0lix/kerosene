@@ -56,6 +56,21 @@ GLuint Texture::id() {
     return _id;
 }
 
+uint32 Texture::get_width()
+{
+    return _width;
+}
+
+uint32 Texture::get_height()
+{
+    return _height;
+}
+
+uint32 Texture::get_bpp()
+{
+    return _bpp;
+}
+
 bool Texture::operator==(const Texture & o) const
 {
     return _id == o._id;

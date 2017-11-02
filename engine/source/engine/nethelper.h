@@ -34,29 +34,29 @@ union FloatNetConverter {
 };
 
 
-inline void __net_write( vector<byte>& v, bool value ) {
+inline void __net_write( std::vector<byte>& v, bool value ) {
     v.push_back( value );
 }
 
 
-inline void __net_write( vector<byte>& v, char value ) {
+inline void __net_write( std::vector<byte>& v, char value ) {
     v.push_back( value );
 }
 
 
-inline void __net_write( vector<byte>& v, int16 value ) {
+inline void __net_write( std::vector<byte>& v, int16 value ) {
     v.push_back( (value & 0xFF00) >> 8 );
     v.push_back( (value & 0x00FF) );
 }
 
 
-inline void __net_write( vector<byte>& v, uint16 value ) {
+inline void __net_write( std::vector<byte>& v, uint16 value ) {
     v.push_back( (value & 0xFF00) >> 8 );
     v.push_back( (value & 0x00FF) );
 }
 
 
-inline void __net_write( vector<byte>& v, int32 value ) {
+inline void __net_write( std::vector<byte>& v, int32 value ) {
     v.push_back( (value & 0xFF000000) >> 24 );
     v.push_back( (value & 0x00FF0000) >> 16 );
     v.push_back( (value & 0x0000FF00) >> 8 );
@@ -64,7 +64,7 @@ inline void __net_write( vector<byte>& v, int32 value ) {
 }
 
 
-inline void __net_write( vector<byte>& v, uint32 value ) {
+inline void __net_write( std::vector<byte>& v, uint32 value ) {
     v.push_back( (value & 0xFF000000) >> 24 );
     v.push_back( (value & 0x00FF0000) >> 16 );
     v.push_back( (value & 0x0000FF00) >> 8 );
@@ -72,42 +72,42 @@ inline void __net_write( vector<byte>& v, uint32 value ) {
 }
 
 
-inline void __net_write( vector<byte>& v, float value ) {
+inline void __net_write( std::vector<byte>& v, float value ) {
     FloatNetConverter val;
     val.asFloat = value;
     __net_write( v, val.asUInt32 );
 }
 
 
-inline void __net_write( vector<byte>& v, Vector2f value ) {
+inline void __net_write( std::vector<byte>& v, Vector2f value ) {
     __net_write( v, value.x );
     __net_write( v, value.y );
 }
 
 
-inline void __net_write( vector<byte>& v, Vector3f value ) {
-    __net_write( v, value.x );
-    __net_write( v, value.y );
-    __net_write( v, value.z );
-}
-
-
-inline void __net_write( vector<byte>& v, Vector4f value ) {
+inline void __net_write( std::vector<byte>& v, Vector3f value ) {
     __net_write( v, value.x );
     __net_write( v, value.y );
     __net_write( v, value.z );
-    __net_write( v, value.w );
 }
 
 
-inline void __net_write( vector<byte>& v, Quaternion4f value ) {
+inline void __net_write( std::vector<byte>& v, Vector4f value ) {
     __net_write( v, value.x );
     __net_write( v, value.y );
     __net_write( v, value.z );
     __net_write( v, value.w );
 }
 
-inline void __net_write( vector<byte>& v, string str ) {
+
+inline void __net_write( std::vector<byte>& v, Quaternion4f value ) {
+    __net_write( v, value.x );
+    __net_write( v, value.y );
+    __net_write( v, value.z );
+    __net_write( v, value.w );
+}
+
+inline void __net_write( std::vector<byte>& v, string str ) {
     uint16 length = (uint16)std::min( str.length(), size_t( 1024 ) ); // 1024 - Max String Length for net packets
     __net_write( v, length );
 

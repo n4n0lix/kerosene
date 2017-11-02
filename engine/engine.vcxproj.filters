@@ -168,22 +168,13 @@
     <ClInclude Include="source\engine\spriterenderer.h">
       <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\entitysystem.h">
-      <Filter>Headerdateien\logic</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\entity.h">
-      <Filter>Headerdateien\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\component.h">
       <Filter>Headerdateien\logic</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\logicengine.h">
       <Filter>Headerdateien\logic</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\controllable.h">
-      <Filter>Headerdateien\logic</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\controllablesystem.h">
       <Filter>Headerdateien\logic</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\camera2d.h">
@@ -206,9 +197,6 @@
     </ClInclude>
     <ClInclude Include="source\engine\stdafx.h">
       <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\object.h">
-      <Filter>Headerdateien\util</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\localcontroller.h">
       <Filter>Headerdateien\logic</Filter>
@@ -294,6 +282,18 @@
     <ClInclude Include="source\engine\mixins.h">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\noncopyable.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\compact_map.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\_gamedef.h">
+      <Filter>Headerdateien\sandbox</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\transform.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\engine.cpp">
@@ -315,9 +315,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\material.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\texture.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\textureoptions.cpp">
@@ -350,22 +347,13 @@
     <ClCompile Include="source\engine\spriterenderer.cpp">
       <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\entitysystem.cpp">
-      <Filter>Quelldateien\logic</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\entity.cpp">
-      <Filter>Quelldateien\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\component.cpp">
       <Filter>Quelldateien\logic</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\logicengine.cpp">
       <Filter>Quelldateien\logic</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\controllable.cpp">
-      <Filter>Quelldateien\logic</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\controllablesystem.cpp">
       <Filter>Quelldateien\logic</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\camera2d.cpp">
@@ -448,6 +436,18 @@
     </ClCompile>
     <ClCompile Include="source\engine\player_spawner.cpp">
       <Filter>Quelldateien\sandbox</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\mixins.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\texture.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\transform.cpp">
+      <Filter>Quelldateien\logic</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tilemaprenderer.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
