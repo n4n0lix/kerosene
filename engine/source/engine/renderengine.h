@@ -24,7 +24,6 @@
 #include "texture.h"
 #include "shader.h"
 #include "material.h"
-#include "batch.h"
 
 #include "vertex_pc.h"
 #include "vertex_pt.h"
@@ -32,6 +31,8 @@
 
 #include "imageutils.h"
 #include "stringutils.h"
+
+#include "glbuffer.h"
 
 #include "scene.h"
 

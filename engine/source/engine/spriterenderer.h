@@ -15,6 +15,7 @@
 #include "shader.h"
 #include "material.h"
 #include "texture.h"
+#include "simplevertexarray.h"
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -51,6 +52,8 @@ private:
     Vector2f                    _size;
     Vector2f                    _anchor;
     Material                    _material;
+
+    SimpleVertexArray<Vertex_pt> _svao;
     VertexArray<Vertex_pt>      _vao;
 
     owner<VertexToken>          _token;

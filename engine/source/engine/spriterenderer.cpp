@@ -8,12 +8,10 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 SpriteRenderer::SpriteRenderer() : 
-    _material(Material()), 
-    _token(nullptr), 
-    _anchor(Vector2f(0,0)),
-    _size(Vector2f(1,1))
+    _material( Material() ), _token( nullptr ),
+    _anchor( Vector2f(0,0) ), _size( Vector2f(1,1) )
 {
-    _vao = VertexArray<Vertex_pt>();
+
 }
 
 SpriteRenderer::SpriteRenderer( Config config ) : SpriteRenderer()
@@ -84,7 +82,7 @@ void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Ma
 
     _material.set_wvp( wvp );
     _material.bind();
-    _vao.render();
+    _svao.render_all();
 }
 
 void SpriteRenderer::on_cleanup( RenderEngine& pRenderEngine )
@@ -95,11 +93,6 @@ void SpriteRenderer::on_cleanup( RenderEngine& pRenderEngine )
 
 void SpriteRenderer::init_or_update_vertices()
 {
-    if ( _token != nullptr ) {
-        _vao.remove_render_static( _token.get_non_owner() );
-        _vao.remove_vertices( std::move( _token ) );
-    }
-
     // Calcualte hellper variables for setting up the anchoring like
     //              [-1, 1] [0, 1] [1, 1]
     //              [-1, 0] [0, 0] [1, 0]
@@ -120,8 +113,7 @@ void SpriteRenderer::init_or_update_vertices()
     vertices.push_back( Vertex_pt( {  w - x,  h - y, 0 }, { 1, 0 } ) );
     vertices.push_back( Vertex_pt( { -w - x,  h - y, 0 }, { 0, 0 } ) );
 
-    _token = _vao.add_vertices( std::move( vertices ) );
-    _vao.add_render_static( _token.get_non_owner() );
+    _svao.get_vertex_buffer()->add_vertices( vertices );
 }
 
 

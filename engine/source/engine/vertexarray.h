@@ -16,6 +16,7 @@
 #include "_gl.h"
 #include "perfstats.h"
 
+#include "vertex.h"
 #include "vertexlayout.h"
 #include "vertexbuffer.h"
 #include "indexbuffer.h"
@@ -152,8 +153,8 @@ template<class VERTEX>
 void VertexArray<VERTEX>::add_render_static( weak<VertexToken> token )
 {
     // 0# Contract Pre
-    Requires( token.is_ptr_valid() )
-        Requires( token != nullptr );
+    Requires( token.is_ptr_valid() );
+    Requires( token != nullptr );
     Requires( token->vertexbuffer_token() != nullptr );
 
     // 1# ...
@@ -167,8 +168,8 @@ template<class VERTEX>
 void VertexArray<VERTEX>::remove_render_static( weak<VertexToken> token )
 {
     // 0# Contract Pre
-    Requires( token.is_ptr_valid() )
-        Requires( token != nullptr );
+    Requires( token.is_ptr_valid() );
+    Requires( token != nullptr );
     Requires( _indexBuffer->contains( token->indexbuffer_token() )
         || ext::contains( _toAddToIndexBuffer, token ) );
 

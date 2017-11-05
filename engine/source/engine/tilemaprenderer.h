@@ -6,6 +6,7 @@
 
 // Internal Includes
 #include "_global.h"
+#include "vertexarray.h"
 #include "renderer.h"
 
 ENGINE_NAMESPACE_BEGIN
@@ -36,7 +37,6 @@ protected:
 
 private:
     void                init_or_update_vertices();
-
     Vector2f                    _size;
     Vector2f                    _anchor;
     Material                    _material;
@@ -47,6 +47,10 @@ private:
 
     static Logger LOGGER;
 };
+
+inline bool is_even( uint32 v ) {
+    return (v % 2) == 0;
+}
 
 
 ENGINE_NAMESPACE_END

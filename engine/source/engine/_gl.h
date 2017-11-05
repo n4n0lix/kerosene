@@ -188,6 +188,15 @@
 
 // glDrawElements
 #ifdef GL_DEBUG
+#define glDrawArrays(...) \
+    glDrawArrays(__VA_ARGS__); \
+    printGLErrors(glDrawArrays)
+#elif GL_MOCK
+#define glDrawArrays(...) GLMock::invoking("glDrawArrays")
+#endif
+
+// glDrawElements
+#ifdef GL_DEBUG
     #define glDrawElements(...) \
     glDrawElements(__VA_ARGS__); \
     printGLErrors(glDrawElements)

@@ -64,12 +64,12 @@ public:
 
     }
 
-    inline void frame_draw_call(uint32 numPolygons) {
+    inline void frame_draw_call(size_t numPolygons) {
         _counterDrawCalls++;
         _counterPolygons += numPolygons;
     }
 
-    inline void frame_load_texture(uint32 imgDataBytes) {
+    inline void frame_load_texture( size_t imgDataBytes) {
         _numLoadedTextures++;
         _numLoadedTexturesBytes += imgDataBytes;
     }
@@ -109,21 +109,21 @@ private:
 
             void   check_if_second_is_over();
 
-    uint32 _numLoadedShaders;
-    uint32 _numLoadedTextures;
-    uint32 _numLoadedTexturesBytes;
+            size_t _numLoadedShaders;
+    size_t _numLoadedTextures;
+    size_t _numLoadedTexturesBytes;
 
-    uint32 _numFPS;
-    uint32 _counterFPS;
+    size_t _numFPS;
+    size_t _counterFPS;
 
-    uint32 _numPolygons;
-    uint32 _counterPolygons;
+    size_t _numPolygons;
+    size_t _counterPolygons;
 
-    uint32 _numDrawCalls;
-    uint32 _counterDrawCalls;
+    size_t _numDrawCalls;
+    size_t _counterDrawCalls;
 
-    uint32 _numTPS;
-    uint32 _counterTPS;
+    size_t _numTPS;
+    size_t _counterTPS;
 
     milliseconds _avgFrameTime;
     milliseconds _counterAvgFrameTime;

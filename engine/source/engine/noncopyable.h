@@ -17,10 +17,10 @@ ENGINE_NAMESPACE_BEGIN
 // therefore trivial copying is not intended.
 struct noncopyable {
     // Enabled:
-    noncopyable()                        = default;  // Constructor
+    noncopyable()                             = default;  // Constructor
     noncopyable( noncopyable&& )              = default;  // Move-Constructor
     noncopyable& operator=( noncopyable&& )   = default;  // Move-Operator
-    virtual ~noncopyable()               = default;  // Destructor
+    virtual ~noncopyable()                    = default;  // Destructor
 
     // Disabled:
     noncopyable( const noncopyable& )             = delete;    // Copy-Constructor

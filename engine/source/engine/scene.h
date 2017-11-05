@@ -12,7 +12,7 @@
 #include "_global.h"
 #include "noncopyable.h"
 #include "camera.h"
-#include "batch.h"
+
 #include "renderer.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

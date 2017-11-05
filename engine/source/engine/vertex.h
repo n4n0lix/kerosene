@@ -20,12 +20,12 @@ ENGINE_NAMESPACE_BEGIN
 
 struct Vertex
 {
-            Vertex() = default;
-            virtual ~Vertex() = default;
-
-            VertexLayout        layout;
-            uint32              bytesize;
-            std::vector<float>  data;
+    Vertex() = default;
+    virtual ~Vertex() = default;
+    
+    VertexLayout        layout;
+    uint32              bytesize;
+    std::vector<float>  data;
 };
 
 ENGINE_NAMESPACE_END
