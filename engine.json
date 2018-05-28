@@ -1,0 +1,315 @@
+[
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/glwindow.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/glwindow.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/_gl.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/_gl.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/decimal32.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/decimal32.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/matrix4f.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/matrix4f.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/quaterion4f.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/quaterion4f.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vector2f.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vector2f.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vector3f.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vector3f.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vector4f.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vector4f.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/perfstats.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/perfstats.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/imageutils.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/imageutils.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/stringutils.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/stringutils.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/controllable.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/controllable.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/entity.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/entity.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/transform.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/transform.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/localcontroller.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/localcontroller.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/mixins.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/mixins.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/playercontroller.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/playercontroller.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/inputengine.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/inputengine.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/logicengine.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/logicengine.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/gamestate.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/gamestate.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/player_spawner.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/player_spawner.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/sandbox/testgamestate.cpp\"",
+    "file": "D:/kerosene/engine/source/sandbox/testgamestate.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/camera.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/camera.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/camera2d.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/camera2d.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/scene.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/scene.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/spriterenderer.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/spriterenderer.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/camera3d.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/camera3d.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/renderengine.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/renderengine.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/renderer.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/renderer.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/shader.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/shader.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/texture.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/texture.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/edge.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/edge.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/simpleindexbuffer.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/simpleindexbuffer.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/tilemaprenderer.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/tilemaprenderer.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/keyevent.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/keyevent.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/stdafx.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/stdafx.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/uniform.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/uniform.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vertexbuffertoken.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vertexbuffertoken.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/networkengine.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/networkengine.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/physicsengine.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/physicsengine.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/engine.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/engine.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/engineconfiguration.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/engineconfiguration.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/indexbuffer.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/indexbuffer.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/material.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/material.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/range.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/range.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/stackbuffertoken.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/stackbuffertoken.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/textureoptions.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/textureoptions.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/textureslot.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/textureslot.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vertextoken.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vertextoken.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vertex_pc.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vertex_pc.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/engine/vertex_pt.cpp\"",
+    "file": "D:/kerosene/engine/source/engine/vertex_pt.cpp"
+  },
+
+  {
+    "directory": "D:/kerosene",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"D:/kerosene/engine/libs/cross\"  -isystem \"D:/kerosene/engine/libs/windows64\"  -isystem \"D:/kerosene/engine/source/engine\"  -D _DEBUG  -D _MT  -D _DLL  -D CONTRACTS_ENABLED  -D GL_DEBUG  -D _MBCS -std=c++14  \"D:/kerosene/engine/source/sandbox/main.cpp\"",
+    "file": "D:/kerosene/engine/source/sandbox/main.cpp"
+  }
+
+
+]

@@ -44,11 +44,6 @@ VertexLayout Shader::get_vertex_layout()
     return _vertexLayout;
 }
 
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-/*                         Private                        */
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 Shader::Shader( VertexLayout pLayout, std::vector<Uniform> pVUniforms, std::vector<Uniform> pFUniforms, 
                 std::vector<TextureSlot> pTexSlots, string pVertexCode, string pFragCode )
 {

@@ -63,31 +63,10 @@
     <ClInclude Include="source\engine\engineconfiguration.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\indexbuffer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\networkengine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\physicsengine.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\stackbuffer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\stackbuffertoken.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexarray.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexbuffer.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertexbuffertoken.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\vertextoken.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\viewport4.h">
@@ -121,9 +100,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\range.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\staticmesh.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\textureoptions.h">
@@ -297,10 +273,28 @@
     <ClInclude Include="source\engine\simplevertexarray.h">
       <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\glbuffer.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
     <ClInclude Include="source\engine\simplevertexbuffer.h">
       <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\glbuffer.h">
+    <ClInclude Include="source\engine\attribvertexarray.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\attribvertexbuffer.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\glvao.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\gltype.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\rect4f.h">
+      <Filter>Headerdateien\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tileset.h">
       <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
   </ItemGroup>
@@ -309,33 +303,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\engineconfiguration.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\indexbuffer.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertextoken.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertex_pc.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertex_pt.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\material.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\textureoptions.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\textureslot.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\stackbuffertoken.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\vertexbuffertoken.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\uniform.cpp">
@@ -434,9 +401,6 @@
     <ClCompile Include="source\engine\shader.cpp">
       <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\edge.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\keyevent.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -455,11 +419,41 @@
     <ClCompile Include="source\engine\transform.cpp">
       <Filter>Quelldateien\logic</Filter>
     </ClCompile>
+    <ClCompile Include="source\engine\gltype.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\attribvertexbuffer.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\rect4f.cpp">
+      <Filter>Quelldateien\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tileset.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
     <ClCompile Include="source\engine\tilemaprenderer.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\textureslot.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\textureoptions.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\material.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertex_pt.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\vertex_pc.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\edge.cpp">
+      <Filter>Quelldateien\math</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\simpleindexbuffer.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

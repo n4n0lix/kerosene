@@ -29,27 +29,43 @@ void TestGameState::on_start()
 
         _ui = spawn_ui( _uiScene );
     }
+    
 
     if ( logic ) {
         _player = Player_Spawner::Spawn( *logic, rendering, input, _mainScene );
+        _player->access<Controllable>().moveSpeed = 50;
     }
-
+    
 
     if ( _mainScene ) {
         auto ttex = rendering->get_texture( "res/textures/dev/tile.png" );
-        auto tile1 = logic->add_entity( make_owner<Entity>() );
-        tile1->add<has_transform>();
 
-        auto rCfg = SpriteRenderer::Config( {
-            /*  anchor = */{ 0, 0 },
-            /*    size = */{ (float)ttex->get_width(), (float)ttex->get_height() },
-            /* texture = */ ttex,
-            /*  entity = */ tile1
+        
+        auto tile = logic->add_entity( make_owner<Entity>() );
+        tile->add<has_transform>();
+        
+        //auto rCfg = SpriteRenderer::Config( {
+        //    /*  anchor = */{ 0, 0 },
+        //    /*    size = */{ (float)ttex->get_width(), (float)ttex->get_height() },
+        //    /* texture = */ ttex,
+        //    /*  entity = */ tile
+        //} );
+        //_mainScene->add_renderer<SpriteRenderer>( rCfg );
+
+        auto rCfg = TilemapRenderer::Config( {
+            /*            entity = */ tile,
+            /*       textureName = */ "res/textures/dev/tile.png",
+            /*         tileWidth = */ 8.0f,
+            /*        tileHeight = */ 8.0f,
+            /*             width = */ 4,
+            /*            height = */ 4,
+            /*  tilesetTileWidth = */ 16,
+            /* tilesetTileHeight = */ 16
         } );
+        _mainScene->add_renderer<TilemapRenderer>( rCfg );
 
-        _mainScene->add_renderer<SpriteRenderer>( rCfg );
-
-        has_transform& trans = mixin::access<has_transform>( *tile1 );
+        has_transform& trans = tile->access<has_transform>();
+        trans.position.x = 0;
         trans.position.y = 0;
         trans.position.z = -0.1f;
     }

@@ -88,4 +88,9 @@ inline float distance( Vector2f v0, Vector2f v1 ) {
     return std::sqrtf( x*x + y*y );
 }
 
+inline void write_into( std::vector<float>& vector, Vector2f value ) {
+    vector.insert( vector.end(), value.x );
+    vector.insert( vector.end(), value.y );
+}
+
 ENGINE_NAMESPACE_END

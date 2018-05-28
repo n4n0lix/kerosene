@@ -8,8 +8,7 @@ ENGINE_NAMESPACE_BEGIN
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 SpriteRenderer::SpriteRenderer() : 
-    _material( Material() ), _token( nullptr ),
-    _anchor( Vector2f(0,0) ), _size( Vector2f(1,1) )
+    _material( Material() ), _anchor( Vector2f(0,0) ), _size( Vector2f(1,1) )
 {
 
 }
@@ -30,13 +29,15 @@ void SpriteRenderer::set_texture( weak<Texture> texture )
 void SpriteRenderer::set_anchor( Vector2f anchor )
 {
     _anchor = anchor;
-    init_or_update_vertices();
+    _verticesHaveChanged = true;
+    // TODO: Remove anchor and handle via transform.position (?) Implement pivot point? 
 }
 
 void SpriteRenderer::set_size( Vector2f size )
 {
     _size = size;
-    init_or_update_vertices();
+    _verticesHaveChanged = true;
+    // TODO: Remove size and handle via transform.scale 
 }
 
 void SpriteRenderer::on_init( RenderEngine& pRenderEngine )
@@ -49,6 +50,11 @@ void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Ma
 {
     auto entity = get_entity();
     if ( !entity ) return; // TODO: Try to remove this
+
+    if ( _verticesHaveChanged ) {
+        init_or_update_vertices();
+        _verticesHaveChanged = false;
+    }
 
     Vector3f position;
     Vector3f scale;
@@ -83,16 +89,18 @@ void SpriteRenderer::on_render( RenderEngine& pRenderEngine, Camera& pCamera, Ma
     _material.set_wvp( wvp );
     _material.bind();
     _svao.render_all();
+    //_avao.render_all();
 }
 
 void SpriteRenderer::on_cleanup( RenderEngine& pRenderEngine )
 {
-    _vao.clear();
-    _token.destroy();
+
 }
 
 void SpriteRenderer::init_or_update_vertices()
 {
+    _svao.get_vertex_buffer()->clear();
+
     // Calcualte hellper variables for setting up the anchoring like
     //              [-1, 1] [0, 1] [1, 1]
     //              [-1, 0] [0, 0] [1, 0]
@@ -104,14 +112,15 @@ void SpriteRenderer::init_or_update_vertices()
     float x = _anchor.x * w;
     float y = _anchor.y * h;
 
-    std::vector<Vertex_pt> vertices = std::vector<Vertex_pt>();
+    auto v0 = Vertex_pt( {  w -x, -h -y, 0 }, { 1, 1 } );
+    auto v1 = Vertex_pt( { -w -x, -h -y, 0 }, { 0, 1 } );
+    auto v2 = Vertex_pt( {  w -x,  h -y, 0 }, { 1, 0 } );
+    auto v3 = Vertex_pt( { -w -x,  h -y, 0 }, { 0, 0 } );
 
-    vertices.push_back( Vertex_pt( {  w - x, -h - y, 0 }, { 1, 1 } ) );
-    vertices.push_back( Vertex_pt( { -w - x, -h - y, 0 }, { 0, 1 } ) );
-    vertices.push_back( Vertex_pt( {  w - x,  h - y, 0 }, { 1, 0 } ) );
-    vertices.push_back( Vertex_pt( { -w - x, -h - y, 0 }, { 0, 1 } ) );
-    vertices.push_back( Vertex_pt( {  w - x,  h - y, 0 }, { 1, 0 } ) );
-    vertices.push_back( Vertex_pt( { -w - x,  h - y, 0 }, { 0, 0 } ) );
+    auto vertices = std::vector<Vertex_pt>{
+        v0, v1, v2,
+        v1, v2, v3
+    };
 
     _svao.get_vertex_buffer()->add_vertices( vertices );
 }

@@ -6,6 +6,7 @@
 // Other Includes
 #include "gamestate.h"
 #include "spriterenderer.h"
+#include "tilemaprenderer.h"
 #include "camera.h"
 #include "controllable.h"
 #include "playercontroller.h"

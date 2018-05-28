@@ -17,8 +17,10 @@ Vertex_pt::Vertex_pt(Vector3f position, Vector2f texcoords) : Vertex()
     this->texcoords = texcoords;
 
     //
-    layout = { { { "vec3", "position",  1 },
-                 { "vec2", "texcoords", 2 } } };
+    layout = {{ 
+                { "vec3", "position",  0 },
+                { "vec2", "texcoords", 1 } 
+             }};
 
     // Data Vector
     data = std::vector<float>();

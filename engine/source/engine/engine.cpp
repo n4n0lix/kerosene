@@ -73,7 +73,7 @@ int Engine::run() {
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 void Engine::mainloop() {
-
+    
     // Contains the timestamp in ms of the last calculated tick
     uint64 tickPrevious  = get_current_ms();
 

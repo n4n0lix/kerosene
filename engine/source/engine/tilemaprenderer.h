@@ -6,8 +6,9 @@
 
 // Internal Includes
 #include "_global.h"
-#include "vertexarray.h"
+#include "simplevertexarray.h"
 #include "renderer.h"
+#include "tileset.h"
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -15,20 +16,18 @@ class TilemapRenderer : public Renderer
 {
 public:
     struct Config {
-        weak<Texture> texture;
         weak<Entity>  entity;
-        Vector2f      tileSize;
+        string        textureName;
+        float         tileWidth;
+        float         tileHeight;
         uint32        width;
         uint32        height;
+        uint32        tilesetTileWidth;
+        uint32        tilesetTileHeight;
     };
 
 public:
-    TilemapRenderer();
     TilemapRenderer( Config config );
-
-    void    set_texture( weak<Texture> );
-    void    set_anchor( Vector2f anchor );
-    void    set_size( Vector2f size );
 
 protected:
     virtual void on_init( RenderEngine& );
@@ -36,15 +35,25 @@ protected:
     virtual void on_cleanup( RenderEngine& );
 
 private:
-    void                init_or_update_vertices();
-    Vector2f                    _size;
-    Vector2f                    _anchor;
-    Material                    _material;
-    VertexArray<Vertex_pt>      _vao;
+    void         init_or_update_vertices();
 
-    owner<VertexToken>          _token;
-    weak<Entity>                entity;
 
+    float         _tileWidth;
+    float         _tileHeight;
+    uint32        _width;
+    uint32        _height;
+    uint32        _tilesetTileWidth;
+    uint32        _tilesetTileHeight;
+
+    Vector2f      _anchor;
+
+    string        _textureName;
+    Material      _material;
+
+
+    SimpleVertexArray<Vertex_pt> _svao;
+
+    static Rect4f get_uvs_by_index( Texture& tex, uint32 tileWidth, uint32 tileHeight, uint32 index );
     static Logger LOGGER;
 };
 

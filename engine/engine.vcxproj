@@ -26,6 +26,7 @@
     <Text Include="source\gameidea.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\engine\attribvertexbuffer.h" />
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\charevent.h" />
     <ClInclude Include="source\engine\compact_map.h" />
@@ -34,8 +35,13 @@
     <ClInclude Include="source\engine\events.h" />
     <ClInclude Include="source\engine\entity.h" />
     <ClInclude Include="source\engine\glbuffer.h" />
+    <ClInclude Include="source\engine\attribvertexarray.h" />
+    <ClInclude Include="source\engine\gltype.h" />
+    <ClInclude Include="source\engine\glvao.h" />
+    <ClInclude Include="source\engine\rect4f.h" />
     <ClInclude Include="source\engine\simpleindexbuffer.h" />
     <ClInclude Include="source\engine\simplevertexarray.h" />
+    <ClInclude Include="source\engine\tileset.h" />
     <ClInclude Include="source\engine\transform.h" />
     <ClInclude Include="source\engine\keystate.h" />
     <ClInclude Include="source\engine\localcontroller.h" />
@@ -57,16 +63,12 @@
     <ClInclude Include="source\engine\triangle.h" />
     <ClInclude Include="source\engine\value.h" />
     <ClInclude Include="source\engine\simplevertexbuffer.h" />
-    <ClInclude Include="source\engine\vertexbuffertoken.h" />
     <ClInclude Include="source\engine\camera3d.h" />
     <ClInclude Include="source\engine\engineconfiguration.h" />
     <ClInclude Include="source\engine\idgen.h" />
     <ClInclude Include="source\engine\imageutils.h" />
-    <ClInclude Include="source\engine\indexbuffer.h" />
     <ClInclude Include="source\engine\renderer.h" />
     <ClInclude Include="source\engine\nullable.h" />
-    <ClInclude Include="source\engine\stackbuffer.h" />
-    <ClInclude Include="source\engine\stackbuffertoken.h" />
     <ClInclude Include="source\engine\stringutils.h" />
     <ClInclude Include="source\engine\textureoptions.h" />
     <ClInclude Include="source\engine\textureslot.h" />
@@ -86,7 +88,6 @@
     <ClInclude Include="source\engine\primitivetype.h" />
     <ClInclude Include="source\engine\quaternion4f.h" />
     <ClInclude Include="source\engine\shader.h" />
-    <ClInclude Include="source\engine\staticmesh.h" />
     <ClInclude Include="source\engine\texture.h" />
     <ClInclude Include="source\engine\uniform.h" />
     <ClInclude Include="source\engine\vector2f.h" />
@@ -94,11 +95,8 @@
     <ClInclude Include="source\engine\vector3f.h" />
     <ClInclude Include="source\engine\vector4f.h" />
     <ClInclude Include="source\engine\vertex.h" />
-    <ClInclude Include="source\engine\vertexarray.h" />
-    <ClInclude Include="source\engine\vertexbuffer.h" />
     <ClInclude Include="source\engine\vertexcomponent.h" />
     <ClInclude Include="source\engine\vertexlayout.h" />
-    <ClInclude Include="source\engine\vertextoken.h" />
     <ClInclude Include="source\engine\vertex_pc.h" />
     <ClInclude Include="source\engine\vertex_pt.h" />
     <ClInclude Include="source\engine\viewport4.h" />
@@ -111,13 +109,17 @@
     <ClInclude Include="source\sandbox\testgamestate.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\engine\attribvertexbuffer.cpp" />
     <ClCompile Include="source\engine\camera.cpp" />
     <ClCompile Include="source\engine\camera2d.cpp" />
     <ClCompile Include="source\engine\controllable.cpp" />
     <ClCompile Include="source\engine\edge.cpp" />
     <ClCompile Include="source\engine\entity.cpp" />
+    <ClCompile Include="source\engine\gltype.cpp" />
+    <ClCompile Include="source\engine\rect4f.cpp" />
     <ClCompile Include="source\engine\simpleindexbuffer.cpp" />
     <ClCompile Include="source\engine\tilemaprenderer.cpp" />
+    <ClCompile Include="source\engine\tileset.cpp" />
     <ClCompile Include="source\engine\transform.cpp" />
     <ClCompile Include="source\engine\keyevent.cpp" />
     <ClCompile Include="source\engine\localcontroller.cpp" />
@@ -134,7 +136,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="source\engine\uniform.cpp" />
-    <ClCompile Include="source\engine\vertexbuffertoken.cpp" />
     <ClCompile Include="source\engine\camera3d.cpp" />
     <ClCompile Include="source\engine\decimal32.cpp" />
     <ClCompile Include="source\engine\renderengine.cpp" />
@@ -147,14 +148,12 @@
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
     <ClCompile Include="source\engine\imageutils.cpp" />
-    <ClCompile Include="source\engine\indexbuffer.cpp" />
     <ClCompile Include="source\engine\material.cpp" />
     <ClCompile Include="source\engine\matrix4f.cpp" />
     <ClCompile Include="source\engine\quaterion4f.cpp" />
     <ClCompile Include="source\engine\renderer.cpp" />
     <ClCompile Include="source\engine\shader.cpp" />
     <ClCompile Include="source\engine\range.cpp" />
-    <ClCompile Include="source\engine\stackbuffertoken.cpp" />
     <ClCompile Include="source\engine\stringutils.cpp" />
     <ClCompile Include="source\engine\texture.cpp" />
     <ClCompile Include="source\engine\textureoptions.cpp" />
@@ -162,7 +161,6 @@
     <ClCompile Include="source\engine\vector2f.cpp" />
     <ClCompile Include="source\engine\vector3f.cpp" />
     <ClCompile Include="source\engine\vector4f.cpp" />
-    <ClCompile Include="source\engine\vertextoken.cpp" />
     <ClCompile Include="source\engine\vertex_pc.cpp" />
     <ClCompile Include="source\engine\vertex_pt.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />

@@ -20,6 +20,7 @@ public:
             ~SimpleIndexBuffer();
 
     void    add_indices( std::vector<uint32> indices );
+    size_t  size();
 
     using GLBuffer<uint32, GL_ELEMENT_ARRAY_BUFFER>::native_bind;
     using GLBuffer<uint32, GL_ELEMENT_ARRAY_BUFFER>::native_copy;
@@ -28,8 +29,7 @@ public:
     using GLBuffer<uint32, GL_ELEMENT_ARRAY_BUFFER>::native_write_at;
 
 private:
-    size_t          _size;
-    size_t          _capacity;
+    size_t          _atomCapacity;
     size_t          _end;
 
     static const uint32 RESIZE_BUFFER_SIZE = 1024;

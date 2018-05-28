@@ -80,7 +80,10 @@ Names:
   - Chimera
   - Dark Souls: Man with Goat Head
   - Dark Souls: Man with Bull Head
-
+  - Skeletons (Dark Army) können nicht normal getötet werden, nur zerschlagen, bis sie sich nacj ~10 sek wieder zusamen bauen
+  - Gargoyls (Dark Army) können nicht normal getötet werden, versteinern nur, bis sie wieder erweckt werden
+  - Fire Fox, Fire Bird
+  - 3 Hexen (Götter) wie in Witcher 3
   =====================
 
   Friend of the Realm

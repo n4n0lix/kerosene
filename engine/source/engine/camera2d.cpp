@@ -18,9 +18,17 @@ void Camera2D::activate( float delta )
     float top = _top;
     Matrix4f projMatrix = Matrix4f::ortho2D( -right, right, -top, top, -10, 10 );
 
-    _lastTarget = Vector3f::lerp( _lastTarget, _target, 0.05f );
-    Matrix4f viewMatrix = Matrix4f::translation( -_lastTarget );
+    float minDiff = 0.01f;  // TODO: Make this configurable
+    float camSpeed = 0.25f;  // TODO: Make this configurable
+    Matrix4f viewMatrix;
 
+    if ( (_lastTarget - _target).length() > minDiff ) {
+        _lastTarget = Vector3f::lerp( _lastTarget, _target, camSpeed );
+        viewMatrix = Matrix4f::translation( -_lastTarget );
+    }
+    else {
+        viewMatrix = Matrix4f::translation( -_target );
+    }
 
 #ifdef MAT4_ROW_MAJOR
     proj_view_mat4() = projMatrix * viewMatrix;

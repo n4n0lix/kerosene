@@ -5,6 +5,7 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // Std-Includes
+#include <typeinfo>
 
 // Other Includes
 
@@ -23,9 +24,8 @@ template<typename T, GLuint TYPE = GL_ARRAY_BUFFER>
 class GLBuffer : public noncopyable
 {
 public:
-    // Enabled:
-    GLBuffer() = default;  // Constructor
-    ~GLBuffer() = default;  // Destructor
+    GLBuffer() = default;
+    ~GLBuffer() = default;
 
     void    native_create( GLuint initCapacity );
     void    native_bind();
@@ -34,6 +34,8 @@ public:
     void    native_resize( GLuint oldCapacity, GLuint newCapacity );
     void    native_delete();
     void    native_unbind();
+
+    GLuint  gl_id();
 
     GLuint  native_allocate( GLuint initCapacity );
 private:
@@ -57,7 +59,7 @@ void GLBuffer<T, TYPE>::native_bind()
 template<typename T, GLuint TYPE>
 void GLBuffer<T, TYPE>::native_write_at( GLuint index, std::vector<T> data )
 {
-    LOGGER.log( Level::DEBUG ) << "Write " << data.size() << " vertices at [" << index << "]\n";
+    LOGGER.log( Level::DEBUG ) << "[" << _id << "] Write " << data.size() << " objects at [" << index << "]\n";
 
     glBindBuffer( TYPE, _id );
     glBufferSubData( TYPE, index, (GLuint)(data.size() * sizeof( T )), data.data());
@@ -89,15 +91,16 @@ void GLBuffer<T, TYPE>::native_copy( GLuint src, GLuint dest, GLuint length )
 template<typename T, GLuint TYPE>
 void GLBuffer<T, TYPE>::native_resize( GLuint oldCapacity, GLuint newCapacity )
 {
-    LOGGER.log( Level::DEBUG ) << "Resize[" << oldCapacity << "]->[" << newCapacity << "]\n";
+    LOGGER.log( Level::DEBUG ) << "[" << _id << "] Resize[" << oldCapacity << "]->[" << newCapacity << "]\n";
 
     // 1# Create temporary copy of IBO
     GLuint tempId = native_allocate( oldCapacity );
+    GLuint amountToCopy = std::min( oldCapacity, newCapacity );
 
     // 2# Copy content into temporary VBO
     glBindBuffer( GL_COPY_READ_BUFFER, _id );
     glBindBuffer( GL_COPY_WRITE_BUFFER, tempId );
-    glCopyBufferSubData( GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, oldCapacity );
+    glCopyBufferSubData( GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, amountToCopy );
 
     // 3# Resize VBO
     glBindBuffer( TYPE, _id );
@@ -106,7 +109,7 @@ void GLBuffer<T, TYPE>::native_resize( GLuint oldCapacity, GLuint newCapacity )
     // 4# Copy content back into original VBO
     glBindBuffer( GL_COPY_READ_BUFFER, tempId );
     glBindBuffer( GL_COPY_WRITE_BUFFER, _id );
-    glCopyBufferSubData( GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, oldCapacity );
+    glCopyBufferSubData( GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, amountToCopy );
 
     // 5# Cleanup
     glDeleteBuffers( 1, &tempId );
@@ -118,7 +121,7 @@ void GLBuffer<T, TYPE>::native_resize( GLuint oldCapacity, GLuint newCapacity )
 template<typename T, GLuint TYPE>
 void GLBuffer<T, TYPE>::native_delete()
 {
-    LOGGER.log( Level::DEBUG ) << "Delete[" << _id << "]\n";
+    LOGGER.log( Level::DEBUG ) << "[" << _id << "] Delete[" << _id << "]\n";
     glDeleteBuffers( 1, &_id );
 }
 
@@ -126,6 +129,12 @@ template<typename T, GLuint TYPE>
 void GLBuffer<T, TYPE>::native_unbind()
 {
     glBindBuffer( TYPE, 0 );
+}
+
+template<typename T, GLuint TYPE>
+inline GLuint GLBuffer<T, TYPE>::gl_id()
+{
+    return _id;
 }
 
 template<typename T, GLuint TYPE>
@@ -137,12 +146,12 @@ GLuint GLBuffer<T, TYPE>::native_allocate( GLuint initCapacity )
     glBufferData( TYPE, initCapacity, NULL, GL_STATIC_DRAW );
     glBindBuffer( TYPE, 0 );
 
-    LOGGER.log( Level::DEBUG ) << "Allocate[" << initCapacity << "]\n";
+    LOGGER.log( Level::DEBUG ) << "[" << _id << "] Allocate[" << initCapacity << "]\n";
     return id;
 }
 
 template<typename T, GLuint TYPE>
-Logger GLBuffer<T, TYPE>::LOGGER = Logger( "GLBuffer<>", Level::DEBUG );
+Logger GLBuffer<T, TYPE>::LOGGER = Logger( string("GLBuffer<") + string(typeid(T).name()) + string(">"), Level::DEBUG );
 
 ENGINE_NAMESPACE_END
 

@@ -102,4 +102,11 @@ private:
     friend std::ostream& operator<<( std::ostream&, const Vector3f& );
 };
 
+inline void write_into( std::vector<float>& vector, Vector3f value ) 
+{
+    vector.insert( vector.end(), value.x );
+    vector.insert( vector.end(), value.y );
+    vector.insert( vector.end(), value.z );
+}
+
 ENGINE_NAMESPACE_END

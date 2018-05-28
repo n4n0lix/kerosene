@@ -39,9 +39,12 @@ public:
                 ~SimpleVertexBuffer();
 
     std::vector<uint32>    add_vertices( std::vector<VERTEX> vertices );
+    void                   clear();
     size_t                 size();
 
     void                   native_vbo_layout();
+
+    using GLBuffer<float, GL_ARRAY_BUFFER>::gl_id;
 
     using GLBuffer<float, GL_ARRAY_BUFFER>::native_bind;
     using GLBuffer<float, GL_ARRAY_BUFFER>::native_copy;
@@ -50,23 +53,24 @@ public:
     using GLBuffer<float, GL_ARRAY_BUFFER>::native_write_at;
 
 private:
-    size_t _size;
-    size_t _atomCapacity;
-    size_t _atomEnd;
+    size_t _nativeCapacity;
+    size_t _nativeEnd;
 
     VertexLayout _layout;
 
     static Logger LOGGER;    
     static const uint32 RESIZE_BUFFER_SIZE = 1024;
-
 };
 
 template<class VERTEX>
 SimpleVertexBuffer<VERTEX>::SimpleVertexBuffer(VertexLayout layout) :
-    _layout(layout), _size(0), _atomCapacity(0),
-    _atomEnd(0)
+    _layout(layout), _nativeCapacity(0),
+    _nativeEnd(0)
 {
-    native_create( (GLuint)_atomCapacity );
+    native_create( (GLuint)_nativeCapacity );
+    native_bind();
+    native_vbo_layout();
+    native_unbind();
 }
 
 template<class T>
@@ -78,34 +82,35 @@ SimpleVertexBuffer<T>::~SimpleVertexBuffer()
 template<class T>
 std::vector<uint32> SimpleVertexBuffer<T>::add_vertices( std::vector<T> vertices)
 {
-    Guard( vertices.size() > 0 ) return std::vector<uint32>();
+    if( vertices.size() == 0 ) return std::vector<uint32>();
 
-    std::vector<float> data;
+    // 1# Prepare native data
+    std::vector<float> nativeData;
     for ( auto vertex : vertices ) {
-        data.insert( data.end(), vertex.data.begin(), vertex.data.end() );
+        nativeData.insert( nativeData.end(), vertex.data.begin(), vertex.data.end() );
     }
 
-    // 1# Resize if necessary
-    size_t neededAtomCapacity = _atomEnd + data.size();
-    if ( neededAtomCapacity > _atomCapacity ) {
-        size_t newAtomCapacity = _atomCapacity + RESIZE_BUFFER_SIZE;
+    // 2# Resize if necessary
+    size_t requiredNativeCapacity = _nativeEnd + nativeData.size() * sizeof(float);
+    if ( _nativeCapacity < requiredNativeCapacity ) {
+        size_t newNativeCapacity = _nativeCapacity + RESIZE_BUFFER_SIZE;
 
-        while ( newAtomCapacity < neededAtomCapacity ) {
-            newAtomCapacity += RESIZE_BUFFER_SIZE;
+        while ( newNativeCapacity < requiredNativeCapacity ) {
+            newNativeCapacity += RESIZE_BUFFER_SIZE;
         }
 
-        native_resize( (GLuint)_atomCapacity, (GLuint)newAtomCapacity );
+        native_resize( (GLuint)_nativeCapacity, (GLuint)newNativeCapacity );
+        _nativeCapacity = newNativeCapacity;
     }
 
-    // 2# Write to native
-    size_t writeStart = _atomEnd;
-    native_write_at( (GLuint)_atomEnd, data );
-    _atomEnd += data.size();
-    _size += vertices.size();
+    // 3# Write to native
+    size_t writeStart = _nativeEnd;
+    native_write_at( (GLuint)_nativeEnd, nativeData );
+    _nativeEnd += nativeData.size();
 
-    // 3# Return indices
+    // 4# Return indices
     std::vector<uint32> indices;
-    for ( size_t i = writeStart; i < _atomEnd; ++i ) {
+    for ( size_t i = writeStart; i < _nativeEnd; ++i ) {
         indices.push_back( (uint32)i );
     }
 
@@ -113,9 +118,19 @@ std::vector<uint32> SimpleVertexBuffer<T>::add_vertices( std::vector<T> vertices
 }
 
 template<class VERTEX>
+void SimpleVertexBuffer<VERTEX>::clear()
+{
+    //native_resize( _nativeCapacity, 0 );
+
+    //_nativeCapacity = 0;
+    _nativeEnd = 0;
+}
+
+template<class VERTEX>
 size_t SimpleVertexBuffer<VERTEX>::size()
 {
-    return _size;
+    uint32 floatsPerObject = _layout.bytesize() / sizeof( float );
+    return _nativeEnd / floatsPerObject;
 }
 
 template<class VERTEX>
@@ -123,7 +138,6 @@ void SimpleVertexBuffer<VERTEX>::native_vbo_layout()
 {
     GLuint offset = 0;
     for ( VertexComponent component : _layout.components() ) {
-        glEnableVertexAttribArray( component.position );
         glVertexAttribPointer( (GLuint)component.position, (GLuint)component.num_components(), component.gltype(), false, (GLuint)_layout.bytesize(), BUFFER_OFFSET( offset ) );
         offset += (GLuint)component.bytesize();
     }

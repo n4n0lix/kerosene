@@ -46,6 +46,11 @@ Key KeyEvent::from_keycode( int32 keycode )
         case GLFW_KEY_F11: return Key::F11;
         case GLFW_KEY_F12: return Key::F12;
 
+        case GLFW_KEY_UP: return Key::Up;
+        case GLFW_KEY_DOWN: return Key::Down;
+        case GLFW_KEY_LEFT: return Key::Left;
+        case GLFW_KEY_RIGHT: return Key::Right;
+
         case GLFW_KEY_ESCAPE: return Key::Escape;
         default: return Key::Unkown;
     }

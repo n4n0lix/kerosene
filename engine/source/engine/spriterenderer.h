@@ -10,12 +10,12 @@
 #include "mixins.h"
 #include "transform.h"
 #include "renderer.h"
-#include "vertexarray.h"
 #include "matrix4f.h"
 #include "shader.h"
 #include "material.h"
 #include "texture.h"
 #include "simplevertexarray.h"
+#include "attribvertexarray.h"
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -49,14 +49,13 @@ protected:
 private:
     void                init_or_update_vertices();
 
+    bool                        _verticesHaveChanged;
     Vector2f                    _size;
     Vector2f                    _anchor;
     Material                    _material;
 
     SimpleVertexArray<Vertex_pt> _svao;
-    VertexArray<Vertex_pt>      _vao;
-
-    owner<VertexToken>          _token;
+    AttribVertexArray<Vertex_pt> _avao;
 
     static Logger LOGGER;
 };

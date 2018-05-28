@@ -30,21 +30,33 @@ void PlayerController::handleWASD( Controllable& ctrl, KeyEvent& event )
 
     Key key = event.key();
 
-    if ( key == Key::W || key == Key::A || key == Key::S || key == Key::D ) {
-        bool* moveDir = nullptr;
-        switch ( key )
-        { 
-            case Key::W: moveDir = &ctrl.moveUp;    break;
-            case Key::A: moveDir = &ctrl.moveLeft;  break;
-            case Key::S: moveDir = &ctrl.moveDown;  break;
-            case Key::D: moveDir = &ctrl.moveRight; break;
-        }
+    bool* moveDir = nullptr;
+    switch ( key )
+    { 
+        case Key::Up:
+        case Key::W: 
+            moveDir = &ctrl.moveUp;    break;
 
-        if (moveDir != nullptr ) 
-            *moveDir = event.pressed();
+        case Key::Left:
+        case Key::A: 
+            moveDir = &ctrl.moveLeft;  break;
 
-        event.consume();
+        case Key::Down:
+        case Key::S: 
+            moveDir = &ctrl.moveDown;  break;
+
+        case Key::Right:
+        case Key::D: 
+            moveDir = &ctrl.moveRight; break;
+
+        default:
+            return;
     }
+
+    if (moveDir != nullptr ) 
+        *moveDir = event.pressed();
+
+    event.consume();
 }
 
 ENGINE_NAMESPACE_END

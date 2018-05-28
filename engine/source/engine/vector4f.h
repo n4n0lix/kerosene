@@ -93,4 +93,12 @@ private:
 
 };
 
+inline void write_into( std::vector<float>& vector, Vector4f value ) 
+{
+    vector.insert( vector.end(), value.x );
+    vector.insert( vector.end(), value.y );
+    vector.insert( vector.end(), value.z );
+    vector.insert( vector.end(), value.w );
+}
+
 ENGINE_NAMESPACE_END

@@ -27,37 +27,29 @@ public:
     uint32 position;
 
     uint32 num_components() const {
-        if ( type == string( "float" ) ) {
+        if ( type == string( "float" ) )
             return 1;
-        }
-        else if ( type == string( "vec2" ) ) {
+        else if ( type == string( "vec2" ) )
             return 2;
-        }
-        else if ( type == string( "vec3" ) ) {
+        else if ( type == string( "vec3" ) )
             return 3;
-        }
-        else if ( type == string( "vec4" ) ) {
+        else if ( type == string( "vec4" ) )
             return 4;
-        }
-
-        return 0;
+        else
+            return 0;
     }
 
     uint32 bytesize() const {
-        if ( type == string( "float" ) ) {
+        if ( type == string( "float" ) )
             return 1 * FLOAT_BYTES;
-        }
-        else if ( type == string( "vec2" ) ) {
+        else if ( type == string( "vec2" ) )
             return 2 * FLOAT_BYTES;
-        }
-        else if ( type == string( "vec3" ) ) {
+        else if ( type == string( "vec3" ) )
             return 3 * FLOAT_BYTES;
-        }
-        else if ( type == string( "vec4" ) ) {
+        else if ( type == string( "vec4" ) )
             return 4 * FLOAT_BYTES;
-        }
-
-        return 0;
+        else
+            return 0;
     }
 
     GLenum gltype() {
@@ -74,3 +66,4 @@ public:
 };
 
 ENGINE_NAMESPACE_END
+

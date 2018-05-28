@@ -16,8 +16,10 @@ Vertex_pc::Vertex_pc(Vector3f position, Vector4f color) : Vertex()
     this->position = position;
     this->color = color;
 
-    layout = { { { "vec3", "position", 1 },
-                 { "vec4", "color",    2 } } };
+    layout = {{ 
+                { "vec3", "position", 0 },
+                { "vec4", "color",    1 } 
+             }};
 
     // Data Vector
     data = std::vector<float>();

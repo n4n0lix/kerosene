@@ -23,7 +23,7 @@ void Material::set_texture_diffuse( weak<Texture> texture )
 }
 
 
-inline weak<Texture> Material::get_texture_diffuse() const
+weak<Texture> Material::get_texture_diffuse() const
 {
     return _textureDiffuse;
 }

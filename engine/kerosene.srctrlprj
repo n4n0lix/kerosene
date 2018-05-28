@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <source_groups>
+        <source_group_8cbba7e5-4a32-4db2-bfaa-e38f06a370f7>
+            <build_file_path>
+                <compilation_db_path>D:/kerosene/engine.json</compilation_db_path>
+            </build_file_path>
+            <name>C/C++ from Compilation Database</name>
+            <should_apply_anonymous_typedef_transformation>1</should_apply_anonymous_typedef_transformation>
+            <source_paths>
+                <source_path>D:/kerosene/engine/libs/cross</source_path>
+                <source_path>D:/kerosene/engine/libs/windows64</source_path>
+                <source_path>D:/kerosene/engine/source/engine</source_path>
+            </source_paths>
+            <type>C/C++ from Compilation Database</type>
+        </source_group_8cbba7e5-4a32-4db2-bfaa-e38f06a370f7>
+    </source_groups>
+    <version>4</version>
+</config>

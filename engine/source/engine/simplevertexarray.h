@@ -29,14 +29,11 @@
 ENGINE_NAMESPACE_BEGIN
 
 template<class VERTEX>
-class SimpleVertexArray
+class SimpleVertexArray : public noncopyable
 {
     static_assert(std::is_base_of<Vertex, VERTEX>::value, "Template parameter is not a Vertex type!");
 
 public:
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    /*                        Public                          */
-    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     SimpleVertexArray();
     ~SimpleVertexArray();
 
@@ -79,6 +76,12 @@ template<class VERTEX>
 void SimpleVertexArray<VERTEX>::native_create()
 {
     glGenVertexArrays( 1, &_id );
+
+    glBindVertexArray( _id );
+    for ( VertexComponent component : _layout.components() ) {
+        glEnableVertexAttribArray( component.position );
+    }
+    glBindVertexArray( 0 );
 }
 
 template<class VERTEX>
@@ -121,10 +124,10 @@ void SimpleVertexArray<VERTEX>::native_unbind()
 template<class VERTEX>
 void SimpleVertexArray<VERTEX>::render_by_indexbuffer() {
     glBindVertexArray( _id );
-    glDrawElements( (GLuint)PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->num_objects(), GL_UNSIGNED_INT, BUFFER_OFFSET( 0 ) );
+    glDrawElements( (GLuint)PrimitiveType::TRIANGLES, (GLsizei)_indexBuffer->size() , GL_UNSIGNED_INT, BUFFER_OFFSET( 0 ) );
     glBindVertexArray( 0 );
 
-    PerfStats::instance().frame_draw_call( _indexBuffer->num_objects() / 3 );
+    PerfStats::instance().frame_draw_call( _indexBuffer->size() );
 }
 
 template<class VERTEX>
