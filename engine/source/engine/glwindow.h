@@ -12,24 +12,32 @@
 
 ENGINE_NAMESPACE_BEGIN
 
+enum DisplayMode {
+    WINDOWED,
+    WINDOWED_FULLSCREEN,
+    FULLSCREEN
+};
+
 class GLWindow
 {
 public:
 
-            explicit GLWindow( const string title = "Kerosine Engine", const int32_t width = 800, const int32_t height = 600 );
+            explicit GLWindow( const string title = "Kerosine Engine", 
+                               const int32_t width = 800, const int32_t height = 600, 
+                               DisplayMode mode=DisplayMode::WINDOWED);
             ~GLWindow();
+
+    void        set_displaymode( DisplayMode );
 
     void        show();
     void        hide();
     void        set_title( string );
     string      get_title();
-    void        set_width( int32_t );
-    int32       get_width();
-    void        set_height( int32_t );
-    int32       get_height();
-    void        set_x( int32_t );
+    void        set_size( uint32, uint32 );
+    uint32      get_width();
+    uint32      get_height();
+    void        set_pos( int32, int32 );
     int32       get_x();
-    void        set_y( int32_t );
     int32       get_y();
     int32       get_renderwidth();
     int32       get_renderheight();
@@ -42,6 +50,11 @@ public:
 private:
             GLFWwindow* _handle;
             string      _title;
+
+            int32       _x;
+            int32       _y;
+            uint32      _width;
+            uint32      _height;
 
 
     static  GLFWwindow* CURRENT_CONTEXT;

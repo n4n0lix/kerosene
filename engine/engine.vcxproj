@@ -41,6 +41,8 @@
     <ClInclude Include="source\engine\rect4f.h" />
     <ClInclude Include="source\engine\simpleindexbuffer.h" />
     <ClInclude Include="source\engine\simplevertexarray.h" />
+    <ClInclude Include="source\engine\stopwatch.h" />
+    <ClInclude Include="source\engine\testgamestate.h" />
     <ClInclude Include="source\engine\tileset.h" />
     <ClInclude Include="source\engine\transform.h" />
     <ClInclude Include="source\engine\keystate.h" />
@@ -64,7 +66,6 @@
     <ClInclude Include="source\engine\value.h" />
     <ClInclude Include="source\engine\simplevertexbuffer.h" />
     <ClInclude Include="source\engine\camera3d.h" />
-    <ClInclude Include="source\engine\engineconfiguration.h" />
     <ClInclude Include="source\engine\idgen.h" />
     <ClInclude Include="source\engine\imageutils.h" />
     <ClInclude Include="source\engine\renderer.h" />
@@ -106,7 +107,6 @@
     <ClInclude Include="source\engine\_mathdefs.h" />
     <ClInclude Include="source\engine\_renderdefs.h" />
     <ClInclude Include="source\engine\_stdext.h" />
-    <ClInclude Include="source\sandbox\testgamestate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\attribvertexbuffer.cpp" />
@@ -116,8 +116,11 @@
     <ClCompile Include="source\engine\edge.cpp" />
     <ClCompile Include="source\engine\entity.cpp" />
     <ClCompile Include="source\engine\gltype.cpp" />
+    <ClCompile Include="source\engine\main.cpp" />
     <ClCompile Include="source\engine\rect4f.cpp" />
     <ClCompile Include="source\engine\simpleindexbuffer.cpp" />
+    <ClCompile Include="source\engine\stopwatch.cpp" />
+    <ClCompile Include="source\engine\testgamestate.cpp" />
     <ClCompile Include="source\engine\tilemaprenderer.cpp" />
     <ClCompile Include="source\engine\tileset.cpp" />
     <ClCompile Include="source\engine\transform.cpp" />
@@ -144,7 +147,6 @@
     <ClCompile Include="source\engine\networkengine.cpp" />
     <ClCompile Include="source\engine\physicsengine.cpp" />
     <ClCompile Include="source\engine\engine.cpp" />
-    <ClCompile Include="source\engine\engineconfiguration.cpp" />
     <ClCompile Include="source\engine\gamestate.cpp" />
     <ClCompile Include="source\engine\glwindow.cpp" />
     <ClCompile Include="source\engine\imageutils.cpp" />
@@ -164,8 +166,6 @@
     <ClCompile Include="source\engine\vertex_pc.cpp" />
     <ClCompile Include="source\engine\vertex_pt.cpp" />
     <ClCompile Include="source\engine\_gl.cpp" />
-    <ClCompile Include="source\sandbox\main.cpp" />
-    <ClCompile Include="source\sandbox\testgamestate.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>

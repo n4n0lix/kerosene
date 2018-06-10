@@ -80,7 +80,7 @@ void RenderEngine::on_start( weak<InputEngine> input )
 void RenderEngine::on_render( float extrapolation )
 {
 	// 1# Setup rendering
-    _mainWindow->make_current();
+    //_mainWindow->make_current();
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     for ( auto& scene : _scenes ) {
@@ -204,7 +204,7 @@ void RenderEngine::on_gamestate_end()
 
 void RenderEngine::init_context_and_window()
 {
-    _mainWindow = make_owner<GLWindow>("Test", 800, 600);
+    _mainWindow = make_owner<GLWindow>("Test", 800, 600, DisplayMode::WINDOWED_FULLSCREEN);
     _mainWindow->make_current();
     std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << "\n";
 

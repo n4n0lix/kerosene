@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include "engine.h"
-#include "engineconfiguration.h"
 
 #define ENGINE_DEBUG
 
@@ -20,10 +19,6 @@ int main(int argc, char *argv[])
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     #endif
 
-   EngineConfiguration& config = EngineConfiguration();
-   config.tickrate(30)
-       .gamestate(make_owner<TestGameState>());
-
-   Engine engine(config);
+   Engine engine;
    return engine.run();
 }

@@ -15,16 +15,10 @@ ENGINE_NAMESPACE_BEGIN
  *
  * @param config A configuration for the engine.
  */
-Engine::Engine(EngineConfiguration& config)
+Engine::Engine()
 {
-    // Tick rate
-    _tickTime = 1000 / config.getTickRate();
+    _gameState = make_owner<TestGameState>();
 
-    /* Gamestate */
-    // Hand over the ownership
-    _gameState = std::move( config.claimGameState() );
-
-    // Render
     _render  = make_owner<RenderEngine>();
     _logic   = make_owner<LogicEngine>();
     _input   = make_owner<InputEngine>();
@@ -32,7 +26,6 @@ Engine::Engine(EngineConfiguration& config)
     _network = make_owner<NetworkEngine>();
 
     // Post-Conditions
-    Ensures( _tickTime > 0 );
     Ensures( _gameState != nullptr );
     Ensures( _render != nullptr );
     Ensures( _input != nullptr );
@@ -73,54 +66,50 @@ int Engine::run() {
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 void Engine::mainloop() {
-    
-    // Contains the timestamp in ms of the last calculated tick
-    uint64 tickPrevious  = get_current_ms();
 
-    // If lag is larger than ticktime its time to calculate a new tick. In case
-    // lags keeps growing we are lagging, cpu can't keep up with the load.
-    uint64 lag           = 0;          
+    uint64 fps = 144;
+    uint64 ups = 50;
 
-    // Multiply to values like   pos.x += speed * delta;   to use tickrate
-    // independent values in _speed_
-    float  delta         = _tickTime * 0.001f;
+    uint64 elapsed = 0;
+    uint64 lagUpdate = 0;
+    uint64 lagFrame = 0;
+    uint64 timePerUpdate = 1000 / ups;
+    uint64 timePerFrame = 1000 / fps;
 
-    // Mainloop
+    float  delta = timePerUpdate * 0.001f;
+
+    StopWatch timer;
+
     while (1)
     {
-        // Calculate the tick rate
-        uint64 tickCurrent  = get_current_ms();
-        uint64 tickDuration = tickCurrent - tickPrevious;
-        tickPrevious = tickCurrent;
-        lag          += tickDuration;
+        // 1# Timing
+        elapsed = timer.tick();
+        lagUpdate += elapsed;
+        lagFrame  += elapsed;
 
-        // 1# Logic
-        while ( lag >= _tickTime )
+        // 2# Logic
+        while ( lagUpdate >= timePerUpdate )
         {
             PerfStats::instance().tick_start();
             _logic->on_tick_start();
-
             _input->on_update();
             _logic->on_update( delta );
-
             if ( !update_gamestate() ) return;
-
-            lag -= _tickTime;
             PerfStats::instance().tick_end();
+
+            lagUpdate -= timePerUpdate;
         }
+        
+        // 3# Rendering         
+        if ( lagFrame >= timePerFrame ) {
+            PerfStats::instance().frame_start();
+            _gameState->on_frame_start();
+            _render->on_render( ((float)lagUpdate / (float)timePerUpdate) );
+            _gameState->on_frame_end();
+            PerfStats::instance().frame_end();
 
-        // 2# Rendering
-        PerfStats::instance().frame_start();
-        _gameState->on_frame_start();
-
-        // A float number between [0,1] that tells us how far inbetween ticks we are
-        // (0: just had tick update, 0.5 halfway between ticks, 1: new tick is immeninet)
-        float interpolation = ((float)lag / (float)_tickTime);
-
-        _render->on_render( interpolation );                              
-
-        _gameState->on_frame_end();
-        PerfStats::instance().frame_end();
+            lagFrame -= timePerFrame;
+        }
     }
 }
 

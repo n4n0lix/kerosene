@@ -22,13 +22,8 @@ void Camera2D::activate( float delta )
     float camSpeed = 0.25f;  // TODO: Make this configurable
     Matrix4f viewMatrix;
 
-    if ( (_lastTarget - _target).length() > minDiff ) {
-        _lastTarget = Vector3f::lerp( _lastTarget, _target, camSpeed );
-        viewMatrix = Matrix4f::translation( -_lastTarget );
-    }
-    else {
-        viewMatrix = Matrix4f::translation( -_target );
-    }
+    _lastTarget = Vector3f::lerp( _lastTarget, _target, 0.5f );
+    viewMatrix = Matrix4f::translation( -_lastTarget );
 
 #ifdef MAT4_ROW_MAJOR
     proj_view_mat4() = projMatrix * viewMatrix;

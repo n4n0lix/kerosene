@@ -14,8 +14,8 @@ void PlayerController::set_entity( weak<Entity> pEntity )
 
 void PlayerController::update( std::vector<KeyEvent>& keys, std::vector<CharEvent>& chars, std::vector<MouseEvent>& mouse )
 {
-    Guard( entity ) return;
-    Guard( entity->has<Controllable>() ) return;
+    if ( !entity ) return;
+    if ( !entity->has<Controllable>() ) return;
 
     Controllable& ctrl = entity->access<Controllable>();
 

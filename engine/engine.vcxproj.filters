@@ -60,9 +60,6 @@
     <ClInclude Include="source\engine\engine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\engineconfiguration.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\networkengine.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -85,9 +82,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\charevent.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="source\engine\glwindow.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\engine\keyevent.h">
@@ -240,9 +234,6 @@
     <ClInclude Include="source\engine\edge.h">
       <Filter>Headerdateien\math</Filter>
     </ClInclude>
-    <ClInclude Include="source\sandbox\testgamestate.h">
-      <Filter>Headerdateien\sandbox</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\player_spawner.h">
       <Filter>Headerdateien\sandbox</Filter>
     </ClInclude>
@@ -297,18 +288,21 @@
     <ClInclude Include="source\engine\tileset.h">
       <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\glwindow.h">
+      <Filter>Headerdateien\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stopwatch.h">
+      <Filter>Headerdateien\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\testgamestate.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\engine\engine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\engine\engineconfiguration.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\uniform.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="source\sandbox\main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\range.cpp">
@@ -340,12 +334,6 @@
     </ClCompile>
     <ClCompile Include="source\engine\camera.cpp">
       <Filter>Quelldateien\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\_gl.cpp">
-      <Filter>Quelldateien\gl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\engine\glwindow.cpp">
-      <Filter>Quelldateien\gl</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\stdafx.cpp">
       <Filter>Quelldateien</Filter>
@@ -404,9 +392,6 @@
     <ClCompile Include="source\engine\keyevent.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\sandbox\testgamestate.cpp">
-      <Filter>Quelldateien\sandbox</Filter>
-    </ClCompile>
     <ClCompile Include="source\engine\player_spawner.cpp">
       <Filter>Quelldateien\sandbox</Filter>
     </ClCompile>
@@ -454,6 +439,21 @@
     </ClCompile>
     <ClCompile Include="source\engine\simpleindexbuffer.cpp">
       <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\glwindow.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\_gl.cpp">
+      <Filter>Quelldateien\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\stopwatch.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\testgamestate.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

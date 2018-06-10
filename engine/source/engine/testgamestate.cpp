@@ -106,8 +106,8 @@ void TestGameState::on_frame_start() {
             _mainCamera->set_top( renderHeight/8.0f );
 
             // Main Camera Update
-            if ( _player && _player->has<has_transform>() )
-                _mainCamera->set_target( _player->access<has_transform>().position );
+            //if ( _player && _player->has<has_transform>() )
+                //_mainCamera->set_target( _player->access<has_transform>().position );
         }
 
         if ( _uiCamera ) {
