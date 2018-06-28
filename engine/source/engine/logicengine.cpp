@@ -10,6 +10,7 @@ void LogicEngine::on_start()
 {
     mixin::register_type<has_transform>();
     mixin::register_type<Controllable>();
+    mixin::register_type<TilemapLogic>();
 }
 
 void LogicEngine::on_tick_start()
@@ -38,6 +39,7 @@ void LogicEngine::on_shutdown()
 {
     mixin::unregister_type<has_transform>();
     mixin::unregister_type<Controllable>();
+    mixin::unregister_type<TilemapLogic>();
 }
 
 void LogicEngine::on_gamestate_end()

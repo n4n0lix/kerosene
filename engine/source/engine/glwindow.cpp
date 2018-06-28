@@ -62,6 +62,7 @@ void GLWindow::set_displaymode( DisplayMode mode )
         glfwSetWindowMonitor( _handle, monitor, 0, 0, nativeMode->width, nativeMode->height, nativeMode->refreshRate );
         break;
     }
+
 }
 
 void GLWindow::show()

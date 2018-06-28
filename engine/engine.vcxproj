@@ -43,6 +43,8 @@
     <ClInclude Include="source\engine\simplevertexarray.h" />
     <ClInclude Include="source\engine\stopwatch.h" />
     <ClInclude Include="source\engine\testgamestate.h" />
+    <ClInclude Include="source\engine\tilemaplogic.h" />
+    <ClInclude Include="source\engine\tilemap_spawner.h" />
     <ClInclude Include="source\engine\tileset.h" />
     <ClInclude Include="source\engine\transform.h" />
     <ClInclude Include="source\engine\keystate.h" />
@@ -121,7 +123,9 @@
     <ClCompile Include="source\engine\simpleindexbuffer.cpp" />
     <ClCompile Include="source\engine\stopwatch.cpp" />
     <ClCompile Include="source\engine\testgamestate.cpp" />
+    <ClCompile Include="source\engine\tilemaplogic.cpp" />
     <ClCompile Include="source\engine\tilemaprenderer.cpp" />
+    <ClCompile Include="source\engine\tilemap_spawner.cpp" />
     <ClCompile Include="source\engine\tileset.cpp" />
     <ClCompile Include="source\engine\transform.cpp" />
     <ClCompile Include="source\engine\keyevent.cpp" />

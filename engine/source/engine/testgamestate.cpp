@@ -34,15 +34,18 @@ void TestGameState::on_start()
     if ( logic ) {
         _player = Player_Spawner::Spawn( *logic, rendering, input, _mainScene );
         _player->access<Controllable>().moveSpeed = 50;
+
+        _tilemap = Tilemap_Spawner::Spawn( *logic, rendering, input, _mainScene );
+        _tilemap->access<has_transform>().position.z = -0.1f;
     }
     
 
-    if ( _mainScene ) {
-        auto ttex = rendering->get_texture( "res/textures/dev/tile.png" );
+    //if ( _mainScene ) {
+        //auto ttex = rendering->get_texture( "res/textures/dev/tile.png" );
 
         
-        auto tile = logic->add_entity( make_owner<Entity>() );
-        tile->add<has_transform>();
+        //auto tile = logic->add_entity( make_owner<Entity>() );
+        //tile->add<has_transform>();
         
         //auto rCfg = SpriteRenderer::Config( {
         //    /*  anchor = */{ 0, 0 },
@@ -52,23 +55,19 @@ void TestGameState::on_start()
         //} );
         //_mainScene->add_renderer<SpriteRenderer>( rCfg );
 
-        auto rCfg = TilemapRenderer::Config( {
-            /*            entity = */ tile,
-            /*       textureName = */ "res/textures/dev/tile.png",
-            /*         tileWidth = */ 8.0f,
-            /*        tileHeight = */ 8.0f,
-            /*             width = */ 4,
-            /*            height = */ 4,
-            /*  tilesetTileWidth = */ 16,
-            /* tilesetTileHeight = */ 16
-        } );
-        _mainScene->add_renderer<TilemapRenderer>( rCfg );
+        //auto rCfg = TilemapRenderer::Config( {
+        //    /*            entity = */ tile,
+        //    /*       textureName = */ "res/textures/dev/tile.png",
+        //    /*  tilesetTileWidth = */ 16,
+        //    /* tilesetTileHeight = */ 16
+        //} );
+        //_mainScene->add_renderer<TilemapRenderer>( rCfg );
 
-        has_transform& trans = tile->access<has_transform>();
-        trans.position.x = 0;
-        trans.position.y = 0;
-        trans.position.z = -0.1f;
-    }
+        //has_transform& trans = tile->access<has_transform>();
+        //trans.position.x = 0;
+        //trans.position.y = 0;
+        //trans.position.z = -0.1f;
+    //}
 }
 
 void TestGameState::on_update()
@@ -106,8 +105,8 @@ void TestGameState::on_frame_start() {
             _mainCamera->set_top( renderHeight/8.0f );
 
             // Main Camera Update
-            //if ( _player && _player->has<has_transform>() )
-                //_mainCamera->set_target( _player->access<has_transform>().position );
+            if ( _player && _player->has<has_transform>() )
+                _mainCamera->set_target( _player->access<has_transform>().position );
         }
 
         if ( _uiCamera ) {

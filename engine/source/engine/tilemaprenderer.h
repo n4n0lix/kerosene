@@ -9,6 +9,7 @@
 #include "simplevertexarray.h"
 #include "renderer.h"
 #include "tileset.h"
+#include "tilemaplogic.h"
 
 ENGINE_NAMESPACE_BEGIN
 
@@ -18,10 +19,6 @@ public:
     struct Config {
         weak<Entity>  entity;
         string        textureName;
-        float         tileWidth;
-        float         tileHeight;
-        uint32        width;
-        uint32        height;
         uint32        tilesetTileWidth;
         uint32        tilesetTileHeight;
     };

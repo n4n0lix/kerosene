@@ -243,9 +243,6 @@
     <ClInclude Include="source\engine\texture.h">
       <Filter>Headerdateien\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\mixins.h">
-      <Filter>Headerdateien\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\noncopyable.h">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
@@ -294,8 +291,17 @@
     <ClInclude Include="source\engine\stopwatch.h">
       <Filter>Headerdateien\util</Filter>
     </ClInclude>
+    <ClInclude Include="source\engine\mixins.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tilemaplogic.h">
+      <Filter>Headerdateien\logic</Filter>
+    </ClInclude>
     <ClInclude Include="source\engine\testgamestate.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\sandbox</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\tilemap_spawner.h">
+      <Filter>Headerdateien\sandbox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -453,7 +459,13 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="source\engine\testgamestate.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\sandbox</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tilemap_spawner.cpp">
+      <Filter>Quelldateien\sandbox</Filter>
+    </ClCompile>
+    <ClCompile Include="source\engine\tilemaplogic.cpp">
+      <Filter>Quelldateien\logic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 
 // Std-Includes
 #include <bitset>
+#include <typeinfo>
+#include <typeindex>
 
 // Other Includes
 
@@ -33,10 +35,13 @@ namespace ENGINE_NAMESPACE::mixin {
     const MixinInfo<MIXIN>& get_mixin_info();
 
     extern std::vector<compact_map_t*> MIXINS;
+    //extern  std::unordered_map<std::type_index, compact_map_t*> MIXINS;
 
     template<typename MIXIN>
     void register_type() {
+
         MixinInfo<MIXIN> info = get_mixin_info<MIXIN>();
+
 
         size_t requiredSize = info.id + 1; // We also need a slot for id==0
 

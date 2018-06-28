@@ -22,7 +22,7 @@ void Camera2D::activate( float delta )
     float camSpeed = 0.25f;  // TODO: Make this configurable
     Matrix4f viewMatrix;
 
-    _lastTarget = Vector3f::lerp( _lastTarget, _target, 0.5f );
+    _lastTarget = Vector3f::lerp( _lastTarget, _target, 0.03f );
     viewMatrix = Matrix4f::translation( -_lastTarget );
 
 #ifdef MAT4_ROW_MAJOR

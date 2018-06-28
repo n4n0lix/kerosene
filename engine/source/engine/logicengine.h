@@ -13,6 +13,7 @@
 #include "mixins.h"
 #include "transform.h"
 #include "controllable.h"
+#include "tilemaplogic.h"
 
 ENGINE_NAMESPACE_BEGIN
 

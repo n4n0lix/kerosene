@@ -5,6 +5,7 @@ weak<Entity> Player_Spawner::Spawn( LogicEngine& logic, weak<RenderEngine> rende
 {
     weak<Entity> player = nullptr;
 
+    // LOGIC
     player = logic.add_entity( make_owner<Entity>() );
     player->add<has_transform>();
     Controllable& ctrl = player->add<Controllable>();
@@ -17,6 +18,7 @@ weak<Entity> Player_Spawner::Spawn( LogicEngine& logic, weak<RenderEngine> rende
         input->add_local_controller( 10, make_owner<PlayerController>( player ) );
     }
 
+    // RENDERING
     if ( rendering && mainScene ) {
         auto texture = rendering->get_texture( "res/textures/dev/test_char.png" );
 

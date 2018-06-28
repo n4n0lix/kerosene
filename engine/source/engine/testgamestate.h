@@ -10,10 +10,12 @@
 #include "camera.h"
 #include "controllable.h"
 #include "playercontroller.h"
-#include "player_spawner.h"
 #include "transform.h"
 #include "mixins.h"
 #include "_gamedef.h"
+
+#include "player_spawner.h"
+#include "tilemap_spawner.h"
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Class                          */
@@ -45,6 +47,7 @@ private:
     weak<Scene>    _mainScene;
     weak<Camera2D> _mainCamera;
     weak<Entity>   _player;
+    weak<Entity>   _tilemap;
 
     weak<Scene>    _uiScene;
     weak<Camera2D> _uiCamera;

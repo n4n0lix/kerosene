@@ -5,8 +5,6 @@ ENGINE_NAMESPACE_BEGIN
 
 TilemapRenderer::TilemapRenderer( Config config ) : 
     _textureName( config.textureName ),
-    _width( config.width ),
-    _height( config.height ),
     _tilesetTileWidth( config.tilesetTileWidth ),
     _tilesetTileHeight( config.tilesetTileHeight ),
     _material( Material() ),
@@ -89,20 +87,25 @@ void TilemapRenderer::init_or_update_vertices()
     auto texture = _material.get_texture_diffuse();
     if ( !texture ) return;
 
-    float tileWidth = 12.0f;
-    float tileHeight = 12.0f;
+    auto entity = get_entity();
+    if ( !entity ) return;
+
+    if ( !entity->has<TilemapLogic>() ) return;
+    auto logic = entity->access<TilemapLogic>();
 
     // 1# Create vertices
     std::vector<Vertex_pt> vertices = {};
 
-    for ( uint32 y = 0; y < _height; y++ )
-        for ( uint32 x = 0; x < _width; x++ ) {
-            float x0 = x*tileWidth;
-            float x1 = x0+tileWidth;
-            float y0 = y*tileHeight;
-            float y1 = y0+tileHeight;
+    for ( uint32 y = 0; y < logic.height; y++ )
+        for ( uint32 x = 0; x < logic.width; x++ ) {
+            float x0 = x*logic.tileWidth;
+            float x1 = x0+logic.tileWidth;
+            float y0 = y*logic.tileHeight;
+            float y1 = y0+logic.tileHeight;
 
-            Rect4f uvs = TilemapRenderer::get_uvs_by_index( *texture, _tilesetTileWidth, _tilesetTileHeight, 0);
+            int index = logic.get_tile( x, y );
+
+            Rect4f uvs = TilemapRenderer::get_uvs_by_index( *texture, _tilesetTileWidth, _tilesetTileHeight, index );
 
             //Vector3f topLeft  = Vector3f( x0, y0, 0 );
             //Vector3f topRight = Vector3f( x1, y0, 0 );
