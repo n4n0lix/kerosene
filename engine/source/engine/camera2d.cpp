@@ -23,6 +23,7 @@ void Camera2D::activate( float delta )
     Matrix4f viewMatrix;
 
     _lastTarget = Vector3f::lerp( _lastTarget, _target, 0.03f );
+    //_lastTarget = Vector3f::lerp( _lastTarget, _target, delta );
     viewMatrix = Matrix4f::translation( -_lastTarget );
 
 #ifdef MAT4_ROW_MAJOR

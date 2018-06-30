@@ -3,40 +3,37 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-TilemapRenderer::TilemapRenderer( Config config ) : 
-    _textureName( config.textureName ),
-    _tilesetTileWidth( config.tilesetTileWidth ),
-    _tilesetTileHeight( config.tilesetTileHeight ),
+const uint32 TilemapRenderer::DATA_CHANGE_TEST_MS = 250;
+
+TilemapRenderer::TilemapRenderer( weak<Tileset> tileset, Entity entity) :
+    _tileset( tileset ),
     _material( Material() ),
     _anchor( Vector2f( 0, 0 ) )
 {
-    set_entity( config.entity );
+    set_entity( entity );
 }
 
 void TilemapRenderer::on_init( RenderEngine& pRenderEngine )
 {
-    auto texture = pRenderEngine.get_texture( _textureName );
-    _material.set_texture_diffuse( texture );
+    _material.set_shader( pRenderEngine.get_shader( "builtin_texture" ) );
 
-    auto shader = pRenderEngine.get_shader( "builtin_texture" );
-    _material.set_shader( shader );
+    on_dirty();
 
-    init_or_update_vertices();
-
-    LOGGER.log( Level::DEBUG ) << "init Tilemaprenderer with id: " << _svao.get_vertex_buffer()->gl_id() << std::endl;
+    LOGGER.log( Level::DEBUG ) << "init tilemaprenderer with id: " << _svao.get_vertex_buffer()->gl_id() << std::endl;
 }
 
-void TilemapRenderer::on_render( RenderEngine&, Camera&, Matrix4f& pProjViewMat, float pInterpolation )
+void TilemapRenderer::on_render( RenderEngine& pRenderEngine, Camera&, Matrix4f& pProjViewMat, float pInterpolation )
 {
     auto entity = get_entity();
-    if ( !get_entity() ) return;
+
+    handle_tilemap_data_changed();
 
     Vector3f position;
     Vector3f scale;
     Quaternion4f rotation;
 
-    if ( entity->has<has_transform>() ) {
-        has_transform& transform = mixin::access<has_transform>( *entity );
+    if ( entity.has<CTransform>() ) {
+        CTransform& transform = entity.get<CTransform>();
 
         // Interpolate transform, as we are between a calculated tick and a future tick
         position = Vector3f::lerp( transform.lastPosition, transform.position, pInterpolation );
@@ -61,71 +58,72 @@ void TilemapRenderer::on_render( RenderEngine&, Camera&, Matrix4f& pProjViewMat,
     Matrix4f wvp = world * pProjViewMat;
 #endif
 
+    _material.set_texture_diffuse( _tileset->get_texture() );
     _material.set_wvp( wvp );
     _material.bind();
     _svao.render_all();
-    //_svao.render_by_indexbuffer();
 }
 
 void TilemapRenderer::on_cleanup( RenderEngine& )
 {
 }
 
-Rect4f TilemapRenderer::get_uvs_by_index( Texture& tex, uint32 tileWidth, uint32 tileHeight, uint32 index )
+// TODO: Change this to an listener. Renderer subscribes to Logic, logic writes events in queue.
+void TilemapRenderer::handle_tilemap_data_changed()
 {
-    float uvPerX = (1.0f * tex.get_width()) / tileWidth;
-    float uvPerY = (1.0f * tex.get_height()) / tileHeight;
+    auto elapsed = _stopwatchUpdate.elapsed();
+    if ( elapsed < DATA_CHANGE_TEST_MS )
+        return;
 
-    uint32 x = index % tileWidth;
-    uint32 y = index / tileHeight;
+    _stopwatchUpdate.start();
+    LOGGER.log( Level::DEBUG ) << "react to data change\n";
 
-    return Rect4f( x * uvPerX, y * uvPerY, uvPerX, uvPerY );
+    auto entity = get_entity();
+
+    if (entity.has<CTilemapLogic>()) {
+      auto& logic = entity.get<CTilemapLogic>();
+      auto& tiles = logic.tiles;
+
+      bool tilemapUnchanged = true;
+
+      tilemapUnchanged &= (tiles.size() == _tmpTiles.size());
+      tilemapUnchanged &= std::equal(_tmpTiles.begin(), _tmpTiles.end(), tiles.begin());
+
+      if (!tilemapUnchanged) {
+        _tmpTiles.clear();
+        _tmpTiles.insert(_tmpTiles.end(), tiles.begin(), tiles.end());
+        on_dirty();
+      }
+    }
 }
 
-void TilemapRenderer::init_or_update_vertices()
+void TilemapRenderer::on_dirty()
 {
     auto texture = _material.get_texture_diffuse();
     if ( !texture ) return;
 
     auto entity = get_entity();
-    if ( !entity ) return;
 
-    if ( !entity->has<TilemapLogic>() ) return;
-    auto logic = entity->access<TilemapLogic>();
+    if ( !entity.has<CTilemapLogic>() ) return;
+    auto& logic = entity.get<CTilemapLogic>();
 
     // 1# Create vertices
     std::vector<Vertex_pt> vertices = {};
 
     for ( uint32 y = 0; y < logic.height; y++ )
         for ( uint32 x = 0; x < logic.width; x++ ) {
-            float x0 = x*logic.tileWidth;
-            float x1 = x0+logic.tileWidth;
-            float y0 = y*logic.tileHeight;
-            float y1 = y0+logic.tileHeight;
+            float x0 = 0.5f*x;
+            float x1 = 0.5f*(x+1);
+            float y0 = 0.5f*y;
+            float y1 = 0.5f*(y+1);
 
             int index = logic.get_tile( x, y );
+            Rect4f uvs = _tileset->get_uvs_by_index( index );
 
-            Rect4f uvs = TilemapRenderer::get_uvs_by_index( *texture, _tilesetTileWidth, _tilesetTileHeight, index );
-
-            //Vector3f topLeft  = Vector3f( x0, y0, 0 );
-            //Vector3f topRight = Vector3f( x1, y0, 0 );
-            //Vector3f botLeft  = Vector3f( x0, y1, 0 );
-            //Vector3f botRight = Vector3f( x1, y1, 0 );
-
-            //vertices.push_back( Vertex_pt( topLeft, uvs.top_left() ));
-            //vertices.push_back( Vertex_pt( topRight, uvs.top_right() ));
-            //vertices.push_back( Vertex_pt( botLeft, uvs.bottom_left() ));
-            //vertices.push_back( Vertex_pt( botRight, uvs.bottom_right() ));
-
-            //auto v0 = Vertex_pt( topLeft, uvs.top_left() );
-            //auto v1 = Vertex_pt( topRight, uvs.top_right() );
-            //auto v2 = Vertex_pt( botLeft, uvs.bottom_left() );
-            //auto v3 = Vertex_pt( botRight, uvs.bottom_right() );
-
-            auto v0 = Vertex_pt( Vector3f( x1, y0, 0 ), Vector2f( 1, 1 ) );
-            auto v1 = Vertex_pt( Vector3f( x0, y0, 0 ), Vector2f( 0, 1 ) );
-            auto v2 = Vertex_pt( Vector3f( x1, y1, 0 ), Vector2f( 1, 0 ) );
-            auto v3 = Vertex_pt( Vector3f( x0, y1, 0 ), Vector2f( 0, 0 ) );
+            auto v0 = Vertex_pt( Vector3f( x1, y0, 0 ), Vector2f( uvs.max_x(), uvs.max_y() ));
+            auto v1 = Vertex_pt( Vector3f( x0, y0, 0 ), Vector2f( uvs.min_x(), uvs.max_y() ));
+            auto v2 = Vertex_pt( Vector3f( x1, y1, 0 ), Vector2f( uvs.max_x(), uvs.min_y() ));
+            auto v3 = Vertex_pt( Vector3f( x0, y1, 0 ), Vector2f( uvs.min_x(), uvs.min_y() ));
 
             auto vrts = std::vector<Vertex_pt> {
                 v0, v1, v2,
@@ -136,12 +134,21 @@ void TilemapRenderer::init_or_update_vertices()
             
         }
 
+    _svao.get_vertex_buffer()->clear();
     _svao.get_vertex_buffer()->add_vertices( vertices );
 
-    LOGGER.log( Level::DEBUG ) << "Tilemaprenderer with id: " << _svao.get_vertex_buffer()->gl_id() << std::endl;
+    LOGGER.log( Level::DEBUG ) << "Tilemaprenderer with id: " << _svao.get_vertex_buffer()->gl_id() << "\n";
 }
 
-Logger TilemapRenderer::LOGGER = Logger( "TilemapRenderer", Level::DEBUG );
+float TilemapRenderer::render_layer_priority() const
+{
+    if ( get_entity().has<CTransform>() )
+        return get_entity().get<CTransform>().position.z;
+    else
+        return FLT_MAX;
+}
+
+Logger TilemapRenderer::LOGGER = Logger( "TilemapRenderer", Level::WARN );
 ENGINE_NAMESPACE_END
 
 

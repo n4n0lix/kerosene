@@ -30,6 +30,7 @@
     <ClInclude Include="source\engine\camera.h" />
     <ClInclude Include="source\engine\charevent.h" />
     <ClInclude Include="source\engine\compact_map.h" />
+    <ClInclude Include="source\engine\component.h" />
     <ClInclude Include="source\engine\controllable.h" />
     <ClInclude Include="source\engine\edge.h" />
     <ClInclude Include="source\engine\events.h" />
@@ -39,10 +40,12 @@
     <ClInclude Include="source\engine\gltype.h" />
     <ClInclude Include="source\engine\glvao.h" />
     <ClInclude Include="source\engine\rect4f.h" />
+    <ClInclude Include="source\engine\renderresource.h" />
     <ClInclude Include="source\engine\simpleindexbuffer.h" />
     <ClInclude Include="source\engine\simplevertexarray.h" />
     <ClInclude Include="source\engine\stopwatch.h" />
     <ClInclude Include="source\engine\testgamestate.h" />
+    <ClInclude Include="source\engine\textrenderer.h" />
     <ClInclude Include="source\engine\tilemaplogic.h" />
     <ClInclude Include="source\engine\tilemap_spawner.h" />
     <ClInclude Include="source\engine\tileset.h" />
@@ -63,7 +66,6 @@
     <ClInclude Include="source\engine\spriterenderer.h" />
     <ClInclude Include="source\engine\stdafx.h" />
     <ClInclude Include="source\engine\tilemaprenderer.h" />
-    <ClInclude Include="source\engine\mixins.h" />
     <ClInclude Include="source\engine\triangle.h" />
     <ClInclude Include="source\engine\value.h" />
     <ClInclude Include="source\engine\simplevertexbuffer.h" />
@@ -114,15 +116,19 @@
     <ClCompile Include="source\engine\attribvertexbuffer.cpp" />
     <ClCompile Include="source\engine\camera.cpp" />
     <ClCompile Include="source\engine\camera2d.cpp" />
+    <ClCompile Include="source\engine\component.cpp" />
     <ClCompile Include="source\engine\controllable.cpp" />
     <ClCompile Include="source\engine\edge.cpp" />
     <ClCompile Include="source\engine\entity.cpp" />
     <ClCompile Include="source\engine\gltype.cpp" />
+    <ClCompile Include="source\engine\logger.cpp" />
     <ClCompile Include="source\engine\main.cpp" />
     <ClCompile Include="source\engine\rect4f.cpp" />
+    <ClCompile Include="source\engine\renderresource.cpp" />
     <ClCompile Include="source\engine\simpleindexbuffer.cpp" />
     <ClCompile Include="source\engine\stopwatch.cpp" />
     <ClCompile Include="source\engine\testgamestate.cpp" />
+    <ClCompile Include="source\engine\textrenderer.cpp" />
     <ClCompile Include="source\engine\tilemaplogic.cpp" />
     <ClCompile Include="source\engine\tilemaprenderer.cpp" />
     <ClCompile Include="source\engine\tilemap_spawner.cpp" />
@@ -130,7 +136,6 @@
     <ClCompile Include="source\engine\transform.cpp" />
     <ClCompile Include="source\engine\keyevent.cpp" />
     <ClCompile Include="source\engine\localcontroller.cpp" />
-    <ClCompile Include="source\engine\mixins.cpp" />
     <ClCompile Include="source\engine\perfstats.cpp" />
     <ClCompile Include="source\engine\playercontroller.cpp" />
     <ClCompile Include="source\engine\player_spawner.cpp" />
@@ -174,7 +179,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A641B19-ECD1-4C2E-9B09-CA2F36A4764D}</ProjectGuid>
     <RootNamespace>KeroseneEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

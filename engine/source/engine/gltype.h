@@ -26,13 +26,13 @@ public:
     static GLType MAT4;
 
     GLType( uint32 pId, uint32 pNumComps, uint32 pBytesize ) 
-        : id(pId), numComps(pNumComps), byteSize(pBytesize)
+        : _id(pId), numComps(pNumComps), byteSize(pBytesize)
     {}
 
-    bool operator==( const GLType& o ) const { return id == o.id; }
+    bool operator==( const GLType& o ) const { return _id == o._id; }
     bool operator!=( const GLType& o ) const { return !(*this == o); }
 
-    uint32 id;
+    uint32 _id;
     uint32 numComps;
     uint32 byteSize;
 };

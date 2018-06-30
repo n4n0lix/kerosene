@@ -5,7 +5,7 @@ ENGINE_NAMESPACE_BEGIN
 
 bool Shader::operator==(const Shader & o) const
 {
-    return id == o.id;
+    return _id == o._id;
 }
 
 bool Shader::operator!=(const Shader & o) const
@@ -15,7 +15,7 @@ bool Shader::operator!=(const Shader & o) const
 
 bool Shader::operator<(const Shader & o1) const
 {
-    return id < o1.id;
+    return _id < o1._id;
 }
 
 Uniform Shader::vertex_uniform(string varname)
@@ -53,20 +53,20 @@ Shader::Shader( VertexLayout pLayout, std::vector<Uniform> pVUniforms, std::vect
     GLuint vShaderId = create_vertex_shader( pLayout, pVUniforms, pVertexCode );
     GLuint fShaderId = create_frag_shader( pLayout, pVUniforms, pTexSlots, pFragCode );
 
-    id = link_shader( vShaderId, fShaderId );
+    _id = link_shader( vShaderId, fShaderId );
 
     _vertexUniforms = process_uniforms( pVUniforms );
     _fragUniforms   = process_uniforms( pFUniforms );
     _fragTextureSlots = process_textureslots( pTexSlots );
 
-    LOGGER.log( Level::DEBUG, id ) << "CREATE\n";
+    LOGGER.log( Level::DEBUG, _id ) << "CREATE\n";
     PerfStats::instance().frame_load_shader();
 }
 
 Shader::~Shader()
 {
-    LOGGER.log(Level::DEBUG, id) << "DELETE\n";
-    glDeleteProgram( id );
+    LOGGER.log(Level::DEBUG, _id) << "DELETE\n";
+    glDeleteProgram( _id );
     PerfStats::instance().frame_unload_shader();
 }
 
@@ -181,7 +181,7 @@ map<string, Uniform> Shader::process_uniforms( std::vector<Uniform> pUniforms )
 
     map<string, Uniform> uniformMap;
     for ( Uniform uniform : pUniforms ) {
-        int32 loc = glGetUniformLocation( id, uniform.gl_varname().c_str() );
+        int32 loc = glGetUniformLocation( _id, uniform.gl_varname().c_str() );
         uniform.gl_location( loc );
         uniformMap[uniform.gl_varname()] = uniform;
     }
@@ -194,7 +194,7 @@ std::vector<TextureSlot> Shader::process_textureslots( std::vector<TextureSlot> 
     bind();
 
     for ( TextureSlot slot : pSlots ) {
-        slot.location = glGetUniformLocation( id, slot.name.c_str() );
+        slot.location = glGetUniformLocation( _id, slot.name.c_str() );
     }
 
     return pSlots;

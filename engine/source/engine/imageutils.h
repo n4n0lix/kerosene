@@ -30,7 +30,17 @@ public:
 
     string          dbg_str() {
         std::ostringstream oss;
-        oss << width << "x" << height << "x" << bpp * 8;
+        string formatStr;
+
+        switch ( format ) {
+            case ImageFormat::UNKOWN: formatStr = "UNKOWN"; break;
+            case ImageFormat::GREY: formatStr = "GREY"; break;
+            case ImageFormat::GREYA: formatStr = "GREYA"; break;
+            case ImageFormat::RGB: formatStr = "RGB"; break;
+            case ImageFormat::RGBA: formatStr = "RGBA"; break;
+        }
+
+        oss << width << "x" << height << "x" << bpp * 8 << "@" << formatStr;
         return oss.str();
     }
 };

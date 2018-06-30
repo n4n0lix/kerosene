@@ -3,8 +3,16 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-Renderer::Renderer() : _initialized(false) {
+Renderer::Renderer()
+  : _initialized(false)
+{
 
+}
+
+Renderer::Renderer(Entity entity)
+  : Renderer()
+{
+  set_entity( entity );
 }
 
 void Renderer::init( RenderEngine& engine )
@@ -29,14 +37,22 @@ bool Renderer::is_initialized()
 	return _initialized;
 }
 
-weak<Entity> Renderer::get_entity()
+Entity Renderer::get_entity() const
 {
     return _entity;
 }
 
-void Renderer::set_entity( weak<Entity> pEntity )
+void Renderer::set_entity(Entity pEntity)
 {
-    _entity = pEntity;
+  _entity = pEntity;
+}
+
+int32  Renderer::render_layer() const {
+    return _renderlayer;
+}
+
+void Renderer::set_render_layer( int32 renderlayer ) {
+    _renderlayer = renderlayer;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

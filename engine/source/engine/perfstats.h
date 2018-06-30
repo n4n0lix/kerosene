@@ -96,6 +96,10 @@ public:
         _counterAvgFrameTime += timeSpan;
     }
 
+    inline size_t get_fps() {
+        return _numFPS;
+    }
+
 protected:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                       Protected                        */

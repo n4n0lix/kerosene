@@ -20,7 +20,7 @@ void RenderEngine::on_start( weak<InputEngine> input )
         throw std::exception("Couldn't initialize GLEW!");
     }
 
-	setup_builtin_shaders();
+	  setup_builtin_shaders();
 
     // 2# Setup callbacks
     if ( input.is_ptr_valid() && input != nullptr ) {
@@ -83,6 +83,17 @@ void RenderEngine::on_render( float extrapolation )
     //_mainWindow->make_current();
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+    // 2# Initialize resources
+    if ( _uninitializedResources.size() != 0 ) {
+        for ( auto& resource : _uninitializedResources )
+            if ( resource.is_ptr_usable() )
+                resource->init( *this );
+
+        _uninitializedResources.clear();
+    }
+
+
+    // 3# Render Scene
     for ( auto& scene : _scenes ) {
         scene->render( *this, extrapolation );
     }
@@ -198,13 +209,21 @@ void RenderEngine::on_gamestate_end()
     _scenes.clear();
 }
 
+weak<Scene> RenderEngine::add_scene()
+{
+    owner<Scene> owner = make_owner<Scene>();
+    weak<Scene> weak = owner.get_non_owner();
+    _scenes.emplace_back( std::move( owner ) );
+    return weak;
+}
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 /*                         Private                        */
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 void RenderEngine::init_context_and_window()
 {
-    _mainWindow = make_owner<GLWindow>("Test", 800, 600, DisplayMode::WINDOWED_FULLSCREEN);
+    _mainWindow = make_owner<GLWindow>("Test", 800, 600, DisplayMode::WINDOWED);
     _mainWindow->make_current();
     std::cout << "Using OpenGL Version " << glGetString(GL_VERSION) << "\n";
 
@@ -278,6 +297,8 @@ void RenderEngine::setup_builtin_shaders()
 		<< "\n"
 		<< "void main() {\n"
 		<< "    out_color = texture(" << TextureSlot::TEXTURE_DIFFUSE.name << ", fs_texcoords);\n"
+        << ""
+        << ""
 		<< "}\n";
 
     owner<Shader> texShader = owner<Shader>( new Shader(

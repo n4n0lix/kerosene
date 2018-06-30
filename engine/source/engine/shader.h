@@ -68,11 +68,11 @@ private:
     /*                        Private                         */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-            GLuint                    id;
+            GLuint                    _id;
             VertexLayout              _vertexLayout;
             map<string, Uniform>      _vertexUniforms;
             map<string, Uniform>      _fragUniforms;
-            std::vector<TextureSlot>       _fragTextureSlots;
+            std::vector<TextureSlot>  _fragTextureSlots;
 
     void    set_uniform( Uniform uniform, const Matrix4f& mat4, std::map<string, Uniform>& uniforms );
     void    set_uniform( Uniform uniform, const Vector2f& vec2, std::map<string, Uniform>& uniforms );
@@ -101,9 +101,9 @@ private:
 
 inline void Shader::bind()
 {
-    if ( CURRENT_SHADER != id ) {
-        glUseProgram( id );
-        CURRENT_SHADER = id;
+    if ( CURRENT_SHADER != _id ) {
+        glUseProgram( _id );
+        CURRENT_SHADER = _id;
     }
 }
 

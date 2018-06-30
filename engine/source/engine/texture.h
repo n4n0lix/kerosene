@@ -38,7 +38,6 @@ public:
     bool operator==( const Texture& o ) const;
     bool operator!=( const Texture& o ) const;
 
-    // TODO: Find a better way, this doesn't say that this texture is "smaller"
     bool operator<( const Texture& o1 ) const; // To be able to use in map
 private:
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

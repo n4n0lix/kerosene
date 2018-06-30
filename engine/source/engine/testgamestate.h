@@ -11,7 +11,6 @@
 #include "controllable.h"
 #include "playercontroller.h"
 #include "transform.h"
-#include "mixins.h"
 #include "_gamedef.h"
 
 #include "player_spawner.h"
@@ -37,7 +36,7 @@ protected:
     void on_end()           override;
 
 private:
-    weak<Entity>    spawn_ui( weak<Scene> );
+    Entity    spawn_ui( weak<Scene> );
 
     bool moveCamLeft;
     bool moveCamRight;
@@ -46,11 +45,12 @@ private:
 
     weak<Scene>    _mainScene;
     weak<Camera2D> _mainCamera;
-    weak<Entity>   _player;
-    weak<Entity>   _tilemap;
+    Entity   _player;
+    Entity   _tilemap;
 
     weak<Scene>    _uiScene;
     weak<Camera2D> _uiCamera;
-    weak<Entity>   _ui;
+    Entity   _ui;
+    weak<TextRenderer> _fpsText;
 
 };

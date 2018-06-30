@@ -3,10 +3,8 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-REGISTER_MIXIN( 1, Controllable )
-
-void Controllable::update( float delta ) {
-    if ( mixin::has<has_transform>( id ) ) {
+void CControllable::update( float delta ) {
+    if ( entity.has<CTransform>() ) {
         Vector2f dirSpeed = Vector2f( 0, 0 );
 
         if ( moveUp )    dirSpeed.y += 1;
@@ -17,7 +15,7 @@ void Controllable::update( float delta ) {
         dirSpeed = dirSpeed.normalized() * moveSpeed * delta;
 
 
-        has_transform& transform = mixin::access<has_transform>( id );
+        CTransform& transform = entity.get<CTransform>();
 
         transform.position.x += dirSpeed.x;
         transform.position.y += dirSpeed.y;

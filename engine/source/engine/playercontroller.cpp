@@ -3,28 +3,27 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-PlayerController::PlayerController( weak<Entity> e ) : entity(e)
+PlayerController::PlayerController( Entity e ) : entity(e)
 {
 }
 
-void PlayerController::set_entity( weak<Entity> pEntity )
+void PlayerController::set_entity( Entity pEntity )
 {
     entity = pEntity;
 }
 
 void PlayerController::update( std::vector<KeyEvent>& keys, std::vector<CharEvent>& chars, std::vector<MouseEvent>& mouse )
 {
-    if ( !entity ) return;
-    if ( !entity->has<Controllable>() ) return;
+    if ( !entity.has<CControllable>() ) return;
 
-    Controllable& ctrl = entity->access<Controllable>();
+    CControllable& ctrl = entity.get<CControllable>();
 
     for ( auto& key : keys ) {
         handleWASD( ctrl, key );
     }
 }
 
-void PlayerController::handleWASD( Controllable& ctrl, KeyEvent& event )
+void PlayerController::handleWASD( CControllable& ctrl, KeyEvent& event )
 {
     if ( !event.state_changed() ) return;
 

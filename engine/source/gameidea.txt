@@ -87,3 +87,41 @@ Names:
   =====================
 
   Friend of the Realm
+
+  - Wenn man einen Hof besitzt bzw eine mind. an Arbeitern, muss man hin und wieder Arbeiter dem König 
+    zur Verfügung stellen, der diese dann in die Armee eingliedert und das Königreich verteidigt oder einen
+	Feind angreift. Dadurch werden die Arbeiter in Stärke gelevelt, haben aber auch eine große Chance zu sterben.
+
+
+- Holzfäller
+- Sägewerk
+- Bauernhof
+
+=====================
+
+Story Ideas:
+
+1. Poor Familiy, Daughter died of young age, father went to necromancer to ressurect daughter for exchange of his life
+	(blood trade because they have no money to pay priest). Father dies, daughter ressurected. Daughter doesn't understand 
+	whats happened, goes to mother. Mother is terrified by undead daughter and curses her with words "abomination" and wants
+	nothing to do with her, daughter is even more confused and blames herself for all the miserie. She wants to be dead again
+	because she thinks this will fix the problems, but what ever she tries, she just can't die anymore.
+
+=====================
+König werden:
+1. 
+	- Mit Armee Schloss einnehmen
+	- König töten
+	- Generäle die nicht gehorchen besiegen (haben ihre eigenen Truppen)
+	- => Krönen lassen
+	- Öffentliche Ordnung wiederherstellen
+
+2.
+	- Königstochter heiraten
+	- Heimliches Attentat auf König
+	- Öffentliche Ordnung wiederherstellen
+	- => Königstochter zur Königin krönen
+	- Heimliches Attentat auf Königin
+	- Generäle die nicht gehorchen besiegen (haben ihre eigenen Truppen)
+	- => Krönen lassen
+	- Öffentliche Ordnung wiederherstellen

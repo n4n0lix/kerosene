@@ -3,21 +3,24 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-REGISTER_MIXIN( 2, TilemapLogic )
+void CTilemapLogic::update(float delta) 
+{
 
-void TilemapLogic::reshape( uint32 pWidth, uint32 pHeight ) {
-    width = pWidth;
-    height = pHeight;
-
-    tiles.resize( height * width, 0 );
 }
 
-void TilemapLogic::set_tile( uint32 x, uint32 y, uint32 tile ) {
-    tiles[y * width + x] = tile;
+void CTilemapLogic::reshape(uint32 pWidth, uint32 pHeight) {
+  width = pWidth;
+  height = pHeight;
+
+  tiles.resize(height * width, 0);
 }
 
-int  TilemapLogic::get_tile( uint32 x, uint32 y ) {
-    return tiles[y * width + x];
+void CTilemapLogic::set_tile(uint32 x, uint32 y, uint32 tile) {
+  tiles[y * width + x] = tile;
+}
+
+int  CTilemapLogic::get_tile(uint32 x, uint32 y) {
+  return tiles[y * width + x];
 }
 
 ENGINE_NAMESPACE_END

@@ -6,32 +6,32 @@
 
 // Internal Includes
 #include "_global.h"
-#include "mixins.h"
 #include "transform.h"
 #include "vector2f.h"
+#include "stopwatch.h"
+#include "component.h"
 
 ENGINE_NAMESPACE_BEGIN
 
-struct TilemapLogic : mixin::Mixin
-{
-    void reshape( uint32 tileWidth, uint32 tileHeight );
-    void set_tile( uint32 x, uint32 y, uint32 tile );
-    int  get_tile( uint32 x, uint32 y );
+COMPONENT( CTilemapLogic, 10) 
 
-GLOBAL:
+  void update(float delta) override;
 
-PLAYER:
+  void reshape(uint32 pWidth, uint32 pHeight);
+  void set_tile(uint32 x, uint32 y, uint32 tile);
+  int  get_tile(uint32 x, uint32 y);
 
-LOCAL:
+  GLOBAL:
     uint32 width;
     uint32 height;
     float  tileWidth;
     float  tileHeight;
-
     std::vector<uint32> tiles;
-};
 
+  PLAYER:
 
-DEFINE_MIXIN( TilemapLogic );
+  LOCAL:
+
+END
 
 ENGINE_NAMESPACE_END

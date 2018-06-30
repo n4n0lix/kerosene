@@ -140,14 +140,14 @@ inline GLuint GLBuffer<T, TYPE>::gl_id()
 template<typename T, GLuint TYPE>
 GLuint GLBuffer<T, TYPE>::native_allocate( GLuint initCapacity )
 {
-    GLuint id;
-    glGenBuffers( 1, &id );
-    glBindBuffer( TYPE, id );
+    GLuint _id;
+    glGenBuffers( 1, &_id );
+    glBindBuffer( TYPE, _id );
     glBufferData( TYPE, initCapacity, NULL, GL_STATIC_DRAW );
     glBindBuffer( TYPE, 0 );
 
     LOGGER.log( Level::DEBUG ) << "[" << _id << "] Allocate[" << initCapacity << "]\n";
-    return id;
+    return _id;
 }
 
 template<typename T, GLuint TYPE>

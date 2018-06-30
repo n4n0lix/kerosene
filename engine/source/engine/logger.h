@@ -2,6 +2,8 @@
 
 // Std-Includes
 #include <sstream>
+#include <chrono>
+#include <iomanip>
 
 // Other Includes
 
@@ -9,6 +11,8 @@
 #include "_global.h"
 
 ENGINE_NAMESPACE_BEGIN
+
+typedef std::chrono::high_resolution_clock            clock_t;
 
 enum class Level {
     OFF,
@@ -21,13 +25,22 @@ enum class Level {
 class Logger
 {
 public:
-
-    static bool SUPPRESS_OUTPUT;
+    static clock_t::time_point  APP_START;
+    static bool                 SUPPRESS_OUTPUT;
 
             Logger( string className, Level level ) : _className( className ), _level( level ), _silentOutput( std::ostringstream() ) { }
 
     std::ostream& log( Level level ) {
-        return get_stream( level ) << get_log_level_name( level ) << " - " << _className << " - ";
+        auto msTotal = (clock_t::now() - APP_START).count() / 1000000;
+        auto ms = msTotal % 1000;
+        auto s = (msTotal / 1000) % 60;
+        auto m = (msTotal / 1000 / 60) % 60;
+
+        return get_stream( level ) << "[" 
+            << std::setfill( '0' ) << std::setw( 2 ) << m << ":"
+            << std::setfill( '0' ) << std::setw( 2 ) << s << ":"
+            << std::setfill( '0' ) << std::setw( 3 ) << ms
+            << "] " << get_log_level_name( level ) << " - " << _className << " - ";
     }
 
     std::ostream& log( Level level, uint32_t instanceId ) {

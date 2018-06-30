@@ -1676,7 +1676,7 @@ typedef void (GLAPIENTRY * PFNGLWINDOWPOS3SVPROC) (const GLshort *p);
 typedef ptrdiff_t GLintptr;
 typedef ptrdiff_t GLsizeiptr;
 
-typedef void (GLAPIENTRY * PFNGLBEGINQUERYPROC) (GLenum target, GLuint id);
+typedef void (GLAPIENTRY * PFNGLBEGINQUERYPROC) (GLenum target, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
 typedef void (GLAPIENTRY * PFNGLBUFFERDATAPROC) (GLenum target, GLsizeiptr size, const void* data, GLenum usage);
 typedef void (GLAPIENTRY * PFNGLBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, const void* data);
@@ -1688,11 +1688,11 @@ typedef void (GLAPIENTRY * PFNGLGENQUERIESPROC) (GLsizei n, GLuint* ids);
 typedef void (GLAPIENTRY * PFNGLGETBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint* params);
 typedef void (GLAPIENTRY * PFNGLGETBUFFERPOINTERVPROC) (GLenum target, GLenum pname, void** params);
 typedef void (GLAPIENTRY * PFNGLGETBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, void* data);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTIVPROC) (GLuint id, GLenum pname, GLint* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUIVPROC) (GLuint id, GLenum pname, GLuint* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTIVPROC) (GLuint _id, GLenum pname, GLint* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUIVPROC) (GLuint _id, GLenum pname, GLuint* params);
 typedef void (GLAPIENTRY * PFNGLGETQUERYIVPROC) (GLenum target, GLenum pname, GLint* params);
 typedef GLboolean (GLAPIENTRY * PFNGLISBUFFERPROC) (GLuint buffer);
-typedef GLboolean (GLAPIENTRY * PFNGLISQUERYPROC) (GLuint id);
+typedef GLboolean (GLAPIENTRY * PFNGLISQUERYPROC) (GLuint _id);
 typedef void* (GLAPIENTRY * PFNGLMAPBUFFERPROC) (GLenum target, GLenum access);
 typedef GLboolean (GLAPIENTRY * PFNGLUNMAPBUFFERPROC) (GLenum target);
 
@@ -2160,7 +2160,7 @@ typedef void (GLAPIENTRY * PFNGLUNIFORMMATRIX4X3FVPROC) (GLint location, GLsizei
 #define GL_QUERY_BY_REGION_WAIT 0x8E15
 #define GL_QUERY_BY_REGION_NO_WAIT 0x8E16
 
-typedef void (GLAPIENTRY * PFNGLBEGINCONDITIONALRENDERPROC) (GLuint id, GLenum mode);
+typedef void (GLAPIENTRY * PFNGLBEGINCONDITIONALRENDERPROC) (GLuint _id, GLenum mode);
 typedef void (GLAPIENTRY * PFNGLBEGINTRANSFORMFEEDBACKPROC) (GLenum primitiveMode);
 typedef void (GLAPIENTRY * PFNGLBINDFRAGDATALOCATIONPROC) (GLuint program, GLuint colorNumber, const GLchar* name);
 typedef void (GLAPIENTRY * PFNGLCLAMPCOLORPROC) (GLenum target, GLenum clamp);
@@ -2573,11 +2573,11 @@ typedef void (GLAPIENTRY * PFNGLTBUFFERMASK3DFXPROC) (GLuint mask);
 #define GL_DEBUG_CATEGORY_APPLICATION_AMD 0x914F
 #define GL_DEBUG_CATEGORY_OTHER_AMD 0x9150
 
-typedef void (GLAPIENTRY *GLDEBUGPROCAMD)(GLuint id, GLenum category, GLenum severity, GLsizei length, const GLchar* message, void* userParam);
+typedef void (GLAPIENTRY *GLDEBUGPROCAMD)(GLuint _id, GLenum category, GLenum severity, GLsizei length, const GLchar* message, void* userParam);
 
 typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGECALLBACKAMDPROC) (GLDEBUGPROCAMD callback, void *userParam);
 typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEENABLEAMDPROC) (GLenum category, GLenum severity, GLsizei count, const GLuint* ids, GLboolean enabled);
-typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEINSERTAMDPROC) (GLenum category, GLenum severity, GLuint id, GLsizei length, const GLchar* buf);
+typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEINSERTAMDPROC) (GLenum category, GLenum severity, GLuint _id, GLsizei length, const GLchar* buf);
 typedef GLuint (GLAPIENTRY * PFNGLGETDEBUGMESSAGELOGAMDPROC) (GLuint count, GLsizei bufsize, GLenum* categories, GLuint* severities, GLuint* ids, GLsizei* lengths, GLchar* message);
 
 #define glDebugMessageCallbackAMD GLEW_GET_FUN(__glewDebugMessageCallbackAMD)
@@ -2711,7 +2711,7 @@ typedef GLboolean (GLAPIENTRY * PFNGLISNAMEAMDPROC) (GLenum identifier, GLuint n
 #define GL_OCCLUSION_QUERY_EVENT_MASK_AMD 0x874F
 #define GL_QUERY_ALL_EVENT_BITS_AMD 0xFFFFFFFF
 
-typedef void (GLAPIENTRY * PFNGLQUERYOBJECTPARAMETERUIAMDPROC) (GLenum target, GLuint id, GLenum pname, GLuint param);
+typedef void (GLAPIENTRY * PFNGLQUERYOBJECTPARAMETERUIAMDPROC) (GLenum target, GLuint _id, GLenum pname, GLuint param);
 
 #define glQueryObjectParameteruiAMD GLEW_GET_FUN(__glewQueryObjectParameteruiAMD)
 
@@ -3110,17 +3110,17 @@ typedef void (GLAPIENTRY * PFNGLVERTEXATTRIBDIVISORANGLEPROC) (GLuint index, GLu
 #define GL_TIME_ELAPSED_ANGLE 0x88BF
 #define GL_TIMESTAMP_ANGLE 0x8E28
 
-typedef void (GLAPIENTRY * PFNGLBEGINQUERYANGLEPROC) (GLenum target, GLuint id);
+typedef void (GLAPIENTRY * PFNGLBEGINQUERYANGLEPROC) (GLenum target, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLDELETEQUERIESANGLEPROC) (GLsizei n, const GLuint* ids);
 typedef void (GLAPIENTRY * PFNGLENDQUERYANGLEPROC) (GLenum target);
 typedef void (GLAPIENTRY * PFNGLGENQUERIESANGLEPROC) (GLsizei n, GLuint* ids);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTI64VANGLEPROC) (GLuint id, GLenum pname, GLint64* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTIVANGLEPROC) (GLuint id, GLenum pname, GLint* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUI64VANGLEPROC) (GLuint id, GLenum pname, GLuint64* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUIVANGLEPROC) (GLuint id, GLenum pname, GLuint* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTI64VANGLEPROC) (GLuint _id, GLenum pname, GLint64* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTIVANGLEPROC) (GLuint _id, GLenum pname, GLint* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUI64VANGLEPROC) (GLuint _id, GLenum pname, GLuint64* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUIVANGLEPROC) (GLuint _id, GLenum pname, GLuint* params);
 typedef void (GLAPIENTRY * PFNGLGETQUERYIVANGLEPROC) (GLenum target, GLenum pname, GLint* params);
-typedef GLboolean (GLAPIENTRY * PFNGLISQUERYANGLEPROC) (GLuint id);
-typedef void (GLAPIENTRY * PFNGLQUERYCOUNTERANGLEPROC) (GLuint id, GLenum target);
+typedef GLboolean (GLAPIENTRY * PFNGLISQUERYANGLEPROC) (GLuint _id);
+typedef void (GLAPIENTRY * PFNGLQUERYCOUNTERANGLEPROC) (GLuint _id, GLenum target);
 
 #define glBeginQueryANGLE GLEW_GET_FUN(__glewBeginQueryANGLE)
 #define glDeleteQueriesANGLE GLEW_GET_FUN(__glewDeleteQueriesANGLE)
@@ -3946,11 +3946,11 @@ typedef void (GLAPIENTRY * PFNGLCOPYIMAGESUBDATAPROC) (GLuint srcName, GLenum sr
 #define GL_DEBUG_SEVERITY_MEDIUM_ARB 0x9147
 #define GL_DEBUG_SEVERITY_LOW_ARB 0x9148
 
-typedef void (GLAPIENTRY *GLDEBUGPROCARB)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+typedef void (GLAPIENTRY *GLDEBUGPROCARB)(GLenum source, GLenum type, GLuint _id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
 typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGECALLBACKARBPROC) (GLDEBUGPROCARB callback, const void *userParam);
 typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGECONTROLARBPROC) (GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint* ids, GLboolean enabled);
-typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEINSERTARBPROC) (GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* buf);
+typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEINSERTARBPROC) (GLenum source, GLenum type, GLuint _id, GLenum severity, GLsizei length, const GLchar* buf);
 typedef GLuint (GLAPIENTRY * PFNGLGETDEBUGMESSAGELOGARBPROC) (GLuint count, GLsizei bufSize, GLenum* sources, GLenum* types, GLuint* ids, GLenum* severities, GLsizei* lengths, GLchar* messageLog);
 
 #define glDebugMessageCallbackARB GLEW_GET_FUN(__glewDebugMessageCallbackARB)
@@ -4055,10 +4055,10 @@ typedef void (GLAPIENTRY * PFNGLGETNAMEDBUFFERSUBDATAPROC) (GLuint buffer, GLint
 typedef void (GLAPIENTRY * PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVPROC) (GLuint framebuffer, GLenum attachment, GLenum pname, GLint* params);
 typedef void (GLAPIENTRY * PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVPROC) (GLuint framebuffer, GLenum pname, GLint* param);
 typedef void (GLAPIENTRY * PFNGLGETNAMEDRENDERBUFFERPARAMETERIVPROC) (GLuint renderbuffer, GLenum pname, GLint* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTI64VPROC) (GLuint id,GLuint buffer,GLenum pname,GLintptr offset);
-typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTIVPROC) (GLuint id,GLuint buffer,GLenum pname,GLintptr offset);
-typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTUI64VPROC) (GLuint id,GLuint buffer,GLenum pname,GLintptr offset);
-typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTUIVPROC) (GLuint id,GLuint buffer,GLenum pname,GLintptr offset);
+typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTI64VPROC) (GLuint _id,GLuint buffer,GLenum pname,GLintptr offset);
+typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTIVPROC) (GLuint _id,GLuint buffer,GLenum pname,GLintptr offset);
+typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTUI64VPROC) (GLuint _id,GLuint buffer,GLenum pname,GLintptr offset);
+typedef void (GLAPIENTRY * PFNGLGETQUERYBUFFEROBJECTUIVPROC) (GLuint _id,GLuint buffer,GLenum pname,GLintptr offset);
 typedef void (GLAPIENTRY * PFNGLGETTEXTUREIMAGEPROC) (GLuint texture, GLint level, GLenum format, GLenum type, GLsizei bufSize, void *pixels);
 typedef void (GLAPIENTRY * PFNGLGETTEXTURELEVELPARAMETERFVPROC) (GLuint texture, GLint level, GLenum pname, GLfloat* params);
 typedef void (GLAPIENTRY * PFNGLGETTEXTURELEVELPARAMETERIVPROC) (GLuint texture, GLint level, GLenum pname, GLint* params);
@@ -5446,14 +5446,14 @@ typedef void (GLAPIENTRY * PFNGLMULTITEXCOORD4SVARBPROC) (GLenum target, const G
 #define GL_QUERY_RESULT_AVAILABLE_ARB 0x8867
 #define GL_SAMPLES_PASSED_ARB 0x8914
 
-typedef void (GLAPIENTRY * PFNGLBEGINQUERYARBPROC) (GLenum target, GLuint id);
+typedef void (GLAPIENTRY * PFNGLBEGINQUERYARBPROC) (GLenum target, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLDELETEQUERIESARBPROC) (GLsizei n, const GLuint* ids);
 typedef void (GLAPIENTRY * PFNGLENDQUERYARBPROC) (GLenum target);
 typedef void (GLAPIENTRY * PFNGLGENQUERIESARBPROC) (GLsizei n, GLuint* ids);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTIVARBPROC) (GLuint id, GLenum pname, GLint* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUIVARBPROC) (GLuint id, GLenum pname, GLuint* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTIVARBPROC) (GLuint _id, GLenum pname, GLint* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUIVARBPROC) (GLuint _id, GLenum pname, GLuint* params);
 typedef void (GLAPIENTRY * PFNGLGETQUERYIVARBPROC) (GLenum target, GLenum pname, GLint* params);
-typedef GLboolean (GLAPIENTRY * PFNGLISQUERYARBPROC) (GLuint id);
+typedef GLboolean (GLAPIENTRY * PFNGLISQUERYARBPROC) (GLuint _id);
 
 #define glBeginQueryARB GLEW_GET_FUN(__glewBeginQueryARB)
 #define glDeleteQueriesARB GLEW_GET_FUN(__glewDeleteQueriesARB)
@@ -7211,9 +7211,9 @@ typedef void (GLAPIENTRY * PFNGLTEXTUREVIEWPROC) (GLuint texture, GLenum target,
 #define GL_TIME_ELAPSED 0x88BF
 #define GL_TIMESTAMP 0x8E28
 
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTI64VPROC) (GLuint id, GLenum pname, GLint64* params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUI64VPROC) (GLuint id, GLenum pname, GLuint64* params);
-typedef void (GLAPIENTRY * PFNGLQUERYCOUNTERPROC) (GLuint id, GLenum target);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTI64VPROC) (GLuint _id, GLenum pname, GLint64* params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUI64VPROC) (GLuint _id, GLenum pname, GLuint64* params);
+typedef void (GLAPIENTRY * PFNGLQUERYCOUNTERPROC) (GLuint _id, GLenum target);
 
 #define glGetQueryObjecti64v GLEW_GET_FUN(__glewGetQueryObjecti64v)
 #define glGetQueryObjectui64v GLEW_GET_FUN(__glewGetQueryObjectui64v)
@@ -7233,11 +7233,11 @@ typedef void (GLAPIENTRY * PFNGLQUERYCOUNTERPROC) (GLuint id, GLenum target);
 #define GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE 0x8E24
 #define GL_TRANSFORM_FEEDBACK_BINDING 0x8E25
 
-typedef void (GLAPIENTRY * PFNGLBINDTRANSFORMFEEDBACKPROC) (GLenum target, GLuint id);
+typedef void (GLAPIENTRY * PFNGLBINDTRANSFORMFEEDBACKPROC) (GLenum target, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLDELETETRANSFORMFEEDBACKSPROC) (GLsizei n, const GLuint* ids);
-typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKPROC) (GLenum mode, GLuint id);
+typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKPROC) (GLenum mode, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLGENTRANSFORMFEEDBACKSPROC) (GLsizei n, GLuint* ids);
-typedef GLboolean (GLAPIENTRY * PFNGLISTRANSFORMFEEDBACKPROC) (GLuint id);
+typedef GLboolean (GLAPIENTRY * PFNGLISTRANSFORMFEEDBACKPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLPAUSETRANSFORMFEEDBACKPROC) (void);
 typedef void (GLAPIENTRY * PFNGLRESUMETRANSFORMFEEDBACKPROC) (void);
 
@@ -7261,8 +7261,8 @@ typedef void (GLAPIENTRY * PFNGLRESUMETRANSFORMFEEDBACKPROC) (void);
 #define GL_MAX_TRANSFORM_FEEDBACK_BUFFERS 0x8E70
 #define GL_MAX_VERTEX_STREAMS 0x8E71
 
-typedef void (GLAPIENTRY * PFNGLBEGINQUERYINDEXEDPROC) (GLenum target, GLuint index, GLuint id);
-typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC) (GLenum mode, GLuint id, GLuint stream);
+typedef void (GLAPIENTRY * PFNGLBEGINQUERYINDEXEDPROC) (GLenum target, GLuint index, GLuint _id);
+typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC) (GLenum mode, GLuint _id, GLuint stream);
 typedef void (GLAPIENTRY * PFNGLENDQUERYINDEXEDPROC) (GLenum target, GLuint index);
 typedef void (GLAPIENTRY * PFNGLGETQUERYINDEXEDIVPROC) (GLenum target, GLuint index, GLenum pname, GLint* params);
 
@@ -7280,8 +7280,8 @@ typedef void (GLAPIENTRY * PFNGLGETQUERYINDEXEDIVPROC) (GLenum target, GLuint in
 #ifndef GL_ARB_transform_feedback_instanced
 #define GL_ARB_transform_feedback_instanced 1
 
-typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC) (GLenum mode, GLuint id, GLsizei primcount);
-typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC) (GLenum mode, GLuint id, GLuint stream, GLsizei primcount);
+typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKINSTANCEDPROC) (GLenum mode, GLuint _id, GLsizei primcount);
+typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKSTREAMINSTANCEDPROC) (GLenum mode, GLuint _id, GLuint stream, GLsizei primcount);
 
 #define glDrawTransformFeedbackInstanced GLEW_GET_FUN(__glewDrawTransformFeedbackInstanced)
 #define glDrawTransformFeedbackStreamInstanced GLEW_GET_FUN(__glewDrawTransformFeedbackStreamInstanced)
@@ -8266,11 +8266,11 @@ typedef void (GLAPIENTRY * PFNGLALPHAFRAGMENTOP1ATIPROC) (GLenum op, GLuint dst,
 typedef void (GLAPIENTRY * PFNGLALPHAFRAGMENTOP2ATIPROC) (GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod);
 typedef void (GLAPIENTRY * PFNGLALPHAFRAGMENTOP3ATIPROC) (GLenum op, GLuint dst, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod);
 typedef void (GLAPIENTRY * PFNGLBEGINFRAGMENTSHADERATIPROC) (void);
-typedef void (GLAPIENTRY * PFNGLBINDFRAGMENTSHADERATIPROC) (GLuint id);
+typedef void (GLAPIENTRY * PFNGLBINDFRAGMENTSHADERATIPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLCOLORFRAGMENTOP1ATIPROC) (GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod);
 typedef void (GLAPIENTRY * PFNGLCOLORFRAGMENTOP2ATIPROC) (GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod);
 typedef void (GLAPIENTRY * PFNGLCOLORFRAGMENTOP3ATIPROC) (GLenum op, GLuint dst, GLuint dstMask, GLuint dstMod, GLuint arg1, GLuint arg1Rep, GLuint arg1Mod, GLuint arg2, GLuint arg2Rep, GLuint arg2Mod, GLuint arg3, GLuint arg3Rep, GLuint arg3Mod);
-typedef void (GLAPIENTRY * PFNGLDELETEFRAGMENTSHADERATIPROC) (GLuint id);
+typedef void (GLAPIENTRY * PFNGLDELETEFRAGMENTSHADERATIPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLENDFRAGMENTSHADERATIPROC) (void);
 typedef GLuint (GLAPIENTRY * PFNGLGENFRAGMENTSHADERSATIPROC) (GLuint range);
 typedef void (GLAPIENTRY * PFNGLPASSTEXCOORDATIPROC) (GLuint dst, GLuint coord, GLenum swizzle);
@@ -8467,12 +8467,12 @@ typedef void (GLAPIENTRY * PFNGLGETARRAYOBJECTFVATIPROC) (GLenum array, GLenum p
 typedef void (GLAPIENTRY * PFNGLGETARRAYOBJECTIVATIPROC) (GLenum array, GLenum pname, GLint* params);
 typedef void (GLAPIENTRY * PFNGLGETOBJECTBUFFERFVATIPROC) (GLuint buffer, GLenum pname, GLfloat* params);
 typedef void (GLAPIENTRY * PFNGLGETOBJECTBUFFERIVATIPROC) (GLuint buffer, GLenum pname, GLint* params);
-typedef void (GLAPIENTRY * PFNGLGETVARIANTARRAYOBJECTFVATIPROC) (GLuint id, GLenum pname, GLfloat* params);
-typedef void (GLAPIENTRY * PFNGLGETVARIANTARRAYOBJECTIVATIPROC) (GLuint id, GLenum pname, GLint* params);
+typedef void (GLAPIENTRY * PFNGLGETVARIANTARRAYOBJECTFVATIPROC) (GLuint _id, GLenum pname, GLfloat* params);
+typedef void (GLAPIENTRY * PFNGLGETVARIANTARRAYOBJECTIVATIPROC) (GLuint _id, GLenum pname, GLint* params);
 typedef GLboolean (GLAPIENTRY * PFNGLISOBJECTBUFFERATIPROC) (GLuint buffer);
 typedef GLuint (GLAPIENTRY * PFNGLNEWOBJECTBUFFERATIPROC) (GLsizei size, const void *pointer, GLenum usage);
 typedef void (GLAPIENTRY * PFNGLUPDATEOBJECTBUFFERATIPROC) (GLuint buffer, GLuint offset, GLsizei size, const void *pointer, GLenum preserve);
-typedef void (GLAPIENTRY * PFNGLVARIANTARRAYOBJECTATIPROC) (GLuint id, GLenum type, GLsizei stride, GLuint buffer, GLuint offset);
+typedef void (GLAPIENTRY * PFNGLVARIANTARRAYOBJECTATIPROC) (GLuint _id, GLenum type, GLsizei stride, GLuint buffer, GLuint offset);
 
 #define glArrayObjectATI GLEW_GET_FUN(__glewArrayObjectATI)
 #define glFreeObjectBufferATI GLEW_GET_FUN(__glewFreeObjectBufferATI)
@@ -11191,8 +11191,8 @@ typedef void (GLAPIENTRY * PFNGLTEXTURENORMALEXTPROC) (GLenum mode);
 
 #define GL_TIME_ELAPSED_EXT 0x88BF
 
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTI64VEXTPROC) (GLuint id, GLenum pname, GLint64EXT *params);
-typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUI64VEXTPROC) (GLuint id, GLenum pname, GLuint64EXT *params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTI64VEXTPROC) (GLuint _id, GLenum pname, GLint64EXT *params);
+typedef void (GLAPIENTRY * PFNGLGETQUERYOBJECTUI64VEXTPROC) (GLuint _id, GLenum pname, GLuint64EXT *params);
 
 #define glGetQueryObjecti64vEXT GLEW_GET_FUN(__glewGetQueryObjecti64vEXT)
 #define glGetQueryObjectui64vEXT GLEW_GET_FUN(__glewGetQueryObjectui64vEXT)
@@ -11482,41 +11482,41 @@ typedef GLuint (GLAPIENTRY * PFNGLBINDMATERIALPARAMETEREXTPROC) (GLenum face, GL
 typedef GLuint (GLAPIENTRY * PFNGLBINDPARAMETEREXTPROC) (GLenum value);
 typedef GLuint (GLAPIENTRY * PFNGLBINDTEXGENPARAMETEREXTPROC) (GLenum unit, GLenum coord, GLenum value);
 typedef GLuint (GLAPIENTRY * PFNGLBINDTEXTUREUNITPARAMETEREXTPROC) (GLenum unit, GLenum value);
-typedef void (GLAPIENTRY * PFNGLBINDVERTEXSHADEREXTPROC) (GLuint id);
-typedef void (GLAPIENTRY * PFNGLDELETEVERTEXSHADEREXTPROC) (GLuint id);
-typedef void (GLAPIENTRY * PFNGLDISABLEVARIANTCLIENTSTATEEXTPROC) (GLuint id);
-typedef void (GLAPIENTRY * PFNGLENABLEVARIANTCLIENTSTATEEXTPROC) (GLuint id);
+typedef void (GLAPIENTRY * PFNGLBINDVERTEXSHADEREXTPROC) (GLuint _id);
+typedef void (GLAPIENTRY * PFNGLDELETEVERTEXSHADEREXTPROC) (GLuint _id);
+typedef void (GLAPIENTRY * PFNGLDISABLEVARIANTCLIENTSTATEEXTPROC) (GLuint _id);
+typedef void (GLAPIENTRY * PFNGLENABLEVARIANTCLIENTSTATEEXTPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLENDVERTEXSHADEREXTPROC) (void);
 typedef void (GLAPIENTRY * PFNGLEXTRACTCOMPONENTEXTPROC) (GLuint res, GLuint src, GLuint num);
 typedef GLuint (GLAPIENTRY * PFNGLGENSYMBOLSEXTPROC) (GLenum dataType, GLenum storageType, GLenum range, GLuint components);
 typedef GLuint (GLAPIENTRY * PFNGLGENVERTEXSHADERSEXTPROC) (GLuint range);
-typedef void (GLAPIENTRY * PFNGLGETINVARIANTBOOLEANVEXTPROC) (GLuint id, GLenum value, GLboolean *data);
-typedef void (GLAPIENTRY * PFNGLGETINVARIANTFLOATVEXTPROC) (GLuint id, GLenum value, GLfloat *data);
-typedef void (GLAPIENTRY * PFNGLGETINVARIANTINTEGERVEXTPROC) (GLuint id, GLenum value, GLint *data);
-typedef void (GLAPIENTRY * PFNGLGETLOCALCONSTANTBOOLEANVEXTPROC) (GLuint id, GLenum value, GLboolean *data);
-typedef void (GLAPIENTRY * PFNGLGETLOCALCONSTANTFLOATVEXTPROC) (GLuint id, GLenum value, GLfloat *data);
-typedef void (GLAPIENTRY * PFNGLGETLOCALCONSTANTINTEGERVEXTPROC) (GLuint id, GLenum value, GLint *data);
-typedef void (GLAPIENTRY * PFNGLGETVARIANTBOOLEANVEXTPROC) (GLuint id, GLenum value, GLboolean *data);
-typedef void (GLAPIENTRY * PFNGLGETVARIANTFLOATVEXTPROC) (GLuint id, GLenum value, GLfloat *data);
-typedef void (GLAPIENTRY * PFNGLGETVARIANTINTEGERVEXTPROC) (GLuint id, GLenum value, GLint *data);
-typedef void (GLAPIENTRY * PFNGLGETVARIANTPOINTERVEXTPROC) (GLuint id, GLenum value, void **data);
+typedef void (GLAPIENTRY * PFNGLGETINVARIANTBOOLEANVEXTPROC) (GLuint _id, GLenum value, GLboolean *data);
+typedef void (GLAPIENTRY * PFNGLGETINVARIANTFLOATVEXTPROC) (GLuint _id, GLenum value, GLfloat *data);
+typedef void (GLAPIENTRY * PFNGLGETINVARIANTINTEGERVEXTPROC) (GLuint _id, GLenum value, GLint *data);
+typedef void (GLAPIENTRY * PFNGLGETLOCALCONSTANTBOOLEANVEXTPROC) (GLuint _id, GLenum value, GLboolean *data);
+typedef void (GLAPIENTRY * PFNGLGETLOCALCONSTANTFLOATVEXTPROC) (GLuint _id, GLenum value, GLfloat *data);
+typedef void (GLAPIENTRY * PFNGLGETLOCALCONSTANTINTEGERVEXTPROC) (GLuint _id, GLenum value, GLint *data);
+typedef void (GLAPIENTRY * PFNGLGETVARIANTBOOLEANVEXTPROC) (GLuint _id, GLenum value, GLboolean *data);
+typedef void (GLAPIENTRY * PFNGLGETVARIANTFLOATVEXTPROC) (GLuint _id, GLenum value, GLfloat *data);
+typedef void (GLAPIENTRY * PFNGLGETVARIANTINTEGERVEXTPROC) (GLuint _id, GLenum value, GLint *data);
+typedef void (GLAPIENTRY * PFNGLGETVARIANTPOINTERVEXTPROC) (GLuint _id, GLenum value, void **data);
 typedef void (GLAPIENTRY * PFNGLINSERTCOMPONENTEXTPROC) (GLuint res, GLuint src, GLuint num);
-typedef GLboolean (GLAPIENTRY * PFNGLISVARIANTENABLEDEXTPROC) (GLuint id, GLenum cap);
-typedef void (GLAPIENTRY * PFNGLSETINVARIANTEXTPROC) (GLuint id, GLenum type, void *addr);
-typedef void (GLAPIENTRY * PFNGLSETLOCALCONSTANTEXTPROC) (GLuint id, GLenum type, void *addr);
+typedef GLboolean (GLAPIENTRY * PFNGLISVARIANTENABLEDEXTPROC) (GLuint _id, GLenum cap);
+typedef void (GLAPIENTRY * PFNGLSETINVARIANTEXTPROC) (GLuint _id, GLenum type, void *addr);
+typedef void (GLAPIENTRY * PFNGLSETLOCALCONSTANTEXTPROC) (GLuint _id, GLenum type, void *addr);
 typedef void (GLAPIENTRY * PFNGLSHADEROP1EXTPROC) (GLenum op, GLuint res, GLuint arg1);
 typedef void (GLAPIENTRY * PFNGLSHADEROP2EXTPROC) (GLenum op, GLuint res, GLuint arg1, GLuint arg2);
 typedef void (GLAPIENTRY * PFNGLSHADEROP3EXTPROC) (GLenum op, GLuint res, GLuint arg1, GLuint arg2, GLuint arg3);
 typedef void (GLAPIENTRY * PFNGLSWIZZLEEXTPROC) (GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW);
-typedef void (GLAPIENTRY * PFNGLVARIANTPOINTEREXTPROC) (GLuint id, GLenum type, GLuint stride, void *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTBVEXTPROC) (GLuint id, GLbyte *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTDVEXTPROC) (GLuint id, GLdouble *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTFVEXTPROC) (GLuint id, GLfloat *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTIVEXTPROC) (GLuint id, GLint *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTSVEXTPROC) (GLuint id, GLshort *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTUBVEXTPROC) (GLuint id, GLubyte *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTUIVEXTPROC) (GLuint id, GLuint *addr);
-typedef void (GLAPIENTRY * PFNGLVARIANTUSVEXTPROC) (GLuint id, GLushort *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTPOINTEREXTPROC) (GLuint _id, GLenum type, GLuint stride, void *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTBVEXTPROC) (GLuint _id, GLbyte *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTDVEXTPROC) (GLuint _id, GLdouble *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTFVEXTPROC) (GLuint _id, GLfloat *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTIVEXTPROC) (GLuint _id, GLint *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTSVEXTPROC) (GLuint _id, GLshort *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTUBVEXTPROC) (GLuint _id, GLubyte *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTUIVEXTPROC) (GLuint _id, GLuint *addr);
+typedef void (GLAPIENTRY * PFNGLVARIANTUSVEXTPROC) (GLuint _id, GLushort *addr);
 typedef void (GLAPIENTRY * PFNGLWRITEMASKEXTPROC) (GLuint res, GLuint in, GLenum outX, GLenum outY, GLenum outZ, GLenum outW);
 
 #define glBeginVertexShaderEXT GLEW_GET_FUN(__glewBeginVertexShaderEXT)
@@ -12050,18 +12050,18 @@ typedef void (GLAPIENTRY * PFNGLBLENDBARRIERKHRPROC) (void);
 #define GL_DEBUG_SEVERITY_LOW 0x9148
 #define GL_DEBUG_OUTPUT 0x92E0
 
-typedef void (GLAPIENTRY *GLDEBUGPROC)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+typedef void (GLAPIENTRY *GLDEBUGPROC)(GLenum source, GLenum type, GLuint _id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
 typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGECALLBACKPROC) (GLDEBUGPROC callback, const void *userParam);
 typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGECONTROLPROC) (GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint* ids, GLboolean enabled);
-typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEINSERTPROC) (GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* buf);
+typedef void (GLAPIENTRY * PFNGLDEBUGMESSAGEINSERTPROC) (GLenum source, GLenum type, GLuint _id, GLenum severity, GLsizei length, const GLchar* buf);
 typedef GLuint (GLAPIENTRY * PFNGLGETDEBUGMESSAGELOGPROC) (GLuint count, GLsizei bufSize, GLenum* sources, GLenum* types, GLuint* ids, GLenum* severities, GLsizei* lengths, GLchar* messageLog);
 typedef void (GLAPIENTRY * PFNGLGETOBJECTLABELPROC) (GLenum identifier, GLuint name, GLsizei bufSize, GLsizei* length, GLchar *label);
 typedef void (GLAPIENTRY * PFNGLGETOBJECTPTRLABELPROC) (const void *ptr, GLsizei bufSize, GLsizei* length, GLchar *label);
 typedef void (GLAPIENTRY * PFNGLOBJECTLABELPROC) (GLenum identifier, GLuint name, GLsizei length, const GLchar* label);
 typedef void (GLAPIENTRY * PFNGLOBJECTPTRLABELPROC) (const void *ptr, GLsizei length, const GLchar* label);
 typedef void (GLAPIENTRY * PFNGLPOPDEBUGGROUPPROC) (void);
-typedef void (GLAPIENTRY * PFNGLPUSHDEBUGGROUPPROC) (GLenum source, GLuint id, GLsizei length, const GLchar * message);
+typedef void (GLAPIENTRY * PFNGLPUSHDEBUGGROUPPROC) (GLenum source, GLuint _id, GLsizei length, const GLchar * message);
 
 #define glDebugMessageCallback GLEW_GET_FUN(__glewDebugMessageCallback)
 #define glDebugMessageControl GLEW_GET_FUN(__glewDebugMessageControl)
@@ -12345,7 +12345,7 @@ typedef void (GLAPIENTRY * PFNGLWINDOWPOS4SVMESAPROC) (const GLshort* p);
 #ifndef GL_NVX_conditional_render
 #define GL_NVX_conditional_render 1
 
-typedef void (GLAPIENTRY * PFNGLBEGINCONDITIONALRENDERNVXPROC) (GLuint id);
+typedef void (GLAPIENTRY * PFNGLBEGINCONDITIONALRENDERNVXPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLENDCONDITIONALRENDERNVXPROC) (void);
 
 #define glBeginConditionalRenderNVX GLEW_GET_FUN(__glewBeginConditionalRenderNVX)
@@ -12543,7 +12543,7 @@ typedef void (GLAPIENTRY * PFNGLBLENDPARAMETERINVPROC) (GLenum pname, GLint valu
 #define GL_QUERY_BY_REGION_WAIT_NV 0x8E15
 #define GL_QUERY_BY_REGION_NO_WAIT_NV 0x8E16
 
-typedef void (GLAPIENTRY * PFNGLBEGINCONDITIONALRENDERNVPROC) (GLuint id, GLenum mode);
+typedef void (GLAPIENTRY * PFNGLBEGINCONDITIONALRENDERNVPROC) (GLuint _id, GLenum mode);
 typedef void (GLAPIENTRY * PFNGLENDCONDITIONALRENDERNVPROC) (void);
 
 #define glBeginConditionalRenderNV GLEW_GET_FUN(__glewBeginConditionalRenderNV)
@@ -12874,12 +12874,12 @@ typedef void (GLAPIENTRY * PFNGLFRAGMENTCOVERAGECOLORNVPROC) (GLuint color);
 #define GL_FRAGMENT_PROGRAM_BINDING_NV 0x8873
 #define GL_PROGRAM_ERROR_STRING_NV 0x8874
 
-typedef void (GLAPIENTRY * PFNGLGETPROGRAMNAMEDPARAMETERDVNVPROC) (GLuint id, GLsizei len, const GLubyte* name, GLdouble *params);
-typedef void (GLAPIENTRY * PFNGLGETPROGRAMNAMEDPARAMETERFVNVPROC) (GLuint id, GLsizei len, const GLubyte* name, GLfloat *params);
-typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4DNVPROC) (GLuint id, GLsizei len, const GLubyte* name, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
-typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4DVNVPROC) (GLuint id, GLsizei len, const GLubyte* name, const GLdouble v[]);
-typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4FNVPROC) (GLuint id, GLsizei len, const GLubyte* name, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4FVNVPROC) (GLuint id, GLsizei len, const GLubyte* name, const GLfloat v[]);
+typedef void (GLAPIENTRY * PFNGLGETPROGRAMNAMEDPARAMETERDVNVPROC) (GLuint _id, GLsizei len, const GLubyte* name, GLdouble *params);
+typedef void (GLAPIENTRY * PFNGLGETPROGRAMNAMEDPARAMETERFVNVPROC) (GLuint _id, GLsizei len, const GLubyte* name, GLfloat *params);
+typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4DNVPROC) (GLuint _id, GLsizei len, const GLubyte* name, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
+typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4DVNVPROC) (GLuint _id, GLsizei len, const GLubyte* name, const GLdouble v[]);
+typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4FNVPROC) (GLuint _id, GLsizei len, const GLubyte* name, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+typedef void (GLAPIENTRY * PFNGLPROGRAMNAMEDPARAMETER4FVNVPROC) (GLuint _id, GLsizei len, const GLubyte* name, const GLfloat v[]);
 
 #define glGetProgramNamedParameterdvNV GLEW_GET_FUN(__glewGetProgramNamedParameterdvNV)
 #define glGetProgramNamedParameterfvNV GLEW_GET_FUN(__glewGetProgramNamedParameterfvNV)
@@ -13366,13 +13366,13 @@ typedef void (GLAPIENTRY * PFNGLGETINTERNALFORMATSAMPLEIVNVPROC) (GLenum target,
 #define GL_PIXEL_COUNT_NV 0x8866
 #define GL_PIXEL_COUNT_AVAILABLE_NV 0x8867
 
-typedef void (GLAPIENTRY * PFNGLBEGINOCCLUSIONQUERYNVPROC) (GLuint id);
+typedef void (GLAPIENTRY * PFNGLBEGINOCCLUSIONQUERYNVPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLDELETEOCCLUSIONQUERIESNVPROC) (GLsizei n, const GLuint* ids);
 typedef void (GLAPIENTRY * PFNGLENDOCCLUSIONQUERYNVPROC) (void);
 typedef void (GLAPIENTRY * PFNGLGENOCCLUSIONQUERIESNVPROC) (GLsizei n, GLuint* ids);
-typedef void (GLAPIENTRY * PFNGLGETOCCLUSIONQUERYIVNVPROC) (GLuint id, GLenum pname, GLint* params);
-typedef void (GLAPIENTRY * PFNGLGETOCCLUSIONQUERYUIVNVPROC) (GLuint id, GLenum pname, GLuint* params);
-typedef GLboolean (GLAPIENTRY * PFNGLISOCCLUSIONQUERYNVPROC) (GLuint id);
+typedef void (GLAPIENTRY * PFNGLGETOCCLUSIONQUERYIVNVPROC) (GLuint _id, GLenum pname, GLint* params);
+typedef void (GLAPIENTRY * PFNGLGETOCCLUSIONQUERYUIVNVPROC) (GLuint _id, GLenum pname, GLuint* params);
+typedef GLboolean (GLAPIENTRY * PFNGLISOCCLUSIONQUERYNVPROC) (GLuint _id);
 
 #define glBeginOcclusionQueryNV GLEW_GET_FUN(__glewBeginOcclusionQueryNV)
 #define glDeleteOcclusionQueriesNV GLEW_GET_FUN(__glewDeleteOcclusionQueriesNV)
@@ -14411,11 +14411,11 @@ typedef void (GLAPIENTRY * PFNGLTRANSFORMFEEDBACKVARYINGSNVPROC) (GLuint program
 #define GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE_NV 0x8E24
 #define GL_TRANSFORM_FEEDBACK_BINDING_NV 0x8E25
 
-typedef void (GLAPIENTRY * PFNGLBINDTRANSFORMFEEDBACKNVPROC) (GLenum target, GLuint id);
+typedef void (GLAPIENTRY * PFNGLBINDTRANSFORMFEEDBACKNVPROC) (GLenum target, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLDELETETRANSFORMFEEDBACKSNVPROC) (GLsizei n, const GLuint* ids);
-typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKNVPROC) (GLenum mode, GLuint id);
+typedef void (GLAPIENTRY * PFNGLDRAWTRANSFORMFEEDBACKNVPROC) (GLenum mode, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLGENTRANSFORMFEEDBACKSNVPROC) (GLsizei n, GLuint* ids);
-typedef GLboolean (GLAPIENTRY * PFNGLISTRANSFORMFEEDBACKNVPROC) (GLuint id);
+typedef GLboolean (GLAPIENTRY * PFNGLISTRANSFORMFEEDBACKNVPROC) (GLuint _id);
 typedef void (GLAPIENTRY * PFNGLPAUSETRANSFORMFEEDBACKNVPROC) (void);
 typedef void (GLAPIENTRY * PFNGLRESUMETRANSFORMFEEDBACKNVPROC) (void);
 
@@ -14717,21 +14717,21 @@ typedef void (GLAPIENTRY * PFNGLVERTEXFORMATNVPROC) (GLint size, GLenum type, GL
 #define GL_MAP2_VERTEX_ATTRIB15_4_NV 0x867F
 
 typedef GLboolean (GLAPIENTRY * PFNGLAREPROGRAMSRESIDENTNVPROC) (GLsizei n, const GLuint* ids, GLboolean *residences);
-typedef void (GLAPIENTRY * PFNGLBINDPROGRAMNVPROC) (GLenum target, GLuint id);
+typedef void (GLAPIENTRY * PFNGLBINDPROGRAMNVPROC) (GLenum target, GLuint _id);
 typedef void (GLAPIENTRY * PFNGLDELETEPROGRAMSNVPROC) (GLsizei n, const GLuint* ids);
-typedef void (GLAPIENTRY * PFNGLEXECUTEPROGRAMNVPROC) (GLenum target, GLuint id, const GLfloat* params);
+typedef void (GLAPIENTRY * PFNGLEXECUTEPROGRAMNVPROC) (GLenum target, GLuint _id, const GLfloat* params);
 typedef void (GLAPIENTRY * PFNGLGENPROGRAMSNVPROC) (GLsizei n, GLuint* ids);
 typedef void (GLAPIENTRY * PFNGLGETPROGRAMPARAMETERDVNVPROC) (GLenum target, GLuint index, GLenum pname, GLdouble* params);
 typedef void (GLAPIENTRY * PFNGLGETPROGRAMPARAMETERFVNVPROC) (GLenum target, GLuint index, GLenum pname, GLfloat* params);
-typedef void (GLAPIENTRY * PFNGLGETPROGRAMSTRINGNVPROC) (GLuint id, GLenum pname, GLubyte* program);
-typedef void (GLAPIENTRY * PFNGLGETPROGRAMIVNVPROC) (GLuint id, GLenum pname, GLint* params);
+typedef void (GLAPIENTRY * PFNGLGETPROGRAMSTRINGNVPROC) (GLuint _id, GLenum pname, GLubyte* program);
+typedef void (GLAPIENTRY * PFNGLGETPROGRAMIVNVPROC) (GLuint _id, GLenum pname, GLint* params);
 typedef void (GLAPIENTRY * PFNGLGETTRACKMATRIXIVNVPROC) (GLenum target, GLuint address, GLenum pname, GLint* params);
 typedef void (GLAPIENTRY * PFNGLGETVERTEXATTRIBPOINTERVNVPROC) (GLuint index, GLenum pname, void** pointer);
 typedef void (GLAPIENTRY * PFNGLGETVERTEXATTRIBDVNVPROC) (GLuint index, GLenum pname, GLdouble* params);
 typedef void (GLAPIENTRY * PFNGLGETVERTEXATTRIBFVNVPROC) (GLuint index, GLenum pname, GLfloat* params);
 typedef void (GLAPIENTRY * PFNGLGETVERTEXATTRIBIVNVPROC) (GLuint index, GLenum pname, GLint* params);
-typedef GLboolean (GLAPIENTRY * PFNGLISPROGRAMNVPROC) (GLuint id);
-typedef void (GLAPIENTRY * PFNGLLOADPROGRAMNVPROC) (GLenum target, GLuint id, GLsizei len, const GLubyte* program);
+typedef GLboolean (GLAPIENTRY * PFNGLISPROGRAMNVPROC) (GLuint _id);
+typedef void (GLAPIENTRY * PFNGLLOADPROGRAMNVPROC) (GLenum target, GLuint _id, GLsizei len, const GLubyte* program);
 typedef void (GLAPIENTRY * PFNGLPROGRAMPARAMETER4DNVPROC) (GLenum target, GLuint index, GLdouble x, GLdouble y, GLdouble z, GLdouble w);
 typedef void (GLAPIENTRY * PFNGLPROGRAMPARAMETER4DVNVPROC) (GLenum target, GLuint index, const GLdouble* params);
 typedef void (GLAPIENTRY * PFNGLPROGRAMPARAMETER4FNVPROC) (GLenum target, GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);

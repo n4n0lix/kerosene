@@ -2,10 +2,10 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-class IDGen
+class IdGen
 {
 public:
-    IDGen() = default;
+    IdGen() = default;
     inline uint32 new_id() { return ++_nextId; }
 
 private:

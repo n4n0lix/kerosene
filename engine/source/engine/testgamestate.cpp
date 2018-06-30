@@ -12,62 +12,29 @@ void TestGameState::on_start()
 {
     auto rendering = get_renderengine();
     auto logic = get_logicengine();
-    auto input = get_inputengine();
-
+    auto input = get_inputengine();   
 
     // RENDER
     if ( rendering ) {
         rendering->get_window()->set_title( "kerosene - Test" );
 
-        _mainScene  = rendering->add_scene<Scene>();
+        _mainScene = rendering->add_scene();
         _mainCamera = _mainScene->add_camera<Camera2D>();
 
-        _uiScene = rendering->add_scene<Scene>();
+        _uiScene = rendering->add_scene();
         _uiCamera = _uiScene->add_camera<Camera2D>();
         _uiCamera->set_right( 1.0f );
         _uiCamera->set_top( 1.0f );
 
         _ui = spawn_ui( _uiScene );
     }
-    
 
-    if ( logic ) {
-        _player = Player_Spawner::Spawn( *logic, rendering, input, _mainScene );
-        _player->access<Controllable>().moveSpeed = 50;
+    if (logic) {
+      _player = Player_Spawner::Spawn(*logic, rendering, input, _mainScene);
 
-        _tilemap = Tilemap_Spawner::Spawn( *logic, rendering, input, _mainScene );
-        _tilemap->access<has_transform>().position.z = -0.1f;
+      _tilemap = Tilemap_Spawner::Spawn(*logic, rendering, input, _mainScene);
+      _tilemap.get<CTransform>().position.z = -0.1f;
     }
-    
-
-    //if ( _mainScene ) {
-        //auto ttex = rendering->get_texture( "res/textures/dev/tile.png" );
-
-        
-        //auto tile = logic->add_entity( make_owner<Entity>() );
-        //tile->add<has_transform>();
-        
-        //auto rCfg = SpriteRenderer::Config( {
-        //    /*  anchor = */{ 0, 0 },
-        //    /*    size = */{ (float)ttex->get_width(), (float)ttex->get_height() },
-        //    /* texture = */ ttex,
-        //    /*  entity = */ tile
-        //} );
-        //_mainScene->add_renderer<SpriteRenderer>( rCfg );
-
-        //auto rCfg = TilemapRenderer::Config( {
-        //    /*            entity = */ tile,
-        //    /*       textureName = */ "res/textures/dev/tile.png",
-        //    /*  tilesetTileWidth = */ 16,
-        //    /* tilesetTileHeight = */ 16
-        //} );
-        //_mainScene->add_renderer<TilemapRenderer>( rCfg );
-
-        //has_transform& trans = tile->access<has_transform>();
-        //trans.position.x = 0;
-        //trans.position.y = 0;
-        //trans.position.z = -0.1f;
-    //}
 }
 
 void TestGameState::on_update()
@@ -101,12 +68,12 @@ void TestGameState::on_frame_start() {
             int32 renderHeight = window->get_renderheight();
 
             _mainCamera->set_viewport( { 0, 0, renderWidth, renderHeight } );
-            _mainCamera->set_right( renderWidth/8.0f );
-            _mainCamera->set_top( renderHeight/8.0f );
+            _mainCamera->set_right( renderWidth/256.0f );
+            _mainCamera->set_top( renderHeight/256.0f );
 
             // Main Camera Update
-            if ( _player && _player->has<has_transform>() )
-                _mainCamera->set_target( _player->access<has_transform>().position );
+            if ( _player.has<CTransform>() )
+                _mainCamera->set_target( _player.get<CTransform>().position );
         }
 
         if ( _uiCamera ) {
@@ -118,7 +85,7 @@ void TestGameState::on_frame_start() {
             _uiCamera->set_top( 1.0f );
             _uiCamera->set_viewport( { 0, 0, renderWidth, renderHeight } );
 
-            has_transform& trans = _ui->access<transform>();
+            CTransform& trans = _ui.get<CTransform>();
             trans.position.x = -0.95f * aspect;
             trans.position.y =  0.95f;
         }
@@ -127,6 +94,7 @@ void TestGameState::on_frame_start() {
         if ( window->close_requested() ) 
             set_status( GameStateStatus::FINISHED );
 
+        _fpsText->set_text( "FPS:" + PerfStats::instance().get_fps() );
         //cout << _player->access<has_transform>().position << "\n";
     }
 }
@@ -136,34 +104,36 @@ void TestGameState::on_end()
 
 }
 
-weak<Entity> TestGameState::spawn_ui( weak<Scene> scene )
+Entity TestGameState::spawn_ui( weak<Scene> scene )
 {
     auto rendering = get_renderengine();
     auto input = get_inputengine();
     auto logic = get_logicengine();
 
-    weak<Entity> ui = nullptr;
+    Entity ui = Entity::New();
+    CTransform& trans = ui.add<CTransform>();
 
-    if ( logic ) {
-        ui = logic->add_entity( make_owner<Entity>() );
-        has_transform& trans = ui->add<transform>();
+    trans.position.x = -0.95f;
+    trans.position.y =  0.95f;
+    trans.position.z = -0.1f;
 
-        trans.position.x = -0.95f;
-        trans.position.y =  0.95f;
-        trans.position.z = -0.1f;
+    if ( scene ) {
+      auto tex = rendering->get_texture( "res/textures/healthmana.png" );
+      auto rCfg = SpriteRenderer::Config( {
+          /*  anchor = */{ -1, 1 },
+          /*    size = */{ 0.25f, 0.125f },
+          /* texture = */ tex,
+          /*  entity = */ ui
+      } );
 
-        if ( scene ) {
-            auto tex = rendering->get_texture( "res/textures/healthmana.png" );
-            auto rCfg = SpriteRenderer::Config( {
-                /*  anchor = */{ -1, 1 },
-                /*    size = */{ 0.25f, 0.125f },
-                /* texture = */ tex,
-                /*  entity = */ ui
-            } );
+      scene->add_renderer<SpriteRenderer>( rCfg );
 
-            scene->add_renderer<SpriteRenderer>( rCfg );
-        } 
-    }
+      auto oTileset = make_owner<Tileset>( "res/textures/dev/simple_font.png", 8, 8 );
+      auto wTileset = rendering->add_resource<Tileset>( "test_font", std::move( oTileset ) );
+
+      _fpsText = scene->add_renderer<TextRenderer>( wTileset, ui );
+      _fpsText->set_text( "FPS:" );
+    } 
 
     return ui;
 }

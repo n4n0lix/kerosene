@@ -40,7 +40,7 @@ void PerfStats::check_if_second_is_over() {
         _counterTPS = 0;
         _counterAvgTickTime = 0ms;
 
-        cout << "FPS " << _numFPS << "\n";
+        //cout << "FPS " << _numFPS << "\n";
         return;
         cout << "Perf Stats\n"
              << "------------------------------\n"

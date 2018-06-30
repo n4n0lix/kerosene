@@ -44,7 +44,8 @@ public:
     compact_map( const compact_map& ) = delete;               // Copy-Constructor
     compact_map& operator=( const compact_map& ) = delete;    // Copy-Operator
 
-    void    put( K key, V value );
+    V&      put( K key, V value );
+    V&      emplace(K key, V&& value);
     V&      access( K key );
     void    remove( K key );
     bool    contains( K key );
@@ -66,10 +67,21 @@ compact_map<K,V>::compact_map() {
 }
 
 template<typename K, typename V>
-void compact_map<K, V>::put( K key, V value )
+V& compact_map<K, V>::put( K key, V value )
 {
     _values->push_back( value );
     _keys->insert( std::pair<K, size_t>( key, _values->size()-1 ) );
+    
+    return access( key );
+}
+
+template<typename K, typename V>
+V& compact_map<K, V>::emplace(K key, V&& value)
+{
+  _values->emplace_back( std::move( value ));
+  _keys->insert(std::pair<K, size_t>(key, _values->size() - 1));
+
+  return access(key);
 }
 
 template<typename K, typename V>

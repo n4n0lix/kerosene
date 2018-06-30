@@ -36,9 +36,22 @@ Texture::Texture(Image* image, TextureOptions options)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     }
 
-    // 3# Load image data       
-    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->data.data());
+    // 3# Load image data      
+    GLuint internalFormat, dataFormat;
 
+    switch ( image->format ) {
+        case ImageFormat::RGB:
+            internalFormat = GL_RGB8;
+            dataFormat = GL_RGB;
+            break;
+        case ImageFormat::RGBA:
+        default:
+            internalFormat = GL_RGBA8;
+            dataFormat = GL_RGBA;
+            break;
+    }
+
+    glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, _width, _height, 0, dataFormat, GL_UNSIGNED_BYTE, image->data.data() );
     glGenerateMipmap( GL_TEXTURE_2D );
 
     LOGGER.log(Level::DEBUG, _id) << "CREATE\n";

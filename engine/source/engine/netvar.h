@@ -26,7 +26,7 @@ ENGINE_NAMESPACE_BEGIN
 
 class NetworkVariable {
 public:
-    uint32 id;
+    uint32 _id;
     virtual void write( std::vector<byte>& ) = 0;
 };
 
@@ -69,7 +69,7 @@ public:
 
     virtual void write( std::vector<byte>& v )
     {
-        __net_write( v, id );
+        __net_write( v, _id );
         __net_write( v, value );
     }
 };
@@ -85,7 +85,7 @@ public:
 
     virtual void write( std::vector<byte>& v ) override
     {
-        __net_write( v, id );
+        __net_write( v, _id );
         __net_write( v, value );
     };
 };
@@ -101,7 +101,7 @@ public:
 
     virtual void write( std::vector<byte>& v ) override
     {
-        __net_write( v, id );
+        __net_write( v, _id );
         __net_write( v, value );
     };
 };
@@ -119,7 +119,7 @@ public:
     {
         uint16 length = (uint16)std::min( value.length(), size_t( 1024 ) ); // 1024 - Max String Length for net packets
 
-        __net_write( v, id );
+        __net_write( v, _id );
         __net_write( v, length );
 
         for ( auto chr : value.substr( 0, length - 1 ) ) {
@@ -138,7 +138,7 @@ public:
     NetVar( Vector3f aVec3 ) : BaseNetVar( aVec3 ) {}
 
     virtual void write( std::vector<byte>& v ) override {
-        __net_write( v, id );
+        __net_write( v, _id );
         __net_write( v, value.x );
         __net_write( v, value.y );
         __net_write( v, value.z );

@@ -3,9 +3,7 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-REGISTER_MIXIN( 0, has_transform )
-
-void has_transform::update() {
+void CTransform::update(float delta) {
     lastPosition = position;
     lastScale    = scale;
     lastRotation = rotation;

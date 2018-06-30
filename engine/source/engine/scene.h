@@ -23,6 +23,12 @@ ENGINE_NAMESPACE_BEGIN
 class Renderer;
 class RenderEngine;
 
+class priority_less
+{
+public:
+    bool operator() ( const weak<Renderer>& r0, const weak<Renderer>& r1 );
+};
+
 class Scene : public noncopyable
 {
 public:
@@ -49,12 +55,14 @@ public:
 
 private:
     void    initialize_renderers( RenderEngine& engine );
+    void    cleanup_renderers();
+    void    sort_renderers();
 
     std::vector<owner<Camera>>    _cameras;
 
-    std::vector<owner<Renderer>>  _ownerRenderers;
-    std::vector<weak<Renderer>>   _uninitRenderers;
-    std::vector<weak<Renderer>>   _renderers;
+    std::vector<owner<Renderer>>    _ownerRenderers;
+    std::vector<weak<Renderer>>     _uninitRenderers;
+    std::vector<weak<Renderer>>     _renderers;
 
 };
 

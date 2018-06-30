@@ -24,6 +24,7 @@
 #include "texture.h"
 #include "shader.h"
 #include "material.h"
+#include "renderresource.h"
 
 #include "vertex_pc.h"
 #include "vertex_pt.h"
@@ -41,8 +42,9 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 ENGINE_NAMESPACE_BEGIN
 
-struct Entity;
+class Entity;
 class Scene;
+class RenderResource;
 
 class RenderEngine : public enable_weak_from_this<RenderEngine>
 {
@@ -80,6 +82,8 @@ public:
     bool                has_shader( string filename );
 
     template<typename T>
+    weak<T> add_resource( string resName, owner<T> res );
+
     weak<Scene>         add_scene();
     owner<Scene>        remove_scene( weak<Scene> scene );
 
@@ -97,6 +101,9 @@ private:
     std::map< string, owner<Texture> >	 _textures;
     std::map< string, owner<Shader> >	 _shaders;
 
+    std::vector< weak<RenderResource> >       _uninitializedResources;
+    std::map< string, owner<RenderResource> > _resources;
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     /*                     Private Static                     */
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -106,12 +113,17 @@ private:
 };
 
 template<typename T>
-weak<Scene> RenderEngine::add_scene()
+weak<T> RenderEngine::add_resource( string resName, owner<T> res )
 {
-    owner<Scene> owner = make_owner<T>();
-    weak<Scene> weak = owner.get_non_owner();
-    _scenes.emplace_back( std::move( owner ) );
-    return weak;
+    static_assert(std::is_base_of<RenderResource, T>::value, "T must inherit from RenderResource");
+
+    auto weakR = (weak<RenderResource>) res.get_non_owner();
+    auto weakT = res.get_non_owner();
+
+    _uninitializedResources.push_back( weakR );
+    _resources.emplace( std::make_pair( resName, std::move( res ) ) );
+
+    return weakT;
 }
 
 ENGINE_NAMESPACE_END

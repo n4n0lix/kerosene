@@ -21,6 +21,8 @@ public:
 
     void     start();
     uint64   tick();
+    uint64   elapsed();
+    bool     wait_until(uint64);
 
 private:
     uint64 _lastTick;

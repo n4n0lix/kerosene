@@ -1,6 +1,7 @@
 #pragma once
 
 // Std-Includes
+#include <algorithm>
 
 // Other Includes
 
@@ -13,44 +14,42 @@
 
 ENGINE_NAMESPACE_BEGIN
 
-class TilemapRenderer : public Renderer 
+class TilemapRenderer : public Renderer
 {
 public:
-    struct Config {
-        weak<Entity>  entity;
-        string        textureName;
-        uint32        tilesetTileWidth;
-        uint32        tilesetTileHeight;
-    };
+    static const uint32 DATA_CHANGE_TEST_MS;
 
-public:
-    TilemapRenderer( Config config );
+    TilemapRenderer( weak<Tileset> tileset, Entity entity=Entity::None );
+    ~TilemapRenderer() = default;
 
+    // Inhereted by Renderer
+    virtual float render_layer_priority() const override;
 protected:
-    virtual void on_init( RenderEngine& );
-    virtual void on_render( RenderEngine&, Camera&, Matrix4f& pProjViewMat, float pInterpolation );
-    virtual void on_cleanup( RenderEngine& );
+
+    // Inhereted by Renderer
+    virtual void on_init( RenderEngine& ) override;
+    virtual void on_render( RenderEngine&, Camera&, Matrix4f& pProjViewMat, float pInterpolation ) override;
+    virtual void on_cleanup( RenderEngine& ) override;
 
 private:
-    void         init_or_update_vertices();
+    void         on_dirty();
+    void         handle_tilemap_data_changed();
 
 
     float         _tileWidth;
     float         _tileHeight;
     uint32        _width;
     uint32        _height;
-    uint32        _tilesetTileWidth;
-    uint32        _tilesetTileHeight;
 
-    Vector2f      _anchor;
+    Vector2f       _anchor;
+    weak<Tileset>  _tileset;
+    Material       _material;
 
-    string        _textureName;
-    Material      _material;
-
+    StopWatch           _stopwatchUpdate;
+    std::vector<int>    _tmpTiles;
 
     SimpleVertexArray<Vertex_pt> _svao;
 
-    static Rect4f get_uvs_by_index( Texture& tex, uint32 tileWidth, uint32 tileHeight, uint32 index );
     static Logger LOGGER;
 };
 

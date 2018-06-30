@@ -31,7 +31,6 @@ public:
     const string  ENGINE_NAME       = "KerosineEngine";
     const string  ENGINE_VERSION    = "v0.0.1-indev";
 
-
             Engine();
             ~Engine() = default;
 

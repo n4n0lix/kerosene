@@ -1,33 +1,33 @@
 #include "stdafx.h"
 #include "tilemap_spawner.h"
 
-weak<Entity> Tilemap_Spawner::Spawn( LogicEngine& logic, weak<RenderEngine> rendering, weak<InputEngine> input, weak<Scene> mainScene )
+Entity Tilemap_Spawner::Spawn( LogicEngine& logic, weak<RenderEngine> rendering, weak<InputEngine> input, weak<Scene> mainScene )
 {
-    weak<Entity> tilemap = nullptr;
-
     // LOGIC
-    tilemap = logic.add_entity( make_owner<Entity>() );
-    tilemap->add<has_transform>();
-    TilemapLogic& data = tilemap->add<TilemapLogic>();
-
+    Entity wEntity = Entity::New();
+    wEntity.add<CTransform>();
+   
+    CTilemapLogic& data = wEntity.add<CTilemapLogic>();
     data.tileWidth = 12.0f;
     data.tileHeight = 12.0f;
     data.reshape( 16, 16 );
+    for(uint32 y = 0; y < 16; y++ )
+        for ( uint32 x = 0; x < 16; x++ ) {
+            auto rnd = 0 + (rand() * (int)(2) / RAND_MAX);
+            data.set_tile( x, y, rnd );
+        }
 
 
     // INPUT
 
     // RENDERING
     if ( rendering && mainScene ) {
-        auto rCfg = TilemapRenderer::Config( {
-            /*            entity = */ tilemap,
-            /*       textureName = */ "res/textures/dev/tile.png",
-            /*  tilesetTileWidth = */ 16,
-            /* tilesetTileHeight = */ 16
-        } );
+        auto oTileset = make_owner<Tileset>( "res/textures/tileset.png", 16, 16 );
+        auto wTileset = rendering->add_resource<Tileset>( "tileset", std::move( oTileset ) );
 
-        mainScene->add_renderer<TilemapRenderer>( rCfg );
+        auto r = mainScene->add_renderer<TilemapRenderer>( wTileset, wEntity );
+
     }
 
-    return tilemap;
+    return wEntity;
 }

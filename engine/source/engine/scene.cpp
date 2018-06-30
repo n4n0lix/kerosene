@@ -29,6 +29,7 @@ void Scene::cleanup( RenderEngine& engine )
 void Scene::render( RenderEngine& engine, float delta )
 {
     initialize_renderers( engine );
+    sort_renderers();
 
     for ( auto& camera : _cameras ) {
         glClear( GL_DEPTH_BUFFER_BIT );
@@ -52,5 +53,19 @@ void Scene::initialize_renderers( RenderEngine& engine ) {
     }
 }
 
-ENGINE_NAMESPACE_END
+void Scene::sort_renderers() {
+    std::sort( _renderers.begin(), _renderers.end(), priority_less() );
+}
 
+bool priority_less::operator()( const weak<Renderer>& r0, const weak<Renderer>& r1 )
+{
+    if ( r0->render_layer() == r1->render_layer() ) {
+        return (r0->render_layer_priority() < r1->render_layer_priority());
+    } 
+    else
+        return (r0->render_layer() < r1->render_layer()); // Can't be null, since we own the renderers
+}
+
+
+
+ENGINE_NAMESPACE_END

@@ -91,6 +91,7 @@ owner<Image> ImageUtils::load_png(string filepath)
     }
 
     // #X Determine color format
+    auto colortype = png_get_color_type( pngDecoder, pngMetadata );
     switch (png_get_color_type( pngDecoder, pngMetadata )) {
         case PNG_COLOR_TYPE_GRAY:
             png_set_gray_to_rgb( pngDecoder );

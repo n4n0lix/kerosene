@@ -8,29 +8,24 @@
 #include "_global.h"
 #include "vector3f.h"
 #include "quaternion4f.h"
-#include "mixins.h"
+#include "component.h"
 
 ENGINE_NAMESPACE_BEGIN
 
-struct has_transform : mixin::Mixin
-{
-    void update();
+COMPONENT(CTransform, 0)
+  void update(float delta) override;
 
 GLOBAL:
-    Vector3f        position = Vector3f( 0, 0, 0 );
-    Vector3f        scale    = Vector3f( 1, 1, 1 );
+    Vector3f        position = Vector3f(0, 0, 0);
+    Vector3f        scale = Vector3f(1, 1, 1);
     Quaternion4f    rotation = Quaternion4f();
 
 PLAYER:
 
 LOCAL:
-    Vector3f        lastPosition = Vector3f( 0, 0, 0 );
-    Vector3f        lastScale    = Vector3f( 1, 1, 1 );
+    Vector3f        lastPosition = Vector3f(0, 0, 0);
+    Vector3f        lastScale = Vector3f(1, 1, 1);
     Quaternion4f    lastRotation = Quaternion4f();
-};
-
-typedef has_transform transform;
-
-DEFINE_MIXIN( has_transform );
+END
 
 ENGINE_NAMESPACE_END

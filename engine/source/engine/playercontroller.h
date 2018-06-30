@@ -18,16 +18,16 @@ ENGINE_NAMESPACE_BEGIN
 class PlayerController : public LocalController
 {
 public:
-        PlayerController( weak<Entity> );
+        PlayerController( Entity );
 
-            void    set_entity( weak<Entity> );
+            void    set_entity( Entity );
     virtual void    update( std::vector<KeyEvent>&, std::vector<CharEvent>&, std::vector<MouseEvent>& ) override;
 
 private:
 
-            void handleWASD( Controllable&, KeyEvent& );
+            void handleWASD( CControllable&, KeyEvent& );
 
-    weak<Entity> entity;
+    Entity entity;
 
 };
 
